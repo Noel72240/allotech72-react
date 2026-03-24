@@ -1,12 +1,5 @@
-<<<<<<< HEAD
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
-=======
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
->>>>>>> 53f6c502dc07b89f08c5736dad1df4a55ba420c4
 }
