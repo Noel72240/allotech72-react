@@ -20,7 +20,11 @@ import CookieBanner from './components/CookieBanner.jsx'
 import Galerie   from './pages/Galerie.jsx'
 import AvisPage  from './pages/AvisPage.jsx'
 import NotFound  from './pages/NotFound.jsx'
-import AdminPage from './pages/admin/AdminPage.jsx'
+import AdminPage             from './pages/admin/AdminPage.jsx'
+import DepannageLeMansSEO       from './pages/DepannageLeMansSEO.jsx'
+import ReparationPCLeMans       from './pages/seo/ReparationPCLeMans.jsx'
+import ReparateurTelephoneLeMans from './pages/seo/ReparateurTelephoneLeMans.jsx'
+import CreationSiteInternetSarthe from './pages/seo/CreationSiteInternetSarthe.jsx'
 
 // ─────────────────────────────────────────────
 // SEO Head — page d'accueil
@@ -221,6 +225,10 @@ export default function App() {
         <Route path="/galerie" element={<Galerie />} />
         <Route path="/avis"    element={<AvisPage />} />
         <Route path="/admin"   element={<AdminPage />} />
+        <Route path="/depannage-informatique-le-mans" element={<DepannageLeMansSEO />} />
+        <Route path="/reparation-ordinateur-le-mans"      element={<ReparationPCLeMans />} />
+        <Route path="/reparateur-telephone-le-mans"       element={<ReparateurTelephoneLeMans />} />
+        <Route path="/creation-site-internet-sarthe"      element={<CreationSiteInternetSarthe />} />
         <Route path="*"        element={<NotFound />} />
       </Routes>
     </BrowserRouter>

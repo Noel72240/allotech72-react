@@ -3,133 +3,121 @@ import { Link, useLocation } from 'react-router-dom'
 import config from '../config.js'
 
 export default function Nav() {
-  const [open, setOpen] = useState(false)
-  const close = () => setOpen(false)
-  const loc   = useLocation()
-  const home  = loc.pathname === '/'
+  const [open,     setOpen]     = useState(false)
+  const [dropdown, setDropdown] = useState(false)
+  const close  = () => { setOpen(false); setDropdown(false) }
+  const loc    = useLocation()
+  const home   = loc.pathname === '/'
+
+  const seoLinks = [
+    { to: '/depannage-informatique-le-mans',  label: '🔧 Dépannage informatique Le Mans' },
+    { to: '/reparation-ordinateur-le-mans',   label: '💻 Réparation PC Le Mans' },
+    { to: '/reparateur-telephone-le-mans',    label: '📱 Réparateur téléphone Le Mans' },
+    { to: '/creation-site-internet-sarthe',   label: '🌐 Création site Sarthe' },
+  ]
 
   return (
     <>
       <nav id="nav">
         <div className="ni">
 
-          {/* LOGO — gauche */}
+          {/* LOGO */}
           <Link to="/" style={{ flexShrink:0, display:'flex', alignItems:'center', gap:12, textDecoration:'none' }}>
-            {/* Icône moniteur + clé */}
-            <div style={{
-              position: 'relative',
-              width: 48, height: 48,
-              flexShrink: 0,
-            }}>
-              {/* Glow externe */}
-              <div style={{
-                position: 'absolute', inset: -4,
-                borderRadius: 16,
-                background: 'radial-gradient(ellipse,rgba(0,207,255,0.35) 0%,transparent 70%)',
-                filter: 'blur(6px)',
-              }}/>
-              {/* Fond icône */}
-              <div style={{
-                width: 48, height: 48,
-                background: 'linear-gradient(145deg,#0D2A3E,#071828)',
-                border: '1.5px solid rgba(0,207,255,0.5)',
-                borderRadius: 14,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                position: 'relative', overflow: 'hidden',
-                boxShadow: '0 0 20px rgba(0,207,255,0.3), inset 0 1px 0 rgba(255,255,255,0.08)',
-              }}>
-                {/* Reflet haut */}
-                <div style={{
-                  position:'absolute', top:0, left:0, right:0, height:'45%',
-                  background:'linear-gradient(180deg,rgba(0,207,255,0.12),transparent)',
-                  borderRadius:'14px 14px 0 0',
-                }}/>
-                {/* SVG moniteur + clé */}
+            <div style={{ position:'relative', width:48, height:48, flexShrink:0 }}>
+              <div style={{ position:'absolute', inset:-4, borderRadius:16, background:'radial-gradient(ellipse,rgba(0,207,255,0.35) 0%,transparent 70%)', filter:'blur(6px)' }}/>
+              <div style={{ width:48, height:48, background:'linear-gradient(145deg,#0D2A3E,#071828)', border:'1.5px solid rgba(0,207,255,0.5)', borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', position:'relative', overflow:'hidden', boxShadow:'0 0 20px rgba(0,207,255,0.3)' }}>
+                <div style={{ position:'absolute', top:0, left:0, right:0, height:'45%', background:'linear-gradient(180deg,rgba(0,207,255,0.12),transparent)', borderRadius:'14px 14px 0 0' }}/>
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  {/* Écran */}
                   <rect x="3" y="4" width="22" height="14" rx="2.5" fill="none" stroke="#00CFFF" strokeWidth="1.5"/>
                   <rect x="5" y="6" width="18" height="10" rx="1.5" fill="rgba(0,207,255,0.12)"/>
-                  {/* Pied */}
                   <rect x="11" y="18" width="6" height="2.5" rx="1" fill="#00CFFF" opacity="0.6"/>
                   <rect x="9" y="20.5" width="10" height="1.5" rx=".75" fill="#00CFFF" opacity="0.4"/>
-                  {/* Clé anglaise */}
                   <path d="M17 8.5 C18.5 7 20.5 7.2 21 8.5 C21.5 9.8 20.5 11 19 11 L15.5 14.5 L14 13 L17 8.5Z" fill="#2BFF9A" opacity="0.9"/>
                   <circle cx="19" cy="9" r="1.2" fill="#040B14"/>
-                  {/* Lignes code à gauche */}
                   <rect x="6" y="9" width="5" height="1.2" rx=".6" fill="#00CFFF" opacity="0.7"/>
                   <rect x="6" y="11.5" width="3.5" height="1.2" rx=".6" fill="#2BFF9A" opacity="0.5"/>
-                  <rect x="6" y="14" width="4.5" height="1.2" rx=".6" fill="#00CFFF" opacity="0.4"/>
                 </svg>
               </div>
             </div>
-
-            {/* Texte */}
             <div style={{ display:'flex', flexDirection:'column', lineHeight:1 }}>
-              <span style={{
-                fontFamily: "'Orbitron',sans-serif",
-                fontWeight: 900,
-                fontSize: '1.3rem',
-                letterSpacing: '0.02em',
-                background: 'linear-gradient(90deg,#00CFFF 0%,#2BFF9A 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                textShadow: 'none',
-                filter: 'drop-shadow(0 0 8px rgba(0,207,255,0.4))',
-              }}>
+              <span style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:900, fontSize:'1.3rem', background:'linear-gradient(90deg,#00CFFF,#2BFF9A)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text', filter:'drop-shadow(0 0 8px rgba(0,207,255,0.4))' }}>
                 Allotech72
               </span>
-              <span style={{
-                fontSize: '.5rem',
-                color: 'rgba(0,207,255,0.55)',
-                letterSpacing: '.22em',
-                textTransform: 'uppercase',
-                fontFamily: "'Outfit',sans-serif",
-                fontWeight: 700,
-                marginTop: 3,
-              }}>
+              <span style={{ fontSize:'.5rem', color:'rgba(0,207,255,0.55)', letterSpacing:'.22em', textTransform:'uppercase', fontFamily:"'Outfit',sans-serif", fontWeight:700, marginTop:3 }}>
                 Dépannage & Web
               </span>
             </div>
           </Link>
 
-          {/* LIENS DESKTOP — poussés à droite */}
+          {/* LIENS DESKTOP */}
           <ul className="nl">
-            <li><a href={home ? '#services'  : '/#services'}>Services</a></li>
+
+            {/* MENU DÉROULANT SERVICES */}
+            <li style={{ position:'relative' }}
+              onMouseEnter={() => setDropdown(true)}
+              onMouseLeave={() => setDropdown(false)}
+            >
+              <a href={home ? '#services' : '/#services'} style={{ display:'flex', alignItems:'center', gap:5 }}>
+                Services
+                <span style={{ fontSize:'.65rem', transition:'transform .2s', display:'inline-block', transform: dropdown ? 'rotate(180deg)' : 'rotate(0deg)' }}>▼</span>
+              </a>
+
+              {/* Dropdown */}
+              {dropdown && (
+                <div style={{
+                  position:'absolute', top:'100%', left:'50%', transform:'translateX(-50%)',
+                  marginTop:0, paddingTop:8, width:280,
+                  background:'rgba(4,11,20,0.97)', backdropFilter:'blur(24px)',
+                  border:'1px solid rgba(0,207,255,0.2)', borderRadius:14,
+                  boxShadow:'0 16px 48px rgba(0,0,0,0.5)',
+                  zIndex:999, overflow:'hidden',
+                  animation:'fadeIn .15s ease',
+                }}>
+                  {/* Lien page principale */}
+                  <div style={{ padding:'8px 8px 4px', borderBottom:'1px solid rgba(0,207,255,0.1)' }}>
+                    <a href={home ? '#services' : '/#services'} style={{ display:'block', padding:'8px 12px', color:'var(--c)', textDecoration:'none', fontSize:'.82rem', fontWeight:700, fontFamily:"'Orbitron',sans-serif" }}>
+                      Tous nos services →
+                    </a>
+                  </div>
+                  {/* Pages SEO */}
+                  <div style={{ padding:'6px 8px' }}>
+                    <div style={{ padding:'6px 12px 4px', color:'rgba(0,207,255,0.45)', fontSize:'.65rem', fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase' }}>
+                      Pages spécialisées
+                    </div>
+                    {seoLinks.map((l,i) => (
+                      <Link key={i} to={l.to} onClick={() => setDropdown(false)} style={{
+                        display:'block', padding:'9px 12px',
+                        color:'var(--tx)', textDecoration:'none',
+                        fontSize:'.82rem', borderRadius:8,
+                        transition:'background .15s, color .15s',
+                      }}
+                        onMouseEnter={e => { e.currentTarget.style.background='rgba(0,207,255,0.08)'; e.currentTarget.style.color='var(--c)' }}
+                        onMouseLeave={e => { e.currentTarget.style.background=''; e.currentTarget.style.color='var(--tx)' }}
+                      >
+                        {l.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </li>
+
             <li><a href={home ? '#avantages' : '/#avantages'}>Avantages</a></li>
             <li><a href={home ? '#qui'       : '/#qui'}>Qui suis-je</a></li>
             <li><a href={home ? '#zone'      : '/#zone'}>Zone</a></li>
             <li><Link to="/avis">Avis</Link></li>
             <li><Link to="/galerie">Galerie</Link></li>
-            <li style={{ marginLeft: 8 }}>
+            <li style={{ marginLeft:8 }}>
               <a href={`tel:${config.telBrut}`} className="ncta">📞 {config.telephone}</a>
             </li>
           </ul>
 
           {/* MOBILE — bouton appel + burger */}
-          <div style={{
-            display: 'none',
-            alignItems: 'center',
-            gap: 8,
-            marginLeft: 'auto',
-          }} className="mob-controls">
-            <a href={`tel:${config.telBrut}`} className="tel-mobile" style={{
-              background: 'linear-gradient(135deg,#00CFFF,#00AEEF)',
-              color: '#040B14', fontWeight: 700,
-              padding: '7px 12px', borderRadius: 8,
-              textDecoration: 'none', fontSize: '.78rem',
-              fontFamily: "'Orbitron',sans-serif",
-              whiteSpace: 'nowrap',
-            }}>
+          <div className="mob-controls" style={{ display:'none', alignItems:'center', gap:8, marginLeft:'auto' }}>
+            <a href={`tel:${config.telBrut}`} className="tel-mobile" style={{ background:'linear-gradient(135deg,#00CFFF,#00AEEF)', color:'#040B14', fontWeight:700, padding:'7px 12px', borderRadius:8, textDecoration:'none', fontSize:'.78rem', fontFamily:"'Orbitron',sans-serif", whiteSpace:'nowrap' }}>
               📞 Appeler
             </a>
-
-            <button
-              className="burger"
-              onClick={() => setOpen(!open)}
-              aria-label="Menu"
-              style={{ flexShrink: 0 }}
-            >
+            <button className="burger" onClick={() => setOpen(!open)} aria-label="Menu" style={{ flexShrink:0 }}>
               <span style={{ transform: open ? 'rotate(45deg) translate(5px, 6px)' : '' }} />
               <span style={{ opacity: open ? 0 : 1 }} />
               <span style={{ transform: open ? 'rotate(-45deg) translate(5px, -6px)' : '' }} />
@@ -142,20 +130,32 @@ export default function Nav() {
       {/* MENU MOBILE */}
       <div className={`mob${open ? ' open' : ''}`}>
         <a href={home ? '#services'  : '/#services'}  onClick={close}>Services</a>
+
+        {/* Sous-liens SEO dans le mobile menu */}
+        <div style={{ display:'flex', flexDirection:'column', gap:8, alignItems:'center', borderTop:'1px solid rgba(0,207,255,0.1)', borderBottom:'1px solid rgba(0,207,255,0.1)', padding:'12px 0', width:'100%' }}>
+          <div style={{ color:'rgba(0,207,255,0.5)', fontSize:'.65rem', fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', marginBottom:4 }}>Pages spécialisées</div>
+          {seoLinks.map((l,i) => (
+            <Link key={i} to={l.to} onClick={close} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.95rem', fontFamily:"'Orbitron',sans-serif", fontWeight:600 }}>
+              {l.label}
+            </Link>
+          ))}
+        </div>
+
         <a href={home ? '#avantages' : '/#avantages'} onClick={close}>Avantages</a>
         <a href={home ? '#qui'       : '/#qui'}       onClick={close}>Qui suis-je ?</a>
         <a href={home ? '#zone'      : '/#zone'}      onClick={close}>Zone</a>
-        <Link to="/avis" onClick={close}>Avis</Link>
+        <a href={home ? '#avis'      : '/#avis'}      onClick={close}>Avis</a>
         <Link to="/galerie" onClick={close}>Galerie</Link>
         <a href={home ? '#contact'   : '/#contact'}   onClick={close}>Contact</a>
-        <a href={`tel:${config.telBrut}`} style={{
-          color: 'var(--c)',
-          fontFamily: "'Orbitron',sans-serif",
-          fontSize: '1.2rem',
-        }}>
+        <a href={`tel:${config.telBrut}`} style={{ color:'var(--c)', fontFamily:"'Orbitron',sans-serif", fontSize:'1.2rem' }}>
           📞 {config.telephone}
         </a>
       </div>
+
+      <style>{`
+        @keyframes fadeIn { from { opacity:0; transform:translateX(-50%) translateY(-8px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+        @media (max-width: 950px) { .mob-controls { display: flex !important; } .tel-mobile { display: flex !important; } }
+      `}</style>
     </>
   )
 }

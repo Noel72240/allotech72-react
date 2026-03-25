@@ -46,6 +46,10 @@ export default function Footer() {
           <div className="fcol">
             <h4>Navigation</h4>
             <ul>
+              <li><Link to="/depannage-informatique-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Dépannage Le Mans</Link></li>
+              <li><Link to="/reparation-ordinateur-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparation PC Le Mans</Link></li>
+              <li><Link to="/reparateur-telephone-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparateur téléphone</Link></li>
+              <li><Link to="/creation-site-internet-sarthe" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Création site Sarthe</Link></li>
               <li><a href="#services">Mes services</a></li>
               <li><a href="#qui">Qui suis-je ?</a></li>
               <li><a href="#zone">Zone</a></li>

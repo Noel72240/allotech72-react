@@ -6,11 +6,12 @@ export default function ChangePassword() {
   const [form, setForm] = useState({ old: '', new: '', confirm: '' })
   const [msg,  setMsg]  = useState(null)
 
-  const handle = async (e) => {
+  const handle = (e) => {
     e.preventDefault()
-    const result = await changePassword(form.old, form.new, form.confirm)
+    const result = changePassword(form.old, form.new, form.confirm)
     setMsg({ ok: result.ok, text: result.msg })
     if (result.ok) {
+      // Le Context met mustChangePass à false → AdminPage bascule sur Dashboard automatiquement
       setForm({ old: '', new: '', confirm: '' })
     }
   }
@@ -113,7 +114,7 @@ export default function ChangePassword() {
         </div>
 
         <p style={{ color: 'var(--dim)', fontSize: '.72rem', textAlign: 'center', marginTop: 16 }}>
-          Choisissez un mot de passe fort d'au moins 8 caractères.
+          Mot de passe actuel par défaut : <code style={{ color: 'var(--c)' }}>allotech72</code>
         </p>
       </div>
     </div>

@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://allotech72.fr/sitemap.xml
+Sitemap: https://www.allotech72.fr/sitemap.xml

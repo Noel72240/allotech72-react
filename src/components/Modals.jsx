@@ -50,8 +50,7 @@ export default function Modals() {
           <p>
             {config.hebergeur?.nom
               ? <><strong>Hébergeur :</strong> {config.hebergeur.nom}<br /><strong>Adresse :</strong> {config.hebergeur.adresse}<br /><strong>Site :</strong> <a href={config.hebergeur.url} target="_blank" rel="noopener">{config.hebergeur.url}</a></>
-              : <span style={{ background:'rgba(255,184,0,0.12)', border:'1px solid rgba(255,184,0,0.3)', color:'#FFB800', borderRadius:6, padding:'6px 12px', display:'inline-block', fontSize:'.82rem' }}>⚠️ Informations hébergeur à compléter dans <code>config.js</code> (obligatoire légalement — LCEN).</span>
-            }
+              : 'Informations hébergeur à compléter.'}
           </p>
 
           <h3>4. Propriété intellectuelle</h3>

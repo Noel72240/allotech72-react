@@ -1,12 +1,29 @@
 import { useEffect, useRef, useState } from 'react'
+import { supabase } from '../lib/supabase.js'
 import config from '../config.js'
 
 export default function Avis() {
   const [slide, setSlide]   = useState(0)
+  const [allAvis, setAllAvis] = useState(config.avis) // commence avec config
   const trackRef            = useRef(null)
   const getVis = () => window.innerWidth < 700 ? 1 : window.innerWidth < 1000 ? 2 : 3
   const [vis, setVis]       = useState(3)
-  const total               = Math.ceil(config.avis.length / vis)
+  const total               = Math.ceil(allAvis.length / vis)
+
+  // Charger les avis Supabase + les fusionner avec config.avis
+  useEffect(() => {
+    const fetchAvis = async () => {
+      const { data, error } = await supabase
+        .from('avis')
+        .select('*')
+        .order('created_at', { ascending: false })
+      if (!error && data && data.length > 0) {
+        // Avis Supabase en premier, puis config.avis
+        setAllAvis([...data, ...config.avis])
+      }
+    }
+    fetchAvis()
+  }, [])
 
   useEffect(() => {
     const onResize = () => setVis(getVis())
@@ -41,13 +58,13 @@ export default function Avis() {
           <div className="rscore">5/5</div>
           <div className="ri">
             <p style={{ color: '#fff', fontWeight: 600, fontFamily: "'Orbitron',sans-serif", fontSize: '.9rem' }}>Note parfaite</p>
-            <p>Plus de {config.avis.length} avis Google · 100% de satisfaction</p>
+            <p>{allAvis.length}+ avis · 100% de satisfaction</p>
           </div>
         </div>
 
         <div className="avis-wrap rev">
           <div className="avis-track" ref={trackRef}>
-            {config.avis.map((a, i) => (
+            {allAvis.map((a, i) => (
               <div key={i} className="avis-card">
                 <div className="avis-head">
                   <div className="avis-av">{a.initiales}</div>

@@ -9,8 +9,7 @@ const config = {
   // 1. Crée un compte gratuit sur https://formspree.io
   // 2. New Form → mets contact@allotech72.fr comme email de destination
   // 3. Copie l'ID du formulaire (ex: "xpwzgkqb") ici
-  // ⚠️  OBLIGATOIRE — sans cet ID le formulaire de contact ne fonctionne pas !
-  formspreeId: 'xlgpqnrl',   // ← REMPLACE par ton vrai ID Formspree (ex: 'xpwzgkqb')
+  formspreeId: 'VOTRE_FORM_ID',   // ← remplace par ton vrai ID Formspree
 
   // ── IDENTITÉ ──────────────────────────────────────────────
   brand:       'Allotech72',           // Nom de marque
@@ -35,9 +34,9 @@ const config = {
 
   // ── RÉSEAUX SOCIAUX ───────────────────────────────────────
   facebook:    'https://www.facebook.com/people/AlloTech72/61578478083963/',
-  instagram:   'allotech72',                     // ← À remplir si tu crées un compte Instagram
-  google:      'https://share.google/O51xGPMb44UZPJEK8',                     // ← URL fiche Google My Business (ex: https://g.page/allotech72) — IMPORTANT pour le SEO local
-  googleMapsId:'',                     // ← ID Google My Business pour l'intégration carte
+  instagram:   '',                     // laisser vide si pas de compte
+  google:      '',                     // URL fiche Google My Business (ex: https://g.page/allotech72)
+  googleMapsId:'',                     // ID Google My Business pour l'intégration carte
 
   // ── HORAIRES ──────────────────────────────────────────────
   horaires:    'Lun – Sam : 8h – 19h',
@@ -139,13 +138,13 @@ const config = {
   ],
 
   // ── HÉBERGEUR (mentions légales) ──────────────────────────
-  // ⚠️  OBLIGATOIRE légalement (LCEN) — à compléter avec les infos de ton hébergeur
-  // Exemple o2switch : nom:'o2switch', adresse:'222-224 Boulevard Gustave Flaubert, 63000 Clermont-Ferrand', url:'https://www.o2switch.fr'
+  // À compléter une fois votre hébergeur choisi
   hebergeur: {
-    nom:     'Vercel Inc.',       // ← Nom de l'hébergeur
-    adresse: '440 N Barranca Ave #4133, Covina, CA 91723, États-Unis',       // ← Adresse postale de l'hébergeur
-    url:     'https://vercel.com',       // ← Site web de l'hébergeur
+    nom:     '',
+    adresse: '',
+    url:     '',
   },
 
 }
+
 export default config

@@ -1,10 +1,8 @@
 import { useForm, ValidationError } from '@formspree/react'
 import config from '../config.js'
 
-const FORMSPREE_CONFIGURED = config.formspreeId && config.formspreeId.length > 4
-
 export default function Contact() {
-  const [state, handleSubmit] = useForm(FORMSPREE_CONFIGURED ? config.formspreeId : 'xxxxxxxx')
+  const [state, handleSubmit] = useForm(config.formspreeId)
 
   return (
     <section id="contact" className="sp">
@@ -62,12 +60,6 @@ export default function Contact() {
           {/* ── FORMULAIRE FORMSPREE ── */}
           <div className="fc rev">
             <h3>📨 Votre demande</h3>
-
-            {!FORMSPREE_CONFIGURED && (
-              <div style={{ padding: '12px 16px', marginBottom: 20, borderRadius: 10, background: 'rgba(255,184,0,0.1)', border: '1px solid rgba(255,184,0,0.35)', color: '#FFB800', fontSize: '.82rem' }}>
-                ⚠️ <strong>Configuration requise :</strong> renseignez votre <code style={{ background: 'rgba(255,184,0,0.15)', padding: '1px 6px', borderRadius: 4 }}>formspreeId</code> dans <code style={{ background: 'rgba(255,184,0,0.15)', padding: '1px 6px', borderRadius: 4 }}>config.js</code> pour activer ce formulaire.
-              </div>
-            )}
 
             {state.succeeded ? (
               /* ✅ SUCCÈS */

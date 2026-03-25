@@ -3,12 +3,12 @@ import { useAuth } from '../../hooks/useAuth.jsx'
 import config from '../../config.js'
 
 export default function AdminLogin() {
-  const { login, loginError, loading } = useAuth()
+  const { login, loginError } = useAuth()
   const [password, setPassword] = useState('')
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    await login(password)
+    login(password)
     // Pas besoin de navigate — AdminPage bascule automatiquement via le Context
   }
 
@@ -70,14 +70,15 @@ export default function AdminLogin() {
               </p>
             )}
 
-            <button type="submit" className="bsend" disabled={loading}>
-              {loading ? '⏳ Vérification...' : 'Connexion →'}
+            <button type="submit" className="bsend">
+              Connexion →
             </button>
 
           </form>
 
           <p style={{ color: 'var(--dim)', fontSize: '.75rem', textAlign: 'center', marginTop: 20 }}>
-            Accès réservé à l'administrateur du site.
+            Mot de passe par défaut : <code style={{ color: 'var(--c)' }}>allotech72</code><br />
+            <span style={{ opacity: .7 }}>Vous devrez le changer à la première connexion.</span>
           </p>
         </div>
       </div>
