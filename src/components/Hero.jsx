@@ -85,8 +85,12 @@ export default function Hero() {
             </div>
 
             <p className="hdesc">
-              {config.prenom} {config.nom} — technicien passionné basé à {config.ville} — intervient chez vous pour réparer vos appareils et crée votre site internet ou application mobile. Diagnostic précis, conseils clairs, tarifs transparents.
-            </p>
+  {config.prenom} {config.nom} — technicien informatique à domicile basé à {config.ville} — intervient rapidement chez vous sur Le Mans et toute la Sarthe.<br />
+  Dépannage PC, réparation téléphone, montage sur mesure, création de site internet :<br />
+  chaque intervention est réalisée avec précision, sans jargon, au juste prix.<br />
+  Diagnostic gratuit, devis transparent, déplacement rapide — 7j/7.<br />
+  Faites confiance au spécialiste informatique de proximité en Sarthe.
+</p>
 
             <div className="hacts">
               <a href={`tel:${config.telBrut}`} className="bm bp" onMouseMove={magMove} onMouseLeave={magLeave}>
