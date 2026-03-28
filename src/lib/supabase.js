@@ -1,6 +1,15 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim()
+function resolveSupabaseUrl() {
+  const raw =
+    import.meta.env.VITE_SUPABASE_URL?.trim() ||
+    import.meta.env.URL_SUPABASE_VITE?.trim() // tolère l’ancien nom sur Vercel
+  if (!raw) return ''
+  // Hôte officiel : *.supabase.co (pas .com)
+  return raw.replace(/\.supabase\.com(\/?|$)/i, '.supabase.co$1')
+}
+
+const supabaseUrl = resolveSupabaseUrl()
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim()
 
 /** False sur Vercel si les variables VITE_* ne sont pas définies au build → sinon écran noir. */
