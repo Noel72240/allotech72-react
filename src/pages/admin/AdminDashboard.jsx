@@ -21,7 +21,7 @@ const Msg = ({ msg }) => msg ? (
   }}>{msg.txt}</div>
 ) : null
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ onChangePassword }) {
   const { logout } = useAuth()
   const [tab, setTab] = useState('avis')
 
@@ -153,9 +153,12 @@ export default function AdminDashboard() {
               <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>{config.brand}</div>
             </div>
           </div>
-          <div style={{ display:'flex', gap:10 }}>
+          <div style={{ display:'flex', gap:10, flexWrap:'wrap', justifyContent:'flex-end' }}>
             <Link to="/" target="_blank" style={{ color:'rgba(200,232,255,0.7)', textDecoration:'none', fontSize:'.82rem', fontWeight:600, padding:'8px 16px', border:'1px solid rgba(0,207,255,0.2)', borderRadius:8 }}>👁 Voir le site</Link>
-            <button onClick={logout} style={{ background:'rgba(255,80,80,0.1)', border:'1px solid rgba(255,80,80,0.3)', color:'#ff6b6b', padding:'8px 16px', borderRadius:8, cursor:'pointer', fontSize:'.82rem', fontWeight:600 }}>Déconnexion</button>
+            {typeof onChangePassword === 'function' && (
+              <button type="button" onClick={onChangePassword} style={{ background:'rgba(255,184,0,0.08)', border:'1px solid rgba(255,184,0,0.35)', color:'#FFB800', padding:'8px 16px', borderRadius:8, cursor:'pointer', fontSize:'.82rem', fontWeight:600 }}>🔑 Mot de passe</button>
+            )}
+            <button type="button" onClick={logout} style={{ background:'rgba(255,80,80,0.1)', border:'1px solid rgba(255,80,80,0.3)', color:'#ff6b6b', padding:'8px 16px', borderRadius:8, cursor:'pointer', fontSize:'.82rem', fontWeight:600 }}>Déconnexion</button>
           </div>
         </div>
       </header>

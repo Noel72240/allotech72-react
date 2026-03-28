@@ -1,19 +1,22 @@
 import { useState } from 'react'
 import { useAuth } from '../../hooks/useAuth.jsx'
 
-export default function ChangePassword() {
+export default function ChangePassword({ onDone }) {
   const { changePassword } = useAuth()
   const [form, setForm] = useState({ old: '', new: '', confirm: '' })
   const [msg,  setMsg]  = useState(null)
+  const [busy, setBusy] = useState(false)
 
-  const handle = (e) => {
+  const handle = async (e) => {
     e.preventDefault()
-    const result = changePassword(form.old, form.new, form.confirm)
+    setBusy(true)
+    setMsg(null)
+    const result = await changePassword(form.old, form.new, form.confirm)
     setMsg({ ok: result.ok, text: result.msg })
     if (result.ok) {
-      // Le Context met mustChangePass à false → AdminPage bascule sur Dashboard automatiquement
       setForm({ old: '', new: '', confirm: '' })
     }
+    setBusy(false)
   }
 
   return (
@@ -23,7 +26,6 @@ export default function ChangePassword() {
     }}>
       <div style={{ width: '100%', maxWidth: 460 }}>
 
-        {/* Icône + titre */}
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
           <div style={{
             width: 64, height: 64,
@@ -34,19 +36,13 @@ export default function ChangePassword() {
             boxShadow: '0 0 30px rgba(255,184,0,0.4)',
           }}>🔑</div>
           <h1 style={{ fontFamily: "'Orbitron',sans-serif", fontSize: '1.3rem', color: '#fff', marginBottom: 12 }}>
-            Changement de mot de passe
+            Changer le mot de passe
           </h1>
-          <p style={{
-            color: '#FFB800', fontSize: '.85rem',
-            background: 'rgba(255,184,0,0.1)',
-            border: '1px solid rgba(255,184,0,0.3)',
-            borderRadius: 8, padding: '8px 16px', display: 'inline-block',
-          }}>
-            ⚠️ Première connexion — merci de choisir votre mot de passe
+          <p style={{ color: 'var(--dim)', fontSize: '.85rem' }}>
+            Le nouveau mot de passe s’applique à tous vos appareils (compte Supabase).
           </p>
         </div>
 
-        {/* Formulaire */}
         <div style={{
           background: 'rgba(5,14,28,0.85)',
           border: '1px solid rgba(255,184,0,0.2)',
@@ -64,6 +60,7 @@ export default function ChangePassword() {
                 placeholder="Mot de passe actuel"
                 required
                 autoFocus
+                autoComplete="current-password"
               />
             </div>
 
@@ -75,6 +72,7 @@ export default function ChangePassword() {
                 onChange={e => setForm({ ...form, new: e.target.value })}
                 placeholder="8 caractères minimum"
                 required
+                autoComplete="new-password"
               />
             </div>
 
@@ -86,10 +84,10 @@ export default function ChangePassword() {
                 onChange={e => setForm({ ...form, confirm: e.target.value })}
                 placeholder="Répéter le mot de passe"
                 required
+                autoComplete="new-password"
               />
             </div>
 
-            {/* Message retour */}
             {msg && (
               <div style={{
                 padding: '10px 14px', borderRadius: 8, marginBottom: 16,
@@ -105,17 +103,26 @@ export default function ChangePassword() {
             <button
               type="submit"
               className="bsend"
-              style={{ background: 'linear-gradient(135deg,#FFB800,#FF6B00)', color: '#040B14' }}
+              disabled={busy}
+              style={{ background: 'linear-gradient(135deg,#FFB800,#FF6B00)', color: '#040B14', opacity: busy ? 0.7 : 1 }}
             >
-              Changer le mot de passe →
+              {busy ? 'Enregistrement…' : 'Enregistrer →'}
             </button>
 
           </form>
-        </div>
 
-        <p style={{ color: 'var(--dim)', fontSize: '.72rem', textAlign: 'center', marginTop: 16 }}>
-          Mot de passe actuel par défaut : <code style={{ color: 'var(--c)' }}>allotech72</code>
-        </p>
+          <button
+            type="button"
+            onClick={onDone}
+            style={{
+              width: '100%', marginTop: 14, padding: '10px',
+              background: 'transparent', border: '1px solid rgba(0,207,255,0.25)',
+              color: 'var(--dim)', borderRadius: 10, cursor: 'pointer', fontSize: '.82rem',
+            }}
+          >
+            ← Retour au tableau de bord
+          </button>
+        </div>
       </div>
     </div>
   )

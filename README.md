@@ -32,7 +32,7 @@ src/
 ├── styles/
 │   └── globals.css        Tous les styles
 ├── hooks/
-│   ├── useAuth.js         Authentification admin
+│   ├── useAuth.jsx        Authentification admin (Supabase Auth)
 │   └── useCookies.js      Consentement cookies RGPD
 ├── components/
 │   ├── Background.jsx     Particles + aurora animée
@@ -98,16 +98,23 @@ Tout se modifie dans **`src/config.js`** :
 
 **URL :** `/admin`
 
-**Mot de passe par défaut :** `allotech72`
-*(Changement forcé à la première connexion)*
+**Connexion :** email + mot de passe **Supabase Auth** (un seul compte, identique sur PC, téléphone et tablette). Créez l’utilisateur dans le tableau Supabase : **Authentication → Users → Add user**.
+
+Variables d’environnement (fichier `.env` local, et **Vercel → Settings → Environment Variables**) :
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+- *(optionnel)* `VITE_ADMIN_EMAIL` — préremplit le champ email sur la page de connexion.
+
+Après création du compte admin, exécutez le script SQL `supabase/rls-admin-auth.sql` dans **SQL Editor** : lecture publique des avis/galerie pour le site, écriture réservée aux utilisateurs authentifiés. Si la connexion échoue alors que le mot de passe est bon, vérifiez **Authentication → Providers → Email** (confirmation d’email) ou créez l’utilisateur avec **Auto Confirm User** activé.
+
+Dans **Storage → Policies**, supprimez toute ancienne règle trop permissive sur le bucket `galerie` (insertion publique) après avoir appliqué le script.
 
 **Fonctionnalités :**
-- 📷 Gestion galerie photos (upload avant/après)
+- 📷 Gestion galerie photos (upload avant/après, bucket Storage)
 - ⭐ Ajout/suppression d'avis clients
 - ⚙️ Visualisation des infos du site
-
-> Les données sont stockées en `localStorage` du navigateur.
-> Pour un stockage serveur, intégrer une API (backend Node/Supabase).
+- 🔑 Changement de mot de passe (menu **Mot de passe**), appliqué partout via Supabase
 
 ---
 

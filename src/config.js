@@ -9,7 +9,7 @@ const config = {
   // 1. Crée un compte gratuit sur https://formspree.io
   // 2. New Form → mets contact@allotech72.fr comme email de destination
   // 3. Copie l'ID du formulaire (ex: "xpwzgkqb") ici
-  formspreeId: 'VOTRE_FORM_ID',   // ← remplace par ton vrai ID Formspree
+  formspreeId: 'xlgpqnrl',   // ← remplace par ton vrai ID Formspree
 
   // ── IDENTITÉ ──────────────────────────────────────────────
   brand:       'Allotech72',           // Nom de marque
