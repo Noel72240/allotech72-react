@@ -98,7 +98,7 @@ export default function Nav() {
             <li><a href={home ? '#zone'      : '/#zone'}>Zone</a></li>
             <li><Link to="/avis">Avis</Link></li>
             <li><Link to="/galerie">Galerie</Link></li>
-            <li><Link to="/boutique">Boutique</Link></li>
+            <li><Link to="/boutique" className="nav-shop-cta">🛒 Boutique</Link></li>
             <li><CartNavButton /></li>
             <li style={{ marginLeft:8 }}>
               <a href={`tel:${config.telBrut}`} className="ncta">📞 {config.telephone}</a>
@@ -122,6 +122,8 @@ export default function Nav() {
 
       {/* MENU MOBILE */}
       <div className={`mob${open ? ' open' : ''}`}>
+        <Link to="/boutique" className="mob-shop-cta" onClick={close}>🛒 Voir la boutique</Link>
+
         <a href={home ? '#services'  : '/#services'}  onClick={close}>Services</a>
 
         <div style={{ display:'flex', flexDirection:'column', gap:8, alignItems:'center', borderTop:'1px solid rgba(0,207,255,0.1)', borderBottom:'1px solid rgba(0,207,255,0.1)', padding:'12px 0', width:'100%' }}>
@@ -140,9 +142,8 @@ export default function Nav() {
         <a href={home ? '#qui'       : '/#qui'}       onClick={close}>Qui suis-je ?</a>
         <a href={home ? '#zone'      : '/#zone'}      onClick={close}>Zone</a>
         <a href={home ? '#avis'      : '/#avis'}      onClick={close}>Avis</a>
-        <Link to="/boutique" onClick={close}>Boutique</Link>
-        <Link to="/panier" onClick={close}>Panier 🛒</Link>
         <Link to="/galerie" onClick={close}>Galerie</Link>
+        <Link to="/panier" onClick={close}>Panier 🛒</Link>
         <a href={home ? '#contact'   : '/#contact'}   onClick={close}>Contact</a>
         <a href={`tel:${config.telBrut}`} style={{ color:'var(--c)', fontFamily:"'Orbitron',sans-serif", fontSize:'1.2rem' }}>
           📞 {config.telephone}

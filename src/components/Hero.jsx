@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import config, { fullName } from '../config.js'
 
 function useTyping(phrases) {
@@ -96,7 +97,10 @@ export default function Hero() {
               <a href={`tel:${config.telBrut}`} className="bm bp" onMouseMove={magMove} onMouseLeave={magLeave}>
                 📞 Appeler maintenant
               </a>
-              <a href="#contact" className="bm bo" onMouseMove={magMove} onMouseLeave={magLeave}>
+              <Link to="/boutique" className="bm bo hero-shop-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
+                🛒 Boutique en ligne
+              </Link>
+              <a href="#contact" className="bm bo hero-devis-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
                 Devis gratuit →
               </a>
             </div>

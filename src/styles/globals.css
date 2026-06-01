@@ -86,6 +86,44 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 .ncta { background:linear-gradient(135deg,var(--c),var(--c2)) !important;color:#040B14 !important;font-weight:700 !important;border-radius:10px !important;box-shadow:0 4px 20px rgba(0,207,255,.3); }
 .ncta::after { display:none !important; }
 .ncta:hover { transform:translateY(-2px) !important;box-shadow:0 8px 30px rgba(0,207,255,.5) !important; }
+.nav-shop-cta {
+  background: linear-gradient(135deg, rgba(43, 255, 154, 0.22), rgba(0, 207, 255, 0.12)) !important;
+  border: 1px solid rgba(43, 255, 154, 0.45) !important;
+  color: #b8ffe0 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 18px rgba(43, 255, 154, 0.15);
+}
+.nav-shop-cta::after { display: none !important; }
+.nav-shop-cta:hover {
+  color: #fff !important;
+  background: linear-gradient(135deg, rgba(43, 255, 154, 0.38), rgba(0, 207, 255, 0.22)) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(43, 255, 154, 0.25);
+}
+.mob-shop-cta {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 16px;
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #040b14;
+  background: linear-gradient(135deg, #2bff9a, #00cfff);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(43, 255, 154, 0.25);
+}
+.hero-shop-btn {
+  border-color: rgba(43, 255, 154, 0.45) !important;
+  color: var(--g) !important;
+}
+.hero-shop-btn:hover {
+  border-color: rgba(43, 255, 154, 0.7) !important;
+  box-shadow: 0 0 24px rgba(43, 255, 154, 0.2);
+}
 .burger { display:none;flex-direction:column;gap:6px;cursor:none;background:none;border:none;padding:6px; }
 .burger span { display:block;width:26px;height:2px;background:var(--c);border-radius:2px;transition:.3s; }
 .mob { display:none;position:fixed;inset:72px 0 0;background:rgba(4,11,20,.98);backdrop-filter:blur(24px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:36px; }
@@ -839,6 +877,96 @@ a.seo-aside-link.is-active {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
   margin-top: 22px;
+}
+.shop-hero-compact {
+  margin-bottom: 8px;
+}
+.shop-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+.shop-hero-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--c);
+  border: 1px solid rgba(0, 207, 255, 0.35);
+  background: rgba(0, 207, 255, 0.06);
+  transition: border-color 0.2s, background 0.2s;
+}
+.shop-hero-cart:hover {
+  border-color: rgba(0, 207, 255, 0.55);
+  background: rgba(0, 207, 255, 0.12);
+}
+.shop-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 16px;
+}
+.shop-filters-sub {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.shop-filter-chip {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 207, 255, 0.2);
+  background: rgba(0, 207, 255, 0.04);
+  color: var(--dim);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.shop-filter-chip.small {
+  padding: 7px 14px;
+  font-size: 0.8rem;
+}
+.shop-filter-chip.active {
+  border-color: rgba(43, 255, 154, 0.5);
+  background: rgba(43, 255, 154, 0.12);
+  color: var(--g);
+}
+.shop-filter-chip:hover {
+  border-color: rgba(0, 207, 255, 0.4);
+  color: #fff;
+}
+.shop-grid-hub {
+  margin-top: 4px;
+}
+.shop-hub-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 207, 255, 0.12);
+}
+.shop-hub-links-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.shop-hub-links a {
+  color: var(--c);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.shop-hub-links a:hover {
+  text-decoration: underline;
 }
 .shop-tile {
   background: rgba(5, 14, 28, 0.82);
