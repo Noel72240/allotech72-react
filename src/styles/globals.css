@@ -999,9 +999,13 @@ a.seo-aside-link.is-active {
   margin-bottom: 8px;
 }
 .shop-hero-cart-primary {
-  background: linear-gradient(135deg, rgba(255, 184, 0, 0.25), rgba(255, 140, 0, 0.15)) !important;
-  border-color: rgba(255, 184, 0, 0.55) !important;
-  color: #ffd56a !important;
+  background: rgba(0, 207, 255, 0.12) !important;
+  border-color: rgba(0, 207, 255, 0.45) !important;
+  color: var(--c) !important;
+}
+.shop-hero-cart-primary:hover {
+  background: rgba(0, 207, 255, 0.2) !important;
+  color: #fff !important;
 }
 .shop-call-sm {
   padding: 12px 18px !important;
@@ -1017,11 +1021,11 @@ a.seo-aside-link.is-active {
   margin-top: 8px;
 }
 .shop-carousel-row {
-  background: rgba(6, 14, 28, 0.92);
-  border: 1px solid rgba(0, 207, 255, 0.1);
-  border-radius: 8px;
-  padding: 18px 0 22px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  background: rgba(5, 14, 28, 0.75);
+  border: 1px solid rgba(0, 207, 255, 0.14);
+  border-radius: 16px;
+  padding: 18px 0 20px;
+  backdrop-filter: blur(12px);
 }
 .shop-carousel-head {
   display: flex;
@@ -1066,6 +1070,14 @@ a.seo-aside-link.is-active {
 .shop-carousel-track::-webkit-scrollbar {
   display: none;
 }
+.shop-carousel-track.is-sparse .shop-tile-ecom {
+  flex: 0 0 min(100%, 280px);
+}
+@media (min-width: 640px) {
+  .shop-carousel-track.is-sparse .shop-tile-ecom {
+    flex: 0 0 280px;
+  }
+}
 .shop-carousel-arrow {
   position: absolute;
   top: 50%;
@@ -1098,37 +1110,39 @@ a.seo-aside-link.is-active {
   border-right: none;
 }
 
-/* Tuile produit carousel */
+/* Tuile produit carousel — thème sombre Allotech72 */
 .shop-tile-ecom {
-  flex: 0 0 200px;
+  flex: 0 0 220px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border-radius: 8px;
+  background: rgba(5, 14, 28, 0.9);
+  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(0, 207, 255, 0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid rgba(0, 207, 255, 0.16);
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
   min-height: 100%;
 }
 .shop-tile-ecom:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  transform: translateY(-4px);
+  border-color: rgba(0, 207, 255, 0.38);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }
 .shop-tile-ecom-media {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 180px;
-  padding: 10px;
-  background: #fff;
+  height: 170px;
+  padding: 12px;
+  background: #071120;
   border: none;
+  border-bottom: 1px solid rgba(0, 207, 255, 0.08);
   cursor: zoom-in;
 }
 .shop-tile-ecom-media img {
   max-width: 100%;
-  max-height: 160px;
+  max-height: 150px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -1138,18 +1152,16 @@ a.seo-aside-link.is-active {
   opacity: 0.35;
 }
 .shop-tile-ecom-body {
-  padding: 10px 12px 14px;
+  padding: 12px 14px 14px;
   display: flex;
   flex-direction: column;
   flex: 1;
-  background: #f8fafc;
-  border-top: 1px solid #e8eef4;
 }
 .shop-tile-ecom-title {
   margin: 0 0 6px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #0f172a;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -1158,71 +1170,80 @@ a.seo-aside-link.is-active {
   min-height: 2.2em;
 }
 .shop-tile-ecom-meta {
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .shop-tile-ecom-seller {
   font-size: 0.68rem;
-  color: #007185;
+  color: var(--dim);
   font-weight: 600;
 }
 .shop-tile-ecom-price {
   font-family: 'Orbitron', sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.08rem;
   font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 4px;
+  color: var(--c);
+  margin-bottom: 6px;
 }
 .shop-tile-ecom-stock {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   font-size: 0.72rem;
   font-weight: 700;
-  color: #067d62;
+  color: var(--g);
 }
 .shop-tile-ecom-badge {
   display: inline-block;
   align-self: flex-start;
-  margin-bottom: 10px;
-  padding: 3px 8px;
-  border-radius: 4px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
   font-size: 0.65rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  background: #067d62;
-  color: #fff;
+  letter-spacing: 0.05em;
+  color: #040b14;
+  background: linear-gradient(135deg, var(--g), rgba(43, 255, 154, 0.55));
 }
 .shop-tile-ecom-badge.sold {
-  background: #cc0c39;
+  background: rgba(255, 80, 80, 0.15);
+  border: 1px solid rgba(255, 80, 80, 0.35);
+  color: #ff9a9a;
 }
 .shop-tile-ecom-cart {
   margin-top: auto;
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border: none;
-  border-radius: 20px;
-  background: linear-gradient(180deg, #ffd814, #f7ca00);
-  color: #0f1111;
-  font-size: 0.75rem;
-  font-weight: 800;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #00cfff, #00aeef);
+  color: #040b14;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: filter 0.2s, transform 0.15s;
+  transition: transform 0.2s, box-shadow 0.2s;
   text-align: center;
   text-decoration: none;
   display: block;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 207, 255, 0.25);
 }
 .shop-tile-ecom-cart:hover {
-  filter: brightness(1.05);
-  transform: scale(1.02);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 207, 255, 0.4);
 }
 .shop-tile-ecom-cart.outline {
-  background: #fff;
-  border: 1px solid #d5d9d9;
-  color: #0f1111;
+  background: rgba(0, 207, 255, 0.08);
+  border: 1px solid rgba(0, 207, 255, 0.35);
+  color: var(--c);
+  box-shadow: none;
+}
+.shop-tile-ecom-cart.outline:hover {
+  background: rgba(0, 207, 255, 0.14);
+  color: #fff;
 }
 @media (max-width: 768px) {
   .shop-tile-ecom {
-    flex: 0 0 168px;
+    flex: 0 0 min(78vw, 240px);
   }
   .shop-tile-ecom-media {
     height: 150px;

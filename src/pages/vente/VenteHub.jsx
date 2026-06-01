@@ -56,40 +56,20 @@ function buildCarouselRows({ section, categoryId, getProducts, neufCategories })
   }
 
   const rows = []
-  const allProducts = getProducts()
-  const neufAll = getProducts({ section: 'neuf' })
-  const occAll = getProducts({ section: 'occasion' })
-
-  if (allProducts.length) {
-    rows.push({
-      id: 'featured',
-      title: 'À ne pas manquer',
-      products: allProducts,
-      seeAllLink: null,
-    })
-  }
-
-  if (neufAll.length) {
-    rows.push({
-      id: 'neuf-all',
-      title: 'Neuf — dernières arrivées',
-      products: neufAll,
-      seeAllLink: '/boutique/neuf',
-    })
-  }
 
   neufCategories.forEach(cat => {
     const products = getProducts({ section: 'neuf', categoryId: cat.id })
     if (products.length) {
       rows.push({
         id: cat.id,
-        title: cat.label,
+        title: `Neuf — ${cat.label}`,
         products,
         seeAllLink: `/boutique/neuf/${cat.id}`,
       })
     }
   })
 
+  const occAll = getProducts({ section: 'occasion' })
   if (occAll.length) {
     rows.push({
       id: 'occasion',
@@ -97,6 +77,18 @@ function buildCarouselRows({ section, categoryId, getProducts, neufCategories })
       products: occAll,
       seeAllLink: '/boutique/occasion',
     })
+  }
+
+  if (rows.length === 0) {
+    const all = getProducts()
+    if (all.length) {
+      rows.push({
+        id: 'all',
+        title: 'Nos produits',
+        products: all,
+        seeAllLink: null,
+      })
+    }
   }
 
   return rows

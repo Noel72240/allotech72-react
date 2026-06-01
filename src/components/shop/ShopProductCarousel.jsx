@@ -59,7 +59,7 @@ export default function ShopProductCarousel({ title, products, seeAllLink, seeAl
           </button>
         )}
 
-        <div className="shop-carousel-track" ref={trackRef}>
+        <div className={`shop-carousel-track${products.length <= 2 ? ' is-sparse' : ''}`} ref={trackRef}>
           {products.map(p => (
             <ShopProductTile key={p.id} product={p} />
           ))}
