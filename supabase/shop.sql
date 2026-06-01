@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS public.shop_order_fulfillments (
   notification_sent  BOOLEAN NOT NULL DEFAULT false,
   status             TEXT NOT NULL DEFAULT 'fulfilled' CHECK (status IN ('fulfilled', 'cancelled')),
   cancelled_at       TIMESTAMPTZ,
+  stock_restored     BOOLEAN NOT NULL DEFAULT false,
   created_at         TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

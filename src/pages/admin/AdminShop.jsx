@@ -9,6 +9,7 @@ import {
   saveShopSettings,
   fetchShopOrders,
   cancelShopOrder,
+  restoreStockForCancelledOrder,
   uploadProductImage,
   isDbProductId,
   formatPrice,
@@ -80,6 +81,7 @@ export default function AdminShop() {
   const [orders, setOrders] = useState([])
   const [ordersLoad, setOrdersLoad] = useState(false)
   const [cancellingRef, setCancellingRef] = useState(null)
+  const [restoringRef, setRestoringRef] = useState(null)
 
   const loadAll = async () => {
     setLoad(true)
@@ -124,14 +126,37 @@ export default function AdminShop() {
 
     setCancellingRef(order.checkout_reference)
     try {
-      await cancelShopOrder(order.checkout_reference)
-      await loadOrders()
-      setMsg({ ok: true, txt: '✅ Commande annulée — stock remis en ligne' })
-      setTimeout(() => setMsg(null), 4000)
+      const restored = await cancelShopOrder(order.checkout_reference)
+      await Promise.all([loadOrders(), loadAll()])
+      const stockMsg = restored.length
+        ? restored.map(r => `${r.qty}× ${r.title} (stock : ${r.newStock ?? '—'})`).join(' · ')
+        : null
+      setMsg({
+        ok: true,
+        txt: stockMsg
+          ? `✅ Commande annulée — remis en boutique : ${stockMsg}`
+          : '✅ Commande annulée (aucun article avec stock suivi)',
+      })
+      setTimeout(() => setMsg(null), 6000)
     } catch (e) {
       setMsg({ ok: false, txt: e.message })
     }
     setCancellingRef(null)
+  }
+
+  const restoreStock = async order => {
+    if (!window.confirm(`Remettre le stock pour la commande ${order.checkout_reference} ?`)) return
+    setRestoringRef(order.checkout_reference)
+    try {
+      const restored = await restoreStockForCancelledOrder(order.checkout_reference)
+      await Promise.all([loadOrders(), loadAll()])
+      const stockMsg = restored.map(r => `${r.qty}× ${r.title} (stock : ${r.newStock ?? '—'})`).join(' · ')
+      setMsg({ ok: true, txt: stockMsg ? `✅ Stock remis : ${stockMsg}` : '✅ Aucun article à remettre' })
+      setTimeout(() => setMsg(null), 6000)
+    } catch (e) {
+      setMsg({ ok: false, txt: e.message })
+    }
+    setRestoringRef(null)
   }
 
   const editProduct = p => {
@@ -344,6 +369,7 @@ export default function AdminShop() {
                 const a = o.amounts || {}
                 const items = o.items_detail || o.items || []
                 const isCancelled = o.status === 'cancelled'
+                const needsStockRestore = isCancelled && !o.stock_restored
                 return (
                   <div key={o.checkout_reference} style={{
                     background: isCancelled ? 'rgba(255,80,80,0.06)' : 'rgba(5,14,28,0.7)',
@@ -415,6 +441,20 @@ export default function AdminShop() {
                         }}
                       >
                         {cancellingRef === o.checkout_reference ? 'Annulation…' : 'Annuler la commande'}
+                      </button>
+                    )}
+                    {needsStockRestore && (
+                      <button
+                        type="button"
+                        onClick={() => restoreStock(o)}
+                        disabled={restoringRef === o.checkout_reference}
+                        style={{
+                          marginTop:12, padding:'8px 14px', borderRadius:8, cursor:'pointer', fontSize:'.78rem', fontWeight:600,
+                          background:'rgba(43,255,154,0.1)', border:'1px solid rgba(43,255,154,0.35)', color:'var(--g)',
+                          opacity: restoringRef === o.checkout_reference ? 0.6 : 1,
+                        }}
+                      >
+                        {restoringRef === o.checkout_reference ? 'Remise en stock…' : 'Remettre le stock (+1)'}
                       </button>
                     )}
                   </div>

@@ -175,32 +175,51 @@ export async function cancelShopOrder(checkoutReference) {
   if (order.status === 'cancelled') throw new Error('Cette commande est déjà annulée')
 
   const items = Array.isArray(order.items) ? order.items : []
+  const itemsDetail = Array.isArray(order.items_detail) ? order.items_detail : []
+  const restored = []
 
   for (const line of items) {
     const productId = line?.productId
     const qty = Math.max(1, Math.floor(Number(line?.qty) || 1))
     if (!productId) continue
 
+    const detail = itemsDetail.find(d => d.productId === productId)
+    const label = detail?.title || productId
+
     const { data: product, error } = await supabase
       .from('shop_products')
-      .select('id, stock, availability')
+      .select('id, title, stock, availability, published')
       .eq('id', productId)
       .maybeSingle()
 
     if (error) throw error
-    if (!product || product.stock == null) continue
+    if (!product) continue
 
-    const patch = {
-      stock: Number(product.stock) + qty,
-      updated_at: new Date().toISOString(),
+    const wasSold = product.availability === 'vendu'
+    const needsRepublish = wasSold || product.published === false
+    const patch = { updated_at: new Date().toISOString() }
+
+    // Toujours AJOUTER la quantité commandée (évite de rester bloqué à 1 si plusieurs annulations)
+    const currentStock = product.stock != null ? Math.max(0, Number(product.stock) || 0) : 0
+    if (product.stock != null || needsRepublish) {
+      patch.stock = currentStock + qty
     }
-    if (product.availability === 'vendu') {
+
+    if (needsRepublish) {
       patch.availability = 'en_stock'
       patch.published = true
     }
 
+    if (patch.stock == null && !needsRepublish) continue
+
     const { error: upErr } = await supabase.from('shop_products').update(patch).eq('id', productId)
     if (upErr) throw upErr
+
+    restored.push({
+      title: product.title || label,
+      qty,
+      newStock: patch.stock ?? product.stock,
+    })
   }
 
   const { error: cancelErr } = await supabase
@@ -208,10 +227,82 @@ export async function cancelShopOrder(checkoutReference) {
     .update({
       status: 'cancelled',
       cancelled_at: new Date().toISOString(),
+      stock_restored: true,
     })
     .eq('checkout_reference', ref)
 
   if (cancelErr) throw cancelErr
+
+  return restored
+}
+
+/** Remet le stock pour une commande déjà annulée (sans double comptage). */
+export async function restoreStockForCancelledOrder(checkoutReference) {
+  const ref = String(checkoutReference || '').trim()
+  if (!ref) throw new Error('Référence commande manquante')
+
+  const { data: order, error: fetchErr } = await supabase
+    .from('shop_order_fulfillments')
+    .select('*')
+    .eq('checkout_reference', ref)
+    .maybeSingle()
+
+  if (fetchErr) throw fetchErr
+  if (!order) throw new Error('Commande introuvable')
+  if (order.status !== 'cancelled') throw new Error('Seules les commandes annulées peuvent être restaurées')
+  if (order.stock_restored) throw new Error('Le stock a déjà été remis pour cette commande')
+
+  const items = Array.isArray(order.items) ? order.items : []
+  const itemsDetail = Array.isArray(order.items_detail) ? order.items_detail : []
+  const restored = []
+
+  for (const line of items) {
+    const productId = line?.productId
+    const qty = Math.max(1, Math.floor(Number(line?.qty) || 1))
+    if (!productId) continue
+
+    const detail = itemsDetail.find(d => d.productId === productId)
+    const label = detail?.title || productId
+
+    const { data: product, error } = await supabase
+      .from('shop_products')
+      .select('id, title, stock, availability, published')
+      .eq('id', productId)
+      .maybeSingle()
+
+    if (error) throw error
+    if (!product) continue
+
+    const needsRepublish = product.availability === 'vendu' || product.published === false
+    const currentStock = product.stock != null ? Math.max(0, Number(product.stock) || 0) : 0
+    const patch = { updated_at: new Date().toISOString() }
+
+    if (product.stock != null || needsRepublish) {
+      patch.stock = currentStock + qty
+    }
+    if (needsRepublish) {
+      patch.availability = 'en_stock'
+      patch.published = true
+    }
+    if (patch.stock == null && !needsRepublish) continue
+
+    const { error: upErr } = await supabase.from('shop_products').update(patch).eq('id', productId)
+    if (upErr) throw upErr
+
+    restored.push({
+      title: product.title || label,
+      qty,
+      newStock: patch.stock ?? product.stock,
+    })
+  }
+
+  const { error: flagErr } = await supabase
+    .from('shop_order_fulfillments')
+    .update({ stock_restored: true })
+    .eq('checkout_reference', ref)
+
+  if (flagErr) throw flagErr
+  return restored
 }
 
 export async function uploadProductImage(file) {
