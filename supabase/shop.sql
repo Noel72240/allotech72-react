@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.shop_settings (
   sumup_merchant_code  TEXT DEFAULT '',
   sumup_enabled        BOOLEAN NOT NULL DEFAULT false,
   shop_enabled         BOOLEAN NOT NULL DEFAULT true,
-  mondial_relay_fee    NUMERIC(10, 2) DEFAULT 5.90,
+  mondial_relay_fee    NUMERIC(10, 2) DEFAULT 0.50,
   mondial_relay_brand  TEXT DEFAULT '',
   pickup_enabled       BOOLEAN NOT NULL DEFAULT true,
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT now()

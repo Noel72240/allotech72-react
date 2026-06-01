@@ -2,7 +2,7 @@
 -- Exécuter dans Supabase → SQL Editor (après shop.sql et shop-stock.sql)
 
 ALTER TABLE public.shop_settings
-  ADD COLUMN IF NOT EXISTS mondial_relay_fee NUMERIC(10, 2) DEFAULT 5.90,
+  ADD COLUMN IF NOT EXISTS mondial_relay_fee NUMERIC(10, 2) DEFAULT 0.50,
   ADD COLUMN IF NOT EXISTS mondial_relay_brand TEXT DEFAULT '',
   ADD COLUMN IF NOT EXISTS pickup_enabled BOOLEAN NOT NULL DEFAULT true;
 
@@ -19,3 +19,6 @@ CREATE POLICY "shop_fulfillments_select_auth"
   ON public.shop_order_fulfillments FOR SELECT
   TO authenticated
   USING (true);
+
+-- Frais Mondial Relay (test) — exécuter pour appliquer sur la boutique en ligne
+UPDATE public.shop_settings SET mondial_relay_fee = 0.50 WHERE id = 1;

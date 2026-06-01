@@ -71,7 +71,7 @@ export default function AdminShop() {
     sumupMerchantCode: '',
     sumupEnabled: false,
     shopEnabled: true,
-    mondialRelayFee: 5.9,
+    mondialRelayFee: 0.5,
     mondialRelayBrand: '',
     pickupEnabled: true,
   })
@@ -283,7 +283,7 @@ export default function AdminShop() {
           </label>
           <div style={{ marginBottom:14 }}>
             <label style={lbl}>Frais Mondial Relay (€)</label>
-            <input style={inp} type="number" min="0" step="0.01" value={settings.mondialRelayFee ?? 5.9} onChange={e => setSettings(s => ({ ...s, mondialRelayFee: e.target.value }))} />
+            <input style={inp} type="number" min="0" step="0.01" value={settings.mondialRelayFee ?? 0.5} onChange={e => setSettings(s => ({ ...s, mondialRelayFee: e.target.value }))} />
           </div>
           <div style={{ marginBottom:20 }}>
             <label style={lbl}>Code client Mondial Relay (8 car.)</label>
