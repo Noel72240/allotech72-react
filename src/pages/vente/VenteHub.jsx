@@ -1,16 +1,106 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
-import ShopProductCard from '../../components/shop/ShopProductCard.jsx'
+import ShopProductCarousel from '../../components/shop/ShopProductCarousel.jsx'
 import config from '../../config.js'
 import { SHOP_CATEGORIES } from '../../data/shopCatalog.js'
 import { useShopCatalog } from '../../hooks/useShopCatalog.jsx'
+import { getCategoryById } from '../../lib/shop.js'
 
 const SECTIONS = [
   { id: 'all', label: 'Tout voir' },
   { id: 'neuf', label: 'Neuf' },
   { id: 'occasion', label: 'Occasion' },
 ]
+
+const TRUST_ITEMS = [
+  { icon: '🔒', text: 'Paiement sécurisé SumUp' },
+  { icon: '📦', text: 'Retrait gratuit à Lombron' },
+  { icon: '🚚', text: 'Mondial Relay disponible' },
+  { icon: '✓', text: 'Produits testés & garantis' },
+]
+
+function buildCarouselRows({ section, categoryId, getProducts, neufCategories }) {
+  if (section === 'neuf' && categoryId !== 'all') {
+    const cat = getCategoryById(categoryId)
+    const products = getProducts({ section: 'neuf', categoryId })
+    if (!products.length) return []
+    return [{
+      id: categoryId,
+      title: cat ? `Neuf — ${cat.label}` : 'Produits neufs',
+      products,
+      seeAllLink: `/boutique/neuf/${categoryId}`,
+    }]
+  }
+
+  if (section === 'neuf') {
+    return neufCategories
+      .map(cat => ({
+        id: cat.id,
+        title: cat.label,
+        products: getProducts({ section: 'neuf', categoryId: cat.id }),
+        seeAllLink: `/boutique/neuf/${cat.id}`,
+      }))
+      .filter(row => row.products.length > 0)
+  }
+
+  if (section === 'occasion') {
+    const products = getProducts({ section: 'occasion' })
+    if (!products.length) return []
+    return [{
+      id: 'occasion',
+      title: 'Occasion — PC, écrans & pièces',
+      products,
+      seeAllLink: '/boutique/occasion',
+    }]
+  }
+
+  const rows = []
+  const allProducts = getProducts()
+  const neufAll = getProducts({ section: 'neuf' })
+  const occAll = getProducts({ section: 'occasion' })
+
+  if (allProducts.length) {
+    rows.push({
+      id: 'featured',
+      title: 'À ne pas manquer',
+      products: allProducts,
+      seeAllLink: null,
+    })
+  }
+
+  if (neufAll.length) {
+    rows.push({
+      id: 'neuf-all',
+      title: 'Neuf — dernières arrivées',
+      products: neufAll,
+      seeAllLink: '/boutique/neuf',
+    })
+  }
+
+  neufCategories.forEach(cat => {
+    const products = getProducts({ section: 'neuf', categoryId: cat.id })
+    if (products.length) {
+      rows.push({
+        id: cat.id,
+        title: cat.label,
+        products,
+        seeAllLink: `/boutique/neuf/${cat.id}`,
+      })
+    }
+  })
+
+  if (occAll.length) {
+    rows.push({
+      id: 'occasion',
+      title: 'Occasion — bonnes affaires',
+      products: occAll,
+      seeAllLink: '/boutique/occasion',
+    })
+  }
+
+  return rows
+}
 
 export default function VenteHub() {
   const { getProducts, loading, settings } = useShopCatalog()
@@ -22,13 +112,10 @@ export default function VenteHub() {
     [],
   )
 
-  const products = useMemo(() => {
-    let list = getProducts(section === 'all' ? {} : { section })
-    if (section === 'neuf' && categoryId !== 'all') {
-      list = list.filter(p => p.categoryId === categoryId)
-    }
-    return list
-  }, [getProducts, section, categoryId])
+  const carouselRows = useMemo(
+    () => buildCarouselRows({ section, categoryId, getProducts, neufCategories }),
+    [section, categoryId, getProducts, neufCategories],
+  )
 
   const onSectionChange = id => {
     setSection(id)
@@ -42,23 +129,33 @@ export default function VenteHub() {
       title="Boutique"
       description="Boutique Allotech72 : matériel informatique et téléphonie (neuf et occasion). Achat en ligne, retrait ou Mondial Relay."
     >
-      <section className="sp">
+      <section className="sp shop-page-ecom">
         <div className="container">
-          <div className="shop-hero shop-hero-compact">
-            <span className="stag">Boutique</span>
-            <h2>
-              Acheter <span className="c">en ligne</span>
-            </h2>
-            <p className="sub" style={{ marginLeft: 0, marginRight: 0, maxWidth: 720 }}>
-              Produits disponibles immédiatement — paiement sécurisé, retrait à Lombron ou envoi Mondial Relay.
-            </p>
+          <div className="shop-trust-bar">
+            {TRUST_ITEMS.map(item => (
+              <span key={item.text} className="shop-trust-item">
+                <span aria-hidden>{item.icon}</span> {item.text}
+              </span>
+            ))}
+          </div>
+
+          <div className="shop-hero shop-hero-compact shop-hero-ecom">
+            <div>
+              <span className="stag">Boutique en ligne</span>
+              <h2>
+                Nos <span className="c">produits</span>
+              </h2>
+              <p className="sub" style={{ marginLeft: 0, marginRight: 0, maxWidth: 640 }}>
+                Parcourez, ajoutez au panier et payez en ligne. Livraison ou retrait près du Mans.
+              </p>
+            </div>
             <div className="shop-hero-actions">
-              <a href={`tel:${config.telBrut}`} className="shop-call">
-                📞 Une question ? {config.telephone}
-              </a>
-              <Link to="/panier" className="shop-hero-cart">
+              <Link to="/panier" className="shop-hero-cart shop-hero-cart-primary">
                 🛒 Mon panier
               </Link>
+              <a href={`tel:${config.telBrut}`} className="shop-call shop-call-sm">
+                📞 {config.telephone}
+              </a>
             </div>
           </div>
 
@@ -69,7 +166,7 @@ export default function VenteHub() {
             </div>
           ) : (
             <>
-              <div className="shop-filters" role="tablist" aria-label="Filtrer la boutique">
+              <div className="shop-filters shop-filters-ecom" role="tablist" aria-label="Filtrer la boutique">
                 {SECTIONS.map(s => (
                   <button
                     key={s.id}
@@ -108,25 +205,23 @@ export default function VenteHub() {
 
               {loading ? (
                 <div className="shop-empty">Chargement des produits…</div>
-              ) : products.length === 0 ? (
+              ) : carouselRows.length === 0 ? (
                 <div className="shop-empty">
-                  Aucun produit dans cette sélection pour le moment.{' '}
-                  <Link to="/boutique/neuf">Parcourir par catégorie</Link> ou{' '}
-                  <a href={`tel:${config.telBrut}`}>contactez-moi</a>.
+                  Aucun produit pour le moment.{' '}
+                  <a href={`tel:${config.telBrut}`}>Contactez-moi</a> pour une demande sur mesure.
                 </div>
               ) : (
-                <div className="shop-grid shop-grid-hub">
-                  {products.map(p => (
-                    <ShopProductCard key={p.id} product={p} />
+                <div className="shop-carousels">
+                  {carouselRows.map(row => (
+                    <ShopProductCarousel
+                      key={row.id}
+                      title={row.title}
+                      products={row.products}
+                      seeAllLink={row.seeAllLink}
+                    />
                   ))}
                 </div>
               )}
-
-              <div className="shop-hub-links">
-                <span className="shop-hub-links-label">Accès rapide</span>
-                <Link to="/boutique/neuf">Catégories neuf →</Link>
-                <Link to="/boutique/occasion">Voir l’occasion →</Link>
-              </div>
             </>
           )}
         </div>
