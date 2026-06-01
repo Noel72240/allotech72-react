@@ -50,7 +50,7 @@ function SeoHome() {
     url:         config.siteUrl,
     telephone:   '+33' + config.telBrut.slice(1),
     email:       `contact@${siteDomainForEmail()}`,
-    logo:        config.siteUrl + '/favicon.svg',
+    logo:        config.siteUrl + '/logo-allotech72.png',
     image:       config.siteUrl + '/og-image.jpg',
     priceRange:  '€',
     paymentAccepted: 'Cash, Chèque, Virement',

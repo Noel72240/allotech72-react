@@ -78,6 +78,34 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 .logo-txt { display:inline-flex;letter-spacing:0; }
 .logo-txt em { color:var(--c);font-style:normal; }
 .logo-txt b  { color:var(--g);font-weight:900; }
+.nav-logo-link {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 0;
+}
+.nav-logo-img {
+  height: 52px;
+  width: auto;
+  max-width: min(220px, 42vw);
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 0 10px rgba(0, 207, 255, 0.25));
+}
+.footer-logo-link {
+  display: inline-block;
+  text-decoration: none;
+  margin-bottom: 8px;
+  line-height: 0;
+}
+.footer-logo-img {
+  height: 44px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  display: block;
+}
 .nl { display:flex;gap:4px;list-style:none;margin-left:auto;align-items:center; }
 .nl a { color:rgba(200,232,255,.7);text-decoration:none;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:8px;transition:all .25s;position:relative; }
 .nl a::after { content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:0;height:2px;background:linear-gradient(90deg,var(--c),var(--g));border-radius:2px;transition:width .3s; }
@@ -436,6 +464,7 @@ nav, footer, #aurora, #bgc, #cursor, #cring, #prog, #btt {
   /* Nav */
   .ni { height: 62px !important; padding: 0 14px !important; }
   .logo { font-size: 1rem !important; gap: 8px !important; }
+  .nav-logo-img { height: 40px !important; max-width: 38vw !important; }
   .logo-mark { width: 30px !important; height: 30px !important; font-size: .85rem !important; }
   .logo-txt { font-size: 1rem !important; }
 

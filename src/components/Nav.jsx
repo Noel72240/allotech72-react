@@ -17,16 +17,8 @@ export default function Nav() {
         <div className="ni">
 
           {/* LOGO */}
-          <Link to="/" style={{ flexShrink:0, display:'flex', alignItems:'center', gap:12, textDecoration:'none' }}>
-            <img src="/logoat72.png" alt="Allotech72" style={{ width:48, height:48, objectFit:'contain' }} />
-            <div style={{ display:'flex', flexDirection:'column', lineHeight:1 }}>
-              <span style={{ fontFamily:"'Orbitron',sans-serif", fontWeight:900, fontSize:'1.3rem', background:'linear-gradient(90deg,#00CFFF,#2BFF9A)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text', filter:'drop-shadow(0 0 8px rgba(0,207,255,0.4))' }}>
-                Allotech72
-              </span>
-              <span style={{ fontSize:'.5rem', color:'rgba(0,207,255,0.55)', letterSpacing:'.22em', textTransform:'uppercase', fontFamily:"'Outfit',sans-serif", fontWeight:700, marginTop:3 }}>
-                Dépannage & Web
-              </span>
-            </div>
+          <Link to="/" className="nav-logo-link">
+            <img src="/logo-allotech72.png" alt="Allotech72 — Dépannage informatique Sarthe" className="nav-logo-img" />
           </Link>
 
           {/* LIENS DESKTOP */}
