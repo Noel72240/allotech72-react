@@ -32,6 +32,9 @@ CREATE TABLE IF NOT EXISTS public.shop_settings (
   sumup_merchant_code  TEXT DEFAULT '',
   sumup_enabled        BOOLEAN NOT NULL DEFAULT false,
   shop_enabled         BOOLEAN NOT NULL DEFAULT true,
+  mondial_relay_fee    NUMERIC(10, 2) DEFAULT 5.90,
+  mondial_relay_brand  TEXT DEFAULT '',
+  pickup_enabled       BOOLEAN NOT NULL DEFAULT true,
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -43,6 +46,11 @@ CREATE TABLE IF NOT EXISTS public.shop_order_fulfillments (
   checkout_reference TEXT PRIMARY KEY,
   checkout_id        TEXT NOT NULL,
   items              JSONB NOT NULL DEFAULT '[]'::jsonb,
+  customer           JSONB,
+  shipping           JSONB,
+  amounts            JSONB,
+  items_detail       JSONB,
+  notification_sent  BOOLEAN NOT NULL DEFAULT false,
   created_at         TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

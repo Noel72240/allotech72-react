@@ -1,18 +1,80 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
+import MondialRelayPicker from '../../components/shop/MondialRelayPicker.jsx'
 import config from '../../config.js'
 import { useCart } from '../../hooks/useCart.jsx'
 import { useShopCatalog } from '../../hooks/useShopCatalog.jsx'
 import { formatPrice } from '../../lib/shop.js'
+import {
+  SHIPPING_PICKUP,
+  SHIPPING_MONDIAL_RELAY,
+  computeOrderTotals,
+} from '../../lib/shipping.js'
+
+function validateCheckout(customer, shippingMode, relay, relayManual, settings) {
+  if (!customer.name?.trim()) return 'Indiquez votre nom.'
+  if (!customer.email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email.trim())) {
+    return 'Indiquez un email valide.'
+  }
+  if (!customer.phone?.trim()) return 'Indiquez votre téléphone.'
+
+  if (shippingMode === SHIPPING_MONDIAL_RELAY) {
+    if (!customer.postCode?.trim()) return 'Indiquez votre code postal pour trouver un point relais.'
+    const hasRelay = relay?.id || relay?.name
+    const hasManual = relayManual?.trim()
+    if (!hasRelay && !hasManual) {
+      return 'Choisissez un point Mondial Relay ou décrivez-le dans le champ manuel.'
+    }
+  }
+
+  if (shippingMode === SHIPPING_PICKUP && settings.pickupEnabled === false) {
+    return 'Le retrait sur place n’est pas disponible.'
+  }
+
+  return ''
+}
 
 export default function Checkout() {
-  const { lines, total } = useCart()
+  const { lines, total: cartSubtotal } = useCart()
   const { settings } = useShopCatalog()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const [customer, setCustomer] = useState({ name: '', email: '', phone: '' })
+  const [customer, setCustomer] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    postCode: config.codePostal || '',
+  })
+  const [shippingMode, setShippingMode] = useState(
+    settings.pickupEnabled !== false ? SHIPPING_PICKUP : SHIPPING_MONDIAL_RELAY,
+  )
+  const [relay, setRelay] = useState(null)
+  const [relayManual, setRelayManual] = useState('')
+
+  useEffect(() => {
+    if (settings.pickupEnabled === false) {
+      setShippingMode(SHIPPING_MONDIAL_RELAY)
+    }
+  }, [settings.pickupEnabled])
+
+  const amounts = useMemo(
+    () => computeOrderTotals(cartSubtotal, shippingMode, settings),
+    [cartSubtotal, shippingMode, settings],
+  )
+
+  const itemsDetail = useMemo(
+    () =>
+      lines.map(({ product, qty, lineTotal }) => ({
+        productId: product.id,
+        title: product.title,
+        qty,
+        price: product.price,
+        lineTotal,
+      })),
+    [lines],
+  )
 
   if (lines.length === 0) {
     return (
@@ -28,7 +90,30 @@ export default function Checkout() {
     )
   }
 
+  const shippingPayload =
+    shippingMode === SHIPPING_MONDIAL_RELAY
+      ? {
+          mode: SHIPPING_MONDIAL_RELAY,
+          relay: relay
+            ? {
+                id: relay.id,
+                name: relay.name,
+                address: relay.address,
+                postCode: relay.postCode,
+                city: relay.city,
+              }
+            : null,
+          relayManual: relayManual.trim() || null,
+        }
+      : { mode: SHIPPING_PICKUP }
+
   const startSumUp = async () => {
+    const validationError = validateCheckout(customer, shippingMode, relay, relayManual, settings)
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
     if (!settings.sumupEnabled) {
       setError('Le paiement SumUp n’est pas activé. Contactez le magasin.')
       return
@@ -40,23 +125,31 @@ export default function Checkout() {
     const description = lines
       .map(l => `${l.qty}× ${l.product.title}`)
       .join(' · ')
-      .slice(0, 140)
+      .slice(0, 120)
+    const shippingLabel =
+      shippingMode === SHIPPING_MONDIAL_RELAY ? ' + port MR' : ' retrait'
 
     const checkoutReference = `at72-${Date.now()}`
     const redirectUrl = `${config.siteUrl.replace(/\/$/, '')}/panier/confirmation?ref=${encodeURIComponent(checkoutReference)}`
+
+    const customerPayload = {
+      name: customer.name.trim(),
+      email: customer.email.trim(),
+      phone: customer.phone.trim(),
+      postCode: customer.postCode?.trim() || '',
+    }
 
     try {
       const res = await fetch('/api/sumup-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: total,
+          amount: amounts.total,
           currency: 'EUR',
-          description,
+          description: `${description}${shippingLabel}`.slice(0, 140),
           checkout_reference: checkoutReference,
           merchant_code: settings.sumupMerchantCode || undefined,
           redirect_url: redirectUrl,
-          customer,
         }),
       })
 
@@ -78,6 +171,10 @@ export default function Checkout() {
               productId: product.id,
               qty,
             })),
+            customer: customerPayload,
+            shipping: shippingPayload,
+            amounts,
+            itemsDetail,
           }),
         )
         window.location.href = data.url
@@ -91,6 +188,8 @@ export default function Checkout() {
     }
   }
 
+  const relayFee = Number(settings.mondialRelayFee) || 0
+
   return (
     <PageLayout title="Paiement" description="Finaliser votre commande Allotech72 via SumUp.">
       <section className="sp">
@@ -98,9 +197,9 @@ export default function Checkout() {
           <div className="shop-topbar">
             <div>
               <span className="stag">Paiement</span>
-              <h2 style={{ marginTop: 8 }}>SumUp</h2>
+              <h2 style={{ marginTop: 8 }}>Finaliser la commande</h2>
               <p className="sub" style={{ marginLeft: 0, marginRight: 0 }}>
-                Total à régler : <strong style={{ color: 'var(--c)' }}>{formatPrice(total)}</strong>
+                Total à régler : <strong style={{ color: 'var(--c)' }}>{formatPrice(amounts.total)}</strong>
               </p>
             </div>
             <Link className="shop-backlink" to="/panier">← Retour panier</Link>
@@ -108,59 +207,134 @@ export default function Checkout() {
 
           <div className="checkout-grid">
             <div className="checkout-form-card">
-              <h3 style={{ marginBottom: 16, fontFamily: "'Orbitron',sans-serif", color: '#fff', fontSize: '1rem' }}>
-                Coordonnées (optionnel)
-              </h3>
+              <h3 className="checkout-section-title">Vos coordonnées</h3>
               <div className="fg" style={{ marginBottom: 12 }}>
-                <label>Nom</label>
+                <label>Nom *</label>
                 <input
                   type="text"
+                  required
                   value={customer.name}
                   onChange={e => setCustomer(c => ({ ...c, name: e.target.value }))}
                   placeholder="Votre nom"
                 />
               </div>
               <div className="fg" style={{ marginBottom: 12 }}>
-                <label>Email</label>
+                <label>Email *</label>
                 <input
                   type="email"
+                  required
                   value={customer.email}
                   onChange={e => setCustomer(c => ({ ...c, email: e.target.value }))}
                   placeholder="email@exemple.fr"
                 />
               </div>
-              <div className="fg" style={{ marginBottom: 20 }}>
-                <label>Téléphone</label>
+              <div className="fg" style={{ marginBottom: 12 }}>
+                <label>Téléphone *</label>
                 <input
                   type="tel"
+                  required
                   value={customer.phone}
                   onChange={e => setCustomer(c => ({ ...c, phone: e.target.value }))}
                   placeholder="06 …"
                 />
               </div>
 
+              <h3 className="checkout-section-title" style={{ marginTop: 24 }}>Livraison</h3>
+              <div className="shipping-options">
+                {settings.pickupEnabled !== false && (
+                  <label className={`shipping-option${shippingMode === SHIPPING_PICKUP ? ' active' : ''}`}>
+                    <input
+                      type="radio"
+                      name="shipping"
+                      checked={shippingMode === SHIPPING_PICKUP}
+                      onChange={() => {
+                        setShippingMode(SHIPPING_PICKUP)
+                        setRelay(null)
+                      }}
+                    />
+                    <span>
+                      <strong>Retrait sur place</strong>
+                      <small>Gratuit — {config.adresse}, {config.codePostal} {config.ville}</small>
+                    </span>
+                  </label>
+                )}
+                <label className={`shipping-option${shippingMode === SHIPPING_MONDIAL_RELAY ? ' active' : ''}`}>
+                  <input
+                    type="radio"
+                    name="shipping"
+                    checked={shippingMode === SHIPPING_MONDIAL_RELAY}
+                    onChange={() => setShippingMode(SHIPPING_MONDIAL_RELAY)}
+                  />
+                  <span>
+                    <strong>Mondial Relay</strong>
+                    <small>+ {formatPrice(relayFee)} — point relais au choix</small>
+                  </span>
+                </label>
+              </div>
+
+              {shippingMode === SHIPPING_MONDIAL_RELAY && (
+                <div className="mr-shipping-block">
+                  <div className="fg" style={{ marginBottom: 12 }}>
+                    <label>Code postal *</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={5}
+                      value={customer.postCode}
+                      onChange={e => {
+                        setCustomer(c => ({ ...c, postCode: e.target.value }))
+                        setRelay(null)
+                      }}
+                      placeholder="72000"
+                    />
+                  </div>
+
+                  <MondialRelayPicker
+                    brand={settings.mondialRelayBrand}
+                    postCode={customer.postCode}
+                    onSelect={setRelay}
+                  />
+
+                  {relay && (
+                    <div className="mr-selected-relay">
+                      <strong>Point sélectionné</strong>
+                      <p>{relay.name}</p>
+                      <p>{relay.address}</p>
+                      <p>{relay.postCode} {relay.city}</p>
+                    </div>
+                  )}
+
+                  <div className="fg" style={{ marginTop: 12 }}>
+                    <label>Point relais (saisie manuelle si besoin)</label>
+                    <input
+                      type="text"
+                      value={relayManual}
+                      onChange={e => setRelayManual(e.target.value)}
+                      placeholder="Nom et adresse du relais"
+                    />
+                  </div>
+                </div>
+              )}
+
               {error && <div className="checkout-error">{error}</div>}
 
               <button
                 type="button"
                 className="shop-btn primary"
-                style={{ width: '100%' }}
+                style={{ width: '100%', marginTop: 20 }}
                 disabled={loading}
                 onClick={startSumUp}
               >
-                {loading ? 'Redirection SumUp…' : `Payer ${formatPrice(total)} avec SumUp`}
+                {loading ? 'Redirection SumUp…' : `Payer ${formatPrice(amounts.total)} avec SumUp`}
               </button>
 
               <p className="cart-sumup-hint" style={{ marginTop: 14 }}>
-                Paiement sécurisé sur la page SumUp. En local (`npm run dev`), utilisez{' '}
-                <code style={{ fontSize: '.8rem' }}>npx vercel dev</code> pour tester l’API.
+                Paiement sécurisé sur la page SumUp. Vous recevrez une confirmation par email.
               </p>
             </div>
 
             <div className="checkout-recap">
-              <h3 style={{ marginBottom: 14, fontFamily: "'Orbitron',sans-serif", color: '#fff', fontSize: '1rem' }}>
-                Récapitulatif
-              </h3>
+              <h3 className="checkout-section-title">Récapitulatif</h3>
               <ul className="checkout-recap-list">
                 {lines.map(({ product, qty, lineTotal }) => (
                   <li key={product.id}>
@@ -169,9 +343,19 @@ export default function Checkout() {
                   </li>
                 ))}
               </ul>
-              <div className="cart-summary-row" style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(0,207,255,0.15)' }}>
+              <div className="cart-summary-row" style={{ marginTop: 12 }}>
+                <span>Sous-total</span>
+                <span>{formatPrice(amounts.subtotal)}</span>
+              </div>
+              <div className="cart-summary-row">
+                <span>
+                  {shippingMode === SHIPPING_MONDIAL_RELAY ? 'Frais Mondial Relay' : 'Retrait sur place'}
+                </span>
+                <span>{shippingMode === SHIPPING_MONDIAL_RELAY ? formatPrice(amounts.shippingFee) : 'Gratuit'}</span>
+              </div>
+              <div className="cart-summary-row" style={{ marginTop: 12, paddingTop: 16, borderTop: '1px solid rgba(0,207,255,0.15)' }}>
                 <span>Total</span>
-                <strong>{formatPrice(total)}</strong>
+                <strong>{formatPrice(amounts.total)}</strong>
               </div>
             </div>
           </div>
@@ -215,6 +399,10 @@ export function CheckoutSuccess() {
             checkout_reference: ref,
             checkout_id: pending.checkoutId,
             items: pending.items,
+            customer: pending.customer,
+            shipping: pending.shipping,
+            amounts: pending.amounts,
+            items_detail: pending.itemsDetail,
           }),
         })
         const data = await res.json().catch(() => ({}))
@@ -255,7 +443,7 @@ export function CheckoutSuccess() {
     fulfillState === 'loading'
       ? 'Vérification du paiement SumUp en cours…'
       : fulfillState === 'ok'
-        ? 'Paiement confirmé. Les articles vendus sont marqués « Vendu » et retirés de la boutique. Je vous recontacte pour la remise ou l’envoi.'
+        ? 'Paiement confirmé. Vous recevrez un email de confirmation et je prépare votre commande (retrait ou envoi Mondial Relay).'
         : fulfillState === 'pending'
           ? 'Paiement en attente de confirmation. Si vous avez payé, actualisez cette page dans quelques instants ou contactez-moi.'
           : fulfillState === 'unknown'

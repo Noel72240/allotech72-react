@@ -114,6 +114,9 @@ export async function fetchShopSettings() {
     sumupMerchantCode: '',
     sumupEnabled: false,
     shopEnabled: true,
+    mondialRelayFee: 5.9,
+    mondialRelayBrand: '',
+    pickupEnabled: true,
   }
   if (!isSupabaseConfigured) return defaults
 
@@ -124,6 +127,9 @@ export async function fetchShopSettings() {
     sumupMerchantCode: data.sumup_merchant_code || '',
     sumupEnabled: !!data.sumup_enabled,
     shopEnabled: data.shop_enabled !== false,
+    mondialRelayFee: data.mondial_relay_fee != null ? Number(data.mondial_relay_fee) : 5.9,
+    mondialRelayBrand: data.mondial_relay_brand || '',
+    pickupEnabled: data.pickup_enabled !== false,
   }
 }
 
@@ -133,10 +139,24 @@ export async function saveShopSettings(patch) {
     sumup_merchant_code: patch.sumupMerchantCode?.trim() || '',
     sumup_enabled: !!patch.sumupEnabled,
     shop_enabled: patch.shopEnabled !== false,
+    mondial_relay_fee: patch.mondialRelayFee != null ? Number(patch.mondialRelayFee) : 5.9,
+    mondial_relay_brand: patch.mondialRelayBrand?.trim() || '',
+    pickup_enabled: patch.pickupEnabled !== false,
     updated_at: new Date().toISOString(),
   }
   const { error } = await supabase.from('shop_settings').upsert(row)
   if (error) throw error
+}
+
+export async function fetchShopOrders(limit = 50) {
+  if (!isSupabaseConfigured) return []
+  const { data, error } = await supabase
+    .from('shop_order_fulfillments')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  if (error) throw error
+  return data || []
 }
 
 export async function uploadProductImage(file) {

@@ -3,6 +3,7 @@
  * Variables Vercel : SUMUP_API_KEY, SUPABASE_SERVICE_ROLE_KEY, VITE_SUPABASE_URL (ou SUPABASE_URL)
  */
 import { createClient } from '@supabase/supabase-js'
+import { notifyOrderByEmail } from './notify-order.js'
 
 function getSupabaseAdmin() {
   const url = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').trim()
@@ -123,6 +124,10 @@ export default async function handler(req, res) {
   const checkoutReference = String(body.checkout_reference || '').trim()
   const checkoutId = String(body.checkout_id || body.checkoutId || '').trim()
   const items = Array.isArray(body.items) ? body.items : []
+  const customer = body.customer && typeof body.customer === 'object' ? body.customer : null
+  const shipping = body.shipping && typeof body.shipping === 'object' ? body.shipping : null
+  const amounts = body.amounts && typeof body.amounts === 'object' ? body.amounts : null
+  const itemsDetail = Array.isArray(body.items_detail) ? body.items_detail : items
 
   if (!checkoutReference || !checkoutId || items.length === 0) {
     return res.status(400).json({ error: 'Commande incomplète (ref, id, articles)' })
@@ -151,10 +156,31 @@ export default async function handler(req, res) {
 
     const stockResult = await fulfillStock(supabase, items)
 
+    let notificationSent = false
+    try {
+      const notifyRes = await notifyOrderByEmail({
+        checkoutReference,
+        checkoutId,
+        customer,
+        shipping,
+        amounts,
+        itemsDetail,
+        items,
+      })
+      notificationSent = !!notifyRes.ok
+    } catch (mailErr) {
+      console.error('Email commande:', mailErr?.message || mailErr)
+    }
+
     const { error: logErr } = await supabase.from('shop_order_fulfillments').insert({
       checkout_reference: checkoutReference,
       checkout_id: checkoutId,
       items,
+      customer,
+      shipping,
+      amounts,
+      items_detail: itemsDetail,
+      notification_sent: notificationSent,
     })
     if (logErr) throw logErr
 
@@ -162,6 +188,7 @@ export default async function handler(req, res) {
       ok: true,
       sold: stockResult.sold,
       updated: stockResult.updated,
+      notificationSent,
     })
   } catch (e) {
     return res.status(500).json({ error: e?.message || 'Erreur serveur' })

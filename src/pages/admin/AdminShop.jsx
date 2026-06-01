@@ -7,8 +7,10 @@ import {
   fetchShopProducts,
   fetchShopSettings,
   saveShopSettings,
+  fetchShopOrders,
   uploadProductImage,
   isDbProductId,
+  formatPrice,
 } from '../../lib/shop.js'
 
 const card = { background:'rgba(5,14,28,0.85)', border:'1px solid rgba(0,207,255,0.15)', borderRadius:20, padding:32, backdropFilter:'blur(20px)' }
@@ -69,8 +71,13 @@ export default function AdminShop() {
     sumupMerchantCode: '',
     sumupEnabled: false,
     shopEnabled: true,
+    mondialRelayFee: 5.9,
+    mondialRelayBrand: '',
+    pickupEnabled: true,
   })
   const [settingsMsg, setSettingsMsg] = useState(null)
+  const [orders, setOrders] = useState([])
+  const [ordersLoad, setOrdersLoad] = useState(false)
 
   const loadAll = async () => {
     setLoad(true)
@@ -88,6 +95,21 @@ export default function AdminShop() {
   }
 
   useEffect(() => { loadAll() }, [])
+
+  const loadOrders = async () => {
+    setOrdersLoad(true)
+    try {
+      const rows = await fetchShopOrders(80)
+      setOrders(rows)
+    } catch (e) {
+      setMsg({ ok: false, txt: e.message })
+    }
+    setOrdersLoad(false)
+  }
+
+  useEffect(() => {
+    if (subTab === 'orders') loadOrders()
+  }, [subTab])
 
   const editProduct = p => {
     setForm({
@@ -229,12 +251,17 @@ export default function AdminShop() {
           padding:'8px 16px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:700,
           background: subTab === 'settings' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
           color: subTab === 'settings' ? 'var(--c)' : 'var(--dim)',
-        }}>SumUp & boutique</button>
+        }}>SumUp & livraison</button>
+        <button type="button" onClick={() => setSubTab('orders')} style={{
+          padding:'8px 16px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:700,
+          background: subTab === 'orders' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
+          color: subTab === 'orders' ? 'var(--c)' : 'var(--dim)',
+        }}>Commandes</button>
       </div>
 
       {subTab === 'settings' && (
         <div className="admin-dash-card" style={{ ...card, maxWidth: 560 }}>
-          <h3 style={{ color:'#fff', marginBottom:20, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>Réglages paiement</h3>
+          <h3 style={{ color:'#fff', marginBottom:20, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>Réglages boutique</h3>
           <Msg msg={settingsMsg} />
           <div style={{ marginBottom:14 }}>
             <label style={lbl}>Code marchand SumUp</label>
@@ -248,10 +275,90 @@ export default function AdminShop() {
             <input type="checkbox" checked={settings.shopEnabled} onChange={e => setSettings(s => ({ ...s, shopEnabled: e.target.checked }))} />
             <span style={{ color:'var(--tx)', fontSize:'.9rem' }}>Boutique visible</span>
           </label>
+
+          <h4 style={{ color:'#fff', margin:'24px 0 14px', fontFamily:"'Orbitron',sans-serif", fontSize:'.9rem' }}>Livraison</h4>
+          <label style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12, cursor:'pointer' }}>
+            <input type="checkbox" checked={settings.pickupEnabled !== false} onChange={e => setSettings(s => ({ ...s, pickupEnabled: e.target.checked }))} />
+            <span style={{ color:'var(--tx)', fontSize:'.9rem' }}>Proposer le retrait sur place (gratuit)</span>
+          </label>
+          <div style={{ marginBottom:14 }}>
+            <label style={lbl}>Frais Mondial Relay (€)</label>
+            <input style={inp} type="number" min="0" step="0.01" value={settings.mondialRelayFee ?? 5.9} onChange={e => setSettings(s => ({ ...s, mondialRelayFee: e.target.value }))} />
+          </div>
+          <div style={{ marginBottom:20 }}>
+            <label style={lbl}>Code client Mondial Relay (8 car.)</label>
+            <input style={inp} value={settings.mondialRelayBrand || ''} onChange={e => setSettings(s => ({ ...s, mondialRelayBrand: e.target.value }))} placeholder="BDTEST  (test) ou votre code MR" />
+            <p style={{ color:'var(--dim)', fontSize:'.72rem', marginTop:6, lineHeight:1.5 }}>
+              Fourni par Mondial Relay pour le widget point relais. Sans code, le client pourra saisir le relais manuellement.
+            </p>
+          </div>
+
           <p style={{ color:'var(--dim)', fontSize:'.78rem', lineHeight:1.6, marginBottom:16 }}>
-            La clé API SumUp (<code>SUMUP_API_KEY</code>) se configure uniquement dans Vercel (Variables d’environnement), pas ici — pour des raisons de sécurité.
+            Clés serveur Vercel : <code>SUMUP_API_KEY</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code>, <code>FORMSPREE_ID</code> (email commande).
           </p>
           <button type="button" style={btnP} onClick={saveSettingsClick}>Enregistrer</button>
+        </div>
+      )}
+
+      {subTab === 'orders' && (
+        <div className="admin-dash-card" style={card}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20, flexWrap:'wrap', gap:10 }}>
+            <h3 style={{ color:'#fff', margin:0, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>Commandes payées</h3>
+            <button type="button" onClick={loadOrders} style={{ background:'rgba(0,207,255,0.08)', border:'1px solid rgba(0,207,255,0.2)', color:'var(--c)', padding:'6px 14px', borderRadius:8, cursor:'pointer', fontSize:'.78rem' }}>🔄 Actualiser</button>
+          </div>
+          {ordersLoad ? (
+            <div style={{ color:'var(--dim)', padding:40, textAlign:'center' }}>Chargement…</div>
+          ) : orders.length === 0 ? (
+            <div style={{ color:'var(--dim)', padding:24, lineHeight:1.7, fontSize:'.88rem' }}>
+              Aucune commande enregistrée. Exécutez <code>supabase/shop-orders-shipping.sql</code> si la table n’a pas les colonnes client/livraison.
+            </div>
+          ) : (
+            <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+              {orders.map(o => {
+                const c = o.customer || {}
+                const s = o.shipping || {}
+                const a = o.amounts || {}
+                const items = o.items_detail || o.items || []
+                return (
+                  <div key={o.checkout_reference} style={{
+                    background:'rgba(5,14,28,0.7)', border:'1px solid rgba(0,207,255,0.12)', borderRadius:14, padding:16,
+                  }}>
+                    <div style={{ display:'flex', justifyContent:'space-between', gap:12, flexWrap:'wrap', marginBottom:10 }}>
+                      <strong style={{ color:'var(--c)', fontSize:'.85rem' }}>{o.checkout_reference}</strong>
+                      <span style={{ color:'var(--dim)', fontSize:'.75rem' }}>{new Date(o.created_at).toLocaleString('fr-FR')}</span>
+                    </div>
+                    <div style={{ color:'#fff', fontSize:'.88rem', marginBottom:8 }}>
+                      {c.name || '—'} · {c.email || '—'} · {c.phone || '—'}
+                    </div>
+                    <div style={{ color:'var(--dim)', fontSize:'.8rem', marginBottom:8, lineHeight:1.6 }}>
+                      {s.mode === 'mondial_relay' ? (
+                        <>
+                          📦 Mondial Relay
+                          {s.relay?.name && ` — ${s.relay.name}`}
+                          {s.relay?.address && `, ${s.relay.address}`}
+                          {s.relayManual && ` (manuel: ${s.relayManual})`}
+                          {a.shippingFee != null && ` · port ${formatPrice(a.shippingFee)}`}
+                        </>
+                      ) : (
+                        <>🏪 Retrait sur place{a.shippingFee ? ` · port ${formatPrice(a.shippingFee)}` : ''}</>
+                      )}
+                    </div>
+                    <div style={{ color:'var(--dim)', fontSize:'.78rem', lineHeight:1.5 }}>
+                      {items.map((it, i) => (
+                        <span key={i}>{it.qty}× {it.title || it.productId}{i < items.length - 1 ? ' · ' : ''}</span>
+                      ))}
+                      {a.total != null && (
+                        <span style={{ display:'block', marginTop:6, color:'var(--g)', fontWeight:600 }}>
+                          Total {formatPrice(a.total)}
+                          {o.notification_sent ? ' · email envoyé' : ' · email non confirmé'}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       )}
 
