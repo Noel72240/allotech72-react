@@ -109,6 +109,22 @@ export async function fetchShopProducts({ includeUnpublished = false, allowStati
   return data.map(mapProductRow)
 }
 
+export const SHOP_BANNER_SLOTS = 3
+
+export function normalizeShopBanners(raw) {
+  const list = Array.isArray(raw) ? raw : []
+  return Array.from({ length: SHOP_BANNER_SLOTS }, (_, i) => ({
+    image: list[i]?.image?.trim() || '',
+    link: list[i]?.link?.trim() || '',
+    alt: list[i]?.alt?.trim() || `Bannière ${i + 1}`,
+    enabled: list[i]?.enabled !== false,
+  }))
+}
+
+export function getActiveShopBanners(banners) {
+  return normalizeShopBanners(banners).filter(b => b.enabled && b.image)
+}
+
 export async function fetchShopSettings() {
   const defaults = {
     sumupMerchantCode: '',
@@ -117,6 +133,7 @@ export async function fetchShopSettings() {
     mondialRelayFee: 0.5,
     mondialRelayBrand: '',
     pickupEnabled: true,
+    banners: normalizeShopBanners([]),
   }
   if (!isSupabaseConfigured) return defaults
 
@@ -130,6 +147,7 @@ export async function fetchShopSettings() {
     mondialRelayFee: data.mondial_relay_fee != null ? Number(data.mondial_relay_fee) : 0.5,
     mondialRelayBrand: data.mondial_relay_brand || '',
     pickupEnabled: data.pickup_enabled !== false,
+    banners: normalizeShopBanners(data.banners),
   }
 }
 
@@ -143,6 +161,9 @@ export async function saveShopSettings(patch) {
     mondial_relay_brand: patch.mondialRelayBrand?.trim() || '',
     pickup_enabled: patch.pickupEnabled !== false,
     updated_at: new Date().toISOString(),
+  }
+  if (patch.banners != null) {
+    row.banners = normalizeShopBanners(patch.banners)
   }
   const { error } = await supabase.from('shop_settings').upsert(row)
   if (error) throw error

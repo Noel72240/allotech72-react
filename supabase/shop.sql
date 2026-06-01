@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS public.shop_settings (
   mondial_relay_fee    NUMERIC(10, 2) DEFAULT 0.50,
   mondial_relay_brand  TEXT DEFAULT '',
   pickup_enabled       BOOLEAN NOT NULL DEFAULT true,
+  banners              JSONB NOT NULL DEFAULT '[]'::jsonb,
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

@@ -10,6 +10,8 @@ import {
   fetchShopOrders,
   cancelShopOrder,
   restoreStockForCancelledOrder,
+  SHOP_BANNER_SLOTS,
+  normalizeShopBanners,
   uploadProductImage,
   isDbProductId,
   formatPrice,
@@ -76,8 +78,11 @@ export default function AdminShop() {
     mondialRelayFee: 0.5,
     mondialRelayBrand: '',
     pickupEnabled: true,
+    banners: normalizeShopBanners([]),
   })
   const [settingsMsg, setSettingsMsg] = useState(null)
+  const [bannerUploading, setBannerUploading] = useState(null)
+  const bannerRefs = useRef([])
   const [orders, setOrders] = useState([])
   const [ordersLoad, setOrdersLoad] = useState(false)
   const [cancellingRef, setCancellingRef] = useState(null)
@@ -285,6 +290,41 @@ export default function AdminShop() {
     }
   }
 
+  const saveBannersClick = async () => {
+    setSettingsMsg({ ok: true, txt: 'Enregistrement bannières…' })
+    try {
+      await saveShopSettings({ banners: settings.banners })
+      setSettingsMsg({ ok: true, txt: '✅ Bannières enregistrées' })
+      setTimeout(() => setSettingsMsg(null), 3000)
+    } catch (e) {
+      setSettingsMsg({ ok: false, txt: e.message })
+    }
+  }
+
+  const updateBanner = (idx, patch) => {
+    setSettings(s => {
+      const banners = normalizeShopBanners(s.banners)
+      banners[idx] = { ...banners[idx], ...patch }
+      return { ...s, banners }
+    })
+  }
+
+  const onBannerImage = async (idx, e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setBannerUploading(idx)
+    setSettingsMsg({ ok: true, txt: '⏳ Upload bannière…' })
+    try {
+      const url = await uploadProductImage(file)
+      updateBanner(idx, { image: url })
+      setSettingsMsg({ ok: true, txt: '✅ Image uploadée — cliquez Enregistrer' })
+    } catch (err) {
+      setSettingsMsg({ ok: false, txt: err.message })
+    }
+    setBannerUploading(null)
+    if (bannerRefs.current[idx]) bannerRefs.current[idx].value = ''
+  }
+
   const categoriesForSection = SHOP_CATEGORIES.filter(c => c.section === form.section)
 
   return (
@@ -305,7 +345,82 @@ export default function AdminShop() {
           background: subTab === 'orders' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
           color: subTab === 'orders' ? 'var(--c)' : 'var(--dim)',
         }}>Commandes</button>
+        <button type="button" onClick={() => setSubTab('banners')} style={{
+          padding:'8px 16px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:700,
+          background: subTab === 'banners' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
+          color: subTab === 'banners' ? 'var(--c)' : 'var(--dim)',
+        }}>Bannières</button>
       </div>
+
+      {subTab === 'banners' && (
+        <div className="admin-dash-card" style={{ ...card, maxWidth: 720 }}>
+          <h3 style={{ color:'#fff', marginBottom:8, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>
+            Bannières page boutique
+          </h3>
+          <p style={{ color:'var(--dim)', fontSize:'.82rem', lineHeight:1.6, marginBottom:20 }}>
+            Jusqu’à {SHOP_BANNER_SLOTS} images larges (1200×400 px recommandé) entre le bandeau confiance et le titre « Boutique en ligne ». Défilement automatique sur le site.
+          </p>
+          <Msg msg={settingsMsg} />
+          <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
+            {normalizeShopBanners(settings.banners).map((banner, idx) => (
+              <div key={idx} style={{
+                padding:16, borderRadius:14,
+                border:'1px solid rgba(0,207,255,0.15)',
+                background:'rgba(0,207,255,0.03)',
+              }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
+                  <strong style={{ color:'var(--c)', fontSize:'.85rem' }}>Bannière {idx + 1}</strong>
+                  <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:'.85rem' }}>
+                    <input
+                      type="checkbox"
+                      checked={banner.enabled !== false}
+                      onChange={e => updateBanner(idx, { enabled: e.target.checked })}
+                    />
+                    Visible
+                  </label>
+                </div>
+                {banner.image && (
+                  <div style={{ marginBottom:12, borderRadius:10, overflow:'hidden', maxHeight:140, background:'#071120' }}>
+                    <img src={banner.image} alt="" style={{ width:'100%', height:140, objectFit:'cover' }} />
+                  </div>
+                )}
+                <div style={{ marginBottom:10 }}>
+                  <label style={lbl}>Image (.jpg .png .webp)</label>
+                  <input
+                    ref={el => { bannerRefs.current[idx] = el }}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    style={{ ...inp, padding:'9px 12px' }}
+                    disabled={bannerUploading === idx}
+                    onChange={e => onBannerImage(idx, e)}
+                  />
+                </div>
+                <div style={{ marginBottom:10 }}>
+                  <label style={lbl}>Lien au clic (optionnel)</label>
+                  <input
+                    style={inp}
+                    value={banner.link}
+                    onChange={e => updateBanner(idx, { link: e.target.value })}
+                    placeholder="/boutique/neuf/accessoires-telephonie ou https://…"
+                  />
+                </div>
+                <div>
+                  <label style={lbl}>Texte alternatif (accessibilité)</label>
+                  <input
+                    style={inp}
+                    value={banner.alt}
+                    onChange={e => updateBanner(idx, { alt: e.target.value })}
+                    placeholder={`Promotion ${idx + 1}`}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <button type="button" style={{ ...btnP, marginTop:20 }} onClick={saveBannersClick}>
+            Enregistrer les bannières
+          </button>
+        </div>
+      )}
 
       {subTab === 'settings' && (
         <div className="admin-dash-card" style={{ ...card, maxWidth: 560 }}>

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
 import ShopProductCarousel from '../../components/shop/ShopProductCarousel.jsx'
+import ShopBannerCarousel from '../../components/shop/ShopBannerCarousel.jsx'
 import config from '../../config.js'
 import { SHOP_CATEGORIES } from '../../data/shopCatalog.js'
 import { useShopCatalog } from '../../hooks/useShopCatalog.jsx'
@@ -130,6 +131,8 @@ export default function VenteHub() {
               </span>
             ))}
           </div>
+
+          <ShopBannerCarousel banners={settings.banners} />
 
           <div className="shop-hero shop-hero-compact shop-hero-ecom">
             <div>
