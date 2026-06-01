@@ -255,7 +255,7 @@ export function CheckoutSuccess() {
     fulfillState === 'loading'
       ? 'Vérification du paiement SumUp en cours…'
       : fulfillState === 'ok'
-        ? 'Paiement confirmé. Les articles en stock unique ont été retirés de la boutique. Je vous recontacte pour la remise ou l’envoi.'
+        ? 'Paiement confirmé. Les articles vendus sont marqués « Vendu » et retirés de la boutique. Je vous recontacte pour la remise ou l’envoi.'
         : fulfillState === 'pending'
           ? 'Paiement en attente de confirmation. Si vous avez payé, actualisez cette page dans quelques instants ou contactez-moi.'
           : fulfillState === 'unknown'

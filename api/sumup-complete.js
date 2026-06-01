@@ -53,7 +53,7 @@ async function fetchCheckout(apiKey, checkoutId, checkoutReference) {
 }
 
 async function fulfillStock(supabase, items) {
-  const removed = []
+  const sold = []
   const updated = []
 
   for (const line of items) {
@@ -75,9 +75,17 @@ async function fulfillStock(supabase, items) {
     const newStock = Number(product.stock) - qty
 
     if (newStock <= 0) {
-      const { error: delErr } = await supabase.from('shop_products').delete().eq('id', productId)
-      if (delErr) throw delErr
-      removed.push({ id: productId, title: product.title })
+      const { error: soldErr } = await supabase
+        .from('shop_products')
+        .update({
+          stock: 0,
+          availability: 'vendu',
+          published: false,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', productId)
+      if (soldErr) throw soldErr
+      sold.push({ id: productId, title: product.title })
     } else {
       const { error: upErr } = await supabase
         .from('shop_products')
@@ -91,7 +99,7 @@ async function fulfillStock(supabase, items) {
     }
   }
 
-  return { removed, updated }
+  return { sold, updated }
 }
 
 export default async function handler(req, res) {
@@ -152,7 +160,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       ok: true,
-      removed: stockResult.removed,
+      sold: stockResult.sold,
       updated: stockResult.updated,
     })
   } catch (e) {

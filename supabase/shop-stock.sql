@@ -5,7 +5,7 @@ ALTER TABLE public.shop_products
   ADD COLUMN IF NOT EXISTS stock INT DEFAULT 1;
 
 COMMENT ON COLUMN public.shop_products.stock IS
-  'Quantité disponible. NULL = pas de suivi. 0 = épuisé. Suppression auto après paiement si stock atteint 0.';
+  'Quantité disponible. NULL = pas de suivi. 0 = épuisé. Marqué vendu après paiement si stock atteint 0.';
 
 CREATE TABLE IF NOT EXISTS public.shop_order_fulfillments (
   checkout_reference TEXT PRIMARY KEY,

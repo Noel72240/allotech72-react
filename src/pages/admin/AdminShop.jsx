@@ -310,7 +310,7 @@ export default function AdminShop() {
                 {AVAILABILITY.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
               </select>
               <p style={{ color:'var(--dim)', fontSize:'.72rem', marginTop:6 }}>
-                Stock à 1 : l’article est retiré de la boutique après paiement SumUp confirmé.
+                Stock à 1 : après paiement SumUp, l’article passe en « Vendu » (masqué du site, visible en admin).
               </p>
             </div>
             {form.section === 'occasion' && (
@@ -371,7 +371,12 @@ export default function AdminShop() {
             ) : (
               <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
                 {products.map(p => (
-                  <div key={p.id} style={{ background:'rgba(5,14,28,0.7)', border:'1px solid rgba(0,207,255,0.1)', borderRadius:14, padding:12, display:'flex', gap:12, alignItems:'center' }}>
+                  <div key={p.id} style={{
+                    background: p.availability === 'vendu' ? 'rgba(255,80,80,0.06)' : 'rgba(5,14,28,0.7)',
+                    border: p.availability === 'vendu' ? '1px solid rgba(255,80,80,0.2)' : '1px solid rgba(0,207,255,0.1)',
+                    borderRadius:14, padding:12, display:'flex', gap:12, alignItems:'center',
+                    opacity: p.availability === 'vendu' ? 0.85 : 1,
+                  }}>
                     <div style={{ width:56, height:56, borderRadius:10, overflow:'hidden', flexShrink:0, background:'#071120' }}>
                       {p.image ? <img src={p.image} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <div style={{ width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center' }}>📦</div>}
                     </div>
@@ -379,8 +384,10 @@ export default function AdminShop() {
                       <div style={{ color:'#fff', fontWeight:600, fontSize:'.88rem' }}>{p.title}</div>
                       <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>
                         {p.section} · {p.categoryId}
-                        {p.stock != null ? ` · stock ${p.stock}` : ' · stock illimité'}
-                        {!p.published && ' · masqué'}
+                        {p.availability === 'vendu' && ' · vendu'}
+                        {p.stock != null && p.availability !== 'vendu' ? ` · stock ${p.stock}` : ''}
+                        {p.stock == null && p.availability !== 'vendu' ? ' · stock illimité' : ''}
+                        {!p.published && p.availability !== 'vendu' && ' · masqué'}
                       </div>
                     </div>
                     <button type="button" style={{ ...btnP, padding:'8px 14px', fontSize:'.72rem' }} onClick={() => editProduct(p)}>Modifier</button>

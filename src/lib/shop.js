@@ -91,6 +91,7 @@ export async function fetchShopProducts({ includeUnpublished = false, allowStati
 
   if (!includeUnpublished) {
     query = query.eq('published', true)
+    query = query.neq('availability', 'vendu')
     query = query.or('stock.is.null,stock.gt.0')
   }
 
