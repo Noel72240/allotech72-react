@@ -159,6 +159,61 @@ export async function fetchShopOrders(limit = 50) {
   return data || []
 }
 
+/** Annule une commande payée et remet le stock en ligne (admin connecté). */
+export async function cancelShopOrder(checkoutReference) {
+  const ref = String(checkoutReference || '').trim()
+  if (!ref) throw new Error('Référence commande manquante')
+
+  const { data: order, error: fetchErr } = await supabase
+    .from('shop_order_fulfillments')
+    .select('*')
+    .eq('checkout_reference', ref)
+    .maybeSingle()
+
+  if (fetchErr) throw fetchErr
+  if (!order) throw new Error('Commande introuvable')
+  if (order.status === 'cancelled') throw new Error('Cette commande est déjà annulée')
+
+  const items = Array.isArray(order.items) ? order.items : []
+
+  for (const line of items) {
+    const productId = line?.productId
+    const qty = Math.max(1, Math.floor(Number(line?.qty) || 1))
+    if (!productId) continue
+
+    const { data: product, error } = await supabase
+      .from('shop_products')
+      .select('id, stock, availability')
+      .eq('id', productId)
+      .maybeSingle()
+
+    if (error) throw error
+    if (!product || product.stock == null) continue
+
+    const patch = {
+      stock: Number(product.stock) + qty,
+      updated_at: new Date().toISOString(),
+    }
+    if (product.availability === 'vendu') {
+      patch.availability = 'en_stock'
+      patch.published = true
+    }
+
+    const { error: upErr } = await supabase.from('shop_products').update(patch).eq('id', productId)
+    if (upErr) throw upErr
+  }
+
+  const { error: cancelErr } = await supabase
+    .from('shop_order_fulfillments')
+    .update({
+      status: 'cancelled',
+      cancelled_at: new Date().toISOString(),
+    })
+    .eq('checkout_reference', ref)
+
+  if (cancelErr) throw cancelErr
+}
+
 export async function uploadProductImage(file) {
   const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg'
   const path = `products/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`

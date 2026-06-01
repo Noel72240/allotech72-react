@@ -18,9 +18,11 @@ function validateCheckout(customer, shippingMode, relay, relayManual, settings) 
     return 'Indiquez un email valide.'
   }
   if (!customer.phone?.trim()) return 'Indiquez votre téléphone.'
+  if (!customer.address?.trim()) return 'Indiquez votre adresse postale.'
+  if (!customer.postCode?.trim()) return 'Indiquez votre code postal.'
+  if (!customer.city?.trim()) return 'Indiquez votre ville.'
 
   if (shippingMode === SHIPPING_MONDIAL_RELAY) {
-    if (!customer.postCode?.trim()) return 'Indiquez votre code postal pour trouver un point relais.'
     const hasRelay = relay?.id || relay?.name
     const hasManual = relayManual?.trim()
     if (!hasRelay && !hasManual) {
@@ -45,7 +47,9 @@ export default function Checkout() {
     name: '',
     email: '',
     phone: '',
-    postCode: config.codePostal || '',
+    address: '',
+    postCode: '',
+    city: '',
   })
   const [shippingMode, setShippingMode] = useState(
     settings.pickupEnabled !== false ? SHIPPING_PICKUP : SHIPPING_MONDIAL_RELAY,
@@ -136,7 +140,9 @@ export default function Checkout() {
       name: customer.name.trim(),
       email: customer.email.trim(),
       phone: customer.phone.trim(),
-      postCode: customer.postCode?.trim() || '',
+      address: customer.address.trim(),
+      postCode: customer.postCode.trim(),
+      city: customer.city.trim(),
     }
 
     try {
@@ -239,7 +245,46 @@ export default function Checkout() {
                 />
               </div>
 
-              <h3 className="checkout-section-title" style={{ marginTop: 24 }}>Livraison</h3>
+              <h3 className="checkout-section-title" style={{ marginTop: 8 }}>Adresse postale</h3>
+              <div className="fg" style={{ marginBottom: 12 }}>
+                <label>Adresse *</label>
+                <input
+                  type="text"
+                  required
+                  value={customer.address}
+                  onChange={e => setCustomer(c => ({ ...c, address: e.target.value }))}
+                  placeholder="Numéro et rue, bâtiment, appartement…"
+                />
+              </div>
+              <div className="checkout-address-row">
+                <div className="fg" style={{ marginBottom: 0 }}>
+                  <label>Code postal *</label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={5}
+                    required
+                    value={customer.postCode}
+                    onChange={e => {
+                      setCustomer(c => ({ ...c, postCode: e.target.value }))
+                      setRelay(null)
+                    }}
+                    placeholder="72000"
+                  />
+                </div>
+                <div className="fg" style={{ marginBottom: 0 }}>
+                  <label>Ville *</label>
+                  <input
+                    type="text"
+                    required
+                    value={customer.city}
+                    onChange={e => setCustomer(c => ({ ...c, city: e.target.value }))}
+                    placeholder="Le Mans"
+                  />
+                </div>
+              </div>
+
+              <h3 className="checkout-section-title" style={{ marginTop: 0 }}>Livraison</h3>
               <div className="shipping-options">
                 {settings.pickupEnabled !== false && (
                   <label className={`shipping-option${shippingMode === SHIPPING_PICKUP ? ' active' : ''}`}>
@@ -274,20 +319,9 @@ export default function Checkout() {
 
               {shippingMode === SHIPPING_MONDIAL_RELAY && (
                 <div className="mr-shipping-block">
-                  <div className="fg" style={{ marginBottom: 12 }}>
-                    <label>Code postal *</label>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      maxLength={5}
-                      value={customer.postCode}
-                      onChange={e => {
-                        setCustomer(c => ({ ...c, postCode: e.target.value }))
-                        setRelay(null)
-                      }}
-                      placeholder="72000"
-                    />
-                  </div>
+                  <p className="cart-sumup-hint" style={{ marginBottom: 12 }}>
+                    Recherche de relais près du code postal <strong>{customer.postCode || '—'}</strong> (modifiable ci-dessus).
+                  </p>
 
                   <MondialRelayPicker
                     brand={settings.mondialRelayBrand}

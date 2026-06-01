@@ -51,6 +51,8 @@ CREATE TABLE IF NOT EXISTS public.shop_order_fulfillments (
   amounts            JSONB,
   items_detail       JSONB,
   notification_sent  BOOLEAN NOT NULL DEFAULT false,
+  status             TEXT NOT NULL DEFAULT 'fulfilled' CHECK (status IN ('fulfilled', 'cancelled')),
+  cancelled_at       TIMESTAMPTZ,
   created_at         TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

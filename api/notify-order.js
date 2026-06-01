@@ -14,6 +14,13 @@ export async function notifyOrderByEmail(order) {
   const amounts = order.amounts || {}
   const items = order.itemsDetail || order.items || []
 
+  const postalAddress = [
+    customer.address,
+    [customer.postCode, customer.city].filter(Boolean).join(' '),
+  ]
+    .filter(Boolean)
+    .join('\n')
+
   const lines = items
     .map(i => `- ${i.qty}× ${i.title}${i.price != null ? ` (${i.price} €)` : ''}`)
     .join('\n')
@@ -44,7 +51,7 @@ export async function notifyOrderByEmail(order) {
     `Nom : ${customer.name || '—'}`,
     `Email : ${customer.email || '—'}`,
     `Téléphone : ${customer.phone || '—'}`,
-    customer.postCode ? `Code postal : ${customer.postCode}` : '',
+    postalAddress ? `Adresse postale :\n${postalAddress}` : '',
     '',
     '--- Livraison ---',
     shippingBlock,

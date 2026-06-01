@@ -1475,6 +1475,17 @@ button.shop-btn {
 .mr-selected-relay p {
   margin: 0 0 4px;
 }
+.checkout-address-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  .checkout-address-row {
+    grid-template-columns: 1fr;
+  }
+}
 @media (max-width: 768px) {
   .cart-line {
     grid-template-columns: 56px 1fr;

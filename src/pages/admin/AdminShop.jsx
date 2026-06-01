@@ -8,6 +8,7 @@ import {
   fetchShopSettings,
   saveShopSettings,
   fetchShopOrders,
+  cancelShopOrder,
   uploadProductImage,
   isDbProductId,
   formatPrice,
@@ -78,6 +79,7 @@ export default function AdminShop() {
   const [settingsMsg, setSettingsMsg] = useState(null)
   const [orders, setOrders] = useState([])
   const [ordersLoad, setOrdersLoad] = useState(false)
+  const [cancellingRef, setCancellingRef] = useState(null)
 
   const loadAll = async () => {
     setLoad(true)
@@ -110,6 +112,27 @@ export default function AdminShop() {
   useEffect(() => {
     if (subTab === 'orders') loadOrders()
   }, [subTab])
+
+  const cancelOrder = async order => {
+    if (order.status === 'cancelled') return
+    const ok = window.confirm(
+      `Annuler la commande ${order.checkout_reference} ?\n\n` +
+        '• Le stock des articles sera remis en boutique\n' +
+        '• Le remboursement client sur SumUp reste à faire manuellement si besoin',
+    )
+    if (!ok) return
+
+    setCancellingRef(order.checkout_reference)
+    try {
+      await cancelShopOrder(order.checkout_reference)
+      await loadOrders()
+      setMsg({ ok: true, txt: '✅ Commande annulée — stock remis en ligne' })
+      setTimeout(() => setMsg(null), 4000)
+    } catch (e) {
+      setMsg({ ok: false, txt: e.message })
+    }
+    setCancellingRef(null)
+  }
 
   const editProduct = p => {
     setForm({
@@ -302,6 +325,7 @@ export default function AdminShop() {
 
       {subTab === 'orders' && (
         <div className="admin-dash-card" style={card}>
+          <Msg msg={msg} />
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20, flexWrap:'wrap', gap:10 }}>
             <h3 style={{ color:'#fff', margin:0, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>Commandes payées</h3>
             <button type="button" onClick={loadOrders} style={{ background:'rgba(0,207,255,0.08)', border:'1px solid rgba(0,207,255,0.2)', color:'var(--c)', padding:'6px 14px', borderRadius:8, cursor:'pointer', fontSize:'.78rem' }}>🔄 Actualiser</button>
@@ -310,7 +334,7 @@ export default function AdminShop() {
             <div style={{ color:'var(--dim)', padding:40, textAlign:'center' }}>Chargement…</div>
           ) : orders.length === 0 ? (
             <div style={{ color:'var(--dim)', padding:24, lineHeight:1.7, fontSize:'.88rem' }}>
-              Aucune commande enregistrée. Exécutez <code>supabase/shop-orders-shipping.sql</code> si la table n’a pas les colonnes client/livraison.
+              Aucune commande enregistrée. Exécutez <code>supabase/shop-orders-shipping.sql</code> puis <code>shop-order-cancel.sql</code> si besoin.
             </div>
           ) : (
             <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
@@ -319,17 +343,42 @@ export default function AdminShop() {
                 const s = o.shipping || {}
                 const a = o.amounts || {}
                 const items = o.items_detail || o.items || []
+                const isCancelled = o.status === 'cancelled'
                 return (
                   <div key={o.checkout_reference} style={{
-                    background:'rgba(5,14,28,0.7)', border:'1px solid rgba(0,207,255,0.12)', borderRadius:14, padding:16,
+                    background: isCancelled ? 'rgba(255,80,80,0.06)' : 'rgba(5,14,28,0.7)',
+                    border: isCancelled ? '1px solid rgba(255,80,80,0.25)' : '1px solid rgba(0,207,255,0.12)',
+                    borderRadius:14, padding:16, opacity: isCancelled ? 0.85 : 1,
                   }}>
-                    <div style={{ display:'flex', justifyContent:'space-between', gap:12, flexWrap:'wrap', marginBottom:10 }}>
-                      <strong style={{ color:'var(--c)', fontSize:'.85rem' }}>{o.checkout_reference}</strong>
-                      <span style={{ color:'var(--dim)', fontSize:'.75rem' }}>{new Date(o.created_at).toLocaleString('fr-FR')}</span>
+                    <div style={{ display:'flex', justifyContent:'space-between', gap:12, flexWrap:'wrap', marginBottom:10, alignItems:'flex-start' }}>
+                      <div style={{ display:'flex', alignItems:'center', gap:10, flexWrap:'wrap' }}>
+                        <strong style={{ color: isCancelled ? '#ff8a8a' : 'var(--c)', fontSize:'.85rem' }}>{o.checkout_reference}</strong>
+                        {isCancelled && (
+                          <span style={{
+                            fontSize:'.68rem', fontWeight:700, letterSpacing:'.06em', textTransform:'uppercase',
+                            padding:'3px 8px', borderRadius:6, background:'rgba(255,80,80,0.15)', color:'#ff8a8a',
+                            border:'1px solid rgba(255,80,80,0.35)',
+                          }}>Annulée</span>
+                        )}
+                      </div>
+                      <span style={{ color:'var(--dim)', fontSize:'.75rem' }}>
+                        {new Date(o.created_at).toLocaleString('fr-FR')}
+                        {isCancelled && o.cancelled_at && (
+                          <> · annulée le {new Date(o.cancelled_at).toLocaleString('fr-FR')}</>
+                        )}
+                      </span>
                     </div>
                     <div style={{ color:'#fff', fontSize:'.88rem', marginBottom:8 }}>
                       {c.name || '—'} · {c.email || '—'} · {c.phone || '—'}
                     </div>
+                    {(c.address || c.postCode || c.city) && (
+                      <div style={{ color:'var(--dim)', fontSize:'.8rem', marginBottom:8, lineHeight:1.5 }}>
+                        📍 {c.address || '—'}
+                        {(c.postCode || c.city) && (
+                          <span> — {[c.postCode, c.city].filter(Boolean).join(' ')}</span>
+                        )}
+                      </div>
+                    )}
                     <div style={{ color:'var(--dim)', fontSize:'.8rem', marginBottom:8, lineHeight:1.6 }}>
                       {s.mode === 'mondial_relay' ? (
                         <>
@@ -348,12 +397,26 @@ export default function AdminShop() {
                         <span key={i}>{it.qty}× {it.title || it.productId}{i < items.length - 1 ? ' · ' : ''}</span>
                       ))}
                       {a.total != null && (
-                        <span style={{ display:'block', marginTop:6, color:'var(--g)', fontWeight:600 }}>
+                        <span style={{ display:'block', marginTop:6, color: isCancelled ? '#ff8a8a' : 'var(--g)', fontWeight:600 }}>
                           Total {formatPrice(a.total)}
-                          {o.notification_sent ? ' · email envoyé' : ' · email non confirmé'}
+                          {!isCancelled && (o.notification_sent ? ' · email envoyé' : ' · email non confirmé')}
                         </span>
                       )}
                     </div>
+                    {!isCancelled && (
+                      <button
+                        type="button"
+                        onClick={() => cancelOrder(o)}
+                        disabled={cancellingRef === o.checkout_reference}
+                        style={{
+                          marginTop:12, padding:'8px 14px', borderRadius:8, cursor:'pointer', fontSize:'.78rem', fontWeight:600,
+                          background:'rgba(255,80,80,0.1)', border:'1px solid rgba(255,80,80,0.35)', color:'#ff8a8a',
+                          opacity: cancellingRef === o.checkout_reference ? 0.6 : 1,
+                        }}
+                      >
+                        {cancellingRef === o.checkout_reference ? 'Annulation…' : 'Annuler la commande'}
+                      </button>
+                    )}
                   </div>
                 )
               })}
