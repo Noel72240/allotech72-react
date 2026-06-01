@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useCookies } from '../hooks/useCookies.jsx'
 import config, { fullName } from '../config.js'
-import { SEO_FOOTER_SECONDARY } from '../data/seoPages.js'
+import { SEO_FOOTER_SECONDARY, SEO_FOOTER_SARTHE } from '../data/seoPages.js'
 
 const openModal = (id) => {
   document.getElementById(id)?.classList.add('open')
@@ -34,6 +34,9 @@ export default function Footer() {
               <li><Link to="/reparateur-telephone-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparateur téléphone</Link></li>
               <li><Link to="/creation-site-internet-sarthe" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Création site Sarthe</Link></li>
               {SEO_FOOTER_SECONDARY.map((l) => (
+                <li key={l.to}><Link to={l.to} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.88rem' }}>{l.label}</Link></li>
+              ))}
+              {SEO_FOOTER_SARTHE.map((l) => (
                 <li key={l.to}><Link to={l.to} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.88rem' }}>{l.label}</Link></li>
               ))}
               <li><a href="#services">Mes services</a></li>

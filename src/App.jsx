@@ -28,6 +28,14 @@ import ReparateurTelephoneLeMans from './pages/seo/ReparateurTelephoneLeMans.jsx
 import CreationSiteInternetSarthe from './pages/seo/CreationSiteInternetSarthe.jsx'
 import VirusMalwaresLeMans        from './pages/seo/VirusMalwaresLeMans.jsx'
 import WifiReseauLeMans           from './pages/seo/WifiReseauLeMans.jsx'
+import ServicesInformatiquesSarthe  from './pages/seo/ServicesInformatiquesSarthe.jsx'
+import DepannageInformatiqueSarthe  from './pages/seo/DepannageInformatiqueSarthe.jsx'
+import InformaticienDomicileSarthe  from './pages/seo/InformaticienDomicileSarthe.jsx'
+import RecuperationDonneesSarthe    from './pages/seo/RecuperationDonneesSarthe.jsx'
+import InstallationWindowsSarthe    from './pages/seo/InstallationWindowsSarthe.jsx'
+import MaintenanceInformatiqueSarthe from './pages/seo/MaintenanceInformatiqueSarthe.jsx'
+import DepannagePcPortableSarthe    from './pages/seo/DepannagePcPortableSarthe.jsx'
+import CreationLogicielSurMesureSarthe from './pages/seo/CreationLogicielSurMesureSarthe.jsx'
 import SeoLocalTeaser             from './components/SeoLocalTeaser.jsx'
 import VenteHub                  from './pages/vente/VenteHub.jsx'
 import VenteOccasion             from './pages/vente/VenteOccasion.jsx'
@@ -253,6 +261,14 @@ export default function App() {
         <Route path="/creation-site-internet-sarthe"      element={<CreationSiteInternetSarthe />} />
         <Route path="/virus-malwares-depannage-le-mans"   element={<VirusMalwaresLeMans />} />
         <Route path="/wifi-reseau-internet-le-mans"      element={<WifiReseauLeMans />} />
+        <Route path="/services-informatiques-sarthe"    element={<ServicesInformatiquesSarthe />} />
+        <Route path="/depannage-informatique-sarthe"     element={<DepannageInformatiqueSarthe />} />
+        <Route path="/informaticien-domicile-sarthe"     element={<InformaticienDomicileSarthe />} />
+        <Route path="/recuperation-donnees-sarthe"       element={<RecuperationDonneesSarthe />} />
+        <Route path="/installation-windows-sarthe"       element={<InstallationWindowsSarthe />} />
+        <Route path="/maintenance-informatique-sarthe"   element={<MaintenanceInformatiqueSarthe />} />
+        <Route path="/depannage-pc-portable-sarthe"      element={<DepannagePcPortableSarthe />} />
+        <Route path="/creation-logiciel-sur-mesure-sarthe" element={<CreationLogicielSurMesureSarthe />} />
         <Route path="*"        element={<NotFound />} />
       </Routes>
     </BrowserRouter>

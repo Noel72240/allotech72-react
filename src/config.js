@@ -96,7 +96,9 @@ const config = {
     'Changé', 'Saint-Mars-la-Brière', 'Rouillon', 'Arnage',
     'Mulsanne', "Parigné-l'Évêque", 'Fatines', 'Surfonds',
     'Soulitré', 'Saint-Célerin', 'Sceaux-sur-Huisne',
-    'Tuffé-Val-de-la-Chéronne', '…et environs',
+    'Tuffé-Val-de-la-Chéronne',
+    "Savigné-l'Évêque", 'Bonnétable', 'Bouloire', 'La Suze-sur-Sarthe',
+    '…et environs',
   ],
 
   // ── AVIS CLIENTS ──────────────────────────────────────────
