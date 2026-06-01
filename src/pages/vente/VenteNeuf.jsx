@@ -14,7 +14,7 @@ export default function VenteNeuf() {
         <div className="container">
           <div className="shop-topbar">
             <div>
-              <span className="stag">// Boutique</span>
+              <span className="stag">Boutique</span>
               <h2 style={{ marginTop: 8 }}>Neuf</h2>
               <p className="sub" style={{ marginLeft: 0, marginRight: 0, maxWidth: 760 }}>
                 Choisis une catégorie. Si tu cherches une référence précise, je peux te proposer une solution adaptée.

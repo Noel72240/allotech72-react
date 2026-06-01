@@ -26,6 +26,7 @@ export function mapProductRow(row) {
     image: row.image_url || '',
     published: row.published !== false,
     sortOrder: row.sort_order ?? 0,
+    stock: row.stock != null ? Number(row.stock) : null,
   }
 }
 
@@ -42,6 +43,7 @@ export function mapProductToRow(p) {
     image_url: p.image || '',
     published: p.published !== false,
     sort_order: Number(p.sortOrder) || 0,
+    stock: p.stock === '' || p.stock == null ? null : Math.max(0, Math.floor(Number(p.stock))),
   }
 }
 
@@ -89,6 +91,7 @@ export async function fetchShopProducts({ includeUnpublished = false, allowStati
 
   if (!includeUnpublished) {
     query = query.eq('published', true)
+    query = query.or('stock.is.null,stock.gt.0')
   }
 
   const { data, error } = await query
@@ -144,11 +147,20 @@ export async function uploadProductImage(file) {
   return data.publicUrl
 }
 
+/** null = stock illimité (pas de suivi) */
+export function getProductStock(product) {
+  if (!product || product.stock == null) return null
+  const n = Number(product.stock)
+  return Number.isFinite(n) ? Math.max(0, Math.floor(n)) : 0
+}
+
 export function canAddToCart(product) {
   if (!product) return false
   if (product.availability === 'vendu') return false
   if (product.availability === 'sur_devis') return false
   if (product.price == null || Number.isNaN(product.price)) return false
+  const stock = getProductStock(product)
+  if (stock !== null && stock < 1) return false
   return true
 }
 

@@ -10,7 +10,7 @@ export default function VenteHub() {
       <section className="sp">
         <div className="container">
           <div className="shop-hero">
-            <span className="stag">// Boutique</span>
+            <span className="stag">Boutique</span>
             <h2>
               Matériel <span className="c">neuf</span> & <span className="g">occasion</span>
             </h2>

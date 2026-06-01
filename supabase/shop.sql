@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS public.shop_products (
   highlights    JSONB NOT NULL DEFAULT '[]'::jsonb,
   availability  TEXT NOT NULL DEFAULT 'en_stock'
     CHECK (availability IN ('en_stock', 'sur_commande', 'sur_devis', 'vendu')),
+  stock         INT DEFAULT 1,
   image_url     TEXT DEFAULT '',
   published     BOOLEAN NOT NULL DEFAULT true,
   sort_order    INT NOT NULL DEFAULT 0,
@@ -37,6 +38,15 @@ CREATE TABLE IF NOT EXISTS public.shop_settings (
 INSERT INTO public.shop_settings (id)
 VALUES (1)
 ON CONFLICT (id) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS public.shop_order_fulfillments (
+  checkout_reference TEXT PRIMARY KEY,
+  checkout_id        TEXT NOT NULL,
+  items              JSONB NOT NULL DEFAULT '[]'::jsonb,
+  created_at         TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.shop_order_fulfillments ENABLE ROW LEVEL SECURITY;
 
 -- ── RLS shop_products ─────────────────────────────────────────────────────
 ALTER TABLE public.shop_products ENABLE ROW LEVEL SECURITY;

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
 import config from '../../config.js'
 import { useCart } from '../../hooks/useCart.jsx'
@@ -69,6 +69,17 @@ export default function Checkout() {
 
       if (data.url) {
         sessionStorage.setItem('allotech72_pending_checkout', checkoutReference)
+        sessionStorage.setItem(
+          'allotech72_pending_order',
+          JSON.stringify({
+            checkoutReference,
+            checkoutId: data.checkoutId,
+            items: lines.map(({ product, qty }) => ({
+              productId: product.id,
+              qty,
+            })),
+          }),
+        )
         window.location.href = data.url
         return
       }
@@ -86,7 +97,7 @@ export default function Checkout() {
         <div className="container cart-page">
           <div className="shop-topbar">
             <div>
-              <span className="stag">// Paiement</span>
+              <span className="stag">Paiement</span>
               <h2 style={{ marginTop: 8 }}>SumUp</h2>
               <p className="sub" style={{ marginLeft: 0, marginRight: 0 }}>
                 Total à régler : <strong style={{ color: 'var(--c)' }}>{formatPrice(total)}</strong>
@@ -172,22 +183,97 @@ export default function Checkout() {
 
 export function CheckoutSuccess() {
   const { clearCart } = useCart()
+  const { refresh } = useShopCatalog()
+  const [searchParams] = useSearchParams()
+  const [fulfillState, setFulfillState] = useState('loading')
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function confirmPayment() {
+      const ref = searchParams.get('ref')?.trim()
+      const raw = sessionStorage.getItem('allotech72_pending_order')
+
+      if (!ref || !raw) {
+        if (!cancelled) setFulfillState('unknown')
+        return
+      }
+
+      let pending
+      try {
+        pending = JSON.parse(raw)
+      } catch {
+        if (!cancelled) setFulfillState('error')
+        return
+      }
+
+      try {
+        const res = await fetch('/api/sumup-complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            checkout_reference: ref,
+            checkout_id: pending.checkoutId,
+            items: pending.items,
+          }),
+        })
+        const data = await res.json().catch(() => ({}))
+
+        if (cancelled) return
+
+        if (res.ok && data.ok) {
+          clearCart()
+          sessionStorage.removeItem('allotech72_pending_order')
+          sessionStorage.removeItem('allotech72_pending_checkout')
+          await refresh()
+          setFulfillState('ok')
+          return
+        }
+
+        if (res.status === 402) {
+          setFulfillState('pending')
+          return
+        }
+
+        setFulfillState('error')
+      } catch {
+        if (!cancelled) setFulfillState('error')
+      }
+    }
+
+    confirmPayment()
+    return () => { cancelled = true }
+  }, [searchParams, clearCart, refresh])
 
   const onClear = () => {
     clearCart()
+    sessionStorage.removeItem('allotech72_pending_order')
     sessionStorage.removeItem('allotech72_pending_checkout')
   }
+
+  const message =
+    fulfillState === 'loading'
+      ? 'Vérification du paiement SumUp en cours…'
+      : fulfillState === 'ok'
+        ? 'Paiement confirmé. Les articles en stock unique ont été retirés de la boutique. Je vous recontacte pour la remise ou l’envoi.'
+        : fulfillState === 'pending'
+          ? 'Paiement en attente de confirmation. Si vous avez payé, actualisez cette page dans quelques instants ou contactez-moi.'
+          : fulfillState === 'unknown'
+            ? 'Merci pour votre commande. Si le paiement est validé, je vous recontacte rapidement.'
+            : 'Le paiement n’a pas pu être confirmé automatiquement. Contactez-moi avec votre référence de commande.'
 
   return (
     <PageLayout title="Commande enregistrée" description="Merci pour votre commande Allotech72.">
       <section className="sp">
         <div className="container cart-page">
           <div className="shop-empty" style={{ textAlign: 'center', maxWidth: 520, margin: '0 auto' }}>
-            <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>✅</div>
+            <div style={{ fontSize: '2.5rem', marginBottom: 12 }}>
+              {fulfillState === 'loading' ? '⏳' : fulfillState === 'ok' ? '✅' : 'ℹ️'}
+            </div>
             <h2 style={{ marginBottom: 12 }}>Merci !</h2>
-            <p style={{ marginBottom: 20, lineHeight: 1.7 }}>
-              Si le paiement SumUp est confirmé, je vous recontacte pour la remise ou l’envoi.
-              En cas de doute, appelez le {config.telephone}.
+            <p style={{ marginBottom: 20, lineHeight: 1.7 }}>{message}</p>
+            <p style={{ marginBottom: 20, fontSize: '.88rem', color: 'var(--dim)' }}>
+              Besoin d’aide ? {config.telephone}
             </p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link to="/boutique" className="shop-btn" onClick={onClear}>Boutique</Link>

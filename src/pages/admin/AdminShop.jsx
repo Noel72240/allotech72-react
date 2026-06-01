@@ -37,6 +37,7 @@ const emptyProduct = () => ({
   image: '',
   published: true,
   sortOrder: 0,
+  stock: '1',
 })
 
 function highlightsToText(arr) {
@@ -102,6 +103,7 @@ export default function AdminShop() {
       image: p.image || '',
       published: p.published !== false,
       sortOrder: p.sortOrder ?? 0,
+      stock: p.stock != null ? String(p.stock) : '',
     })
     setSubTab('products')
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -144,6 +146,7 @@ export default function AdminShop() {
       image: form.image,
       published: form.published,
       sortOrder: form.sortOrder,
+      stock: form.stock,
     })
     payload.updated_at = new Date().toISOString()
 
@@ -297,11 +300,18 @@ export default function AdminShop() {
                 <input style={inp} type="number" min="0" step="0.01" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} placeholder="Vide = sur devis" />
               </div>
               <div>
-                <label style={lbl}>Disponibilité</label>
-                <select style={{ ...inp, cursor:'pointer' }} value={form.availability} onChange={e => setForm(f => ({ ...f, availability: e.target.value }))}>
-                  {AVAILABILITY.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
-                </select>
+                <label style={lbl}>Stock</label>
+                <input style={inp} type="number" min="0" step="1" value={form.stock} onChange={e => setForm(f => ({ ...f, stock: e.target.value }))} placeholder="1 = 1 seul exemplaire" />
               </div>
+            </div>
+            <div style={{ marginBottom:12 }}>
+              <label style={lbl}>Disponibilité</label>
+              <select style={{ ...inp, cursor:'pointer' }} value={form.availability} onChange={e => setForm(f => ({ ...f, availability: e.target.value }))}>
+                {AVAILABILITY.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
+              </select>
+              <p style={{ color:'var(--dim)', fontSize:'.72rem', marginTop:6 }}>
+                Stock à 1 : l’article est retiré de la boutique après paiement SumUp confirmé.
+              </p>
             </div>
             {form.section === 'occasion' && (
               <div style={{ marginBottom:12 }}>
@@ -367,7 +377,11 @@ export default function AdminShop() {
                     </div>
                     <div style={{ flex:1, minWidth:0 }}>
                       <div style={{ color:'#fff', fontWeight:600, fontSize:'.88rem' }}>{p.title}</div>
-                      <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>{p.section} · {p.categoryId} {!p.published && '· masqué'}</div>
+                      <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>
+                        {p.section} · {p.categoryId}
+                        {p.stock != null ? ` · stock ${p.stock}` : ' · stock illimité'}
+                        {!p.published && ' · masqué'}
+                      </div>
                     </div>
                     <button type="button" style={{ ...btnP, padding:'8px 14px', fontSize:'.72rem' }} onClick={() => editProduct(p)}>Modifier</button>
                     <button type="button" style={btnD} onClick={() => deleteProduct(p)} title="Supprimer">✕</button>

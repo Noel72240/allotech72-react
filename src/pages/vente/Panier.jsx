@@ -17,7 +17,7 @@ export default function Panier() {
         <div className="container cart-page">
           <div className="shop-topbar">
             <div>
-              <span className="stag">// Boutique</span>
+              <span className="stag">Boutique</span>
               <h2 style={{ marginTop: 8 }}>Panier</h2>
               <p className="sub" style={{ marginLeft: 0, marginRight: 0, maxWidth: 560 }}>
                 {count === 0

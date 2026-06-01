@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
 import { useShopCatalog } from './useShopCatalog.jsx'
+import { getProductStock } from '../lib/shop.js'
 
 const STORAGE_KEY = 'allotech72_cart_v1'
 const CartContext = createContext(null)
@@ -37,25 +38,44 @@ export function CartProvider({ children }) {
     if (product.availability === 'vendu') return { ok: false, msg: 'Produit indisponible.' }
     if (product.price == null) return { ok: false, msg: 'Ce produit est sur devis (contactez-nous).' }
 
+    const stock = getProductStock(product)
+    const addQty = Math.max(1, Math.floor(qty))
+    const current = items.find(x => x.productId === productId)?.qty || 0
+    const nextQty = current + addQty
+
+    if (stock !== null && nextQty > stock) {
+      return {
+        ok: false,
+        msg: stock === 1
+          ? 'Dernier article en stock.'
+          : `Stock limité : ${stock} disponible${stock > 1 ? 's' : ''}.`,
+      }
+    }
+
     setItems(prev => {
       const i = prev.findIndex(x => x.productId === productId)
       if (i >= 0) {
         const next = [...prev]
-        next[i] = { ...next[i], qty: next[i].qty + qty }
+        next[i] = { ...next[i], qty: nextQty }
         return next
       }
-      return [...prev, { productId, qty }]
+      return [...prev, { productId, qty: addQty }]
     })
+
     return { ok: true }
-  }, [getProductById])
+  }, [getProductById, items])
 
   const setQty = useCallback((productId, qty) => {
-    const q = Math.max(0, Math.floor(qty))
+    const product = getProductById(productId)
+    const stock = getProductStock(product)
+    let q = Math.max(0, Math.floor(qty))
+    if (stock !== null && q > stock) q = stock
+
     setItems(prev => {
       if (q === 0) return prev.filter(x => x.productId !== productId)
       return prev.map(x => (x.productId === productId ? { ...x, qty: q } : x))
     })
-  }, [])
+  }, [getProductById])
 
   const removeItem = useCallback(productId => {
     setItems(prev => prev.filter(x => x.productId !== productId))

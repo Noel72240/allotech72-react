@@ -19,7 +19,7 @@ export default function VenteOccasion() {
         <div className="container">
           <div className="shop-topbar">
             <div>
-              <span className="stag">// Boutique</span>
+              <span className="stag">Boutique</span>
               <h2 style={{ marginTop: 8 }}>Occasion</h2>
               <p className="sub" style={{ marginLeft: 0, marginRight: 0, maxWidth: 760 }}>
                 Stock limité. Ajoutez au panier ou contactez-moi pour une référence précise.

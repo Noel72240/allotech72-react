@@ -27,7 +27,7 @@ export default function VenteNeufCategorie() {
         <div className="container">
           <div className="shop-topbar">
             <div>
-              <span className="stag">// Boutique</span>
+              <span className="stag">Boutique</span>
               <h2 style={{ marginTop: 8 }}>{title}</h2>
               <p className="sub" style={{ marginLeft: 0, marginRight: 0, maxWidth: 760 }}>
                 Disponible en stock, sur commande ou sur devis selon la référence.
