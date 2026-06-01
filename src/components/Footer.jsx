@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useCookies } from '../hooks/useCookies.jsx'
-import config from '../config.js'
+import config, { fullName } from '../config.js'
+import { SEO_FOOTER_SECONDARY } from '../data/seoPages.js'
 
 const openModal = (id) => {
   document.getElementById(id)?.classList.add('open')
@@ -39,17 +40,21 @@ export default function Footer() {
               </div>
             </a>
             <p>Dépannage informatique à domicile sur Le Mans et le secteur Sarthe. Réparation PC, téléphone, tablette, création de sites internet et applications mobiles.</p>
-            <p className="sr">SIRET : {config.siret} – {config.statut} – {config.prenom} {config.nom}</p>
+            <p className="sr">SIRET : {config.siret} – {config.statut} – {fullName()}</p>
             <p className="sr">TVA non applicable, art. 293B du CGI</p>
           </div>
 
           <div className="fcol">
             <h4>Navigation</h4>
             <ul>
+              <li><Link to="/vente" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Vente (neuf & occasion)</Link></li>
               <li><Link to="/depannage-informatique-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Dépannage Le Mans</Link></li>
               <li><Link to="/reparation-ordinateur-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparation PC Le Mans</Link></li>
               <li><Link to="/reparateur-telephone-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparateur téléphone</Link></li>
               <li><Link to="/creation-site-internet-sarthe" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Création site Sarthe</Link></li>
+              {SEO_FOOTER_SECONDARY.map((l) => (
+                <li key={l.to}><Link to={l.to} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.88rem' }}>{l.label}</Link></li>
+              ))}
               <li><a href="#services">Mes services</a></li>
               <li><a href="#qui">Qui suis-je ?</a></li>
               <li><a href="#zone">Zone</a></li>
@@ -72,7 +77,7 @@ export default function Footer() {
         </div>
 
         <div className="fbot">
-          <p>© {year} {config.brand} – {config.prenom} {config.nom} – Tous droits réservés</p>
+          <p>© {year} {config.brand} – {fullName()} – Tous droits réservés</p>
           <div className="ll">
             <a href="#" onClick={e => { e.preventDefault(); openModal('m-legal') }}>Mentions légales</a>
             <a href="#" onClick={e => { e.preventDefault(); openModal('m-conf') }}>Confidentialité</a>

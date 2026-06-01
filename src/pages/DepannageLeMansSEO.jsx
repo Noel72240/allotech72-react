@@ -4,7 +4,7 @@
 // ══════════════════════════════════════════════════════════
 import { Link } from 'react-router-dom'
 import PageLayout from '../components/PageLayout.jsx'
-import config from '../config.js'
+import config, { fullName } from '../config.js'
 
 const schema = {
   '@context': 'https://schema.org',
@@ -40,7 +40,7 @@ const services = [
   {
     ico: '📱',
     h2: 'Réparateur téléphone Le Mans',
-    texte: `Écran fissuré, batterie qui ne tient plus, smartphone bloqué ? Noël Liebault répare votre iPhone ou téléphone Android directement chez vous, sans que vous ayez à vous déplacer. Intervention soigneuse sur toutes marques.`,
+    texte: `Écran fissuré, batterie qui ne tient plus, smartphone bloqué ? ${fullName()} répare votre iPhone ou téléphone Android directement chez vous, sans que vous ayez à vous déplacer. Intervention soigneuse sur toutes marques.`,
     tags: ['iPhone', 'Samsung', 'Huawei', 'Android', 'Tablette'],
   },
   {
@@ -70,10 +70,10 @@ const services = [
 ]
 
 const faq = [
-  { q: 'Quel est le délai d\'intervention à Le Mans ?', r: `${config.brand} intervient généralement dans les 24 à 48h. Pour les urgences, contactez directement Noël au ${config.telephone}.` },
+  { q: 'Quel est le délai d\'intervention à Le Mans ?', r: `${config.brand} intervient généralement dans les 24 à 48h. Pour les urgences, contactez directement ${config.prenom} au ${config.telephone}.` },
   { q: 'Combien coûte un dépannage informatique à domicile ?', r: 'Les tarifs sont transparents et communiqués avant toute intervention. Un simple déplacement + diagnostic à partir de 40€. Devis gratuit au téléphone.' },
   { q: 'Intervenez-vous dans toute la Sarthe ?', r: `${config.brand} couvre Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois, Connerré, Yvré-l'Évêque, Changé, Saint-Mars-la-Brière et tout le secteur Sarthe.` },
-  { q: 'Réparez-vous les téléphones iPhone et Android ?', r: 'Oui, Noël répare tous les smartphones et tablettes : iPhone, Samsung, Huawei, et toutes marques Android, à votre domicile.' },
+  { q: 'Réparez-vous les téléphones iPhone et Android ?', r: `Oui, ${config.prenom} répare tous les smartphones et tablettes : iPhone, Samsung, Huawei, et toutes marques Android, à votre domicile.` },
   { q: 'Proposez-vous des cours d\'informatique à domicile ?', r: `Oui ! ${config.brand} propose des initiations à l'informatique pour débutants et seniors, directement chez vous, à votre rythme.` },
 ]
 
@@ -86,7 +86,7 @@ export default function DepannageLeMansSEO() {
       {/* JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
-      <div className="container" style={{ paddingBottom: 80 }}>
+      <div style={{ paddingBottom: 80 }}>
 
         {/* ═══ HERO ═══ */}
         <div style={{ textAlign: 'center', padding: '40px 0 56px' }}>
@@ -111,7 +111,7 @@ export default function DepannageLeMansSEO() {
           </h1>
 
           <p style={{ color: 'var(--dim)', fontSize: '1.05rem', maxWidth: 620, margin: '0 auto 36px', lineHeight: 1.8 }}>
-            <strong style={{ color: 'var(--tx)' }}>Noël Liebault — {config.brand}</strong> intervient à votre domicile pour réparer votre ordinateur, téléphone ou tablette. Diagnostic précis, tarifs transparents, déplacement rapide sur Le Mans et tout le secteur Sarthe.
+            <strong style={{ color: 'var(--tx)' }}>{fullName()} — {config.brand}</strong> intervient à votre domicile pour réparer votre ordinateur, téléphone ou tablette. Diagnostic précis, tarifs transparents, déplacement rapide sur Le Mans et tout le secteur Sarthe.
           </p>
 
           {/* CTA */}
@@ -251,7 +251,7 @@ export default function DepannageLeMansSEO() {
             Besoin d'un <span className="c">technicien informatique</span><br />sur Le Mans ?
           </h2>
           <p style={{ color: 'var(--dim)', fontSize: '.95rem', marginBottom: 32 }}>
-            Contactez Noël Liebault — {config.brand} — pour un devis gratuit.<br />
+            Contactez {fullName()} — {config.brand} — pour un devis gratuit.<br />
             Intervention rapide sur Le Mans et tout le secteur Sarthe.
           </p>
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>

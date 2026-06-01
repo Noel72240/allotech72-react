@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useCookies } from '../hooks/useCookies.jsx'
+// Futur bandeau / chargement GA : activer VITE_ENABLE_ANALYTICS_COOKIES + voir src/config/analyticsPlaceholder.js
 
 export default function CookieBanner() {
   const { pending, accept, reject } = useCookies()

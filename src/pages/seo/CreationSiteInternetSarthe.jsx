@@ -29,7 +29,7 @@ export default function CreationSiteInternetSarthe() {
       description="Création site internet vitrine en Sarthe pour artisans, commerçants et indépendants. Design moderne, SEO local, responsive. Devis gratuit — 06 13 89 39 67."
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div className="container" style={{ paddingBottom:80 }}>
+      <div style={{ paddingBottom:80 }}>
 
         <div style={{ textAlign:'center', padding:'40px 0 52px' }}>
           <nav style={{ fontSize:'.78rem', color:'var(--dim)', marginBottom:20 }}>

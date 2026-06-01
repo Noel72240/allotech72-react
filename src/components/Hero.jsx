@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import config from '../config.js'
+import config, { fullName } from '../config.js'
 
 function useTyping(phrases) {
   const [text, setText] = useState('')
@@ -85,7 +85,7 @@ export default function Hero() {
             </div>
 
             <p className="hdesc">
-  {config.prenom} {config.nom} — technicien informatique à domicile basé à {config.ville} — intervient rapidement chez vous sur Le Mans et toute la Sarthe.<br />
+  {fullName()} — technicien informatique à domicile basé à {config.ville} — intervient rapidement chez vous sur Le Mans et toute la Sarthe.<br />
   Dépannage PC, réparation téléphone, montage sur mesure, création de site internet :<br />
   chaque intervention est réalisée avec précision, sans jargon, au juste prix.<br />
   Diagnostic gratuit, devis transparent, déplacement rapide — 7j/7.<br />

@@ -1,4 +1,4 @@
-import config from '../config.js'
+import config, { fullName } from '../config.js'
 
 const initiales = config.prenom[0] + config.nom[0]
 
@@ -17,7 +17,7 @@ export default function About() {
             <div className="pr">
               <div className="av-avatar">{initiales}</div>
               <div>
-                <h3>{config.prenom} {config.nom}</h3>
+                <h3>{fullName()}</h3>
                 <p>Technicien informatique indépendant</p>
                 <p style={{ color: 'var(--g)', fontSize: '.78rem', marginTop: 2 }}>📍 {config.ville}, {config.departement}</p>
               </div>

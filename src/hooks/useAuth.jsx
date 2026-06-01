@@ -6,6 +6,17 @@ import { supabase } from '../lib/supabase.js'
 
 const AuthContext = createContext(null)
 
+function msgAuthError(err) {
+  const m = err?.message || ''
+  if (m === 'Invalid login credentials') {
+    return 'Email ou mot de passe incorrect.'
+  }
+  if (m === 'Failed to fetch' || /fetch|network|ERR_NAME_NOT_RESOLVED/i.test(m)) {
+    return 'Impossible de joindre Supabase (URL du projet incorrecte). Dans Vercel, définissez VITE_SUPABASE_URL avec l’URL exacte : Supabase → Project Settings → API → Project URL (format https://xxxxx.supabase.co, sans faute de frappe). Puis redéployez.'
+  }
+  return m
+}
+
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
@@ -27,19 +38,20 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     setLoginError('')
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email.trim().toLowerCase(),
-      password,
-    })
-    if (error) {
-      const msg =
-        error.message === 'Invalid login credentials'
-          ? 'Email ou mot de passe incorrect.'
-          : error.message
-      setLoginError(msg)
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.trim().toLowerCase(),
+        password,
+      })
+      if (error) {
+        setLoginError(msgAuthError(error))
+        return false
+      }
+      return true
+    } catch (e) {
+      setLoginError(msgAuthError(e))
       return false
     }
-    return true
   }
 
   const logout = async () => {

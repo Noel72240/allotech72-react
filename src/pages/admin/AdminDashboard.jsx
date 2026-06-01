@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth.jsx'
 import { supabase } from '../../lib/supabase.js'
-import config from '../../config.js'
+import config, { fullName } from '../../config.js'
+import AdminShop from './AdminShop.jsx'
 
 const CATEGORIES = ['Ordinateur','Téléphone','Tablette','Montage PC','Réseau','Site Web','Autre']
 const BUCKET     = 'galerie'
@@ -141,32 +142,32 @@ export default function AdminDashboard({ onChangePassword }) {
   )
 
   return (
-    <div style={{ minHeight:'100vh', paddingTop:80 }}>
+    <div className="admin-dashboard" style={{ minHeight:'100vh', paddingTop:80 }}>
 
       {/* HEADER */}
-      <header style={{ position:'fixed', top:0, left:0, right:0, zIndex:1000, height:70, background:'rgba(4,11,20,0.95)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(0,207,255,0.12)', display:'flex', alignItems:'center', padding:'0 28px' }}>
-        <div style={{ maxWidth:1140, margin:'0 auto', width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:12 }}>
-            <div style={{ width:36, height:36, background:'linear-gradient(135deg,#00CFFF,#2BFF9A)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.1rem' }}>⚙️</div>
-            <div>
+      <header className="admin-dash-header" style={{ position:'fixed', top:0, left:0, right:0, zIndex:1000, minHeight:70, background:'rgba(4,11,20,0.95)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(0,207,255,0.12)', display:'flex', alignItems:'center', padding:'10px 16px' }}>
+        <div className="admin-dash-header-row" style={{ maxWidth:1140, margin:'0 auto', width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between', gap:12 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:12, minWidth:0 }}>
+            <div style={{ width:36, height:36, flexShrink:0, background:'linear-gradient(135deg,#00CFFF,#2BFF9A)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.1rem' }}>⚙️</div>
+            <div style={{ minWidth:0 }}>
               <div style={{ fontFamily:"'Orbitron',sans-serif", color:'#fff', fontWeight:700, fontSize:'.95rem' }}>Espace Admin</div>
               <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>{config.brand}</div>
             </div>
           </div>
-          <div style={{ display:'flex', gap:10, flexWrap:'wrap', justifyContent:'flex-end' }}>
-            <Link to="/" target="_blank" style={{ color:'rgba(200,232,255,0.7)', textDecoration:'none', fontSize:'.82rem', fontWeight:600, padding:'8px 16px', border:'1px solid rgba(0,207,255,0.2)', borderRadius:8 }}>👁 Voir le site</Link>
+          <div className="admin-dash-header-actions" style={{ display:'flex', gap:8, flexWrap:'wrap', justifyContent:'flex-end' }}>
+            <Link to="/" target="_blank" className="admin-dash-header-link" style={{ color:'rgba(200,232,255,0.7)', textDecoration:'none', fontSize:'.82rem', fontWeight:600, padding:'8px 14px', border:'1px solid rgba(0,207,255,0.2)', borderRadius:8 }}>👁 Voir le site</Link>
             {typeof onChangePassword === 'function' && (
-              <button type="button" onClick={onChangePassword} style={{ background:'rgba(255,184,0,0.08)', border:'1px solid rgba(255,184,0,0.35)', color:'#FFB800', padding:'8px 16px', borderRadius:8, cursor:'pointer', fontSize:'.82rem', fontWeight:600 }}>🔑 Mot de passe</button>
+              <button type="button" onClick={onChangePassword} style={{ background:'rgba(255,184,0,0.08)', border:'1px solid rgba(255,184,0,0.35)', color:'#FFB800', padding:'8px 14px', borderRadius:8, cursor:'pointer', fontSize:'.82rem', fontWeight:600 }}>🔑 Mot de passe</button>
             )}
-            <button type="button" onClick={logout} style={{ background:'rgba(255,80,80,0.1)', border:'1px solid rgba(255,80,80,0.3)', color:'#ff6b6b', padding:'8px 16px', borderRadius:8, cursor:'pointer', fontSize:'.82rem', fontWeight:600 }}>Déconnexion</button>
+            <button type="button" onClick={logout} style={{ background:'rgba(255,80,80,0.1)', border:'1px solid rgba(255,80,80,0.3)', color:'#ff6b6b', padding:'8px 14px', borderRadius:8, cursor:'pointer', fontSize:'.82rem', fontWeight:600 }}>Déconnexion</button>
           </div>
         </div>
       </header>
 
-      <div style={{ maxWidth:1140, margin:'0 auto', padding:'0 28px 80px' }}>
+      <div className="admin-dash-main" style={{ maxWidth:1140, margin:'0 auto', padding:'0 28px 80px' }}>
 
         {/* STATS */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:14, marginBottom:36 }}>
+        <div className="admin-dash-stats" style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:14, marginBottom:36 }}>
           {[
             { ico:'⭐', val:config.avis.length + avis.length, lbl:'Avis total' },
             { ico:'🗄️', val:avis.length,   lbl:'Avis Supabase' },
@@ -184,16 +185,17 @@ export default function AdminDashboard({ onChangePassword }) {
         </div>
 
         {/* TABS */}
-        <div style={{ display:'flex', gap:10, marginBottom:32, flexWrap:'wrap' }}>
+        <div className="admin-dash-tabs" style={{ display:'flex', gap:10, marginBottom:32, flexWrap:'wrap' }}>
           <Tab id="avis"    ico="⭐" label="Avis clients" />
           <Tab id="galerie" ico="📷" label="Galerie photos" />
+          <Tab id="boutique" ico="🛒" label="Boutique" />
           <Tab id="infos"   ico="ℹ️"  label="Infos site" />
         </div>
 
         {/* ═══ AVIS ═══ */}
         {tab === 'avis' && (
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:24, alignItems:'start' }}>
-            <div style={card}>
+          <div className="admin-dash-two-col" style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:24, alignItems:'start' }}>
+            <div className="admin-dash-card" style={card}>
               <h3 style={{ color:'#fff', marginBottom:24, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>➕ Ajouter un avis</h3>
               <div style={{ marginBottom:14 }}><label style={lbl}>Nom *</label><input style={inp} type="text" value={avisForm.nom} onChange={e=>setAvisForm({...avisForm,nom:e.target.value})} placeholder="Jean Dupont" /></div>
               <div style={{ marginBottom:14 }}><label style={lbl}>Type d'intervention</label><input style={inp} type="text" value={avisForm.type} onChange={e=>setAvisForm({...avisForm,type:e.target.value})} placeholder="Réparation ordinateur" /></div>
@@ -219,7 +221,7 @@ export default function AdminDashboard({ onChangePassword }) {
                           <span style={{ color:'#FFD700', fontSize:'.75rem' }}>★★★★★</span>
                         </div>
                         {a.type && <div style={{ color:'var(--c)', fontSize:'.7rem', fontWeight:600, marginBottom:4 }}>{a.type}</div>}
-                        <p style={{ color:'var(--dim)', fontSize:'.8rem', lineHeight:1.6, fontStyle:'italic', overflow:'hidden', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}>"{a.texte}"</p>
+                        <p className="admin-dash-avis-snippet" style={{ color:'var(--dim)', fontSize:'.8rem', lineHeight:1.6, fontStyle:'italic', overflow:'hidden', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}>"{a.texte}"</p>
                       </div>
                       <button style={btnD} onClick={() => deleteAvis(a.id)}>✕</button>
                     </div>
@@ -232,8 +234,8 @@ export default function AdminDashboard({ onChangePassword }) {
 
         {/* ═══ GALERIE ═══ */}
         {tab === 'galerie' && (
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1.6fr', gap:24, alignItems:'start' }}>
-            <div style={card}>
+          <div className="admin-dash-two-col" style={{ display:'grid', gridTemplateColumns:'1fr 1.6fr', gap:24, alignItems:'start' }}>
+            <div className="admin-dash-card" style={card}>
               <h3 style={{ color:'#fff', marginBottom:24, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>➕ Ajouter une photo</h3>
               <div style={{ marginBottom:14 }}><label style={lbl}>Titre *</label><input style={inp} type="text" value={photoForm.titre} onChange={e=>setPhotoForm({...photoForm,titre:e.target.value})} placeholder="Changement écran iPhone" /></div>
               <div style={{ marginBottom:14 }}>
@@ -267,7 +269,7 @@ export default function AdminDashboard({ onChangePassword }) {
               </div>
               {photoLoad ? <div style={{ color:'var(--dim)', textAlign:'center', padding:40 }}>⏳ Chargement...</div> :
                photos.length === 0 ? <div style={{ color:'var(--dim)', textAlign:'center', padding:40 }}>Aucune photo</div> : (
-                <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:14 }}>
+                <div className="admin-dash-photo-grid" style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:14 }}>
                   {photos.map(p => (
                     <div key={p.id} style={{ background:'rgba(5,14,28,0.7)', border:'1px solid rgba(0,207,255,0.1)', borderRadius:14, overflow:'hidden' }}>
                       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', height:110, background:'#071120' }}>
@@ -301,12 +303,15 @@ export default function AdminDashboard({ onChangePassword }) {
           </div>
         )}
 
+        {/* ═══ BOUTIQUE ═══ */}
+        {tab === 'boutique' && <AdminShop />}
+
         {/* INFOS */}
         {tab === 'infos' && (
-          <div style={card}>
+          <div className="admin-dash-card" style={card}>
             <h3 style={{ color:'#fff', marginBottom:24, fontFamily:"'Orbitron',sans-serif" }}>ℹ️ Infos du site</h3>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:12 }}>
-              {[['Marque',config.brand],['Technicien',`${config.prenom} ${config.nom}`],['Téléphone',config.telephone],['Ville',config.ville],['SIRET',config.siret],['Avis Supabase',`${avis.length}`],['Photos',`${photos.length}`]].map(([k,v]) => (
+              {[['Marque',config.brand],['Technicien',fullName()],['Téléphone',config.telephone],['Ville',config.ville],['SIRET',config.siret],['Avis Supabase',`${avis.length}`],['Photos',`${photos.length}`]].map(([k,v]) => (
                 <div key={k} style={{ background:'rgba(0,207,255,0.04)', border:'1px solid rgba(0,207,255,0.1)', borderRadius:10, padding:'12px 16px' }}>
                   <div style={{ color:'var(--dim)', fontSize:'.68rem', textTransform:'uppercase', letterSpacing:'.08em', marginBottom:4 }}>{k}</div>
                   <div style={{ color:'#fff', fontSize:'.88rem', fontWeight:600 }}>{v}</div>

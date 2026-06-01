@@ -27,7 +27,8 @@ const config = {
   departement: 'Sarthe (72)',
 
   // ── SEO ───────────────────────────────────────────────────
-  siteUrl:     'https://allotech72.fr',
+  // Aligner avec la redirection Vercel + sitemap (www ou apex, un seul choix)
+  siteUrl:     'https://www.allotech72.fr',
   seoTitle:    'Dépannage Informatique Le Mans & Sarthe | Allotech72 – Noël Liebault',
   seoDesc:     'Allotech72 : dépannage informatique à domicile sur Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois et tout le secteur Sarthe. Réparation PC, téléphone, tablette, création de sites internet et applications mobiles. Intervention rapide – 06 13 89 39 67.',
   seoKeywords: 'dépannage informatique Le Mans, réparation ordinateur Sarthe, dépannage téléphone Lombron, technicien informatique domicile, Allotech72, Noël Liebault',
@@ -137,14 +138,26 @@ const config = {
     'Autre',
   ],
 
-  // ── HÉBERGEUR (mentions légales) ──────────────────────────
-  // À compléter une fois votre hébergeur choisi
+  // ── HÉBERGEUR (mentions légales LCEN) ────────────────────
+  // Vercel Inc. — adresse utilisée dans les CGU / arbitrage (vercel.com/legal/terms)
   hebergeur: {
-    nom:     '',
-    adresse: '',
-    url:     '',
+    nom:        'Vercel Inc.',
+    forme:      'Société de droit américain (Delaware)',
+    adresse:    '440 N Barranca Ave #4133, Covina, CA 91723, États-Unis',
+    url:        'https://vercel.com',
+    privacyUrl: 'https://vercel.com/legal/privacy-policy',
   },
 
+}
+
+/** Domaine nu sans www — pour contact@… dans les mentions légales */
+export function siteDomainForEmail() {
+  return config.siteUrl.replace(/^https?:\/\//, '').replace(/^www\./, '')
+}
+
+/** Nom complet du responsable / éditeur — source unique */
+export function fullName() {
+  return `${config.prenom} ${config.nom}`.trim()
 }
 
 export default config

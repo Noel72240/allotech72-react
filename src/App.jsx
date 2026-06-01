@@ -1,7 +1,7 @@
 import { useEffect }                    from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Helmet }                        from 'react-helmet-async'
-import config                            from './config.js'
+import config, { siteDomainForEmail, fullName } from './config.js'
 
 import Background   from './components/Background.jsx'
 import Cursor       from './components/Cursor.jsx'
@@ -26,6 +26,15 @@ import DepannageLeMansSEO       from './pages/DepannageLeMansSEO.jsx'
 import ReparationPCLeMans       from './pages/seo/ReparationPCLeMans.jsx'
 import ReparateurTelephoneLeMans from './pages/seo/ReparateurTelephoneLeMans.jsx'
 import CreationSiteInternetSarthe from './pages/seo/CreationSiteInternetSarthe.jsx'
+import VirusMalwaresLeMans        from './pages/seo/VirusMalwaresLeMans.jsx'
+import WifiReseauLeMans           from './pages/seo/WifiReseauLeMans.jsx'
+import SeoLocalTeaser             from './components/SeoLocalTeaser.jsx'
+import VenteHub                  from './pages/vente/VenteHub.jsx'
+import VenteOccasion             from './pages/vente/VenteOccasion.jsx'
+import VenteNeuf                 from './pages/vente/VenteNeuf.jsx'
+import VenteNeufCategorie         from './pages/vente/VenteNeufCategorie.jsx'
+import Panier                       from './pages/vente/Panier.jsx'
+import Checkout, { CheckoutSuccess } from './pages/vente/Checkout.jsx'
 
 // ─────────────────────────────────────────────
 // SEO Head — page d'accueil
@@ -40,7 +49,7 @@ function SeoHome() {
     description: config.seoDesc,
     url:         config.siteUrl,
     telephone:   '+33' + config.telBrut.slice(1),
-    email:       `contact@${config.siteUrl.replace('https://','').replace('http://','')}`,
+    email:       `contact@${siteDomainForEmail()}`,
     logo:        config.siteUrl + '/favicon.svg',
     image:       config.siteUrl + '/og-image.jpg',
     priceRange:  '€',
@@ -92,7 +101,7 @@ function SeoHome() {
       name:           a.type,
     })),
     sameAs: [config.facebook, config.google, config.instagram].filter(Boolean),
-    founder: { '@type':'Person', name:`${config.prenom} ${config.nom}` },
+    founder: { '@type':'Person', name: fullName() },
     vatID:   'FR - TVA non applicable art.293B CGI',
   }
 
@@ -118,7 +127,7 @@ function SeoHome() {
       { '@type':'Question', name:'Quelle est la zone d\'intervention d\'Allotech72 ?',    acceptedAnswer:{ '@type':'Answer', text:`${config.brand} intervient sur Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois et tout le secteur Sarthe.` } },
       { '@type':'Question', name:'Combien de temps dure une réparation informatique ?',  acceptedAnswer:{ '@type':'Answer', text:'La durée dépend de la panne, mais la plupart des interventions se règlent en 1 à 2 heures directement à votre domicile.' } },
       { '@type':'Question', name:'Intervenez-vous sur les téléphones et tablettes ?',    acceptedAnswer:{ '@type':'Answer', text:`Oui, ${config.brand} répare les smartphones Android et iPhone, ainsi que les tablettes de toutes marques.` } },
-      { '@type':'Question', name:'Proposez-vous des cours d\'informatique à domicile ?', acceptedAnswer:{ '@type':'Answer', text:`Oui ! ${config.prenom} propose des cours d'initiation à l'informatique à domicile, adaptés aux débutants et aux seniors.` } },
+      { '@type':'Question', name:'Proposez-vous des cours d\'informatique à domicile ?', acceptedAnswer:{ '@type':'Answer', text:`Oui ! ${fullName()} propose des cours d'initiation à l'informatique à domicile, adaptés aux débutants et aux seniors.` } },
     ],
   }
 
@@ -130,7 +139,7 @@ function SeoHome() {
       <title>{config.seoTitle}</title>
       <meta name="description"   content={config.seoDesc} />
       <meta name="keywords"      content={config.seoKeywords} />
-      <meta name="author"        content={`${config.prenom} ${config.nom} – ${config.brand}`} />
+      <meta name="author"        content={`${fullName()} – ${config.brand}`} />
       <meta name="robots"        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="googlebot"     content="index, follow" />
       <link rel="canonical"      href={config.siteUrl + '/'} />
@@ -205,7 +214,7 @@ function Home() {
       <Cursor />
       <Nav />
       <main>
-        <Hero /><Services /><Avantages /><About /><Zone /><Avis /><Contact />
+        <Hero /><Services /><Avantages /><About /><Zone /><SeoLocalTeaser /><Avis /><Contact />
       </main>
       <Footer />
       <Modals />
@@ -227,10 +236,19 @@ export default function App() {
         <Route path="/galerie" element={<Galerie />} />
         <Route path="/avis"    element={<AvisPage />} />
         <Route path="/admin"   element={<AdminPage />} />
+        <Route path="/vente" element={<VenteHub />} />
+        <Route path="/vente/occasion" element={<VenteOccasion />} />
+        <Route path="/vente/neuf" element={<VenteNeuf />} />
+        <Route path="/vente/neuf/:categoryId" element={<VenteNeufCategorie />} />
+        <Route path="/panier" element={<Panier />} />
+        <Route path="/panier/paiement" element={<Checkout />} />
+        <Route path="/panier/confirmation" element={<CheckoutSuccess />} />
         <Route path="/depannage-informatique-le-mans" element={<DepannageLeMansSEO />} />
         <Route path="/reparation-ordinateur-le-mans"      element={<ReparationPCLeMans />} />
         <Route path="/reparateur-telephone-le-mans"       element={<ReparateurTelephoneLeMans />} />
         <Route path="/creation-site-internet-sarthe"      element={<CreationSiteInternetSarthe />} />
+        <Route path="/virus-malwares-depannage-le-mans"   element={<VirusMalwaresLeMans />} />
+        <Route path="/wifi-reseau-internet-le-mans"      element={<WifiReseauLeMans />} />
         <Route path="*"        element={<NotFound />} />
       </Routes>
     </BrowserRouter>

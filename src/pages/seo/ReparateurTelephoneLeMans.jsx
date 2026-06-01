@@ -35,7 +35,7 @@ export default function ReparateurTelephoneLeMans() {
       description="Réparateur téléphone à domicile sur Le Mans et Sarthe. Écran cassé, batterie, dégât des eaux, iPhone et Android. Intervention rapide — 06 13 89 39 67."
     >
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-      <div className="container" style={{ paddingBottom:80 }}>
+      <div style={{ paddingBottom:80 }}>
 
         <div style={{ textAlign:'center', padding:'40px 0 52px' }}>
           <nav style={{ fontSize:'.78rem', color:'var(--dim)', marginBottom:20 }}>

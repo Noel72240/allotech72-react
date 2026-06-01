@@ -140,6 +140,10 @@ export default function Contact() {
                   {state.submitting ? '⏳ Envoi en cours...' : 'Envoyer ma demande ⟶'}
                 </button>
 
+                <p style={{ fontSize: '.78rem', color: 'var(--dim)', marginTop: 18, lineHeight: 1.55, marginBottom: 0 }}>
+                  Les informations collectées via ce formulaire sont utilisées uniquement pour répondre à votre demande. Elles ne sont jamais revendues.
+                </p>
+
               </form>
             )}
           </div>
