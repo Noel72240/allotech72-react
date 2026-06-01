@@ -358,7 +358,7 @@ export default function AdminShop() {
             Bannières page boutique
           </h3>
           <p style={{ color:'var(--dim)', fontSize:'.82rem', lineHeight:1.6, marginBottom:20 }}>
-            Jusqu’à {SHOP_BANNER_SLOTS} images larges (1200×400 px recommandé) entre le bandeau confiance et le titre « Boutique en ligne ». Défilement automatique sur le site.
+            Jusqu’à {SHOP_BANNER_SLOTS} images larges — format recommandé <strong>1200 × 400 px</strong> (ratio 3:1) pour un remplissage parfait. Défilement automatique sur le site.
           </p>
           <Msg msg={settingsMsg} />
           <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
