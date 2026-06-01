@@ -98,7 +98,7 @@ export default function Nav() {
             <li><a href={home ? '#zone'      : '/#zone'}>Zone</a></li>
             <li><Link to="/avis">Avis</Link></li>
             <li><Link to="/galerie">Galerie</Link></li>
-            <li><Link to="/vente">Vente</Link></li>
+            <li><Link to="/boutique">Boutique</Link></li>
             <li><CartNavButton /></li>
             <li style={{ marginLeft:8 }}>
               <a href={`tel:${config.telBrut}`} className="ncta">📞 {config.telephone}</a>
@@ -140,7 +140,7 @@ export default function Nav() {
         <a href={home ? '#qui'       : '/#qui'}       onClick={close}>Qui suis-je ?</a>
         <a href={home ? '#zone'      : '/#zone'}      onClick={close}>Zone</a>
         <a href={home ? '#avis'      : '/#avis'}      onClick={close}>Avis</a>
-        <Link to="/vente" onClick={close}>Vente</Link>
+        <Link to="/boutique" onClick={close}>Boutique</Link>
         <Link to="/panier" onClick={close}>Panier 🛒</Link>
         <Link to="/galerie" onClick={close}>Galerie</Link>
         <a href={home ? '#contact'   : '/#contact'}   onClick={close}>Contact</a>

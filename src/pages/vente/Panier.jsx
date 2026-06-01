@@ -25,13 +25,13 @@ export default function Panier() {
                   : `${count} article${count > 1 ? 's' : ''} — total ${formatPrice(total)}`}
               </p>
             </div>
-            <Link className="shop-backlink" to="/vente">← Continuer mes achats</Link>
+            <Link className="shop-backlink" to="/boutique">← Continuer mes achats</Link>
           </div>
 
           {lines.length === 0 ? (
             <div className="shop-empty">
               <p>Aucun article pour le moment.</p>
-              <Link to="/vente" className="shop-btn primary" style={{ display: 'inline-flex', marginTop: 12 }}>
+              <Link to="/boutique" className="shop-btn primary" style={{ display: 'inline-flex', marginTop: 12 }}>
                 Voir la boutique
               </Link>
             </div>

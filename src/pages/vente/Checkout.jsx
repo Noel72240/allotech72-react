@@ -20,7 +20,7 @@ export default function Checkout() {
         <section className="sp">
           <div className="container">
             <div className="shop-empty">
-              Panier vide. <Link to="/vente">Retour boutique</Link>
+              Panier vide. <Link to="/boutique">Retour boutique</Link>
             </div>
           </div>
         </section>
@@ -190,7 +190,7 @@ export function CheckoutSuccess() {
               En cas de doute, appelez le {config.telephone}.
             </p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/vente" className="shop-btn" onClick={onClear}>Boutique</Link>
+              <Link to="/boutique" className="shop-btn" onClick={onClear}>Boutique</Link>
               <a href={`tel:${config.telBrut}`} className="shop-btn primary" onClick={onClear}>
                 📞 Appeler
               </a>

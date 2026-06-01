@@ -47,7 +47,7 @@ export default function Footer() {
           <div className="fcol">
             <h4>Navigation</h4>
             <ul>
-              <li><Link to="/vente" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Vente (neuf & occasion)</Link></li>
+              <li><Link to="/boutique" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Boutique (neuf & occasion)</Link></li>
               <li><Link to="/depannage-informatique-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Dépannage Le Mans</Link></li>
               <li><Link to="/reparation-ordinateur-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparation PC Le Mans</Link></li>
               <li><Link to="/reparateur-telephone-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparateur téléphone</Link></li>

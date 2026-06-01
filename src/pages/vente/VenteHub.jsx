@@ -4,13 +4,13 @@ import PageLayout from '../../components/PageLayout.jsx'
 export default function VenteHub() {
   return (
     <PageLayout
-      title="Vente"
-      description="Vente de matériel informatique et téléphonie (neuf et occasion). PC d'occasion, écrans, pièces, accessoires et câbles."
+      title="Boutique"
+      description="Boutique Allotech72 : matériel informatique et téléphonie (neuf et occasion). PC d'occasion, écrans, pièces, accessoires et câbles."
     >
       <section className="sp">
         <div className="container">
           <div className="shop-hero">
-            <span className="stag">// Vente</span>
+            <span className="stag">// Boutique</span>
             <h2>
               Matériel <span className="c">neuf</span> & <span className="g">occasion</span>
             </h2>
@@ -20,14 +20,14 @@ export default function VenteHub() {
           </div>
 
           <div className="shop-tiles">
-            <Link to="/vente/occasion" className="shop-tile">
+            <Link to="/boutique/occasion" className="shop-tile">
               <div className="shop-tile-kicker">Occasion</div>
               <div className="shop-tile-title">PC, écrans, pièces</div>
               <div className="shop-tile-desc">Produits testés, nettoyés, stock limité.</div>
               <div className="shop-tile-cta">Voir l’occasion →</div>
             </Link>
 
-            <Link to="/vente/neuf" className="shop-tile alt">
+            <Link to="/boutique/neuf" className="shop-tile alt">
               <div className="shop-tile-kicker">Neuf</div>
               <div className="shop-tile-title">Catégories</div>
               <div className="shop-tile-desc">Informatique, téléphonie, accessoires, câbles.</div>

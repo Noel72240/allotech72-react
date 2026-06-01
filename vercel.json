@@ -1,4 +1,10 @@
 {
+  "redirects": [
+    { "source": "/vente", "destination": "/boutique", "permanent": true },
+    { "source": "/vente/occasion", "destination": "/boutique/occasion", "permanent": true },
+    { "source": "/vente/neuf", "destination": "/boutique/neuf", "permanent": true },
+    { "source": "/vente/neuf/:categoryId", "destination": "/boutique/neuf/:categoryId", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],

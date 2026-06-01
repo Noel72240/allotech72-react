@@ -1,5 +1,5 @@
 import { useEffect }                    from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Helmet }                        from 'react-helmet-async'
 import config, { siteDomainForEmail, fullName } from './config.js'
 
@@ -236,10 +236,14 @@ export default function App() {
         <Route path="/galerie" element={<Galerie />} />
         <Route path="/avis"    element={<AvisPage />} />
         <Route path="/admin"   element={<AdminPage />} />
-        <Route path="/vente" element={<VenteHub />} />
-        <Route path="/vente/occasion" element={<VenteOccasion />} />
-        <Route path="/vente/neuf" element={<VenteNeuf />} />
-        <Route path="/vente/neuf/:categoryId" element={<VenteNeufCategorie />} />
+        <Route path="/boutique" element={<VenteHub />} />
+        <Route path="/boutique/occasion" element={<VenteOccasion />} />
+        <Route path="/boutique/neuf" element={<VenteNeuf />} />
+        <Route path="/boutique/neuf/:categoryId" element={<VenteNeufCategorie />} />
+        <Route path="/vente" element={<Navigate to="/boutique" replace />} />
+        <Route path="/vente/occasion" element={<Navigate to="/boutique/occasion" replace />} />
+        <Route path="/vente/neuf" element={<Navigate to="/boutique/neuf" replace />} />
+        <Route path="/vente/neuf/:categoryId" element={<Navigate to="/boutique/neuf/:categoryId" replace />} />
         <Route path="/panier" element={<Panier />} />
         <Route path="/panier/paiement" element={<Checkout />} />
         <Route path="/panier/confirmation" element={<CheckoutSuccess />} />

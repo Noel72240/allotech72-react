@@ -59,12 +59,26 @@ function mapStaticProduct(p) {
     image: p.image || '',
     published: true,
     sortOrder: 0,
+    isDemo: true,
   }
 }
 
-export async function fetchShopProducts({ includeUnpublished = false } = {}) {
+/** UUID Supabase — les produits démo (oc-pc-001…) ne sont pas en base */
+export function isDbProductId(id) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(id || ''))
+}
+
+/**
+ * @param {object} opts
+ * @param {boolean} opts.includeUnpublished — admin : voir aussi les masqués
+ * @param {boolean} opts.allowStaticFallback — site public : exemples si table vide
+ */
+export async function fetchShopProducts({ includeUnpublished = false, allowStaticFallback = true } = {}) {
   if (!isSupabaseConfigured) {
-    return SHOP_PRODUCTS.map(mapStaticProduct)
+    if (allowStaticFallback && !includeUnpublished) {
+      return SHOP_PRODUCTS.map(mapStaticProduct)
+    }
+    return []
   }
 
   let query = supabase
@@ -79,9 +93,15 @@ export async function fetchShopProducts({ includeUnpublished = false } = {}) {
 
   const { data, error } = await query
   if (error) throw error
+
   if (!data?.length) {
-    return SHOP_PRODUCTS.map(mapStaticProduct)
+    // Exemples uniquement en local sans Supabase — pas sur le site en prod
+    if (allowStaticFallback && !includeUnpublished && !isSupabaseConfigured) {
+      return SHOP_PRODUCTS.map(mapStaticProduct)
+    }
+    return []
   }
+
   return data.map(mapProductRow)
 }
 

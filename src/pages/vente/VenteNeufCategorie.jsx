@@ -27,21 +27,21 @@ export default function VenteNeufCategorie() {
         <div className="container">
           <div className="shop-topbar">
             <div>
-              <span className="stag">// Vente</span>
+              <span className="stag">// Boutique</span>
               <h2 style={{ marginTop: 8 }}>{title}</h2>
               <p className="sub" style={{ marginLeft: 0, marginRight: 0, maxWidth: 760 }}>
                 Disponible en stock, sur commande ou sur devis selon la référence.
               </p>
             </div>
             <div className="shop-top-actions">
-              <Link className="shop-backlink" to="/vente/neuf">← Catégories</Link>
+              <Link className="shop-backlink" to="/boutique/neuf">← Catégories</Link>
               <a className="shop-call" href={`tel:${config.telBrut}`}>📞 {config.telephone}</a>
             </div>
           </div>
 
           {!category ? (
             <div className="shop-empty">
-              Catégorie inconnue. <Link to="/vente/neuf">Retour aux catégories</Link>.
+              Catégorie inconnue. <Link to="/boutique/neuf">Retour aux catégories</Link>.
             </div>
           ) : loading ? (
             <div className="shop-empty">Chargement…</div>

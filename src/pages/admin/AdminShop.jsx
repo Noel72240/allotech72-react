@@ -8,6 +8,7 @@ import {
   fetchShopSettings,
   saveShopSettings,
   uploadProductImage,
+  isDbProductId,
 } from '../../lib/shop.js'
 
 const card = { background:'rgba(5,14,28,0.85)', border:'1px solid rgba(0,207,255,0.15)', borderRadius:20, padding:32, backdropFilter:'blur(20px)' }
@@ -74,7 +75,7 @@ export default function AdminShop() {
     setLoad(true)
     try {
       const [prods, sett] = await Promise.all([
-        fetchShopProducts({ includeUnpublished: true }),
+        fetchShopProducts({ includeUnpublished: true, allowStaticFallback: false }),
         fetchShopSettings(),
       ])
       setProducts(prods)
@@ -164,12 +165,40 @@ export default function AdminShop() {
     }
   }
 
-  const deleteProduct = async id => {
-    if (!window.confirm('Supprimer ce produit ?')) return
-    const { error } = await supabase.from('shop_products').delete().eq('id', id)
-    if (error) { setMsg({ ok: false, txt: error.message }); return }
-    if (form.id === id) resetForm()
-    loadAll()
+  const deleteProduct = async product => {
+    if (!window.confirm(`Supprimer « ${product.title} » ?`)) return
+
+    if (!isDbProductId(product.id)) {
+      setMsg({
+        ok: false,
+        txt: "Ce produit est un exemple intégré au site, pas un enregistrement Supabase. Exécutez supabase/shop.sql puis ajoutez vos produits ici, ou supprimez-les côté public en vidant la table.",
+      })
+      return
+    }
+
+    const { data, error } = await supabase
+      .from('shop_products')
+      .delete()
+      .eq('id', product.id)
+      .select('id')
+
+    if (error) {
+      setMsg({ ok: false, txt: `Erreur suppression : ${error.message}` })
+      return
+    }
+
+    if (!data?.length) {
+      setMsg({
+        ok: false,
+        txt: 'Aucune ligne supprimée (droits RLS ou produit déjà supprimé). Vérifiez que shop.sql est appliqué et que vous êtes connecté en admin.',
+      })
+      return
+    }
+
+    setProducts(prev => prev.filter(p => p.id !== product.id))
+    if (form.id === product.id) resetForm()
+    setMsg({ ok: true, txt: '✅ Produit supprimé' })
+    setTimeout(() => setMsg(null), 3000)
   }
 
   const saveSettingsClick = async () => {
@@ -318,8 +347,16 @@ export default function AdminShop() {
               <button type="button" onClick={loadAll} style={{ background:'rgba(0,207,255,0.08)', border:'1px solid rgba(0,207,255,0.2)', color:'var(--c)', padding:'4px 12px', borderRadius:6, cursor:'pointer', fontSize:'.72rem' }}>🔄</button>
             </div>
             {load ? <div style={{ color:'var(--dim)', padding:40, textAlign:'center' }}>Chargement…</div> : products.length === 0 ? (
-              <div style={{ color:'var(--dim)', padding:40, textAlign:'center' }}>
-                Aucun produit en base. Exécutez <code>supabase/shop.sql</code> puis ajoutez un produit.
+              <div style={{ color:'var(--dim)', padding:40, textAlign:'center', lineHeight:1.7 }}>
+                <p>Aucun produit en base Supabase.</p>
+                <p style={{ marginTop:10, fontSize:'.85rem' }}>
+                  1. Exécutez <code>supabase/shop.sql</code> dans le SQL Editor<br />
+                  2. Créez le bucket Storage <strong>vente</strong> (public)<br />
+                  3. Ajoutez un produit avec le formulaire à gauche
+                </p>
+                <p style={{ marginTop:12, fontSize:'.78rem', color:'rgba(255,184,0,0.9)' }}>
+                  Les 3 exemples visibles sur le site disparaîtront dès que vous ajoutez au moins un vrai produit.
+                </p>
               </div>
             ) : (
               <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
@@ -333,7 +370,7 @@ export default function AdminShop() {
                       <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>{p.section} · {p.categoryId} {!p.published && '· masqué'}</div>
                     </div>
                     <button type="button" style={{ ...btnP, padding:'8px 14px', fontSize:'.72rem' }} onClick={() => editProduct(p)}>Modifier</button>
-                    <button type="button" style={btnD} onClick={() => deleteProduct(p.id)}>✕</button>
+                    <button type="button" style={btnD} onClick={() => deleteProduct(p)} title="Supprimer">✕</button>
                   </div>
                 ))}
               </div>
