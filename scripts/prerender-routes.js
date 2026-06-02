@@ -1,0 +1,49 @@
+/** Meta SEO statiques pour crawlers (Facebook, Google) — SPA React */
+export const SITE_URL = 'https://www.allotech72.fr'
+export const OG_IMAGE = `${SITE_URL}/og-image.png`
+
+/** Chemins exacts prerenderés en dist/{path}/index.html */
+export const PRERENDER_ROUTES = [
+  {
+    path: '/boutique',
+    title: 'Boutique Allotech72 — Matériel informatique neuf & occasion | Sarthe',
+    description:
+      'Boutique Allotech72 : matériel informatique et téléphonie neuf et occasion en Sarthe. Achat en ligne, retrait à Lombron ou livraison Mondial Relay.',
+    ogTitle: 'Boutique Allotech72 — Informatique neuf & occasion',
+  },
+  {
+    path: '/services-informatiques-sarthe',
+    title: 'Services Informatiques en Sarthe — Dépannage, PC, Téléphone & Web | Allotech72',
+    description:
+      'Tous les services informatiques Allotech72 en Sarthe : dépannage PC, réparation téléphone, récupération données, création site internet et logiciel sur mesure.',
+    ogTitle: 'Services informatiques en Sarthe — Allotech72',
+  },
+  {
+    path: '/depannage-informatique-le-mans',
+    title: 'Dépannage Informatique Le Mans — Réparation PC, Téléphone | Allotech72',
+    description:
+      'Dépannage informatique à domicile sur Le Mans et Sarthe. Réparation PC, téléphone, tablette, récupération données. Technicien local — 06 13 89 39 67.',
+    ogTitle: 'Dépannage informatique Le Mans & Sarthe',
+  },
+  {
+    path: '/reparation-ordinateur-le-mans',
+    title: 'Réparation Ordinateur Le Mans — PC & Mac à domicile | Allotech72',
+    description:
+      'Réparation ordinateur PC et Mac à domicile sur Le Mans et Sarthe. PC qui ne démarre plus, lenteur, écran cassé. Technicien local — 06 13 89 39 67.',
+    ogTitle: 'Réparation ordinateur Le Mans',
+  },
+  {
+    path: '/reparateur-telephone-le-mans',
+    title: 'Réparateur Téléphone Le Mans — iPhone & Android à domicile | Allotech72',
+    description:
+      'Réparateur téléphone à domicile sur Le Mans et Sarthe. Écran cassé, batterie, iPhone et Android. Intervention rapide — 06 13 89 39 67.',
+    ogTitle: 'Réparateur téléphone Le Mans',
+  },
+  {
+    path: '/creation-site-internet-sarthe',
+    title: 'Création Site Internet Sarthe — Site vitrine artisan & commerçant | Allotech72',
+    description:
+      'Création site internet vitrine en Sarthe pour artisans et commerçants. Design moderne, SEO local, responsive. Devis gratuit — 06 13 89 39 67.',
+    ogTitle: 'Création site internet Sarthe',
+  },
+]
