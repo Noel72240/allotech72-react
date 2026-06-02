@@ -130,7 +130,13 @@ export default function Nav() {
               <span className="tel-mobile-txt">Appeler</span>
             </a>
             {onShop ? <CartNavButton /> : null}
-            <button className="burger" onClick={() => setOpen(!open)} aria-label="Menu" style={{ flexShrink:0 }}>
+            <button
+              className={`burger${open ? ' open' : ''}`}
+              onClick={() => setOpen(!open)}
+              aria-label="Menu"
+              aria-expanded={open}
+              style={{ flexShrink:0 }}
+            >
               <span style={{ transform: open ? 'rotate(45deg) translate(5px, 6px)' : '' }} />
               <span style={{ opacity: open ? 0 : 1 }} />
               <span style={{ transform: open ? 'rotate(-45deg) translate(5px, -6px)' : '' }} />

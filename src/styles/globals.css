@@ -152,8 +152,41 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
   border-color: rgba(43, 255, 154, 0.7) !important;
   box-shadow: 0 0 24px rgba(43, 255, 154, 0.2);
 }
-.burger { display:none;flex-direction:column;gap:6px;cursor:none;background:none;border:none;padding:6px; }
-.burger span { display:block;width:26px;height:2px;background:var(--c);border-radius:2px;transition:.3s; }
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  cursor: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(0, 207, 255, 0.06);
+  border: 1px solid rgba(0, 207, 255, 0.22);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  padding: 0;
+  transition: background .2s, border-color .2s, transform .15s, box-shadow .2s;
+}
+.burger:hover {
+  background: rgba(0, 207, 255, 0.11);
+  border-color: rgba(0, 207, 255, 0.38);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 207, 255, 0.12);
+}
+.burger:active {
+  transform: translateY(1px);
+}
+.burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--c), var(--g));
+  border-radius: 2px;
+  transition: transform .25s ease, opacity .2s ease, width .2s ease;
+}
+.burger.open span {
+  width: 22px;
+}
 .mob { display:none;position:fixed;inset:72px 0 0;background:rgba(4,11,20,.98);backdrop-filter:blur(24px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:36px; }
 .mob.open { display:flex; }
 .mob a { color:var(--tx);text-decoration:none;font-size:1.6rem;font-family:'Orbitron',sans-serif;font-weight:700;transition:color .2s; }
