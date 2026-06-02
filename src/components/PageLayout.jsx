@@ -25,7 +25,7 @@ export default function PageLayout({ children, title, description }) {
   const base = config.siteUrl.replace(/\/$/, '')
   const canonical = `${base}${location.pathname === '/' ? '/' : location.pathname}`
   const resolvedTitle = resolvePageTitle(title, config.brand)
-  const ogImage = `${base}/og-image.jpg`
+  const ogImage = `${base}/og-image.png`
   const desc = description || config.seoDesc
   const showSeoAside = isSeoHubPath(location.pathname)
 
@@ -54,6 +54,9 @@ export default function PageLayout({ children, title, description }) {
         <meta property="og:description" content={desc} />
         <meta property="og:url" content={canonical} />
         <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={`${config.brand} — Dépannage informatique Sarthe`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={resolvedTitle} />
         <meta name="twitter:description" content={desc} />

@@ -12,7 +12,7 @@ import {
   computeOrderTotals,
 } from '../../lib/shipping.js'
 
-function validateCheckout(customer, shippingMode, relay, relayManual, settings) {
+function validateCheckout(customer, shippingMode, relay, relayManual, settings, legal) {
   if (!customer.name?.trim()) return 'Indiquez votre nom.'
   if (!customer.email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email.trim())) {
     return 'Indiquez un email valide.'
@@ -34,7 +34,19 @@ function validateCheckout(customer, shippingMode, relay, relayManual, settings) 
     return 'Le retrait sur place n’est pas disponible.'
   }
 
+  if (!legal?.rgpd) {
+    return 'Veuillez accepter le traitement de vos données personnelles.'
+  }
+  if (!legal?.cgv) {
+    return 'Veuillez accepter les Conditions Générales de Vente.'
+  }
+
   return ''
+}
+
+function openLegalModal(id) {
+  document.getElementById(id)?.classList.add('open')
+  document.body.style.overflow = 'hidden'
 }
 
 export default function Checkout() {
@@ -56,6 +68,8 @@ export default function Checkout() {
   )
   const [relay, setRelay] = useState(null)
   const [relayManual, setRelayManual] = useState('')
+  const [acceptRgpd, setAcceptRgpd] = useState(false)
+  const [acceptCgv, setAcceptCgv] = useState(false)
 
   useEffect(() => {
     if (settings.pickupEnabled === false) {
@@ -112,7 +126,14 @@ export default function Checkout() {
       : { mode: SHIPPING_PICKUP }
 
   const startSumUp = async () => {
-    const validationError = validateCheckout(customer, shippingMode, relay, relayManual, settings)
+    const validationError = validateCheckout(
+      customer,
+      shippingMode,
+      relay,
+      relayManual,
+      settings,
+      { rgpd: acceptRgpd, cgv: acceptCgv },
+    )
     if (validationError) {
       setError(validationError)
       return
@@ -351,6 +372,38 @@ export default function Checkout() {
               )}
 
               {error && <div className="checkout-error">{error}</div>}
+
+              <div className="checkout-legal" style={{ marginTop: 20 }}>
+                <label className="fck" style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 12 }}>
+                  <input
+                    type="checkbox"
+                    checked={acceptRgpd}
+                    onChange={e => setAcceptRgpd(e.target.checked)}
+                    style={{ marginTop: 4, flexShrink: 0 }}
+                  />
+                  <span style={{ fontSize: '.82rem', color: 'var(--dim)', lineHeight: 1.55 }}>
+                    J&apos;accepte que mes données (nom, email, téléphone, adresse, livraison) soient utilisées pour traiter ma commande.{' '}
+                    <button type="button" onClick={() => openLegalModal('m-conf')} style={{ background: 'none', border: 'none', color: 'var(--c)', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontSize: 'inherit' }}>
+                      Politique de confidentialité
+                    </button>
+                  </span>
+                </label>
+                <label className="fck" style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  <input
+                    type="checkbox"
+                    checked={acceptCgv}
+                    onChange={e => setAcceptCgv(e.target.checked)}
+                    style={{ marginTop: 4, flexShrink: 0 }}
+                  />
+                  <span style={{ fontSize: '.82rem', color: 'var(--dim)', lineHeight: 1.55 }}>
+                    J&apos;accepte les{' '}
+                    <button type="button" onClick={() => openLegalModal('m-cgv')} style={{ background: 'none', border: 'none', color: 'var(--c)', cursor: 'pointer', padding: 0, textDecoration: 'underline', fontSize: 'inherit' }}>
+                      Conditions Générales de Vente
+                    </button>
+                    {' '}(droit de rétractation 14 jours, livraison, garanties).
+                  </span>
+                </label>
+              </div>
 
               <button
                 type="button"

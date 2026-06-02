@@ -128,15 +128,21 @@ export default function Modals() {
             <li><strong>Base légale :</strong> consentement explicite de la personne concernée (art. 6.1.a RGPD)</li>
             <li><strong>Caractère obligatoire :</strong> nom, email et message sont obligatoires pour traiter votre demande</li>
           </ul>
+          <p><strong>Boutique en ligne (commande) :</strong></p>
+          <ul>
+            <li><strong>Données :</strong> nom, email, téléphone, adresse postale, mode de livraison, point relais Mondial Relay le cas échéant, détail de la commande</li>
+            <li><strong>Base légale :</strong> exécution du contrat de vente (art. 6.1.b RGPD) et consentement pour le traitement des données personnelles (art. 6.1.a RGPD)</li>
+            <li><strong>Finalité :</strong> traitement de la commande, livraison ou retrait, facturation, contact client</li>
+          </ul>
 
           <h3>3. Finalités du traitement</h3>
           <p>
-            Les données collectées ont pour unique finalité de vous recontacter dans le cadre de votre demande de dépannage ou de devis. Aucune autre utilisation commerciale ou de prospection ne sera effectuée.
+            Les données collectées servent à vous recontacter (devis, dépannage), à traiter vos commandes boutique (paiement, livraison, retrait) et à respecter nos obligations légales. Aucune revente de données à des tiers à des fins commerciales.
           </p>
 
           <h3>4. Durée de conservation</h3>
           <p>
-            Les données sont conservées pendant une durée maximale de <strong>12 mois</strong> à compter de leur collecte ou de notre dernier échange, sauf obligation légale de conservation plus longue.
+            Les données de contact sont conservées pendant une durée maximale de <strong>12 mois</strong> à compter de leur collecte ou de notre dernier échange. Les données de commande boutique sont conservées <strong>10 ans</strong> pour obligations comptables et fiscales (facturation), sauf durée légale plus longue.
           </p>
 
           <h3>5. Destinataires et sous-traitants</h3>
@@ -151,6 +157,15 @@ export default function Modals() {
           </p>
           <p>
             <strong>Contenus affichés (avis clients, galerie) :</strong> le stockage et la diffusion de ces contenus publics passent par la plateforme <strong>Supabase</strong> (supabase.com), sous-traitant, selon la configuration du projet (région possible : UE ou autre). Les données concernées sont celles affichées volontairement sur le site (pseudo, texte d’avis, images de réalisations).
+          </p>
+          <p>
+            <strong>Paiement en ligne (SumUp) :</strong> les paiements boutique sont traités par <strong>SumUp Payments Limited</strong> (sumup.com). Les données bancaires ne transitent pas par nos serveurs : vous êtes redirigé vers la page sécurisée SumUp. SumUp agit en tant que sous-traitant ou responsable conjoint selon sa politique de confidentialité.
+          </p>
+          <p>
+            <strong>Livraison Mondial Relay :</strong> si vous choisissez cette option, les coordonnées nécessaires à l’expédition (nom, adresse, point relais) peuvent être transmises à <strong>Mondial Relay</strong> ou à l’organisme de transport pour la remise du colis.
+          </p>
+          <p>
+            <strong>Commandes boutique (email) :</strong> notification de commande via <strong>Formspree</strong> vers contact@{siteDomainForEmail()}.
           </p>
 
           <h3>6. Vos droits</h3>
@@ -212,6 +227,80 @@ export default function Modals() {
 
           <p style={{ fontSize: '.78rem', color: 'var(--dim)', marginTop: 20, borderTop: '1px solid rgba(0,207,255,0.1)', paddingTop: 16 }}>
             Dernière mise à jour : {year} — Politique conforme RGPD & CNIL — {config.brand}
+          </p>
+        </div>
+      </div>
+
+      {/* ════ CGV — BOUTIQUE EN LIGNE ════ */}
+      <div className="modal-ov" id="m-cgv" onClick={e => { if (e.target === e.currentTarget) closeModal('m-cgv') }}>
+        <div className="modal-box">
+          <button className="modal-x" onClick={() => closeModal('m-cgv')}>✕</button>
+          <h2>🛒 Conditions Générales de Vente</h2>
+          <p style={{ color: 'var(--dim)', fontSize: '.85rem', marginBottom: 16 }}>
+            Applicables aux achats sur la boutique en ligne {config.siteUrl}/boutique — {fullName()} – {config.brand}
+          </p>
+
+          <h3>1. Vendeur</h3>
+          <p>
+            {fullName()} – {config.brand}<br />
+            {config.adresse}, {config.codePostal} {config.ville}<br />
+            SIRET : {config.siret} — {config.statut}<br />
+            Email : contact@{siteDomainForEmail()} — Tél. : {config.telephone}<br />
+            TVA non applicable, art. 293B du CGI
+          </p>
+
+          <h3>2. Produits et prix</h3>
+          <p>
+            Les produits proposés (neuf ou occasion) sont décrits avec le maximum de précision. Les photographies ne sont pas contractuelles. Les prix sont indiqués en euros TTC (TVA non applicable). {config.brand} se réserve le droit de modifier les prix ; le prix facturé est celui affiché au moment de la commande.
+          </p>
+
+          <h3>3. Commande et paiement</h3>
+          <p>
+            La commande est validée après paiement en ligne via <strong>SumUp</strong> (carte bancaire). Vous êtes redirigé vers une page de paiement sécurisée. Aucune donnée bancaire n’est stockée sur nos serveurs. La vente n’est définitive qu’après confirmation du paiement.
+          </p>
+
+          <h3>4. Livraison et retrait</h3>
+          <ul>
+            <li><strong>Retrait sur place :</strong> gratuit à {config.adresse}, {config.codePostal} {config.ville}, sur rendez-vous après confirmation de commande.</li>
+            <li><strong>Mondial Relay :</strong> envoi en point relais sélectionné. Les frais de port sont indiqués avant paiement. Les délais dépendent du transporteur.</li>
+          </ul>
+          <p>
+            {config.brand} s’efforce d’expédier ou de préparer le retrait dans un délai raisonnable (généralement sous 5 jours ouvrés après paiement, sauf indication contraire sur la fiche produit).
+          </p>
+
+          <h3>5. Droit de rétractation</h3>
+          <p>
+            Conformément aux articles L221-18 et suivants du Code de la consommation, le consommateur dispose d’un délai de <strong>14 jours</strong> à compter de la réception du bien pour exercer son droit de rétractation, sans avoir à motiver sa décision.
+          </p>
+          <p>
+            Pour l’exercer : contact@{siteDomainForEmail()} ou {config.telephone}, en indiquant votre nom, référence de commande et souhait de rétractation. Le produit doit être retourné dans son état d’origine, non utilisé et complet. Les frais de retour sont à la charge du client, sauf produit non conforme ou défectueux.
+          </p>
+          <p style={{ fontSize: '.85rem', color: 'var(--dim)' }}>
+            Exceptions possibles (art. L221-28) : produits descellés ne pouvant être renvoyés pour des raisons d’hygiène ou de protection de la santé, contenus numériques fournis sur un support immatériel dont l’exécution a commencé avec accord préalable, produits personnalisés.
+          </p>
+
+          <h3>6. Garanties légales</h3>
+          <p>
+            Les produits neufs bénéficient de la garantie légale de conformité (articles L217-4 et suivants du Code de la consommation) et de la garantie contre les vices cachés (articles 1641 et suivants du Code civil). Les produits d’occasion sont vendus dans l’état décrit sur la fiche produit.
+          </p>
+
+          <h3>7. Données personnelles</h3>
+          <p>
+            Les données collectées lors de la commande sont traitées conformément à notre{' '}
+            <a href="#" onClick={e => { e.preventDefault(); closeModal('m-cgv'); document.getElementById('m-conf')?.classList.add('open') }}>
+              politique de confidentialité
+            </a>.
+          </p>
+
+          <h3>8. Médiation et litiges</h3>
+          <p>
+            En cas de litige, contactez-nous en priorité. À défaut de résolution amiable, vous pouvez recourir à un médiateur de la consommation ou à la plateforme européenne :{' '}
+            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>.
+            Droit applicable : droit français. Tribunaux compétents du ressort de la Sarthe.
+          </p>
+
+          <p style={{ fontSize: '.78rem', color: 'var(--dim)', marginTop: 20, borderTop: '1px solid rgba(0,207,255,0.1)', paddingTop: 16 }}>
+            Dernière mise à jour : {year} — {config.brand}
           </p>
         </div>
       </div>

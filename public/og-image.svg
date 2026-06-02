@@ -1,34 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <rect width="1200" height="630" fill="#040B14"/>
-  <!-- Gradient background -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
-    <radialGradient id="bg" cx="20%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#00CFFF" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#040B14" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="bg2" cx="80%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#2BFF9A" stop-opacity="0.1"/>
-      <stop offset="100%" stop-color="#040B14" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="txt" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient id="brand" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#00CFFF"/>
       <stop offset="100%" stop-color="#2BFF9A"/>
     </linearGradient>
+    <radialGradient id="glowL" cx="15%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#00CFFF" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#040B14" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="88%" cy="72%" r="38%">
+      <stop offset="0%" stop-color="#2BFF9A" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#040B14" stop-opacity="0"/>
+    </radialGradient>
   </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <rect width="1200" height="630" fill="url(#bg2)"/>
-  <!-- Logo box -->
-  <rect x="80" y="210" width="100" height="100" rx="20" fill="url(#txt)" opacity="0.9"/>
-  <text x="130" y="278" text-anchor="middle" font-family="monospace" font-weight="900" font-size="52" fill="#040B14">💻</text>
-  <!-- Brand name -->
-  <text x="200" y="273" font-family="Arial Black, sans-serif" font-weight="900" font-size="68" fill="url(#txt)">Allotech72</text>
-  <!-- Tagline -->
-  <text x="80" y="340" font-family="Arial, sans-serif" font-size="32" fill="#C8E8FF" opacity="0.8">Dépannage informatique à domicile</text>
-  <text x="80" y="385" font-family="Arial, sans-serif" font-size="28" fill="#5A7A9A">Le Mans · Lombron · Sarthe</text>
-  <!-- Stars -->
-  <text x="80" y="460" font-size="36" fill="#FFD700">★★★★★</text>
-  <text x="265" y="460" font-family="Arial, sans-serif" font-size="28" fill="#C8E8FF">32+ avis clients · Note parfaite 5/5</text>
-  <!-- Phone -->
-  <rect x="80" y="490" width="380" height="64" rx="12" fill="none" stroke="#00CFFF" stroke-width="2" opacity="0.5"/>
-  <text x="270" y="532" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="30" fill="#00CFFF" font-weight="900">📞 06 13 89 39 67</text>
+  <rect width="1200" height="630" fill="#040B14"/>
+  <rect width="1200" height="630" fill="url(#glowL)"/>
+  <rect width="1200" height="630" fill="url(#glowR)"/>
+  <rect x="48" y="48" width="1104" height="534" rx="24" fill="none" stroke="url(#brand)" stroke-width="2" opacity="0.35"/>
+
+  <!-- Logo -->
+  <image xlink:href="/logo-allotech72.png" x="72" y="168" width="140" height="140" preserveAspectRatio="xMidYMid meet"/>
+
+  <!-- Texte -->
+  <text x="240" y="248" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="72" fill="url(#brand)">ALLOTECH72</text>
+  <text x="240" y="310" font-family="Arial, sans-serif" font-size="34" fill="#C8E8FF">Dépannage informatique · Le Mans &amp; Sarthe</text>
+  <text x="240" y="362" font-family="Arial, sans-serif" font-size="26" fill="#7A9BB8">PC · Téléphone · Site web · Boutique en ligne</text>
+
+  <!-- Badges -->
+  <rect x="240" y="400" width="420" height="52" rx="10" fill="rgba(0,207,255,0.08)" stroke="rgba(0,207,255,0.35)" stroke-width="1.5"/>
+  <text x="450" y="434" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="28" fill="#00CFFF">📞 06 13 89 39 67</text>
+
+  <text x="240" y="510" font-family="Arial, sans-serif" font-size="28" fill="#FFD700">★★★★★</text>
+  <text x="380" y="510" font-family="Arial, sans-serif" font-size="26" fill="#C8E8FF">5/5 — 32+ avis Google · Lombron (72)</text>
+
+  <text x="600" y="580" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#5A7A9A">www.allotech72.fr</text>
 </svg>

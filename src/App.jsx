@@ -139,7 +139,7 @@ function SeoHome() {
     ],
   }
 
-  const ogImage = config.siteUrl + '/og-image.jpg'
+  const ogImage = config.siteUrl + '/og-image.png'
 
   return (
     <Helmet>

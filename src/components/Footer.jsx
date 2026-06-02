@@ -55,6 +55,7 @@ export default function Footer() {
             <ul>
               <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-legal') }}>Mentions légales</a></li>
               <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-conf') }}>Politique de confidentialité</a></li>
+              <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-cgv') }}>CGV boutique</a></li>
               <li><a href="#" onClick={e => { e.preventDefault(); reset() }}>🍪 Gestion des cookies</a></li>
               <li><a href={`tel:${config.telBrut}`}>{config.telephone}</a></li>
               {config.facebook && <li><a href={config.facebook} target="_blank" rel="noopener">Facebook</a></li>}
@@ -67,6 +68,7 @@ export default function Footer() {
           <div className="ll">
             <a href="#" onClick={e => { e.preventDefault(); openModal('m-legal') }}>Mentions légales</a>
             <a href="#" onClick={e => { e.preventDefault(); openModal('m-conf') }}>Confidentialité</a>
+            <a href="#" onClick={e => { e.preventDefault(); openModal('m-cgv') }}>CGV</a>
             <a href="#" onClick={e => { e.preventDefault(); reset() }}>Cookies</a>
           </div>
         </div>
