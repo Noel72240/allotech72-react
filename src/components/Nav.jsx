@@ -137,9 +137,9 @@ export default function Nav() {
               aria-expanded={open}
               style={{ flexShrink:0 }}
             >
-              <span style={{ transform: open ? 'rotate(45deg) translate(5px, 6px)' : '' }} />
-              <span style={{ opacity: open ? 0 : 1 }} />
-              <span style={{ transform: open ? 'rotate(-45deg) translate(5px, -6px)' : '' }} />
+              <span className="burger-line top" aria-hidden />
+              <span className="burger-line mid" aria-hidden />
+              <span className="burger-line bot" aria-hidden />
             </button>
           </div>
 

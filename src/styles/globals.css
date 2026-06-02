@@ -154,38 +154,54 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 }
 .burger {
   display: none;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 6px;
+  position: relative;
   cursor: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  background: rgba(0, 207, 255, 0.06);
-  border: 1px solid rgba(0, 207, 255, 0.22);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(4, 11, 20, 0.18);
+  border: 1px solid rgba(200, 232, 255, 0.16);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
   padding: 0;
   transition: background .2s, border-color .2s, transform .15s, box-shadow .2s;
 }
 .burger:hover {
-  background: rgba(0, 207, 255, 0.11);
-  border-color: rgba(0, 207, 255, 0.38);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45), 0 0 18px rgba(0, 207, 255, 0.12);
+  background: rgba(4, 11, 20, 0.3);
+  border-color: rgba(0, 207, 255, 0.26);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42);
 }
 .burger:active {
   transform: translateY(1px);
 }
-.burger span {
+.burger-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
-  width: 20px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--c), var(--g));
-  border-radius: 2px;
-  transition: transform .25s ease, opacity .2s ease, width .2s ease;
+  width: 18px;
+  height: 1.5px;
+  background: rgba(200, 232, 255, 0.9);
+  border-radius: 999px;
+  transform: translateX(-50%);
+  transform-origin: center;
+  transition: transform .22s ease, opacity .18s ease, background .2s ease, width .2s ease;
 }
-.burger.open span {
-  width: 22px;
+.burger-line.top { transform: translateX(-50%) translateY(-6px); }
+.burger-line.mid { transform: translateX(-50%) translateY(0); }
+.burger-line.bot { transform: translateX(-50%) translateY(6px); }
+
+.burger.open .burger-line {
+  background: rgba(0, 207, 255, 0.95);
+  width: 20px;
+}
+.burger.open .burger-line.top {
+  transform: translateX(-50%) rotate(45deg);
+}
+.burger.open .burger-line.mid {
+  opacity: 0;
+}
+.burger.open .burger-line.bot {
+  transform: translateX(-50%) rotate(-45deg);
 }
 .mob { display:none;position:fixed;inset:72px 0 0;background:rgba(4,11,20,.98);backdrop-filter:blur(24px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:36px; }
 .mob.open { display:flex; }
