@@ -15,6 +15,8 @@ import {
   uploadProductImage,
   isDbProductId,
   formatPrice,
+  resolveUniqueProductSlug,
+  formatShopDbError,
 } from '../../lib/shop.js'
 
 const card = { background:'rgba(5,14,28,0.85)', border:'1px solid rgba(0,207,255,0.15)', borderRadius:20, padding:32, backdropFilter:'blur(20px)' }
@@ -209,8 +211,15 @@ export default function AdminShop() {
       return
     }
 
-    const payload = mapProductToRow({
+    const uniqueSlug = resolveUniqueProductSlug({
       slug: form.slug,
+      title: form.title,
+      productId: form.id,
+      products,
+    })
+
+    const payload = mapProductToRow({
+      slug: uniqueSlug,
       title: form.title,
       section: form.section,
       categoryId: form.categoryId,
@@ -226,20 +235,24 @@ export default function AdminShop() {
     payload.updated_at = new Date().toISOString()
 
     try {
+      const slugNote = uniqueSlug !== (form.slug?.trim() || '')
+        ? ` (réf. « ${uniqueSlug} »)`
+        : ''
+
       if (form.id) {
         const { error } = await supabase.from('shop_products').update(payload).eq('id', form.id)
         if (error) throw error
-        setMsg({ ok: true, txt: '✅ Produit mis à jour' })
+        setMsg({ ok: true, txt: `✅ Produit mis à jour${slugNote}` })
       } else {
         const { error } = await supabase.from('shop_products').insert([payload])
         if (error) throw error
-        setMsg({ ok: true, txt: '✅ Produit ajouté' })
+        setMsg({ ok: true, txt: `✅ Produit ajouté${slugNote}` })
         resetForm()
       }
       loadAll()
       setTimeout(() => setMsg(null), 3000)
     } catch (e) {
-      setMsg({ ok: false, txt: e.message })
+      setMsg({ ok: false, txt: formatShopDbError(e.message) })
     }
   }
 
@@ -598,7 +611,10 @@ export default function AdminShop() {
             </div>
             <div style={{ marginBottom:12 }}>
               <label style={lbl}>Référence (slug)</label>
-              <input style={inp} value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} placeholder="oc-pc-001" />
+              <input style={inp} value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} placeholder="Laisser vide = généré depuis le titre" />
+              <p style={{ color:'var(--dim)', fontSize:'.72rem', marginTop:6 }}>
+                Identifiant unique. Si déjà utilisé, un suffixe (-2, -3…) est ajouté automatiquement.
+              </p>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:12 }}>
               <div>

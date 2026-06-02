@@ -30,6 +30,43 @@ export function mapProductRow(row) {
   }
 }
 
+/** Référence URL-safe à partir du titre */
+export function slugifyProductRef(text) {
+  return String(text || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60) || 'produit'
+}
+
+/** Slug unique parmi les produits existants (suffixe -2, -3… si besoin) */
+export function resolveUniqueProductSlug({ slug, title, productId, products }) {
+  const base = slug?.trim() || slugifyProductRef(title) || 'produit'
+  const taken = new Set(
+    (products || [])
+      .filter(p => p.id !== productId)
+      .map(p => (p.slug || '').trim())
+      .filter(Boolean),
+  )
+  let candidate = base
+  let n = 2
+  while (taken.has(candidate)) {
+    candidate = `${base}-${n}`
+    n += 1
+  }
+  return candidate
+}
+
+export function formatShopDbError(message) {
+  const msg = String(message || '')
+  if (msg.includes('shop_products_slug_key')) {
+    return 'Cette référence (slug) existe déjà. Modifiez-la ou laissez le champ vide : une référence unique sera générée automatiquement.'
+  }
+  return msg
+}
+
 export function mapProductToRow(p) {
   return {
     slug: p.slug?.trim() || null,

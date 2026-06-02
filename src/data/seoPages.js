@@ -51,7 +51,10 @@ export const SEO_SIDEBAR_EXTRA = [
   ...SEO_SARTHE_PAGES,
 ]
 
-/** Footer — guides Sarthe supplémentaires */
+/** Footer — un seul lien pilier (évite une liste longue dans le pied de page) */
+export const SEO_FOOTER_PILLAR = SEO_PILLAR
+
+/** @deprecated Préférer SEO_PILLAR + page pilier pour le maillage footer */
 export const SEO_FOOTER_SARTHE = [
   SEO_PILLAR,
   ...SEO_SARTHE_PAGES,

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useCookies } from '../hooks/useCookies.jsx'
 import config, { fullName } from '../config.js'
-import { SEO_FOOTER_SECONDARY, SEO_FOOTER_SARTHE } from '../data/seoPages.js'
+import { SEO_FOOTER_SECONDARY, SEO_PILLAR } from '../data/seoPages.js'
 
 const openModal = (id) => {
   document.getElementById(id)?.classList.add('open')
@@ -36,9 +36,11 @@ export default function Footer() {
               {SEO_FOOTER_SECONDARY.map((l) => (
                 <li key={l.to}><Link to={l.to} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.88rem' }}>{l.label}</Link></li>
               ))}
-              {SEO_FOOTER_SARTHE.map((l) => (
-                <li key={l.to}><Link to={l.to} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.88rem' }}>{l.label}</Link></li>
-              ))}
+              <li>
+                <Link to={SEO_PILLAR.to} style={{ color:'var(--c)', textDecoration:'none', fontSize:'.88rem', fontWeight:600 }}>
+                  {SEO_PILLAR.label} →
+                </Link>
+              </li>
               <li><a href="#services">Mes services</a></li>
               <li><a href="#qui">Qui suis-je ?</a></li>
               <li><a href="#zone">Zone</a></li>
