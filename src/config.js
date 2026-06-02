@@ -128,8 +128,8 @@ const config = {
   ],
 
   // ── NOUVEAUTÉS (carousel accueil) ─────────────────────────
-  // Images: place-les dans /public puis référence-les ici (ex: "/news/slide-1.jpg")
-  // link: URL interne (ex: "/boutique") ou externe ("https://...")
+  // Géré en priorité depuis Admin → Boutique → « Nouveautés accueil » (3 emplacements).
+  // Ci-dessous : contenu de secours si Supabase n’est pas configuré ou si aucune slide active.
   newsSlides: [
     {
       image: '/og-image.jpg',

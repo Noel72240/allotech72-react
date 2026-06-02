@@ -162,6 +162,27 @@ export function getActiveShopBanners(banners) {
   return normalizeShopBanners(banners).filter(b => b.enabled && b.image)
 }
 
+export const HOME_NEWS_SLOTS = 3
+
+export function normalizeHomeNews(raw) {
+  const list = Array.isArray(raw) ? raw : []
+  return Array.from({ length: HOME_NEWS_SLOTS }, (_, i) => ({
+    image: list[i]?.image?.trim() || '',
+    kicker: list[i]?.kicker?.trim() || '',
+    title: list[i]?.title?.trim() || '',
+    text: list[i]?.text?.trim() || '',
+    cta: list[i]?.cta?.trim() || '',
+    link: list[i]?.link?.trim() || '',
+    enabled: list[i]?.enabled !== false,
+  }))
+}
+
+export function getActiveHomeNews(raw) {
+  return normalizeHomeNews(raw).filter(
+    s => s.enabled && s.image && (s.title || s.text),
+  )
+}
+
 export async function fetchShopSettings() {
   const defaults = {
     sumupMerchantCode: '',
@@ -171,6 +192,7 @@ export async function fetchShopSettings() {
     mondialRelayBrand: '',
     pickupEnabled: true,
     banners: normalizeShopBanners([]),
+    homeNews: normalizeHomeNews([]),
   }
   if (!isSupabaseConfigured) return defaults
 
@@ -185,23 +207,27 @@ export async function fetchShopSettings() {
     mondialRelayBrand: data.mondial_relay_brand || '',
     pickupEnabled: data.pickup_enabled !== false,
     banners: normalizeShopBanners(data.banners),
+    homeNews: normalizeHomeNews(data.home_news),
   }
 }
 
 export async function saveShopSettings(patch) {
+  const current = await fetchShopSettings()
+  const merged = { ...current, ...patch }
+
   const row = {
     id: 1,
-    sumup_merchant_code: patch.sumupMerchantCode?.trim() || '',
-    sumup_enabled: !!patch.sumupEnabled,
-    shop_enabled: patch.shopEnabled !== false,
-    mondial_relay_fee: patch.mondialRelayFee != null ? Number(patch.mondialRelayFee) : 0.5,
-    mondial_relay_brand: patch.mondialRelayBrand?.trim() || '',
-    pickup_enabled: patch.pickupEnabled !== false,
+    sumup_merchant_code: merged.sumupMerchantCode?.trim() || '',
+    sumup_enabled: !!merged.sumupEnabled,
+    shop_enabled: merged.shopEnabled !== false,
+    mondial_relay_fee: merged.mondialRelayFee != null ? Number(merged.mondialRelayFee) : 0.5,
+    mondial_relay_brand: merged.mondialRelayBrand?.trim() || '',
+    pickup_enabled: merged.pickupEnabled !== false,
+    banners: normalizeShopBanners(merged.banners),
+    home_news: normalizeHomeNews(merged.homeNews),
     updated_at: new Date().toISOString(),
   }
-  if (patch.banners != null) {
-    row.banners = normalizeShopBanners(patch.banners)
-  }
+
   const { error } = await supabase.from('shop_settings').upsert(row)
   if (error) throw error
 }

@@ -1,7 +1,9 @@
-import { useEffect }                    from 'react'
+import { useEffect, useMemo }           from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Helmet }                        from 'react-helmet-async'
 import config, { siteDomainForEmail, fullName } from './config.js'
+import { getActiveHomeNews } from './lib/shop.js'
+import { useShopCatalog } from './hooks/useShopCatalog.jsx'
 
 import Background   from './components/Background.jsx'
 import Cursor       from './components/Cursor.jsx'
@@ -189,6 +191,13 @@ function SeoHome() {
 // Page d'accueil
 // ─────────────────────────────────────────────
 function Home() {
+  const { settings } = useShopCatalog()
+  const newsSlides = useMemo(() => {
+    const fromAdmin = getActiveHomeNews(settings.homeNews)
+    if (fromAdmin.length) return fromAdmin
+    return config.newsSlides || []
+  }, [settings.homeNews])
+
   useEffect(() => {
     const obs = new IntersectionObserver(
       entries => entries.forEach((e, i) => {
@@ -224,7 +233,7 @@ function Home() {
       <Nav />
       <main>
         <Hero />
-        <NewsCarousel slides={config.newsSlides} />
+        <NewsCarousel slides={newsSlides} />
         <Services /><Avantages /><About /><Zone /><SeoLocalTeaser /><Avis /><Contact />
       </main>
       <Footer />

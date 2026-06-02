@@ -11,7 +11,9 @@ import {
   cancelShopOrder,
   restoreStockForCancelledOrder,
   SHOP_BANNER_SLOTS,
+  HOME_NEWS_SLOTS,
   normalizeShopBanners,
+  normalizeHomeNews,
   uploadProductImage,
   isDbProductId,
   formatPrice,
@@ -81,10 +83,13 @@ export default function AdminShop() {
     mondialRelayBrand: '',
     pickupEnabled: true,
     banners: normalizeShopBanners([]),
+    homeNews: normalizeHomeNews([]),
   })
   const [settingsMsg, setSettingsMsg] = useState(null)
   const [bannerUploading, setBannerUploading] = useState(null)
   const bannerRefs = useRef([])
+  const [homeNewsUploading, setHomeNewsUploading] = useState(null)
+  const homeNewsRefs = useRef([])
   const [orders, setOrders] = useState([])
   const [ordersLoad, setOrdersLoad] = useState(false)
   const [cancellingRef, setCancellingRef] = useState(null)
@@ -338,6 +343,41 @@ export default function AdminShop() {
     if (bannerRefs.current[idx]) bannerRefs.current[idx].value = ''
   }
 
+  const saveHomeNewsClick = async () => {
+    setSettingsMsg({ ok: true, txt: 'Enregistrement nouveautés…' })
+    try {
+      await saveShopSettings({ homeNews: settings.homeNews })
+      setSettingsMsg({ ok: true, txt: '✅ Nouveautés accueil enregistrées' })
+      setTimeout(() => setSettingsMsg(null), 3000)
+    } catch (e) {
+      setSettingsMsg({ ok: false, txt: e.message })
+    }
+  }
+
+  const updateHomeNews = (idx, patch) => {
+    setSettings(s => {
+      const homeNews = normalizeHomeNews(s.homeNews)
+      homeNews[idx] = { ...homeNews[idx], ...patch }
+      return { ...s, homeNews }
+    })
+  }
+
+  const onHomeNewsImage = async (idx, e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setHomeNewsUploading(idx)
+    setSettingsMsg({ ok: true, txt: '⏳ Upload image…' })
+    try {
+      const url = await uploadProductImage(file)
+      updateHomeNews(idx, { image: url })
+      setSettingsMsg({ ok: true, txt: '✅ Image uploadée — cliquez Enregistrer' })
+    } catch (err) {
+      setSettingsMsg({ ok: false, txt: err.message })
+    }
+    setHomeNewsUploading(null)
+    if (homeNewsRefs.current[idx]) homeNewsRefs.current[idx].value = ''
+  }
+
   const categoriesForSection = SHOP_CATEGORIES.filter(c => c.section === form.section)
 
   return (
@@ -363,7 +403,110 @@ export default function AdminShop() {
           background: subTab === 'banners' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
           color: subTab === 'banners' ? 'var(--c)' : 'var(--dim)',
         }}>Bannières</button>
+        <button type="button" onClick={() => setSubTab('homeNews')} style={{
+          padding:'8px 16px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:700,
+          background: subTab === 'homeNews' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
+          color: subTab === 'homeNews' ? 'var(--c)' : 'var(--dim)',
+        }}>Nouveautés accueil</button>
       </div>
+
+      {subTab === 'homeNews' && (
+        <div className="admin-dash-card" style={{ ...card, maxWidth: 720 }}>
+          <h3 style={{ color:'#fff', marginBottom:8, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>
+            Les nouveautés Allotech72
+          </h3>
+          <p style={{ color:'var(--dim)', fontSize:'.82rem', lineHeight:1.6, marginBottom:20 }}>
+            {HOME_NEWS_SLOTS} emplacements sur la page d&apos;accueil (carousel sous le hero). Format image recommandé{' '}
+            <strong>1200 × 525 px</strong> (ratio 16:7) ou paysage large. Renseignez au minimum une image et un titre ou un texte.
+          </p>
+          <Msg msg={settingsMsg} />
+          <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
+            {normalizeHomeNews(settings.homeNews).map((slide, idx) => (
+              <div key={idx} style={{
+                padding:16, borderRadius:14,
+                border:'1px solid rgba(0,207,255,0.15)',
+                background:'rgba(0,207,255,0.03)',
+              }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
+                  <strong style={{ color:'var(--c)', fontSize:'.85rem' }}>Emplacement {idx + 1}</strong>
+                  <label style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', fontSize:'.85rem' }}>
+                    <input
+                      type="checkbox"
+                      checked={slide.enabled !== false}
+                      onChange={e => updateHomeNews(idx, { enabled: e.target.checked })}
+                    />
+                    Visible
+                  </label>
+                </div>
+                {slide.image && (
+                  <div style={{ marginBottom:12, borderRadius:10, overflow:'hidden', maxHeight:140, background:'#071120' }}>
+                    <img src={slide.image} alt="" style={{ width:'100%', height:140, objectFit:'cover' }} />
+                  </div>
+                )}
+                <div style={{ marginBottom:10 }}>
+                  <label style={lbl}>Image (.jpg .png .webp)</label>
+                  <input
+                    ref={el => { homeNewsRefs.current[idx] = el }}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    style={{ ...inp, padding:'9px 12px' }}
+                    disabled={homeNewsUploading === idx}
+                    onChange={e => onHomeNewsImage(idx, e)}
+                  />
+                </div>
+                <div style={{ marginBottom:10 }}>
+                  <label style={lbl}>Petit label (optionnel)</label>
+                  <input
+                    style={inp}
+                    value={slide.kicker}
+                    onChange={e => updateHomeNews(idx, { kicker: e.target.value })}
+                    placeholder="Nouveauté, Promo…"
+                  />
+                </div>
+                <div style={{ marginBottom:10 }}>
+                  <label style={lbl}>Titre</label>
+                  <input
+                    style={inp}
+                    value={slide.title}
+                    onChange={e => updateHomeNews(idx, { title: e.target.value })}
+                    placeholder="Ex : Boutique en ligne"
+                  />
+                </div>
+                <div style={{ marginBottom:10 }}>
+                  <label style={lbl}>Texte</label>
+                  <textarea
+                    style={{ ...inp, minHeight:88, resize:'vertical' }}
+                    value={slide.text}
+                    onChange={e => updateHomeNews(idx, { text: e.target.value })}
+                    placeholder="Description courte affichée sur la slide…"
+                  />
+                </div>
+                <div style={{ marginBottom:10 }}>
+                  <label style={lbl}>Bouton (optionnel)</label>
+                  <input
+                    style={inp}
+                    value={slide.cta}
+                    onChange={e => updateHomeNews(idx, { cta: e.target.value })}
+                    placeholder="Voir la boutique"
+                  />
+                </div>
+                <div>
+                  <label style={lbl}>Lien du bouton (optionnel)</label>
+                  <input
+                    style={inp}
+                    value={slide.link}
+                    onChange={e => updateHomeNews(idx, { link: e.target.value })}
+                    placeholder="/boutique ou /#contact ou https://…"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+          <button type="button" style={{ ...btnP, marginTop:20 }} onClick={saveHomeNewsClick}>
+            Enregistrer les nouveautés
+          </button>
+        </div>
+      )}
 
       {subTab === 'banners' && (
         <div className="admin-dash-card" style={{ ...card, maxWidth: 720 }}>
