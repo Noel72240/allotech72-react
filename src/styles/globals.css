@@ -45,6 +45,12 @@ body {
 body.chov #cursor  { width: 24px; height: 24px; background: var(--g); box-shadow: 0 0 20px var(--g); }
 body.chov #cring   { width: 56px; height: 56px; border-color: rgba(43,255,154,0.4); }
 
+/* Masquer curseur custom sur sections spécifiques */
+body.nocur #cursor,
+body.nocur #cring {
+  display: none !important;
+}
+
 /* ── NOISE + SCANLINES ── */
 body::before {
   content: '';position: fixed;inset: 0;
