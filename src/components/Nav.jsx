@@ -10,6 +10,7 @@ export default function Nav() {
   const close  = () => { setOpen(false); setDropdown(false) }
   const loc    = useLocation()
   const home   = loc.pathname === '/'
+  const onShop = loc.pathname.startsWith('/boutique') || loc.pathname.startsWith('/panier')
 
   return (
     <>
@@ -107,10 +108,28 @@ export default function Nav() {
 
           {/* MOBILE — bouton appel + burger */}
           <div className="mob-controls" style={{ display:'none', alignItems:'center', gap:8, marginLeft:'auto' }}>
-            <a href={`tel:${config.telBrut}`} className="tel-mobile" style={{ background:'linear-gradient(135deg,#00CFFF,#00AEEF)', color:'#040B14', fontWeight:700, padding:'7px 12px', borderRadius:8, textDecoration:'none', fontSize:'.78rem', fontFamily:"'Orbitron',sans-serif", whiteSpace:'nowrap' }}>
-              📞 Appeler
+            <a
+              href={`tel:${config.telBrut}`}
+              className="tel-mobile"
+              style={{
+                background:'linear-gradient(135deg,#00CFFF,#00AEEF)',
+                color:'#040B14',
+                fontWeight:700,
+                padding:'7px 12px',
+                borderRadius:8,
+                textDecoration:'none',
+                fontSize:'.78rem',
+                fontFamily:"'Orbitron',sans-serif",
+                whiteSpace:'nowrap',
+                display:'inline-flex',
+                alignItems:'center',
+                gap:8,
+              }}
+            >
+              <span aria-hidden>📞</span>
+              <span className="tel-mobile-txt">Appeler</span>
             </a>
-            <CartNavButton />
+            {onShop ? <CartNavButton /> : null}
             <button className="burger" onClick={() => setOpen(!open)} aria-label="Menu" style={{ flexShrink:0 }}>
               <span style={{ transform: open ? 'rotate(45deg) translate(5px, 6px)' : '' }} />
               <span style={{ opacity: open ? 0 : 1 }} />

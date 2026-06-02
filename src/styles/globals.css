@@ -467,6 +467,7 @@ nav, footer, #aurora, #bgc, #cursor, #cring, #prog, #btt {
   .nav-logo-img { height: 40px !important; max-width: 38vw !important; }
   .logo-mark { width: 30px !important; height: 30px !important; font-size: .85rem !important; }
   .logo-txt { font-size: 1rem !important; }
+  .tel-mobile { padding: 7px 10px !important; }
 
   /* Services */
   .sg { grid-template-columns: 1fr !important; gap: 14px !important; }
@@ -539,6 +540,7 @@ nav, footer, #aurora, #bgc, #cursor, #cring, #prog, #btt {
   .cg { grid-template-columns: 1fr !important; }
   .avis-card { width: 92vw !important; }
   .bm { font-size: .75rem !important; padding: 12px 14px !important; }
+  .tel-mobile-txt { display: none !important; }
 }
 
 /* Touch — zones cliquables suffisamment grandes */
