@@ -11,6 +11,7 @@
   --glow: 0 0 30px rgba(0,207,255,0.4);
   --glow-g: 0 0 30px rgba(43,255,154,0.4);
   --ease-out: cubic-bezier(.22,1,.36,1);
+  --ease-in-out: cubic-bezier(.4,0,.2,1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -328,6 +329,23 @@ h1 { font-family:'Orbitron',sans-serif;font-size:clamp(2rem,5vw,3.8rem);font-wei
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ── Subtle neon animations (shop) ── */
+@keyframes shopGlow {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50%      { opacity: 0.9;  transform: translateY(-1px); }
+}
+@keyframes shopSheen {
+  0%   { transform: translateX(-140%) skewX(-12deg); opacity: 0; }
+  10%  { opacity: 1; }
+  55%  { opacity: 1; }
+  100% { transform: translateX(140%) skewX(-12deg); opacity: 0; }
+}
+@keyframes shopBorderFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* HERO RIGHT GRAPHIC */
@@ -1473,6 +1491,23 @@ a.seo-aside-link--compact {
   opacity: 0.9;
   pointer-events: none;
 }
+.shop-carousel-row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(90deg, rgba(0,207,255,0.0), rgba(0,207,255,0.35), rgba(43,255,154,0.22), rgba(0,207,255,0.0));
+  background-size: 220% 100%;
+  animation: shopBorderFlow 9s var(--ease-in-out) infinite;
+  opacity: 0.55;
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
 .shop-carousel-head,
 .shop-carousel-wrap {
   position: relative;
@@ -1559,6 +1594,9 @@ a.seo-aside-link--compact {
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
 }
+.shop-carousel-arrow {
+  backdrop-filter: blur(10px);
+}
 .shop-carousel-arrow:hover {
   background: rgba(0, 207, 255, 0.12);
   border-color: rgba(0, 207, 255, 0.45);
@@ -1589,6 +1627,23 @@ a.seo-aside-link--compact {
   min-height: 100%;
 }
 .shop-tile-ecom { box-shadow: 0 16px 52px rgba(0,0,0,0.42); }
+.shop-tile-ecom {
+  position: relative;
+  transform: translateZ(0);
+}
+.shop-tile-ecom::before {
+  /* soft glow under card */
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 14px;
+  background: radial-gradient(600px 140px at 50% 0%, rgba(0,207,255,0.16), transparent 60%),
+              radial-gradient(500px 120px at 70% 0%, rgba(43,255,154,0.10), transparent 62%);
+  opacity: 0.35;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+.shop-tile-ecom:hover::before { opacity: 0.6; }
 .shop-tile-ecom:hover {
   transform: translateY(-4px);
   border-color: rgba(0, 207, 255, 0.38);
@@ -1617,6 +1672,26 @@ a.seo-aside-link--compact {
   pointer-events: none;
 }
 .shop-tile-ecom:hover .shop-tile-ecom-media::after { opacity: 1; }
+
+.shop-tile-ecom-body {
+  position: relative;
+}
+.shop-tile-ecom-body::after {
+  /* sheen sweep */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.09) 45%, transparent 60%);
+  opacity: 0;
+  pointer-events: none;
+}
+.shop-tile-ecom:hover .shop-tile-ecom-body::after {
+  opacity: 1;
+  animation: shopSheen 1.4s var(--ease-out) both;
+}
 .shop-tile-ecom-media img {
   max-width: 100%;
   max-height: 150px;
@@ -1718,6 +1793,32 @@ a.seo-aside-link--compact {
   transition: transform .55s var(--ease-out);
 }
 .shop-tile-ecom:hover .shop-tile-ecom-cart::before { transform: translateX(120%); }
+
+/* CTA boutique (en haut) — glow vivant */
+.shop-hero-cart-primary {
+  position: relative;
+  overflow: hidden;
+}
+.shop-hero-cart-primary::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: radial-gradient(220px 60px at 30% 0%, rgba(0,207,255,0.25), transparent 60%),
+              radial-gradient(260px 70px at 70% 0%, rgba(43,255,154,0.18), transparent 62%);
+  opacity: 0.65;
+  pointer-events: none;
+  animation: shopGlow 3.8s var(--ease-in-out) infinite;
+}
+
+/* Chips filtre — active plus “premium” */
+.shop-filter-chip.active {
+  box-shadow: 0 10px 30px rgba(43,255,154,0.10), 0 0 0 1px rgba(43,255,154,0.12) inset;
+}
+
+/* Dots bannière — glow active */
+.shop-banner-dot.active {
+  box-shadow: 0 0 0 6px rgba(0,207,255,0.10);
+}
 .shop-tile-ecom-cart:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 207, 255, 0.4);
@@ -1757,6 +1858,7 @@ a.seo-aside-link--compact {
   .shop-tile-ecom:hover { transform: none; }
   .shop-tile-ecom-cart:hover { transform: none; }
   .shop-carousel-see-all:hover { transform: none; }
+  .shop-tile-ecom:hover .shop-tile-ecom-body::after { animation: none; }
 }
 .shop-tile {
   background: rgba(5, 14, 28, 0.82);
