@@ -45,12 +45,6 @@ body {
 body.chov #cursor  { width: 24px; height: 24px; background: var(--g); box-shadow: 0 0 20px var(--g); }
 body.chov #cring   { width: 56px; height: 56px; border-color: rgba(43,255,154,0.4); }
 
-/* Masquer curseur custom sur sections spécifiques */
-body.nocur #cursor,
-body.nocur #cring {
-  display: none !important;
-}
-
 /* ── NOISE + SCANLINES ── */
 body::before {
   content: '';position: fixed;inset: 0;
@@ -460,8 +454,9 @@ h3 { font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(
 .ri p { color:var(--dim);font-size:.85rem; }
 .rsbig { font-size:1.4rem;letter-spacing:2px; }
 .avis-wrap { overflow:hidden;position:relative; }
-.avis-track { display:flex;gap:20px;transition:transform .6s cubic-bezier(.23,1,.32,1); }
+.avis-track { display:flex;gap:20px;align-items:flex-start;transition:transform .6s cubic-bezier(.23,1,.32,1); }
 .avis-card { flex-shrink:0;width:330px;background:rgba(5,14,28,.8);border:1px solid rgba(0,207,255,.1);border-radius:18px;padding:28px;backdrop-filter:blur(20px);transition:border-color .3s,transform .3s; }
+.avis-card { align-self:flex-start; height:auto; }
 .avis-card:hover { border-color:rgba(0,207,255,.3);transform:translateY(-4px); }
 .avis-head { display:flex;align-items:center;gap:12px;margin-bottom:16px; }
 .avis-av { width:44px;height:44px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--c),var(--g));display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:700;font-size:.9rem;color:#040B14; }

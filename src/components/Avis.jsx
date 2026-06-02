@@ -50,12 +50,7 @@ export default function Avis() {
   const go = (n) => setSlide(Math.max(0, Math.min(n, total - 1)))
 
   return (
-    <section
-      id="avis"
-      className="sp"
-      onMouseEnter={() => document.body.classList.add('nocur')}
-      onMouseLeave={() => document.body.classList.remove('nocur')}
-    >
+    <section id="avis" className="sp">
       <div className="container">
         <div className="rev" style={{ textAlign: 'center', marginBottom: 52 }}>
           <div className="stag">Google Reviews</div>
