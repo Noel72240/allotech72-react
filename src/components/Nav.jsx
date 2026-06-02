@@ -153,7 +153,7 @@ export default function Nav() {
         <a href={home ? '#services'  : '/#services'}  onClick={close}>Services</a>
 
         <div style={{ display:'flex', flexDirection:'column', gap:8, alignItems:'center', borderTop:'1px solid rgba(0,207,255,0.1)', borderBottom:'1px solid rgba(0,207,255,0.1)', padding:'12px 0', width:'100%' }}>
-          <div style={{ color:'rgba(0,207,255,0.5)', fontSize:'.65rem', fontWeight:700, letterSpacing:'.12em', textTransform:'uppercase', marginBottom:4 }}>Guides locaux phares</div>
+          <div className="shop-guides-title">Guides locaux phares</div>
           {SEO_NAV_DROPDOWN_PRIMARY.map((l,i) => (
             <Link key={i} to={l.to} onClick={close} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.9rem', fontFamily:"'Orbitron',sans-serif", fontWeight:600, textAlign:'center' }}>
               {l.label}

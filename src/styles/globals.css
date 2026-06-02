@@ -203,10 +203,77 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 .burger.open .burger-line.bot {
   transform: translateX(-50%) rotate(-45deg);
 }
-.mob { display:none;position:fixed;inset:72px 0 0;background:rgba(4,11,20,.98);backdrop-filter:blur(24px);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:36px; }
+.mob {
+  display: none;
+  position: fixed;
+  inset: 72px 0 0;
+  background: rgba(4,11,20,.98);
+  backdrop-filter: blur(24px);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  padding: 18px 18px 24px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 .mob.open { display:flex; }
-.mob a { color:var(--tx);text-decoration:none;font-size:1.6rem;font-family:'Orbitron',sans-serif;font-weight:700;transition:color .2s; }
-.mob a:hover { color:var(--c);text-shadow:var(--glow); }
+.mob a {
+  color: var(--tx);
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: color .2s, background .2s, border-color .2s;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,207,255,0.10);
+  background: rgba(0,207,255,0.04);
+  width: min(520px, 92vw);
+  text-align: center;
+}
+.mob a:hover {
+  color: #fff;
+  border-color: rgba(0,207,255,0.26);
+  background: rgba(0,207,255,0.08);
+}
+.mob a:active {
+  transform: translateY(1px);
+}
+.mob .mob-shop-cta {
+  max-width: min(520px, 92vw);
+  margin: 0 auto 6px;
+  font-size: 1.02rem;
+}
+.mob .shop-guides-title {
+  width: min(520px, 92vw);
+  margin: 6px auto 0;
+  color: rgba(0,207,255,0.55);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Burger — plus discret / premium */
+.burger {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.26) !important;
+  border-color: rgba(0, 207, 255, 0.18) !important;
+  background: rgba(0, 207, 255, 0.04) !important;
+}
+.burger:hover {
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.34) !important;
+}
+.burger-line {
+  height: 1.25px !important;
+  background: rgba(200, 232, 255, 0.92) !important;
+}
+.burger.open .burger-line {
+  background: rgba(0, 207, 255, 0.95) !important;
+}
 
 /* ── PROGRESS BAR ── */
 #prog { position:fixed;top:0;left:0;height:2px;z-index:2000;background:linear-gradient(90deg,var(--c),var(--g));transition:width .1s;width:0;box-shadow:0 0 12px rgba(0,207,255,.7); }
