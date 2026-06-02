@@ -7,8 +7,8 @@ export default function Avis() {
   const [allAvis, setAllAvis] = useState(config.avis) // commence avec config
   const trackRef            = useRef(null)
   const getVis = () => window.innerWidth < 700 ? 1 : window.innerWidth < 1000 ? 2 : 3
-  const [vis, setVis]       = useState(3)
-  const total               = Math.ceil(allAvis.length / vis)
+  const [vis, setVis]       = useState(() => getVis())
+  const total               = Math.max(1, Math.ceil(allAvis.length / vis))
 
   // Charger les avis Supabase + les fusionner avec config.avis
   useEffect(() => {
@@ -27,9 +27,14 @@ export default function Avis() {
 
   useEffect(() => {
     const onResize = () => setVis(getVis())
+    onResize()
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
+
+  useEffect(() => {
+    setSlide(0)
+  }, [vis, allAvis.length])
 
   useEffect(() => {
     const iv = setInterval(() => setSlide(s => (s + 1) % total), 5000)
