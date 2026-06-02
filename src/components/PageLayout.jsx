@@ -10,6 +10,7 @@ import Footer       from './Footer.jsx'
 import Modals       from './Modals.jsx'
 import CookieBanner from './CookieBanner.jsx'
 import SeoSidebar   from './SeoSidebar.jsx'
+import MobileCartBar from './shop/MobileCartBar.jsx'
 import config       from '../config.js'
 import { isSeoHubPath } from '../data/seoPages.js'
 
@@ -28,6 +29,7 @@ export default function PageLayout({ children, title, description }) {
   const ogImage = `${base}/og-image.png`
   const desc = description || config.seoDesc
   const showSeoAside = isSeoHubPath(location.pathname)
+  const showMobileCartbar = location.pathname.startsWith('/boutique') && !location.pathname.startsWith('/panier')
 
   // Scroll nav shrink
   useEffect(() => {
@@ -68,7 +70,10 @@ export default function PageLayout({ children, title, description }) {
       <Cursor />
       <Nav />
 
-      <main style={{ paddingTop: 90, minHeight: '100vh', position: 'relative', zIndex: 5 }}>
+      <main
+        className={showMobileCartbar ? 'with-mobile-cartbar' : undefined}
+        style={{ paddingTop: 90, minHeight: '100vh', position: 'relative', zIndex: 5 }}
+      >
         {showSeoAside ? (
           <div className="container seo-page-layout">
             <SeoSidebar />
@@ -78,6 +83,8 @@ export default function PageLayout({ children, title, description }) {
           children
         )}
       </main>
+
+      {showMobileCartbar ? <MobileCartBar /> : null}
 
       <Footer />
       <Modals />

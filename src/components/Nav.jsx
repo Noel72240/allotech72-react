@@ -110,6 +110,7 @@ export default function Nav() {
             <a href={`tel:${config.telBrut}`} className="tel-mobile" style={{ background:'linear-gradient(135deg,#00CFFF,#00AEEF)', color:'#040B14', fontWeight:700, padding:'7px 12px', borderRadius:8, textDecoration:'none', fontSize:'.78rem', fontFamily:"'Orbitron',sans-serif", whiteSpace:'nowrap' }}>
               📞 Appeler
             </a>
+            <CartNavButton />
             <button className="burger" onClick={() => setOpen(!open)} aria-label="Menu" style={{ flexShrink:0 }}>
               <span style={{ transform: open ? 'rotate(45deg) translate(5px, 6px)' : '' }} />
               <span style={{ opacity: open ? 0 : 1 }} />
