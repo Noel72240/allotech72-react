@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth.jsx'
 import { supabase } from '../../lib/supabase.js'
 import config, { fullName } from '../../config.js'
 import AdminShop from './AdminShop.jsx'
+import AdminHome from './AdminHome.jsx'
 
 const CATEGORIES = ['Ordinateur','Téléphone','Tablette','Montage PC','Réseau','Site Web','Autre']
 const BUCKET     = 'galerie'
@@ -188,6 +189,7 @@ export default function AdminDashboard({ onChangePassword }) {
         <div className="admin-dash-tabs" style={{ display:'flex', gap:10, marginBottom:32, flexWrap:'wrap' }}>
           <Tab id="avis"    ico="⭐" label="Avis clients" />
           <Tab id="galerie" ico="📷" label="Galerie photos" />
+          <Tab id="accueil" ico="🏠" label="Page accueil" />
           <Tab id="boutique" ico="🛒" label="Boutique" />
           <Tab id="infos"   ico="ℹ️"  label="Infos site" />
         </div>
@@ -302,6 +304,9 @@ export default function AdminDashboard({ onChangePassword }) {
             </div>
           </div>
         )}
+
+        {/* ═══ PAGE ACCUEIL ═══ */}
+        {tab === 'accueil' && <AdminHome />}
 
         {/* ═══ BOUTIQUE ═══ */}
         {tab === 'boutique' && <AdminShop />}

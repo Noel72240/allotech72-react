@@ -128,7 +128,7 @@ const config = {
   ],
 
   // ── NOUVEAUTÉS (carousel accueil) ─────────────────────────
-  // Géré en priorité depuis Admin → Boutique → « Nouveautés accueil » (3 emplacements).
+  // Géré en priorité depuis Admin → Page accueil (3 emplacements).
   // Ci-dessous : contenu de secours si Supabase n’est pas configuré ou si aucune slide active.
   newsSlides: [
     {
