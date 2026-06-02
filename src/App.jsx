@@ -7,6 +7,7 @@ import Background   from './components/Background.jsx'
 import Cursor       from './components/Cursor.jsx'
 import Nav          from './components/Nav.jsx'
 import Hero         from './components/Hero.jsx'
+import NewsCarousel from './components/NewsCarousel.jsx'
 import Services     from './components/Services.jsx'
 import Avantages    from './components/Avantages.jsx'
 import About        from './components/About.jsx'
@@ -222,7 +223,9 @@ function Home() {
       <Cursor />
       <Nav />
       <main>
-        <Hero /><Services /><Avantages /><About /><Zone /><SeoLocalTeaser /><Avis /><Contact />
+        <Hero />
+        <NewsCarousel slides={config.newsSlides} />
+        <Services /><Avantages /><About /><Zone /><SeoLocalTeaser /><Avis /><Contact />
       </main>
       <Footer />
       <Modals />

@@ -127,6 +127,28 @@ const config = {
     'Cours informatique',
   ],
 
+  // ── NOUVEAUTÉS (carousel accueil) ─────────────────────────
+  // Images: place-les dans /public puis référence-les ici (ex: "/news/slide-1.jpg")
+  // link: URL interne (ex: "/boutique") ou externe ("https://...")
+  newsSlides: [
+    {
+      image: '/og-image.jpg',
+      kicker: 'Nouveauté',
+      title: 'Boutique en ligne',
+      text: 'Ajoutez au panier et payez en ligne. Livraison ou retrait près du Mans.',
+      cta: 'Voir la boutique',
+      link: '/boutique',
+    },
+    {
+      image: '/og-image.png',
+      kicker: 'Info',
+      title: 'Intervention rapide à domicile',
+      text: 'Diagnostic clair, devis transparent, déplacement rapide — 7j/7.',
+      cta: 'Demander un devis',
+      link: '/#contact',
+    },
+  ],
+
   // ── OPTIONS FORMULAIRE ────────────────────────────────────
   formOptions: [
     'Réparation ordinateur',
