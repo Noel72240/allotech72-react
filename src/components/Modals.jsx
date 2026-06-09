@@ -4,6 +4,7 @@
 // ══════════════════════════════════════════════
 import { useEffect } from 'react'
 import { useCookies } from '../hooks/useCookies.jsx'
+import { ANALYTICS_ENABLED } from '../lib/analytics.js'
 import config, { siteDomainForEmail, fullName } from '../config.js'
 
 const closeModal = (id) => {
@@ -167,6 +168,11 @@ export default function Modals() {
           <p>
             <strong>Commandes boutique (email) :</strong> notification de commande via <strong>Formspree</strong> vers contact@{siteDomainForEmail()}.
           </p>
+          {ANALYTICS_ENABLED && (
+            <p>
+              <strong>Mesure d’audience (Google Analytics 4) :</strong> si vous acceptez les cookies analytiques, des données de navigation agrégées (pages vues, type d’appareil, origine du trafic) sont traitées par <strong>Google</strong> (Google Ireland Limited / Google LLC) pour produire des statistiques de fréquentation. Voir section « Cookies et traceurs ».
+            </p>
+          )}
 
           <h3>6. Vos droits</h3>
           <p>Conformément au RGPD et à la Loi Informatique et Libertés modifiée, vous disposez des droits suivants :</p>
@@ -191,14 +197,32 @@ export default function Modals() {
 
           <h3>7. Cookies et traceurs</h3>
           <p>
-            <strong>Ce site n’utilise pas de cookies de suivi actuellement</strong> (publicité, mesure d’audience type Google Analytics, réseaux sociaux, etc.).
+            Le bandeau cookies vous permet d’<strong>accepter ou refuser</strong> les cookies de mesure d’audience.
+            Les cookies <strong>strictement nécessaires</strong> (mémorisation de votre choix cookies) sont toujours utilisés.
           </p>
-          <p>
-            Sont utilisés uniquement des cookies <strong>strictement nécessaires</strong> au fonctionnement (mémorisation de vos préférences cookies via le bandeau).
-            <strong> Aucun cookie publicitaire, de tracking ou d’analyse d’audience n’est déposé</strong> sans votre consentement explicite, conformément aux recommandations de la CNIL (délibération n°2020-091 du 17 septembre 2020).
-          </p>
+          {ANALYTICS_ENABLED ? (
+            <>
+              <p><strong>Mesure d’audience (sur consentement uniquement) :</strong></p>
+              <ul>
+                <li><strong>Outil :</strong> Google Analytics 4 (Google Ireland Limited / Google LLC)</li>
+                <li><strong>Finalité :</strong> statistiques de fréquentation (pages visitées, origine du trafic), de manière agrégée</li>
+                <li><strong>Base légale :</strong> consentement (art. 6.1.a RGPD)</li>
+                <li><strong>Durée :</strong> selon la politique Google (cookies _ga, _ga_* — typiquement 13 mois max.)</li>
+                <li><strong>Désactivation :</strong> refuser via le bandeau, ou{' '}
+                  <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">module de désactivation Google</a>
+                </li>
+              </ul>
+              <p style={{ fontSize: '.82rem', color: 'var(--dim)' }}>
+                Aucun cookie publicitaire ou de retargeting n’est utilisé. L’adresse IP peut être anonymisée (paramètre activé).
+              </p>
+            </>
+          ) : (
+            <p>
+              Aucun cookie de mesure d’audience n’est déposé actuellement (publicité, réseaux sociaux, etc.).
+            </p>
+          )}
           <p style={{ fontSize: '.82rem', color: 'var(--dim)' }}>
-            Évolution possible : si un outil d’analyse d’audience est ajouté (ex. Google Analytics), le bandeau de cookies sera adapté pour recueillir votre consentement avant tout dépôt de cookies non nécessaires, et la présente politique sera mise à jour.
+            Conformément aux recommandations CNIL (délibération n°2020-091), aucun traceur non essentiel n’est déposé sans votre consentement explicite.
           </p>
           <p>
             Vous pouvez à tout moment modifier vos préférences cookies :

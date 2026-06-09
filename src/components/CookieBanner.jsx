@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useCookies } from '../hooks/useCookies.jsx'
-// Futur bandeau / chargement GA : activer VITE_ENABLE_ANALYTICS_COOKIES + voir src/config/analyticsPlaceholder.js
+import { ANALYTICS_ENABLED } from '../lib/analytics.js'
 
 export default function CookieBanner() {
   const { pending, accept, reject } = useCookies()
@@ -38,7 +38,7 @@ export default function CookieBanner() {
                 🍪 Ce site utilise des cookies
               </p>
               <p style={{ color:'var(--dim)', fontSize:'.8rem', lineHeight:1.6 }}>
-                Uniquement des cookies nécessaires au fonctionnement.{' '}
+                Cookies nécessaires + mesure d’audience optionnelle (Google Analytics) si vous acceptez.{' '}
                 <button
                   onClick={() => setDetail(true)}
                   style={{ background:'none', border:'none', color:'var(--c)', cursor:'pointer', fontSize:'.8rem', textDecoration:'underline', padding:0 }}
@@ -98,7 +98,14 @@ export default function CookieBanner() {
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))', gap:10, marginBottom:18 }}>
               {[
                 { titre:'Nécessaires', badge:'Toujours actif', badgeColor:'var(--g)', txt:'Cookies indispensables au fonctionnement (session, préférences). Ne peuvent pas être désactivés.' },
-                { titre:'Analytiques',  badge:'Non actifs',     badgeColor:'var(--dim)', txt:"Aucun outil d'analyse d'audience actif sur ce site." },
+                {
+                  titre:'Analytiques',
+                  badge: ANALYTICS_ENABLED ? 'Sur consentement' : 'Non actifs',
+                  badgeColor: ANALYTICS_ENABLED ? '#FFB800' : 'var(--dim)',
+                  txt: ANALYTICS_ENABLED
+                    ? 'Google Analytics 4 (Google Ireland Limited) — mesure d’audience anonymisée, activé uniquement si vous cliquez « Accepter ».'
+                    : "Aucun outil d'analyse d'audience actif sur ce site.",
+                },
                 { titre:'Marketing',   badge:'Non actifs',     badgeColor:'var(--dim)', txt:'Aucun cookie publicitaire ou de retargeting utilisé.' },
               ].map(c => (
                 <div key={c.titre} style={{ background:'rgba(0,207,255,0.04)', border:'1px solid rgba(0,207,255,0.14)', borderRadius:10, padding:'12px 14px' }}>

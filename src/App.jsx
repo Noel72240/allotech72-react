@@ -22,6 +22,7 @@ import CookieBanner from './components/CookieBanner.jsx'
 
 import ConfigBanner from './components/ConfigBanner.jsx'
 import ScrollToTop  from './components/ScrollToTop.jsx'
+import GoogleAnalytics from './components/GoogleAnalytics.jsx'
 import Galerie      from './pages/Galerie.jsx'
 import Actu         from './pages/Actu.jsx'
 import ActuArticle  from './pages/ActuArticle.jsx'
@@ -254,6 +255,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <GoogleAnalytics />
       <ConfigBanner />
       <Routes>
         <Route path="/"        element={<Home />} />
