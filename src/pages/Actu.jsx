@@ -58,8 +58,14 @@ export default function Actu() {
               {posts.map((post, index) => (
                 <article
                   key={post.id}
-                  className={`actu-card${index === 0 ? ' actu-card--latest' : ''}`}
+                  className={`actu-card${index === 0 ? ' actu-card--latest' : ''}${post.imageUrl ? ' actu-card--with-image' : ''}`}
                 >
+                  {post.imageUrl && (
+                    <Link to={`/actu/${post.slug}`} className="actu-card-cover-link">
+                      <img src={post.imageUrl} alt={post.title} className="actu-card-cover" loading="lazy" />
+                    </Link>
+                  )}
+                  <div className="actu-card-content">
                   {index === 0 && <span className="actu-card-badge">Dernière</span>}
                   <time dateTime={post.publishedAt} className="actu-card-date">
                     {formatActuDate(post.publishedAt)}
@@ -73,6 +79,7 @@ export default function Actu() {
                     <Link to={`/actu/${post.slug}`} className="actu-card-link">
                       Lire l'article →
                     </Link>
+                  </div>
                   </div>
                 </article>
               ))}

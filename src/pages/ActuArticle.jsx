@@ -60,6 +60,8 @@ export default function ActuArticle() {
   const canonical = `${base}/actu/${post.slug}`
   const pageTitle = `${post.title} — Actualités`
 
+  const ogImage = post.imageUrl || `${base}/og-image.png`
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
@@ -74,12 +76,14 @@ export default function ActuArticle() {
       logo: { '@type': 'ImageObject', url: `${base}/logoat72.png` },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    ...(post.imageUrl ? { image: [post.imageUrl] } : {}),
   }
 
   return (
     <PageLayout title={pageTitle} description={desc}>
       <Helmet>
         <meta property="og:type" content="article" />
+        <meta property="og:image" content={ogImage} />
         <meta property="article:published_time" content={post.publishedAt} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
@@ -104,6 +108,12 @@ export default function ActuArticle() {
             </div>
           </header>
 
+          {post.imageUrl && (
+            <figure className="actu-article-cover">
+              <img src={post.imageUrl} alt={post.title} />
+            </figure>
+          )}
+
           <div className="actu-article-body">
             {post.body.split(/\n{2,}/).map((para, i) => (
               <p key={i}>{para.trim()}</p>
@@ -125,11 +135,16 @@ export default function ActuArticle() {
             <ul>
               {others.map(o => (
                 <li key={o.id}>
-                  <Link to={`/actu/${o.slug}`}>
-                    <time dateTime={o.publishedAt}>
-                      {new Date(o.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
-                    </time>
-                    <span>{o.title}</span>
+                  <Link to={`/actu/${o.slug}`} className={o.imageUrl ? 'actu-related-link--with-image' : ''}>
+                    {o.imageUrl && (
+                      <img src={o.imageUrl} alt="" className="actu-related-thumb" loading="lazy" />
+                    )}
+                    <span className="actu-related-text">
+                      <time dateTime={o.publishedAt}>
+                        {new Date(o.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </time>
+                      <span>{o.title}</span>
+                    </span>
                   </Link>
                 </li>
               ))}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase.js'
 import {
@@ -7,6 +7,7 @@ import {
   resolveUniqueActuSlug,
   buildActuExcerpt,
   actuCharStatus,
+  uploadActuImage,
   ACTU_MIN_CHARS,
   ACTU_MAX_CHARS,
   formatActuDate,
@@ -22,6 +23,7 @@ const emptyForm = () => ({
   title: '',
   body: '',
   slug: '',
+  image_url: '',
   published: true,
   published_at: new Date().toISOString().slice(0, 10),
 })
@@ -41,6 +43,8 @@ export default function AdminActu() {
   const [editId, setEditId]   = useState(null)
   const [msg, setMsg]         = useState(null)
   const [saving, setSaving]   = useState(false)
+  const [preview, setPreview] = useState('')
+  const imageRef = useRef()
 
   useEffect(() => { fetchPosts() }, [])
 
@@ -57,6 +61,8 @@ export default function AdminActu() {
   const resetForm = () => {
     setForm(emptyForm())
     setEditId(null)
+    setPreview('')
+    if (imageRef.current) imageRef.current.value = ''
   }
 
   const startEdit = (post) => {
@@ -65,12 +71,28 @@ export default function AdminActu() {
       title: post.title,
       body: post.body,
       slug: post.slug,
+      image_url: post.imageUrl || '',
       published: post.published,
       published_at: (post.publishedAt || '').slice(0, 10) || new Date().toISOString().slice(0, 10),
     })
+    setPreview('')
+    if (imageRef.current) imageRef.current.value = ''
     setMsg(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const onImageChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) setPreview(URL.createObjectURL(file))
+  }
+
+  const removeImage = () => {
+    setForm(f => ({ ...f, image_url: '' }))
+    setPreview('')
+    if (imageRef.current) imageRef.current.value = ''
+  }
+
+  const displayImage = preview || form.image_url
 
   const savePost = async () => {
     if (!form.title.trim()) { setMsg({ ok: false, txt: 'Le titre est obligatoire.' }); return }
@@ -96,11 +118,23 @@ export default function AdminActu() {
       ? new Date(`${form.published_at}T12:00:00`).toISOString()
       : new Date().toISOString()
 
+    let image_url = form.image_url || ''
+    try {
+      if (imageRef.current?.files?.[0]) {
+        image_url = await uploadActuImage(imageRef.current.files[0], slug)
+      }
+    } catch (e) {
+      setMsg({ ok: false, txt: `Erreur upload image : ${e.message}` })
+      setSaving(false)
+      return
+    }
+
     const payload = {
       title: form.title.trim(),
       body: form.body.trim(),
       excerpt,
       slug,
+      image_url,
       published: form.published,
       published_at,
       updated_at: new Date().toISOString(),
@@ -168,6 +202,31 @@ export default function AdminActu() {
             onChange={e => setForm({ ...form, slug: e.target.value })}
             placeholder="auto-généré depuis le titre"
           />
+        </div>
+
+        <div style={{ marginBottom:14 }}>
+          <label style={lbl}>Image de couverture (.jpg .png .webp)</label>
+          <input
+            ref={imageRef}
+            type="file"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
+            onChange={onImageChange}
+            style={{ ...inp, padding:'9px 12px', cursor:'pointer' }}
+          />
+          {displayImage && (
+            <div style={{ marginTop:10, position:'relative', borderRadius:12, overflow:'hidden', height:140, border:'1px solid rgba(0,207,255,0.2)' }}>
+              <img src={displayImage} alt="Aperçu" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+              <button
+                type="button"
+                onClick={removeImage}
+                style={{ position:'absolute', top:8, right:8, ...btnD, width:30, height:30, fontSize:'.75rem', background:'rgba(4,11,20,0.85)' }}
+                title="Retirer l'image"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+          <p style={{ color:'var(--dim)', fontSize:'.68rem', marginTop:6 }}>Optionnel — améliore le référencement et l'affichage sur /actu</p>
         </div>
 
         <div style={{ marginBottom:14 }}>
@@ -239,6 +298,11 @@ export default function AdminActu() {
             {posts.map(p => (
               <div key={p.id} style={{ background:'rgba(5,14,28,0.7)', border:'1px solid rgba(0,207,255,0.1)', borderRadius:14, padding:'16px 18px' }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:12 }}>
+                  {p.imageUrl && (
+                    <div style={{ width:72, height:72, borderRadius:10, overflow:'hidden', flexShrink:0, border:'1px solid rgba(0,207,255,0.15)' }}>
+                      <img src={p.imageUrl} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                    </div>
+                  )}
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:'flex', gap:8, alignItems:'center', flexWrap:'wrap', marginBottom:6 }}>
                       <span style={{
