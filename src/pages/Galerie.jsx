@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageLayout from '../components/PageLayout.jsx'
+import GaleriePhotoMedia from '../components/GaleriePhotoMedia.jsx'
 import { supabase } from '../lib/supabase.js'
 import config from '../config.js'
 
@@ -34,7 +35,7 @@ export default function Galerie() {
           <div className="stag">Réalisations</div>
           <h2>Ma <span className="c">Galerie</span></h2>
           <div className="div-line" />
-          <p className="sub">Photos avant / après de mes interventions.</p>
+          <p className="sub">Réalisations et photos de mes interventions — avant/après ou photo simple.</p>
         </div>
 
         {/* Filtres */}
@@ -62,27 +63,7 @@ export default function Galerie() {
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:24 }}>
             {affichees.map(photo => (
               <div key={photo.id} className="svc-card" style={{ padding:0, overflow:'hidden' }}>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', height:190, background:'#071120' }}>
-                  {[['avant_url','AVANT'],['apres_url','APRÈS']].map(([key,label],i) => (
-                    <div key={key} style={{ position:'relative', overflow:'hidden', cursor: photo[key] ? 'pointer' : 'default' }}
-                      onClick={() => photo[key] && setLightbox({ src:photo[key], titre:`${photo.titre} — ${label}` })}
-                    >
-                      {photo[key]
-                        ? <img src={photo[key]} alt={label} style={{ width:'100%', height:'100%', objectFit:'cover', transition:'transform .3s' }}
-                            onMouseEnter={e => e.target.style.transform='scale(1.05)'}
-                            onMouseLeave={e => e.target.style.transform=''}
-                          />
-                        : <div style={{ width:'100%', height:'100%', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6 }}>
-                            <span style={{ fontSize:'1.8rem' }}>📷</span>
-                            <span style={{ color:'var(--dim)', fontSize:'.72rem' }}>{label}</span>
-                          </div>
-                      }
-                      <div style={{ position:'absolute', bottom:0, left:0, right:0, background: i===0 ? 'rgba(255,80,80,0.8)' : 'rgba(43,255,154,0.8)', color: i===0 ? '#fff' : '#040B14', textAlign:'center', fontSize:'.68rem', fontWeight:700, padding:'5px', fontFamily:"'Orbitron',sans-serif", letterSpacing:'.1em' }}>
-                        {label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <GaleriePhotoMedia photo={photo} onLightbox={setLightbox} />
                 <div style={{ padding:'18px 22px' }}>
                   <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:10, marginBottom:8 }}>
                     <h3 style={{ margin:0, fontSize:'.95rem', color:'#fff' }}>{photo.titre}</h3>

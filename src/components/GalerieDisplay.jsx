@@ -1,6 +1,7 @@
 // Composant réutilisable — affiche les photos depuis Supabase
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase.js'
+import GaleriePhotoMedia from './GaleriePhotoMedia.jsx'
 
 const CATEGORIES = ['Tous', 'Ordinateur', 'Téléphone', 'Tablette', 'Montage PC', 'Réseau', 'Site Web', 'Autre']
 
@@ -47,31 +48,7 @@ export default function GalerieDisplay() {
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:24 }}>
           {affichees.map(photo => (
             <div key={photo.id} className="svc-card" style={{ padding:0, overflow:'hidden' }}>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', height:190, background:'#071120' }}>
-                {['avant','apres'].map(type => (
-                  <div key={type} style={{ position:'relative', overflow:'hidden', cursor: photo[type] ? 'pointer' : 'default' }}
-                    onClick={() => photo[type] && setLightbox({ src:photo[type], titre:`${photo.titre} — ${type}` })}
-                  >
-                    {photo[type]
-                      ? <img src={photo[type]} alt={`${photo.titre} ${type}`} style={{ width:'100%', height:'100%', objectFit:'cover', transition:'transform .3s' }}
-                          onMouseEnter={e => e.target.style.transform='scale(1.05)'}
-                          onMouseLeave={e => e.target.style.transform=''}
-                        />
-                      : <div style={{ width:'100%', height:'100%', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6 }}>
-                          <span style={{ fontSize:'1.8rem' }}>📷</span>
-                          <span style={{ color:'var(--dim)', fontSize:'.72rem' }}>{type}</span>
-                        </div>
-                    }
-                    <div style={{
-                      position:'absolute', bottom:0, left:0, right:0,
-                      background: type==='avant' ? 'rgba(255,80,80,0.8)' : 'rgba(43,255,154,0.8)',
-                      color: type==='avant' ? '#fff' : '#040B14',
-                      textAlign:'center', fontSize:'.68rem', fontWeight:700,
-                      padding:'5px', fontFamily:"'Orbitron',sans-serif", letterSpacing:'.1em',
-                    }}>{type.toUpperCase()}</div>
-                  </div>
-                ))}
-              </div>
+              <GaleriePhotoMedia photo={photo} onLightbox={setLightbox} />
               <div style={{ padding:'18px 22px' }}>
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:10, marginBottom:8 }}>
                   <h3 style={{ margin:0, fontSize:'.95rem', color:'#fff' }}>{photo.titre}</h3>

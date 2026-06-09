@@ -6,6 +6,8 @@ import config, { fullName } from '../../config.js'
 import AdminShop from './AdminShop.jsx'
 import AdminHome from './AdminHome.jsx'
 import AdminActu from './AdminActu.jsx'
+import GaleriePhotoMedia from '../../components/GaleriePhotoMedia.jsx'
+import { isGalerieAvantApres } from '../../lib/galerie.js'
 
 const CATEGORIES = ['Ordinateur','Téléphone','Tablette','Montage PC','Réseau','Site Web','Autre']
 const BUCKET     = 'galerie'
@@ -37,7 +39,7 @@ export default function AdminDashboard({ onChangePassword }) {
   // ══ GALERIE (Supabase) ══
   const [photos,    setPhotos]    = useState([])
   const [photoLoad, setPhotoLoad] = useState(true)
-  const [photoForm, setPhotoForm] = useState({ titre:'', categorie:'Ordinateur', description:'' })
+  const [photoForm, setPhotoForm] = useState({ titre:'', categorie:'Ordinateur', description:'', avant_apres:true })
   const [photoMsg,  setPhotoMsg]  = useState(null)
   const [preview,   setPreview]   = useState({ avant:'', apres:'' })
   const [uploading, setUploading] = useState(false)
@@ -97,9 +99,18 @@ export default function AdminDashboard({ onChangePassword }) {
     setPhotoMsg({ ok:true, txt:'⏳ Upload en cours...' })
     try {
       const ts = Date.now()
-      let avant_url = null, apres_url = null
-      if (avantRef.current?.files[0]) avant_url = await uploadImage(avantRef.current.files[0], `avant_${ts}`)
-      if (apresRef.current?.files[0]) apres_url = await uploadImage(apresRef.current.files[0], `apres_${ts}`)
+      let avant_url = null
+      let apres_url = null
+      if (photoForm.avant_apres) {
+        if (avantRef.current?.files[0]) avant_url = await uploadImage(avantRef.current.files[0], `avant_${ts}`)
+        if (apresRef.current?.files[0]) apres_url = await uploadImage(apresRef.current.files[0], `apres_${ts}`)
+      } else {
+        if (apresRef.current?.files[0]) {
+          apres_url = await uploadImage(apresRef.current.files[0], `photo_${ts}`)
+        } else if (avantRef.current?.files[0]) {
+          apres_url = await uploadImage(avantRef.current.files[0], `photo_${ts}`)
+        }
+      }
 
       const { error } = await supabase.from('galerie').insert([{
         titre:       photoForm.titre.trim(),
@@ -107,10 +118,11 @@ export default function AdminDashboard({ onChangePassword }) {
         description: photoForm.description.trim(),
         avant_url,
         apres_url,
+        avant_apres: photoForm.avant_apres,
       }])
       if (error) throw error
 
-      setPhotoForm({ titre:'', categorie:'Ordinateur', description:'' })
+      setPhotoForm({ titre:'', categorie:'Ordinateur', description:'', avant_apres:true })
       setPreview({ avant:'', apres:'' })
       if (avantRef.current) avantRef.current.value = ''
       if (apresRef.current) apresRef.current.value = ''
@@ -128,6 +140,12 @@ export default function AdminDashboard({ onChangePassword }) {
     if (!window.confirm('Supprimer cette photo ?')) return
     await supabase.from('galerie').delete().eq('id', id)
     setPhotos(prev => prev.filter(p => p.id !== id))
+  }
+
+  const togglePhotoAvantApres = async (photo) => {
+    const next = !isGalerieAvantApres(photo)
+    await supabase.from('galerie').update({ avant_apres: next }).eq('id', photo.id)
+    fetchPhotos()
   }
 
   const onFileChange = (type, e) => {
@@ -249,6 +267,22 @@ export default function AdminDashboard({ onChangePassword }) {
                 </select>
               </div>
               <div style={{ marginBottom:14 }}><label style={lbl}>Description</label><input style={inp} type="text" value={photoForm.description} onChange={e=>setPhotoForm({...photoForm,description:e.target.value})} placeholder="Courte description" /></div>
+              <div style={{ marginBottom:16, padding:'12px 14px', borderRadius:10, background:'rgba(0,207,255,0.05)', border:'1px solid rgba(0,207,255,0.15)' }}>
+                <label style={{ display:'flex', alignItems:'center', gap:10, cursor:'pointer', color:'var(--tx)', fontSize:'.88rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={photoForm.avant_apres}
+                    onChange={e => setPhotoForm({ ...photoForm, avant_apres: e.target.checked })}
+                    style={{ width:18, height:18, accentColor:'var(--c)' }}
+                  />
+                  Mode <strong>avant / après</strong> (2 photos côte à côte)
+                </label>
+                <p style={{ margin:'8px 0 0', fontSize:'.72rem', color:'var(--dim)', lineHeight:1.5 }}>
+                  Désactivez pour une seule photo (logiciel, montage PC, réalisation…).
+                </p>
+              </div>
+              {photoForm.avant_apres ? (
+                <>
               <div style={{ marginBottom:14 }}>
                 <label style={lbl}>📷 Photo AVANT (.jpg .png .webp)</label>
                 <input ref={avantRef} type="file" accept="image/jpeg,image/jpg,image/png,image/webp" onChange={e=>onFileChange('avant',e)} style={{ ...inp, padding:'9px 12px', cursor:'pointer' }} />
@@ -259,6 +293,14 @@ export default function AdminDashboard({ onChangePassword }) {
                 <input ref={apresRef} type="file" accept="image/jpeg,image/jpg,image/png,image/webp" onChange={e=>onFileChange('apres',e)} style={{ ...inp, padding:'9px 12px', cursor:'pointer' }} />
                 {preview.apres && <div style={{ marginTop:8, borderRadius:8, overflow:'hidden', height:90, position:'relative' }}><img src={preview.apres} alt="apres" style={{ width:'100%', height:'100%', objectFit:'cover' }} /><div style={{ position:'absolute', bottom:0, left:0, right:0, background:'rgba(43,255,154,0.8)', color:'#040B14', fontSize:'.62rem', fontWeight:700, textAlign:'center', padding:3, fontFamily:"'Orbitron',sans-serif" }}>APRÈS</div></div>}
               </div>
+                </>
+              ) : (
+              <div style={{ marginBottom:20 }}>
+                <label style={lbl}>📷 Photo (.jpg .png .webp)</label>
+                <input ref={apresRef} type="file" accept="image/jpeg,image/jpg,image/png,image/webp" onChange={e=>onFileChange('apres',e)} style={{ ...inp, padding:'9px 12px', cursor:'pointer' }} />
+                {preview.apres && <div style={{ marginTop:8, borderRadius:8, overflow:'hidden', height:120 }}><img src={preview.apres} alt="photo" style={{ width:'100%', height:'100%', objectFit:'cover' }} /></div>}
+              </div>
+              )}
               <Msg msg={photoMsg} />
               <button style={{ ...btnP, width:'100%', opacity: uploading ? .6 : 1 }} onClick={addPhoto} disabled={uploading}>
                 {uploading ? '⏳ Upload...' : 'Ajouter la photo →'}
@@ -276,28 +318,33 @@ export default function AdminDashboard({ onChangePassword }) {
                 <div className="admin-dash-photo-grid" style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:14 }}>
                   {photos.map(p => (
                     <div key={p.id} style={{ background:'rgba(5,14,28,0.7)', border:'1px solid rgba(0,207,255,0.1)', borderRadius:14, overflow:'hidden' }}>
-                      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', height:110, background:'#071120' }}>
-                        {['avant_url','apres_url'].map((key,i) => {
-                          const type = i===0 ? 'avant' : 'apres'
-                          return (
-                            <div key={key} style={{ position:'relative', overflow:'hidden', cursor: p[key] ? 'zoom-in' : 'default' }}
-                              onClick={() => p[key] && setLightbox({ src:p[key], titre:`${p.titre} — ${type}` })}
-                            >
-                              {p[key] ? <img src={p[key]} alt={type} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
-                                : <div style={{ width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--dim)', fontSize:'.65rem', flexDirection:'column', gap:4 }}><span style={{ fontSize:'1.2rem' }}>📷</span>{type}</div>}
-                              <div style={{ position:'absolute', bottom:0, left:0, right:0, padding:'3px 0', textAlign:'center', fontSize:'.62rem', fontWeight:700, fontFamily:"'Orbitron',sans-serif", background: i===0 ? 'rgba(255,80,80,0.8)' : 'rgba(43,255,154,0.8)', color: i===0 ? '#fff' : '#040B14' }}>
-                                {type.toUpperCase()}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
+                      <GaleriePhotoMedia photo={p} onLightbox={setLightbox} height={110} />
                       <div style={{ padding:'10px 14px', display:'flex', justifyContent:'space-between', alignItems:'center', gap:8 }}>
                         <div>
                           <p style={{ color:'#fff', fontSize:'.82rem', fontWeight:600 }}>{p.titre}</p>
-                          <span style={{ background:'rgba(0,207,255,0.1)', color:'var(--c)', fontSize:'.65rem', padding:'2px 8px', borderRadius:4 }}>{p.categorie}</span>
+                          <div style={{ display:'flex', gap:6, flexWrap:'wrap', marginTop:4 }}>
+                            <span style={{ background:'rgba(0,207,255,0.1)', color:'var(--c)', fontSize:'.65rem', padding:'2px 8px', borderRadius:4 }}>{p.categorie}</span>
+                            <span style={{
+                              fontSize:'.62rem', padding:'2px 8px', borderRadius:4, fontWeight:700,
+                              background: isGalerieAvantApres(p) ? 'rgba(255,80,80,0.12)' : 'rgba(43,255,154,0.12)',
+                              color: isGalerieAvantApres(p) ? '#ff8a8a' : 'var(--g)',
+                              border: `1px solid ${isGalerieAvantApres(p) ? 'rgba(255,80,80,0.3)' : 'rgba(43,255,154,0.3)'}`,
+                            }}>
+                              {isGalerieAvantApres(p) ? 'Avant / Après' : 'Photo simple'}
+                            </span>
+                          </div>
                         </div>
-                        <button style={btnD} onClick={() => deletePhoto(p.id)}>✕</button>
+                        <div style={{ display:'flex', gap:6, flexShrink:0 }}>
+                          <button
+                            type="button"
+                            title={isGalerieAvantApres(p) ? 'Passer en photo simple' : 'Activer avant/après'}
+                            onClick={() => togglePhotoAvantApres(p)}
+                            style={{ ...btnD, width:36, borderRadius:8, background:'rgba(0,207,255,0.08)', border:'1px solid rgba(0,207,255,0.2)', color:'var(--c)' }}
+                          >
+                            {isGalerieAvantApres(p) ? '1×' : 'A|A'}
+                          </button>
+                          <button style={btnD} onClick={() => deletePhoto(p.id)}>✕</button>
+                        </div>
                       </div>
                     </div>
                   ))}
