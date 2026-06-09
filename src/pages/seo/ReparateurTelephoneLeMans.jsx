@@ -10,13 +10,6 @@ const schema = {
   provider: { '@type':'LocalBusiness', name:config.brand, telephone:'+33'+config.telBrut.slice(1) },
   areaServed: { '@type':'City', name:'Le Mans' },
   serviceType: 'Réparation téléphone',
-  aggregateRating: { '@type':'AggregateRating', ratingValue:'5', reviewCount:String(config.avis.length), bestRating:'5' },
-  review: config.avis.slice(0,3).map(a => ({
-    '@type':'Review',
-    author: { '@type':'Person', name:a.nom },
-    reviewRating: { '@type':'Rating', ratingValue:'5', bestRating:'5' },
-    reviewBody: a.texte,
-  })),
 }
 
 const reparations = [

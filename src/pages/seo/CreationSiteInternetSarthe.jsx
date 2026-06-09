@@ -10,7 +10,6 @@ const schema = {
   provider: { '@type':'LocalBusiness', name:config.brand, telephone:'+33'+config.telBrut.slice(1) },
   areaServed: { '@type':'State', name:'Sarthe' },
   serviceType: 'Création site web',
-  aggregateRating: { '@type':'AggregateRating', ratingValue:'5', reviewCount:String(config.avis.length), bestRating:'5' },
 }
 
 const prestations = [

@@ -110,8 +110,9 @@ function SeoHome() {
     },
     review: config.avis.slice(0, 5).map(a => ({
       '@type':       'Review',
+      itemReviewed:  { '@type':'LocalBusiness', '@id': config.siteUrl + '/#business', name: config.brand },
       author:        { '@type':'Person', name: a.nom },
-      reviewRating:  { '@type':'Rating', ratingValue:'5', bestRating:'5' },
+      reviewRating:  { '@type':'Rating', ratingValue:'5', bestRating:'5', worstRating:'1' },
       reviewBody:     a.texte,
       name:           a.type,
     })),
