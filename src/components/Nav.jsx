@@ -11,6 +11,8 @@ export default function Nav() {
   const loc    = useLocation()
   const home   = loc.pathname === '/'
   const onShop = loc.pathname.startsWith('/boutique') || loc.pathname.startsWith('/panier')
+  const pageActive = (path) =>
+    loc.pathname === path || (path.length > 1 && loc.pathname.startsWith(`${path}/`))
 
   return (
     <>
@@ -97,10 +99,10 @@ export default function Nav() {
             <li><a href={home ? '#avantages' : '/#avantages'}>Avantages</a></li>
             <li><a href={home ? '#qui'       : '/#qui'}>Qui suis-je</a></li>
             <li><a href={home ? '#zone'      : '/#zone'}>Zone</a></li>
-            <li><Link to="/avis">Avis</Link></li>
-            <li><Link to="/galerie">Galerie</Link></li>
-            <li><Link to="/actu">Actu</Link></li>
-            <li><Link to="/boutique" className="nav-shop-cta">🛒 Boutique</Link></li>
+            <li><Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''}>Avis</Link></li>
+            <li><Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''}>Galerie</Link></li>
+            <li><Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''}>Actu</Link></li>
+            <li><Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' nav-page-active' : ''}`}>🛒 Boutique</Link></li>
             <li><CartNavButton /></li>
             <li style={{ marginLeft:8 }}>
               <a href={`tel:${config.telBrut}`} className="ncta">📞 {config.telephone}</a>
@@ -168,9 +170,9 @@ export default function Nav() {
         <a href={home ? '#avantages' : '/#avantages'} onClick={close}>Avantages</a>
         <a href={home ? '#qui'       : '/#qui'}       onClick={close}>Qui suis-je ?</a>
         <a href={home ? '#zone'      : '/#zone'}      onClick={close}>Zone</a>
-        <a href={home ? '#avis'      : '/#avis'}      onClick={close}>Avis</a>
-        <Link to="/galerie" onClick={close}>Galerie</Link>
-        <Link to="/actu" onClick={close}>Actu</Link>
+        <Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''} onClick={close}>Avis</Link>
+        <Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''} onClick={close}>Galerie</Link>
+        <Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''} onClick={close}>Actu</Link>
         <Link to="/panier" onClick={close}>Panier 🛒</Link>
         <a href={home ? '#contact'   : '/#contact'}   onClick={close}>Contact</a>
         <a href={`tel:${config.telBrut}`} style={{ color:'var(--c)', fontFamily:"'Orbitron',sans-serif", fontSize:'1.2rem' }}>
