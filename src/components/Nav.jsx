@@ -102,10 +102,10 @@ export default function Nav() {
             <li><Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''}>Avis</Link></li>
             <li><Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''}>Galerie</Link></li>
             <li><Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''}>Actu</Link></li>
-            <li><Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' nav-page-active' : ''}`}>🛒 Boutique</Link></li>
+            <li><Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link></li>
             <li><CartNavButton /></li>
-            <li style={{ marginLeft:8 }}>
-              <a href={`tel:${config.telBrut}`} className="ncta">📞 {config.telephone}</a>
+            <li>
+              <a href={`tel:${config.telBrut}`} className="ncta">{config.telephone}</a>
             </li>
           </ul>
 
