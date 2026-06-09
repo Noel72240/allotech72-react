@@ -144,7 +144,8 @@ export default function AdminActu() {
           {editId ? '✏️ Modifier l\'actu' : '➕ Nouvelle actu'}
         </h3>
         <p style={{ color:'var(--dim)', fontSize:'.78rem', marginBottom:24, lineHeight:1.5 }}>
-          Rédigez une actualité de <strong style={{ color:'var(--c)' }}>{ACTU_MIN_CHARS} à {ACTU_MAX_CHARS} caractères</strong> chaque semaine pour le référencement local.
+          Publiez autant d'actualités que vous voulez ({ACTU_MIN_CHARS}–{ACTU_MAX_CHARS} caractères chacune).
+          Toutes les actus publiées apparaissent sur la page <strong style={{ color:'var(--c)' }}>/actu</strong>.
         </p>
 
         <div style={{ marginBottom:14 }}>

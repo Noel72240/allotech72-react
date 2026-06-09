@@ -22,8 +22,6 @@ export default function Actu() {
     fetch()
   }, [])
 
-  const [featured, ...rest] = posts
-
   return (
     <PageLayout
       title="Actualités informatiques Sarthe"
@@ -36,8 +34,11 @@ export default function Actu() {
           <h2>Les <span className="c">Actus</span></h2>
           <div className="div-line" />
           <p className="sub">
-            Chaque semaine, un conseil ou une actualité informatique pour Le Mans et la Sarthe.
+            Toutes nos actualités et conseils informatiques pour Le Mans et la Sarthe.
           </p>
+          {!loading && posts.length > 0 && (
+            <p className="actu-count">{posts.length} actualité{posts.length > 1 ? 's' : ''} publiée{posts.length > 1 ? 's' : ''}</p>
+          )}
         </header>
 
         {loading ? (
@@ -52,45 +53,31 @@ export default function Actu() {
             </p>
           </div>
         ) : (
-          <>
-            {featured && (
-              <Link to={`/actu/${featured.slug}`} className="actu-featured">
-                <div className="actu-featured-badge">Dernière actu</div>
-                <time dateTime={featured.publishedAt}>{formatActuDate(featured.publishedAt)}</time>
-                <h3>{featured.title}</h3>
-                <p>{featured.excerpt || buildActuExcerpt(featured.body, 220)}</p>
-                <div className="actu-featured-meta">
-                  <span>{actuReadingMinutes(featured.body)} min de lecture</span>
-                  <span className="actu-read-more">Lire l'article →</span>
-                </div>
-              </Link>
-            )}
-
-            {rest.length > 0 && (
-              <section className="actu-archive" aria-label="Archives des actualités">
-                <h3 className="actu-archive-title">Articles précédents</h3>
-                <div className="actu-grid">
-                  {rest.map(post => (
-                    <article key={post.id} className="actu-card">
-                      <time dateTime={post.publishedAt} className="actu-card-date">
-                        {formatActuDate(post.publishedAt)}
-                      </time>
-                      <h4>
-                        <Link to={`/actu/${post.slug}`}>{post.title}</Link>
-                      </h4>
-                      <p>{post.excerpt || buildActuExcerpt(post.body)}</p>
-                      <div className="actu-card-footer">
-                        <span>{actuReadingMinutes(post.body)} min</span>
-                        <Link to={`/actu/${post.slug}`} className="actu-card-link">
-                          Lire →
-                        </Link>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </section>
-            )}
-          </>
+          <section className="actu-list" aria-label="Liste des actualités">
+            <div className="actu-grid">
+              {posts.map((post, index) => (
+                <article
+                  key={post.id}
+                  className={`actu-card${index === 0 ? ' actu-card--latest' : ''}`}
+                >
+                  {index === 0 && <span className="actu-card-badge">Dernière</span>}
+                  <time dateTime={post.publishedAt} className="actu-card-date">
+                    {formatActuDate(post.publishedAt)}
+                  </time>
+                  <h3>
+                    <Link to={`/actu/${post.slug}`}>{post.title}</Link>
+                  </h3>
+                  <p>{post.excerpt || buildActuExcerpt(post.body, index === 0 ? 220 : 160)}</p>
+                  <div className="actu-card-footer">
+                    <span>{actuReadingMinutes(post.body)} min</span>
+                    <Link to={`/actu/${post.slug}`} className="actu-card-link">
+                      Lire l'article →
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
         )}
 
         <div style={{ textAlign: 'center', marginTop: 64 }}>
