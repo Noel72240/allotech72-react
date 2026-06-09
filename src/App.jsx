@@ -21,8 +21,10 @@ import Modals       from './components/Modals.jsx'
 import CookieBanner from './components/CookieBanner.jsx'
 
 import ConfigBanner from './components/ConfigBanner.jsx'
-import Galerie   from './pages/Galerie.jsx'
-import AvisPage  from './pages/AvisPage.jsx'
+import Galerie      from './pages/Galerie.jsx'
+import Actu         from './pages/Actu.jsx'
+import ActuArticle  from './pages/ActuArticle.jsx'
+import AvisPage     from './pages/AvisPage.jsx'
 import NotFound  from './pages/NotFound.jsx'
 import AdminPage             from './pages/admin/AdminPage.jsx'
 import DepannageLeMansSEO       from './pages/DepannageLeMansSEO.jsx'
@@ -254,6 +256,8 @@ export default function App() {
       <Routes>
         <Route path="/"        element={<Home />} />
         <Route path="/galerie" element={<Galerie />} />
+        <Route path="/actu" element={<Actu />} />
+        <Route path="/actu/:slug" element={<ActuArticle />} />
         <Route path="/avis"    element={<AvisPage />} />
         <Route path="/admin"   element={<AdminPage />} />
         <Route path="/boutique" element={<VenteHub />} />

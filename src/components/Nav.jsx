@@ -99,6 +99,7 @@ export default function Nav() {
             <li><a href={home ? '#zone'      : '/#zone'}>Zone</a></li>
             <li><Link to="/avis">Avis</Link></li>
             <li><Link to="/galerie">Galerie</Link></li>
+            <li><Link to="/actu">Actu</Link></li>
             <li><Link to="/boutique" className="nav-shop-cta">🛒 Boutique</Link></li>
             <li><CartNavButton /></li>
             <li style={{ marginLeft:8 }}>
@@ -169,6 +170,7 @@ export default function Nav() {
         <a href={home ? '#zone'      : '/#zone'}      onClick={close}>Zone</a>
         <a href={home ? '#avis'      : '/#avis'}      onClick={close}>Avis</a>
         <Link to="/galerie" onClick={close}>Galerie</Link>
+        <Link to="/actu" onClick={close}>Actu</Link>
         <Link to="/panier" onClick={close}>Panier 🛒</Link>
         <a href={home ? '#contact'   : '/#contact'}   onClick={close}>Contact</a>
         <a href={`tel:${config.telBrut}`} style={{ color:'var(--c)', fontFamily:"'Orbitron',sans-serif", fontSize:'1.2rem' }}>

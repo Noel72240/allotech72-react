@@ -46,4 +46,11 @@ export const PRERENDER_ROUTES = [
       'Création site internet vitrine en Sarthe pour artisans et commerçants. Design moderne, SEO local, responsive. Devis gratuit — 06 13 89 39 67.',
     ogTitle: 'Création site internet Sarthe',
   },
+  {
+    path: '/actu',
+    title: 'Actualités informatiques Sarthe — Conseils & actus | Allotech72',
+    description:
+      'Actualités et conseils informatiques hebdomadaires par Allotech72 — dépannage PC, téléphone et web sur Le Mans et la Sarthe.',
+    ogTitle: 'Actualités informatiques Sarthe — Allotech72',
+  },
 ]
