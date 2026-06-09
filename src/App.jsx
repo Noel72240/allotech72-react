@@ -21,6 +21,7 @@ import Modals       from './components/Modals.jsx'
 import CookieBanner from './components/CookieBanner.jsx'
 
 import ConfigBanner from './components/ConfigBanner.jsx'
+import ScrollToTop  from './components/ScrollToTop.jsx'
 import Galerie      from './pages/Galerie.jsx'
 import Actu         from './pages/Actu.jsx'
 import ActuArticle  from './pages/ActuArticle.jsx'
@@ -252,6 +253,7 @@ function Home() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <ConfigBanner />
       <Routes>
         <Route path="/"        element={<Home />} />
