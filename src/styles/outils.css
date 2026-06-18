@@ -33,7 +33,195 @@
   line-height: 1.75;
 }
 
-/* Encart assistance distance */
+/* Encart assistance distance — legacy (remplacé par .anydesk-showcase) */
+
+/* ═══ ANYDESK SHOWCASE ═══ */
+.anydesk-showcase {
+  position: relative;
+  margin-bottom: 52px;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 2px solid rgba(239, 68, 59, 0.45);
+  background: linear-gradient(145deg, rgba(239, 68, 59, 0.14) 0%, rgba(5, 14, 28, 0.95) 42%, rgba(0, 207, 255, 0.06) 100%);
+  box-shadow:
+    0 0 60px rgba(239, 68, 59, 0.15),
+    0 0 80px rgba(0, 207, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.anydesk-showcase-glow {
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 55%;
+  height: 120%;
+  background: radial-gradient(ellipse, rgba(239, 68, 59, 0.22) 0%, transparent 68%);
+  pointer-events: none;
+}
+.anydesk-showcase-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 28px 32px;
+  padding: 36px 32px;
+  align-items: start;
+}
+.anydesk-showcase-logo-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+.anydesk-logo-wrap {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+  border: 1px solid rgba(239, 68, 59, 0.35);
+  box-shadow: 0 8px 32px rgba(239, 68, 59, 0.25);
+  animation: anydesk-pulse 3s ease-in-out infinite;
+}
+@keyframes anydesk-pulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(239, 68, 59, 0.25); }
+  50% { box-shadow: 0 8px 48px rgba(239, 68, 59, 0.45); }
+}
+.anydesk-logo-lg {
+  display: block;
+  width: 112px;
+  height: 112px;
+  border-radius: 20px;
+}
+.anydesk-tagline {
+  font-size: .72rem;
+  color: var(--dim);
+  margin: 0;
+  max-width: 140px;
+  line-height: 1.45;
+}
+.anydesk-eyebrow {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #EF443B;
+  margin: 0 0 8px;
+}
+.anydesk-showcase-main h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+  color: #fff;
+  margin: 0 0 14px;
+  line-height: 1.25;
+}
+.anydesk-red { color: #EF443B; }
+.anydesk-lead {
+  color: var(--dim);
+  font-size: .92rem;
+  line-height: 1.75;
+  margin: 0 0 16px;
+}
+.anydesk-services {
+  margin-bottom: 20px !important;
+}
+.anydesk-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.anydesk-steps li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 207, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+.anydesk-step-n {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #EF443B, #c62828);
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .78rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.anydesk-steps strong {
+  display: block;
+  color: #fff;
+  font-size: .85rem;
+  margin-bottom: 2px;
+}
+.anydesk-steps p {
+  margin: 0;
+  font-size: .78rem;
+  color: var(--dim);
+  line-height: 1.5;
+}
+.anydesk-showcase-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  min-width: 240px;
+}
+.anydesk-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .82rem;
+  font-weight: 800;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, #EF443B 0%, #d32f2f 100%);
+  box-shadow: 0 6px 24px rgba(239, 68, 59, 0.45);
+  transition: transform .2s, box-shadow .2s;
+}
+.anydesk-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(239, 68, 59, 0.55);
+}
+.anydesk-btn-primary img {
+  border-radius: 6px;
+}
+.anydesk-btn-secondary {
+  text-align: center;
+  justify-content: center;
+}
+.anydesk-phone {
+  text-align: center;
+  color: var(--c);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  padding: 8px;
+}
+.anydesk-phone:hover { color: #fff; }
+.anydesk-cta-hint {
+  text-align: center;
+  font-size: .72rem;
+  color: var(--dim);
+  margin: 0;
+}
+.outil-badge--anydesk {
+  background: rgba(239, 68, 59, 0.12);
+  border-color: rgba(239, 68, 59, 0.4);
+  color: #ff8a80;
+}
+
 .outils-remote-banner {
   position: relative;
   background: linear-gradient(135deg, rgba(0, 207, 255, 0.1), rgba(0, 255, 148, 0.06));
@@ -212,17 +400,49 @@
   grid-column: 1 / -1;
   max-width: 100%;
 }
+.outil-card--anydesk {
+  border-color: rgba(239, 68, 59, 0.45) !important;
+  background: linear-gradient(135deg, rgba(239, 68, 59, 0.08), rgba(5, 14, 28, 0.85)) !important;
+  box-shadow: 0 0 40px rgba(239, 68, 59, 0.12) !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 28px !important;
+}
+.outil-card-body { display: flex; flex-direction: column; flex: 1; }
+.outil-card-anydesk-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.35;
+  padding: 12px;
+}
+.anydesk-logo-watermark {
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  filter: drop-shadow(0 0 24px rgba(239, 68, 59, 0.5));
+}
+.outil-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(239, 68, 59, 0.3);
+}
+.outil-dl-btn { margin-top: 16px; align-self: flex-start; }
 @media (min-width: 768px) {
-  .outil-card--featured {
+  .outil-card--featured:not(.outil-card--anydesk) {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 0 24px;
     align-items: start;
   }
-  .outil-card--featured .outil-card-head { grid-column: 1; }
-  .outil-card--featured p { grid-column: 1; }
-  .outil-card--featured .outil-features { grid-column: 1; }
-  .outil-card--featured .bm { grid-column: 1; align-self: start; }
+  .outil-card--featured:not(.outil-card--anydesk) .outil-card-head { grid-column: 1; }
+  .outil-card--featured:not(.outil-card--anydesk) p { grid-column: 1; }
+  .outil-card--featured:not(.outil-card--anydesk) .outil-features { grid-column: 1; }
+  .outil-card--featured:not(.outil-card--anydesk) .bm { grid-column: 1; align-self: start; }
 }
 .outil-card-head {
   display: flex;
@@ -337,6 +557,25 @@
 }
 .outils-cta h2 {
   margin-bottom: 14px;
+}
+
+@media (max-width: 960px) {
+  .anydesk-showcase-inner {
+    grid-template-columns: 1fr;
+    padding: 28px 22px;
+  }
+  .anydesk-showcase-logo-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .anydesk-showcase-cta {
+    min-width: 0;
+  }
+  .outil-card--anydesk {
+    grid-template-columns: 1fr;
+  }
+  .outil-card-anydesk-visual { display: none; }
 }
 
 @media (max-width: 768px) {

@@ -1,4 +1,15 @@
 /** Outils informatiques gratuits — page /outils */
+
+export const ANYDESK = {
+  url: 'https://anydesk.com/fr',
+  logo: '/anydesk-logo.svg',
+}
+
+export const ANYDESK_STEPS = [
+  { n: '1', title: 'Téléchargez AnyDesk', desc: 'Installez le logiciel gratuit sur votre PC ou Mac.' },
+  { n: '2', title: 'Appelez ALLOTECH72', desc: 'Contactez-moi au 06 13 89 39 67 ou via le formulaire.' },
+  { n: '3', title: 'Connexion sécurisée', desc: 'Vous me communiquez votre code — j\'interviens à distance.' },
+]
 export const OUTILS_CATEGORIES = [
   { id: 'all',        label: 'Tous' },
   { id: 'diagnostic', label: 'Diagnostic PC' },
@@ -84,12 +95,13 @@ export const OUTILS = [
     id: 'anydesk',
     name: 'AnyDesk',
     icon: '🖥️',
+    logo: ANYDESK.logo,
     category: 'distance',
     featured: true,
     recommended: true,
     description: 'Permet à ALLOTECH72 de prendre la main à distance sur votre ordinateur afin de diagnostiquer et résoudre rapidement certains problèmes sans déplacement.',
     features: ['Assistance rapide', 'Connexion sécurisée', 'Compatible Windows', 'Compatible Mac', 'Compatible Linux', 'Très simple à utiliser'],
-    url: 'https://anydesk.com/fr',
+    url: ANYDESK.url,
   },
 ]
 
