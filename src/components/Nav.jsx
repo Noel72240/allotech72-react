@@ -101,6 +101,7 @@ export default function Nav() {
             <li><a href={home ? '#zone'      : '/#zone'}>Zone</a></li>
             <li><Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''}>Avis</Link></li>
             <li><Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''}>Galerie</Link></li>
+            <li><Link to="/outils" className={pageActive('/outils') ? 'nav-page-active' : ''}>Outils</Link></li>
             <li><Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''}>Actu</Link></li>
             <li><Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link></li>
             <li><CartNavButton /></li>
@@ -172,6 +173,7 @@ export default function Nav() {
         <a href={home ? '#zone'      : '/#zone'}      onClick={close}>Zone</a>
         <Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''} onClick={close}>Avis</Link>
         <Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''} onClick={close}>Galerie</Link>
+        <Link to="/outils" className={pageActive('/outils') ? 'nav-page-active' : ''} onClick={close}>Outils gratuits</Link>
         <Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''} onClick={close}>Actu</Link>
         <Link to="/panier" onClick={close}>Panier 🛒</Link>
         <a href={home ? '#contact'   : '/#contact'}   onClick={close}>Contact</a>

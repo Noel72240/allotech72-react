@@ -47,6 +47,13 @@ export const PRERENDER_ROUTES = [
     ogTitle: 'Création site internet Sarthe',
   },
   {
+    path: '/outils',
+    title: 'Outils informatiques gratuits - Diagnostic PC et assistance à distance | ALLOTECH72',
+    description:
+      'Téléchargez gratuitement les meilleurs outils de diagnostic, nettoyage et maintenance PC recommandés par ALLOTECH72. Assistance informatique à distance disponible avec AnyDesk.',
+    ogTitle: 'Outils informatiques gratuits — ALLOTECH72',
+  },
+  {
     path: '/actu',
     title: 'Actualités informatiques Sarthe — Conseils & actus | Allotech72',
     description:

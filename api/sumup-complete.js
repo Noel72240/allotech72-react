@@ -3,7 +3,7 @@
  * Variables Vercel : SUMUP_API_KEY, SUPABASE_SERVICE_ROLE_KEY, VITE_SUPABASE_URL (ou SUPABASE_URL)
  */
 import { createClient } from '@supabase/supabase-js'
-import { notifyOrderByEmail } from './notify-order.js'
+import { notifyOrderEmails } from './notify-order.js'
 
 function getSupabaseAdmin() {
   const url = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').trim()
@@ -157,8 +157,9 @@ export default async function handler(req, res) {
     const stockResult = await fulfillStock(supabase, items)
 
     let notificationSent = false
+    let customerConfirmationSent = false
     try {
-      const notifyRes = await notifyOrderByEmail({
+      const notifyRes = await notifyOrderEmails({
         checkoutReference,
         checkoutId,
         customer,
@@ -167,7 +168,8 @@ export default async function handler(req, res) {
         itemsDetail,
         items,
       })
-      notificationSent = !!notifyRes.ok
+      notificationSent = !!notifyRes.merchantSent
+      customerConfirmationSent = !!notifyRes.customerSent
     } catch (mailErr) {
       console.error('Email commande:', mailErr?.message || mailErr)
     }
@@ -189,6 +191,7 @@ export default async function handler(req, res) {
       sold: stockResult.sold,
       updated: stockResult.updated,
       notificationSent,
+      customerConfirmationSent,
     })
   } catch (e) {
     return res.status(500).json({ error: e?.message || 'Erreur serveur' })

@@ -93,8 +93,22 @@ export default function Modals() {
           <h3>7. Droit applicable — Médiation</h3>
           <p>
             Ce site est soumis au droit français. Tout litige relatif à son utilisation sera soumis aux tribunaux compétents du ressort de la Sarthe.
-            En cas de litige avec un consommateur, vous pouvez recourir à la médiation via la plateforme européenne de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>
           </p>
+          {config.mediateur?.nom ? (
+            <p>
+              Conformément à l’article L612-1 du Code de la consommation, le consommateur peut recourir gratuitement au médiateur :{' '}
+              <strong>{config.mediateur.nom}</strong>
+              {config.mediateur.url && (
+                <> — <a href={config.mediateur.url} target="_blank" rel="noopener noreferrer">{config.mediateur.url}</a></>
+              )}
+              {config.mediateur.adresse && <> — {config.mediateur.adresse}</>}.
+            </p>
+          ) : (
+            <p>
+              En cas de litige avec un consommateur, vous pouvez recourir à la plateforme européenne de règlement en ligne des litiges :{' '}
+              <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>
+            </p>
+          )}
 
           <p style={{ fontSize: '.78rem', color: 'var(--dim)', marginTop: 20, borderTop: '1px solid rgba(0,207,255,0.1)', paddingTop: 16 }}>
             Dernière mise à jour : {year} — {config.brand}
@@ -121,7 +135,8 @@ export default function Modals() {
 
           <h3>2. Données collectées et base légale</h3>
           <p>
-            Les données sont collectées sur la base du <strong>consentement</strong> de l’utilisateur (article 6.1.a du RGPD), donné notamment via la case à cocher du formulaire de contact.
+            Selon la finalité, vos données sont traitées sur la base du <strong>consentement</strong> (formulaire de contact, cookies analytiques),
+            de l’<strong>exécution du contrat</strong> (commande boutique) ou de nos <strong>obligations légales</strong> (conservation comptable).
           </p>
           <p>Via le formulaire de contact, les données suivantes sont collectées :</p>
           <ul>
@@ -303,6 +318,29 @@ export default function Modals() {
             Exceptions possibles (art. L221-28) : produits descellés ne pouvant être renvoyés pour des raisons d’hygiène ou de protection de la santé, contenus numériques fournis sur un support immatériel dont l’exécution a commencé avec accord préalable, produits personnalisés.
           </p>
 
+          <h4 style={{ marginTop: 20, marginBottom: 10, color: 'var(--tx)' }}>Modèle de formulaire de rétractation</h4>
+          <p style={{ fontSize: '.85rem' }}>
+            Vous pouvez utiliser le modèle ci-dessous (art. L221-5) — à envoyer par email à contact@{siteDomainForEmail()} ou par courrier :
+          </p>
+          <pre style={{
+            background: 'rgba(0,207,255,0.04)', border: '1px solid rgba(0,207,255,0.15)',
+            borderRadius: 10, padding: '14px 16px', fontSize: '.78rem', lineHeight: 1.65,
+            color: 'var(--dim)', whiteSpace: 'pre-wrap', overflowX: 'auto',
+          }}>{`À l'attention de ${fullName()} – ${config.brand}
+${config.adresse}, ${config.codePostal} ${config.ville}
+contact@${siteDomainForEmail()}
+
+Je vous notifie par la présente ma rétractation du contrat portant sur la vente du bien ci-dessous :
+
+Commande n° : [votre référence]
+Commandé le : [date]
+Reçu le : [date de réception]
+
+Nom du consommateur : [votre nom]
+Adresse du consommateur : [votre adresse]
+Signature (en cas de notification papier) : [signature]
+Date : [date]`}</pre>
+
           <h3>6. Garanties légales</h3>
           <p>
             Les produits neufs bénéficient de la garantie légale de conformité (articles L217-4 et suivants du Code de la consommation) et de la garantie contre les vices cachés (articles 1641 et suivants du Code civil). Les produits d’occasion sont vendus dans l’état décrit sur la fiche produit.
@@ -318,8 +356,24 @@ export default function Modals() {
 
           <h3>8. Médiation et litiges</h3>
           <p>
-            En cas de litige, contactez-nous en priorité. À défaut de résolution amiable, vous pouvez recourir à un médiateur de la consommation ou à la plateforme européenne :{' '}
-            <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>.
+            En cas de litige, contactez-nous en priorité ({config.telephone}, contact@{siteDomainForEmail()}).
+          </p>
+          {config.mediateur?.nom ? (
+            <p>
+              Conformément à l’article L612-1 du Code de la consommation, vous pouvez recourir gratuitement au médiateur :{' '}
+              <strong>{config.mediateur.nom}</strong>
+              {config.mediateur.url && (
+                <> — <a href={config.mediateur.url} target="_blank" rel="noopener noreferrer">{config.mediateur.url}</a></>
+              )}
+              {config.mediateur.adresse && <> — {config.mediateur.adresse}</>}.
+            </p>
+          ) : (
+            <p>
+              Plateforme européenne de règlement en ligne des litiges :{' '}
+              <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>.
+            </p>
+          )}
+          <p>
             Droit applicable : droit français. Tribunaux compétents du ressort de la Sarthe.
           </p>
 

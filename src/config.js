@@ -26,6 +26,14 @@ const config = {
   ville:       'Lombron',
   departement: 'Sarthe (72)',
 
+  // ── MÉDIATEUR CONSOMMATION (CGV — art. L612-1) ───────────
+  // Remplir après adhésion CM2C, SMP, etc. Laisser vide = texte ODR uniquement
+  mediateur: {
+    nom:     '',   // ex: 'CM2C — Centre de la Médiation de la Consommation'
+    url:     '',   // ex: 'https://www.cm2c.net'
+    adresse: '',   // ex: '49 rue Ponthieu, 75008 Paris' (selon votre médiateur)
+  },
+
   // ── SEO ───────────────────────────────────────────────────
   // Aligner avec la redirection Vercel + sitemap (www ou apex, un seul choix)
   siteUrl:     'https://www.allotech72.fr',

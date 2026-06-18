@@ -416,7 +416,7 @@ export default function Checkout() {
               </button>
 
               <p className="cart-sumup-hint" style={{ marginTop: 14 }}>
-                Paiement sécurisé sur la page SumUp. Vous recevrez une confirmation par email.
+                Paiement sécurisé sur la page SumUp. Un récapitulatif vous sera envoyé par email après confirmation du paiement.
               </p>
             </div>
 
