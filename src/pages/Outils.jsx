@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import PageLayout from '../components/PageLayout.jsx'
 import '../styles/outils.css'
 import config from '../config.js'
 import {
@@ -142,7 +143,11 @@ export default function Outils() {
       entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis') }),
       { threshold: 0.08 },
     )
-    document.querySelectorAll('.rev').forEach(el => obs.observe(el))
+    const els = document.querySelectorAll('.outils-page .rev')
+    els.forEach(el => {
+      el.classList.add('vis')
+      obs.observe(el)
+    })
     return () => obs.disconnect()
   }, [filtered, category])
 
