@@ -26,10 +26,8 @@ function AnyDeskShowcase() {
           <div className="anydesk-logo-wrap">
             <img
               src={ANYDESK.logo}
-              alt="Logo AnyDesk"
+              alt="AnyDesk — logiciel d'assistance à distance"
               className="anydesk-logo-lg"
-              width={112}
-              height={112}
               loading="eager"
             />
           </div>
@@ -72,7 +70,7 @@ function AnyDeskShowcase() {
             rel="noopener noreferrer"
             className="anydesk-btn-primary"
           >
-            <img src={ANYDESK.logo} alt="" width={28} height={28} aria-hidden />
+            <img src={ANYDESK.logo} alt="" className="anydesk-btn-logo" aria-hidden />
             Télécharger AnyDesk
           </a>
           <Link to="/contact" className="bm bo anydesk-btn-secondary">
@@ -103,7 +101,7 @@ function ToolCard({ tool }) {
       <div className="outil-card-body">
         <div className="outil-card-head">
           {tool.logo ? (
-            <img src={tool.logo} alt="" className="outil-logo" width={56} height={56} aria-hidden />
+            <img src={tool.logo} alt="" className="outil-logo" aria-hidden />
           ) : (
             <span className="outil-icon" aria-hidden>{tool.icon}</span>
           )}
@@ -128,13 +126,13 @@ function ToolCard({ tool }) {
           rel="noopener noreferrer"
           className={isAnyDesk ? 'anydesk-btn-primary outil-dl-btn' : `bm ${isFeatured ? 'bp' : 'bo'}`}
         >
-          {isAnyDesk && <img src={ANYDESK.logo} alt="" width={22} height={22} aria-hidden />}
+          {isAnyDesk && <img src={ANYDESK.logo} alt="" className="anydesk-btn-logo" aria-hidden />}
           Télécharger {tool.name} →
         </a>
       </div>
       {isAnyDesk && (
         <div className="outil-card-anydesk-visual" aria-hidden>
-          <img src={ANYDESK.logo} alt="" className="anydesk-logo-watermark" width={140} height={140} />
+          <img src={ANYDESK.logo} alt="" className="anydesk-logo-watermark" />
         </div>
       )}
     </article>

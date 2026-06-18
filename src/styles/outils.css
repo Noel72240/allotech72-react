@@ -73,9 +73,9 @@
   gap: 12px;
 }
 .anydesk-logo-wrap {
-  padding: 14px;
+  padding: 18px 22px;
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 24px;
+  border-radius: 16px;
   border: 1px solid rgba(239, 68, 59, 0.35);
   box-shadow: 0 8px 32px rgba(239, 68, 59, 0.25);
   animation: anydesk-pulse 3s ease-in-out infinite;
@@ -86,9 +86,14 @@
 }
 .anydesk-logo-lg {
   display: block;
-  width: 112px;
-  height: 112px;
-  border-radius: 20px;
+  height: 52px;
+  width: auto;
+  max-width: min(280px, 100%);
+}
+.anydesk-btn-logo {
+  height: 22px;
+  width: auto;
+  flex-shrink: 0;
 }
 .anydesk-tagline {
   font-size: .72rem;
@@ -194,8 +199,9 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 32px rgba(239, 68, 59, 0.55);
 }
-.anydesk-btn-primary img {
-  border-radius: 6px;
+.anydesk-btn-primary img,
+.anydesk-btn-primary .anydesk-btn-logo {
+  border-radius: 0;
 }
 .anydesk-btn-secondary {
   text-align: center;
@@ -419,17 +425,17 @@
   padding: 12px;
 }
 .anydesk-logo-watermark {
-  width: 120px;
-  height: 120px;
-  border-radius: 24px;
-  filter: drop-shadow(0 0 24px rgba(239, 68, 59, 0.5));
+  height: 72px;
+  width: auto;
+  max-width: 320px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 24px rgba(239, 68, 59, 0.35));
 }
 .outil-logo {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  height: 36px;
+  width: auto;
+  max-width: 180px;
   flex-shrink: 0;
-  box-shadow: 0 4px 16px rgba(239, 68, 59, 0.3);
 }
 .outil-dl-btn { margin-top: 16px; align-self: flex-start; }
 @media (min-width: 768px) {
