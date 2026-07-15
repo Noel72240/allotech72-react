@@ -12,14 +12,15 @@ export const SEO_SIDEBAR_LINKS = [
 
 /** Menu principal (dropdown) : 3 entrées + 1 lien « web » pour ne pas surcharger */
 export const SEO_NAV_DROPDOWN_PRIMARY = [
-  { to: '/depannage-informatique-le-mans', label: '🔧 Dépannage informatique Le Mans' },
-  { to: '/reparation-ordinateur-le-mans', label: '💻 Réparation PC Le Mans' },
-  { to: '/reparateur-telephone-le-mans', label: '📱 Réparateur téléphone Le Mans' },
+  { to: '/depannage-informatique-le-mans', label: 'Dépannage informatique', hint: 'Le Mans' },
+  { to: '/reparation-ordinateur-le-mans', label: 'Réparation PC & Mac', hint: 'Le Mans' },
+  { to: '/reparateur-telephone-le-mans', label: 'Téléphone & tablettes', hint: 'Le Mans' },
 ]
 
 export const SEO_NAV_DROPDOWN_EXTRA = {
   to: '/creation-site-internet-sarthe',
-  label: '🌐 Création site & web Sarthe',
+  label: 'Création de sites web',
+  hint: 'Sarthe',
 }
 
 /** Pages complémentaires : footer + maillage (pas dans le menu principal) */
