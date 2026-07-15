@@ -11,9 +11,8 @@ export default function AdamMessage({ message }) {
       {!isUser && (
         <AdamAvatar
           expression={expression}
-          size="lg"
+          size="msg"
           showHalo
-          alive
           className="adam-message__avatar-wrap"
           alt=""
         />

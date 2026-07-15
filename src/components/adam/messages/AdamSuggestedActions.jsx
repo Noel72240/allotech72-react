@@ -1,3 +1,10 @@
+import { IconPhone, IconQuote } from '../icons/AdamIcons.jsx'
+
+function ActionIcon({ type }) {
+  if (type === 'phone') return <IconPhone size={15} />
+  return <IconQuote size={15} />
+}
+
 export default function AdamSuggestedActions({ actions }) {
   if (!actions?.length) return null
 
@@ -11,7 +18,8 @@ export default function AdamSuggestedActions({ actions }) {
         className={`adam-action-btn adam-action-btn--primary adam-action-btn--${primary.type}`}
         {...(primary.type === 'phone' ? {} : { target: '_self' })}
       >
-        {primary.label}
+        <ActionIcon type={primary.type} />
+        <span>{primary.label}</span>
       </a>
       {secondary.map((action, i) => (
         <a
@@ -20,7 +28,8 @@ export default function AdamSuggestedActions({ actions }) {
           className="adam-action-btn adam-action-btn--secondary"
           target={action.type === 'phone' ? undefined : '_self'}
         >
-          {action.label}
+          <ActionIcon type={action.type} />
+          <span>{action.label}</span>
         </a>
       ))}
     </div>

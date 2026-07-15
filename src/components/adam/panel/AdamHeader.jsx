@@ -9,7 +9,7 @@ export default function AdamHeader({ name, tagline, onReset, onClose }) {
       <div className="adam-panel__title">
         <AdamAvatar
           expression={ADAM_AVATAR_STATES.SMILE}
-          size="xl"
+          size="sm"
           showHalo
           alive
           className="adam-panel__header-avatar"

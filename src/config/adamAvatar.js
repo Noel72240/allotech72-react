@@ -32,9 +32,10 @@ export function getAvatarSrc(state, preferPng = ADAM_AVATAR_PREFER_PNG) {
 }
 
 export const ADAM_AVATAR_SIZES = {
-  xs: 64,
-  sm: 80,
-  md: 96,
-  lg: 112,
-  xl: 128,
+  msg: 50,
+  xs: 52,
+  sm: 56,
+  md: 64,
+  lg: 80,
+  xl: 108,
 }

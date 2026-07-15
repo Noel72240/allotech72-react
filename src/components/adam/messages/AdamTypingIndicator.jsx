@@ -7,7 +7,7 @@ export default function AdamTypingIndicator() {
     <div className="adam-message adam-message--assistant adam-message--typing" aria-busy="true">
       <AdamAvatar
         expression={ADAM_AVATAR_STATES.THINKING}
-        size="lg"
+        size="msg"
         showHalo
         alive
         motion="thinking"
