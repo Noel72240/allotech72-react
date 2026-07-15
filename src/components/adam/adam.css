@@ -54,7 +54,8 @@
 
 .adam-avatar--wave .adam-avatar__img,
 .adam-avatar--wave .adam-avatar__blend,
-.adam-avatar--wave .adam-avatar__blink {
+.adam-avatar--wave .adam-avatar__blink,
+.adam-avatar--wave .adam-avatar__video {
   object-position: center 28%;
 }
 
@@ -63,7 +64,8 @@
   --adam-face-origin-y: 44%;
 }
 
-.adam-avatar--wave.adam-avatar--xl .adam-avatar__img {
+.adam-avatar--wave.adam-avatar--xl .adam-avatar__img,
+.adam-avatar--wave.adam-avatar--xl .adam-avatar__video {
   object-position: center 30%;
 }
 

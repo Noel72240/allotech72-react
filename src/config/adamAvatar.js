@@ -28,6 +28,7 @@ export const ADAM_AVATAR_VIDEOS = {
   idle: `${BASE}/adam-idle.mp4`,
   thinking: `${BASE}/adam-thinking-loop.mp4`,
   replying: `${BASE}/adam-reply.mp4`,
+  wave: `${BASE}/adam-wave.mp4`,
 }
 
 /** @param {keyof typeof ADAM_AVATAR_STATES | string} state */
@@ -52,8 +53,9 @@ export function getAvatarSrc(state, preferPng = ADAM_AVATAR_PREFER_PNG) {
  */
 export function getAvatarVideoSrc(expression, motion = 'idle') {
   if (!ADAM_AVATAR_USE_VIDEO) return null
-  // Pose « coucou » : PNG dédié (pas de boucle vidéo pour l’instant)
-  if (expression === ADAM_AVATAR_STATES.WAVE) return null
+  if (expression === ADAM_AVATAR_STATES.WAVE || motion === 'wave') {
+    return ADAM_AVATAR_VIDEOS.wave
+  }
   if (motion === 'thinking' || expression === ADAM_AVATAR_STATES.THINKING) {
     return ADAM_AVATAR_VIDEOS.thinking
   }

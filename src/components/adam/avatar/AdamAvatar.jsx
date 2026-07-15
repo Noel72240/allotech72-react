@@ -46,9 +46,13 @@ export default function AdamAvatar({
 
   const reduceMotion = typeof window !== 'undefined'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  // FAB/header + réfléchit + dernière bulle de réponse (evite N vidéos en liste).
+  // FAB/header + réfléchit + coucou + dernière bulle de réponse.
   const videoAllowed = size === 'xl' || size === 'lg' || size === 'md' || size === 'sm'
-    || (size === 'msg' && (motion === 'thinking' || motion === 'replying'))
+    || (size === 'msg' && (
+      motion === 'thinking'
+      || motion === 'replying'
+      || expression === ADAM_AVATAR_STATES.WAVE
+    ))
   const videoSrc = !videoFailed && !reduceMotion && videoAllowed
     ? getAvatarVideoSrc(expression, motion)
     : null
