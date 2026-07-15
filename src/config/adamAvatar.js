@@ -9,6 +9,7 @@ export const ADAM_AVATAR_STATES = {
   SMILE: 'smile',
   POSITIVE: 'positive',
   BLINK: 'blink',
+  WAVE: 'wave',
 }
 
 const BASE = '/adam/avatar'
@@ -51,6 +52,8 @@ export function getAvatarSrc(state, preferPng = ADAM_AVATAR_PREFER_PNG) {
  */
 export function getAvatarVideoSrc(expression, motion = 'idle') {
   if (!ADAM_AVATAR_USE_VIDEO) return null
+  // Pose « coucou » : PNG dédié (pas de boucle vidéo pour l’instant)
+  if (expression === ADAM_AVATAR_STATES.WAVE) return null
   if (motion === 'thinking' || expression === ADAM_AVATAR_STATES.THINKING) {
     return ADAM_AVATAR_VIDEOS.thinking
   }

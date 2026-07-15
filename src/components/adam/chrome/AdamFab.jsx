@@ -22,11 +22,10 @@ export default function AdamFab({ open, onToggle, name }) {
       ) : (
         <>
           <AdamAvatar
-            expression={ADAM_AVATAR_STATES.NEUTRAL}
+            expression={ADAM_AVATAR_STATES.WAVE}
             size="xl"
             showHalo
             alive
-            enableBlink
             className="adam-fab__avatar"
             alt=""
           />

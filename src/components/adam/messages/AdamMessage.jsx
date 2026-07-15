@@ -4,7 +4,8 @@ import { ADAM_AVATAR_STATES } from '../../../config/adamAvatar.js'
 
 export default function AdamMessage({ message, animateAvatar = false }) {
   const isUser = message.role === 'user'
-  const expression = message.isWelcome ? ADAM_AVATAR_STATES.SMILE : ADAM_AVATAR_STATES.NEUTRAL
+  const expression = message.isWelcome ? ADAM_AVATAR_STATES.WAVE : ADAM_AVATAR_STATES.NEUTRAL
+  const isWave = expression === ADAM_AVATAR_STATES.WAVE
 
   return (
     <div className={`adam-message ${isUser ? 'adam-message--user' : 'adam-message--assistant'}`}>
@@ -14,8 +15,8 @@ export default function AdamMessage({ message, animateAvatar = false }) {
           size="msg"
           showHalo
           alive
-          enableBlink={!animateAvatar}
-          motion={animateAvatar ? 'replying' : 'idle'}
+          enableBlink={!animateAvatar && !isWave}
+          motion={animateAvatar && !isWave ? 'replying' : 'idle'}
           className="adam-message__avatar-wrap"
           alt=""
         />

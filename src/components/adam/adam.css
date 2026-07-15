@@ -46,6 +46,27 @@
   --adam-face-origin-y: 38%;
 }
 
+/* Pose coucou : cadrage plus large pour la main */
+.adam-avatar--wave {
+  --adam-face-zoom: 1.05;
+  --adam-face-origin-y: 42%;
+}
+
+.adam-avatar--wave .adam-avatar__img,
+.adam-avatar--wave .adam-avatar__blend,
+.adam-avatar--wave .adam-avatar__blink {
+  object-position: center 28%;
+}
+
+.adam-avatar--wave.adam-avatar--xl {
+  --adam-face-zoom: 1.02;
+  --adam-face-origin-y: 44%;
+}
+
+.adam-avatar--wave.adam-avatar--xl .adam-avatar__img {
+  object-position: center 30%;
+}
+
 /* Cadre fixe — fond opaque pour masquer le halo derrière */
 .adam-avatar__frame {
   position: absolute;

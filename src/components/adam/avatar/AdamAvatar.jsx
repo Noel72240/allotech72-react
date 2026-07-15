@@ -133,6 +133,7 @@ export default function AdamAvatar({
         alive && 'adam-avatar--alive',
         alive && !useVideo && 'adam-avatar--cinema',
         useVideo && 'adam-avatar--video',
+        expression === ADAM_AVATAR_STATES.WAVE && 'adam-avatar--wave',
         className,
       ].filter(Boolean).join(' ')}
       style={{ '--adam-avatar-size': `${px}px` }}
