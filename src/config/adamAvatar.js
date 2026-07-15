@@ -26,8 +26,7 @@ export const ADAM_AVATAR_USE_VIDEO = true
 export const ADAM_AVATAR_VIDEOS = {
   idle: `${BASE}/adam-idle.mp4`,
   thinking: `${BASE}/adam-thinking-loop.mp4`,
-  /** Remplacer par adam-reply.mp4 (hochement + respiration) quand prêt */
-  replying: `${BASE}/adam-idle.mp4`,
+  replying: `${BASE}/adam-reply.mp4`,
 }
 
 /** @param {keyof typeof ADAM_AVATAR_STATES | string} state */
