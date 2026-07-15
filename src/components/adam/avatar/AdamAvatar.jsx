@@ -46,9 +46,9 @@ export default function AdamAvatar({
 
   const reduceMotion = typeof window !== 'undefined'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  // Vidéo sur FAB/header + indicateur « réfléchit ». Bulles : PNG (perf).
+  // FAB/header + réfléchit + dernière bulle de réponse (evite N vidéos en liste).
   const videoAllowed = size === 'xl' || size === 'lg' || size === 'md' || size === 'sm'
-    || (size === 'msg' && motion === 'thinking')
+    || (size === 'msg' && (motion === 'thinking' || motion === 'replying'))
   const videoSrc = !videoFailed && !reduceMotion && videoAllowed
     ? getAvatarVideoSrc(expression, motion)
     : null

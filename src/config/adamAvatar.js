@@ -17,13 +17,17 @@ const BASE = '/adam/avatar'
 export const ADAM_AVATAR_PREFER_PNG = true
 
 /**
- * Boucles vidéo (Kling MP4). Idle = attente, thinking = « Adam réfléchit… ».
+ * Boucles vidéo (Kling MP4).
+ * idle = FAB/header · thinking = réfléchit · replying = bulles de réponse
+ * (replying utilise idle tant qu’adam-reply.mp4 n’est pas fourni)
  */
 export const ADAM_AVATAR_USE_VIDEO = true
 
 export const ADAM_AVATAR_VIDEOS = {
   idle: `${BASE}/adam-idle.mp4`,
   thinking: `${BASE}/adam-thinking-loop.mp4`,
+  /** Remplacer par adam-reply.mp4 (hochement + respiration) quand prêt */
+  replying: `${BASE}/adam-idle.mp4`,
 }
 
 /** @param {keyof typeof ADAM_AVATAR_STATES | string} state */
@@ -43,13 +47,16 @@ export function getAvatarSrc(state, preferPng = ADAM_AVATAR_PREFER_PNG) {
 
 /**
  * @param {string} expression
- * @param {'idle' | 'thinking'} [motion]
+ * @param {'idle' | 'thinking' | 'replying'} [motion]
  * @returns {string | null}
  */
 export function getAvatarVideoSrc(expression, motion = 'idle') {
   if (!ADAM_AVATAR_USE_VIDEO) return null
   if (motion === 'thinking' || expression === ADAM_AVATAR_STATES.THINKING) {
     return ADAM_AVATAR_VIDEOS.thinking
+  }
+  if (motion === 'replying') {
+    return ADAM_AVATAR_VIDEOS.replying
   }
   return ADAM_AVATAR_VIDEOS.idle
 }

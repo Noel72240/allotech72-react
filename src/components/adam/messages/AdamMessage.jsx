@@ -2,7 +2,7 @@ import AdamAvatar from '../avatar/AdamAvatar.jsx'
 import AdamSuggestedActions from './AdamSuggestedActions.jsx'
 import { ADAM_AVATAR_STATES } from '../../../config/adamAvatar.js'
 
-export default function AdamMessage({ message }) {
+export default function AdamMessage({ message, animateAvatar = false }) {
   const isUser = message.role === 'user'
   const expression = message.isWelcome ? ADAM_AVATAR_STATES.SMILE : ADAM_AVATAR_STATES.NEUTRAL
 
@@ -14,7 +14,8 @@ export default function AdamMessage({ message }) {
           size="msg"
           showHalo
           alive
-          enableBlink
+          enableBlink={!animateAvatar}
+          motion={animateAvatar ? 'replying' : 'idle'}
           className="adam-message__avatar-wrap"
           alt=""
         />
