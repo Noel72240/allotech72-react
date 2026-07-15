@@ -1,0 +1,53 @@
+{
+  "documents": [
+    {
+      "category": "faq",
+      "title": "Tarifs et devis Allotech72",
+      "slug": "faq-tarifs-devis",
+      "source": "config_sync",
+      "content": "Allotech72 propose des tarifs transparents communiqués avant toute intervention. Un devis gratuit est possible sur place ou par téléphone au 06 13 89 39 67. Exemples : changement clavier PC portable environ 59€ (pièce + main d'œuvre + déplacement), dépannage virus 59 à 99€, intervention réseau Wi-Fi 39 à 79€. Les tarifs exacts dépendent de la panne et du matériel."
+    },
+    {
+      "category": "faq",
+      "title": "Zone d'intervention",
+      "slug": "faq-zone-intervention",
+      "source": "config_sync",
+      "content": "Allotech72 intervient à domicile sur Lombron, Le Mans, Allonnes, Champagné, Montfort-le-Gesnois, Connerré, Yvré-l'Évêque, Changé, Arnage, Mulsanne et tout le secteur Sarthe (72). Horaires : Lun – Sam 8h – 19h."
+    },
+    {
+      "category": "service",
+      "title": "Réparation ordinateur",
+      "slug": "service-reparation-pc",
+      "source": "config_sync",
+      "content": "Réparation PC Windows ou Mac, portable ou bureau. Pannes matérielles, lenteur, écran, clavier, démarrage impossible. Diagnostic précis et réparation à domicile sur Le Mans et Sarthe."
+    },
+    {
+      "category": "service",
+      "title": "Suppression virus et malwares",
+      "slug": "service-virus-malware",
+      "source": "config_sync",
+      "content": "Nettoyage complet des malwares, adwares, trojans. Sécurisation du système, conseils de prévention. Intervention recommandée sur place pour garantir un nettoyage complet."
+    },
+    {
+      "category": "guide",
+      "title": "PC ne démarre plus — premières vérifications",
+      "slug": "guide-pc-ne-demarre-pas",
+      "source": "manual",
+      "content": "Si votre PC ne démarre plus : 1) Vérifiez que l'alimentation est branchée et que les LED s'allument. 2) Écoutez les bips au démarrage (code erreur BIOS). 3) Testez un autre écran ou câble vidéo. 4) Si écran noir mais ventilateurs tournent, le problème peut être écran ou carte graphique. 5) Si boucle de redémarrage, le système Windows peut être corrompu. Contactez Allotech72 pour diagnostic sur place."
+    },
+    {
+      "category": "guide",
+      "title": "Wi-Fi instable — dépannage simple",
+      "slug": "guide-wifi-instabilite",
+      "source": "manual",
+      "content": "Pour un Wi-Fi instable : 1) Redémarrez la box internet (débrancher 30 secondes). 2) Vérifiez si tous les appareils sont affectés ou un seul. 3) Testez avec un câble Ethernet. 4) Rapprochez-vous de la box. 5) Mettez à jour les pilotes Wi-Fi du PC. Si le problème persiste, Allotech72 peut intervenir à domicile."
+    },
+    {
+      "category": "pricing",
+      "title": "Fourchettes tarifaires indicatives",
+      "slug": "pricing-fourchettes",
+      "source": "manual",
+      "content": "Fourchettes indicatives Allotech72 (devis gratuit avant intervention) : Dépannage logiciel simple 39-59€. Suppression virus 59-99€. Problème réseau/Wi-Fi 39-79€. Changement pièce (clavier, écran téléphone) 49-150€ selon modèle. Réparation hardware complexe 59-200€. Déplacement inclus dans la zone Sarthe."
+    }
+  ]
+}

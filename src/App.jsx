@@ -52,6 +52,7 @@ import VenteNeuf                 from './pages/vente/VenteNeuf.jsx'
 import VenteNeufCategorie         from './pages/vente/VenteNeufCategorie.jsx'
 import Panier                       from './pages/vente/Panier.jsx'
 import Checkout, { CheckoutSuccess } from './pages/vente/Checkout.jsx'
+import AdamWidget from './components/adam/AdamWidget.jsx'
 
 // ─────────────────────────────────────────────
 // SEO Head — page d'accueil
@@ -260,6 +261,7 @@ export default function App() {
       <ScrollToTop />
       <GoogleAnalytics />
       <ConfigBanner />
+      <AdamWidget />
       <Routes>
         <Route path="/"        element={<Home />} />
         <Route path="/galerie" element={<Galerie />} />

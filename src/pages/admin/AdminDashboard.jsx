@@ -6,6 +6,7 @@ import config, { fullName } from '../../config.js'
 import AdminShop from './AdminShop.jsx'
 import AdminHome from './AdminHome.jsx'
 import AdminActu from './AdminActu.jsx'
+import AdminAdam from './AdminAdam.jsx'
 import GaleriePhotoMedia from '../../components/GaleriePhotoMedia.jsx'
 import { isGalerieAvantApres } from '../../lib/galerie.js'
 
@@ -211,6 +212,7 @@ export default function AdminDashboard({ onChangePassword }) {
           <Tab id="actu"    ico="📰" label="Actu" />
           <Tab id="accueil" ico="🏠" label="Page accueil" />
           <Tab id="boutique" ico="🛒" label="Boutique" />
+          <Tab id="adam"    ico="🤖" label="Adam IA" />
           <Tab id="infos"   ico="ℹ️"  label="Infos site" />
         </div>
 
@@ -362,6 +364,9 @@ export default function AdminDashboard({ onChangePassword }) {
 
         {/* ═══ BOUTIQUE ═══ */}
         {tab === 'boutique' && <AdminShop />}
+
+        {/* ═══ ADAM IA ═══ */}
+        {tab === 'adam' && <AdminAdam />}
 
         {/* INFOS */}
         {tab === 'infos' && (
