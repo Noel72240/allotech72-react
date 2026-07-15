@@ -89,6 +89,30 @@
   transform-origin: 50% var(--adam-face-origin-y);
 }
 
+.adam-avatar__blink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  object-fit: cover;
+  object-position: center 24%;
+  display: block;
+  border-radius: 0;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+  transform: scale(var(--adam-face-zoom));
+  transform-origin: 50% var(--adam-face-origin-y);
+  transition: opacity 60ms ease-out;
+}
+
+.adam-avatar__blink--on {
+  opacity: 1;
+  transition: opacity 40ms ease-in;
+}
+
 @keyframes adam-alive-idle {
   0%, 100% {
     transform: scale(1) rotate(0deg) translateY(0);
@@ -110,7 +134,7 @@
   }
 }
 
-/* Halo = anneau uniquement (jamais à l'intérieur du cercle) */
+/* Halo = anneau qui respire (4s, discret) */
 .adam-avatar--halo::before {
   content: '';
   position: absolute;
@@ -123,9 +147,9 @@
     var(--adam-cyan),
     var(--adam-green)
   );
-  opacity: 0.55;
+  opacity: 0.42;
   z-index: 0;
-  animation: adam-halo-spin 6s linear infinite;
+  animation: adam-halo-breathe 4s ease-in-out infinite;
   -webkit-mask: radial-gradient(
     circle,
     transparent calc(50% - 2px),
@@ -136,6 +160,7 @@
     transparent calc(50% - 2px),
     #000 calc(50% + 2px)
   );
+  will-change: transform, opacity;
 }
 
 .adam-avatar--halo::after {
@@ -144,11 +169,12 @@
   inset: 0;
   border-radius: 50%;
   box-shadow:
-    0 0 10px rgba(0, 207, 255, 0.22),
-    0 0 18px rgba(0, 255, 148, 0.1);
+    0 0 10px rgba(0, 207, 255, 0.18),
+    0 0 16px rgba(0, 255, 148, 0.08);
   z-index: 1;
   pointer-events: none;
-  animation: adam-halo-glow 3s ease-in-out infinite;
+  animation: adam-halo-glow-soft 4s ease-in-out infinite;
+  will-change: opacity;
 }
 
 /* Reflet lumineux yeux */
@@ -163,36 +189,63 @@
   border-radius: 50%;
   background: radial-gradient(
     ellipse at center,
-    rgba(0, 207, 255, 0.35) 0%,
-    rgba(0, 207, 255, 0.1) 45%,
+    rgba(0, 207, 255, 0.28) 0%,
+    rgba(0, 207, 255, 0.08) 45%,
     transparent 72%
   );
   pointer-events: none;
   mix-blend-mode: screen;
-  animation: adam-eye-pulse 3.5s ease-in-out infinite;
+  opacity: 0.35;
+  transition: opacity 0.45s var(--adam-ease);
+  animation: none;
 }
 
 .adam-avatar--alive .adam-avatar__eye-glow {
-  animation: adam-eye-pulse 2.8s ease-in-out infinite;
+  opacity: 0.4;
+  animation: adam-eye-idle 3.6s ease-in-out infinite;
 }
 
 .adam-avatar--glow-eyes .adam-avatar__eye-glow {
-  animation-duration: 2s;
-  opacity: 0.9;
+  opacity: 0.85;
+  animation: adam-eye-think 2.2s ease-in-out infinite;
 }
 
-/* Vivant = halo uniquement (pas de scale sur l'image) */
 .adam-avatar--alive.adam-avatar--halo::before {
-  animation: adam-halo-spin 8s linear infinite, adam-halo-opacity 4s ease-in-out infinite;
+  animation: adam-halo-breathe 4s ease-in-out infinite;
 }
 
 .adam-avatar--alive.adam-avatar--halo::after {
-  animation: adam-halo-glow 3.5s ease-in-out infinite;
+  animation: adam-halo-glow-soft 4s ease-in-out infinite;
 }
 
-@keyframes adam-halo-opacity {
-  0%, 100% { opacity: 0.5; }
+.adam-message__avatar-wrap--thinking.adam-avatar--halo::before {
+  animation: adam-halo-breathe 4s ease-in-out infinite;
+}
+
+@keyframes adam-halo-breathe {
+  0%, 100% {
+    opacity: 0.38;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.62;
+    transform: scale(1.035);
+  }
+}
+
+@keyframes adam-halo-glow-soft {
+  0%, 100% { opacity: 0.55; }
   50% { opacity: 0.9; }
+}
+
+@keyframes adam-eye-idle {
+  0%, 100% { opacity: 0.32; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.48; transform: translateX(-50%) scale(1.03); }
+}
+
+@keyframes adam-eye-think {
+  0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.95; transform: translateX(-50%) scale(1.06); }
 }
 
 .adam-avatar--msg .adam-avatar__eye-glow,
@@ -207,33 +260,6 @@
 .adam-avatar--xl .adam-avatar__eye-glow {
   top: 26%;
   width: 60%;
-}
-
-@keyframes adam-halo-spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes adam-halo-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.85; }
-}
-
-@keyframes adam-halo-glow {
-  0%, 100% {
-    box-shadow:
-      0 0 12px rgba(0, 207, 255, 0.28),
-      0 0 22px rgba(0, 255, 148, 0.12);
-  }
-  50% {
-    box-shadow:
-      0 0 20px rgba(0, 207, 255, 0.5),
-      0 0 36px rgba(0, 255, 148, 0.28);
-  }
-}
-
-@keyframes adam-eye-pulse {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.65; }
 }
 
 /* ── Status badge ───────────────────────────────────────────────────────── */
@@ -287,13 +313,18 @@
   color: var(--adam-text);
   cursor: pointer;
   box-shadow: none;
-  transition: transform var(--adam-duration) var(--adam-ease);
+  transition: transform 280ms var(--adam-ease), filter 280ms var(--adam-ease);
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
 
 .adam-fab:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
+  filter: drop-shadow(0 8px 20px rgba(0, 207, 255, 0.22));
+}
+
+.adam-fab:hover .adam-fab__avatar {
+  filter: drop-shadow(0 0 16px rgba(0, 255, 148, 0.28));
 }
 
 .adam-fab:focus-visible {
@@ -427,7 +458,7 @@
     linear-gradient(165deg, rgba(8, 14, 28, 0.92) 0%, rgba(5, 10, 20, 0.96) 55%, rgba(4, 9, 18, 0.98) 100%);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65), var(--adam-glow, 0 0 40px rgba(0, 207, 255, 0.12));
   overflow: hidden;
-  animation: adam-panel-enter var(--adam-duration) var(--adam-ease) both;
+  animation: adam-panel-enter 280ms var(--adam-ease) both;
   isolation: isolate;
 }
 
@@ -586,11 +617,11 @@
 @keyframes adam-panel-enter {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.98);
+    transform: scale(0.97);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1);
   }
 }
 
@@ -693,6 +724,25 @@
   gap: 20px;
   scroll-behavior: smooth;
   background: transparent;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 207, 255, 0.28) transparent;
+}
+
+.adam-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.adam-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.adam-messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 207, 255, 0.22);
+  border-radius: 999px;
+}
+
+.adam-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 207, 255, 0.4);
 }
 
 .adam-message {
@@ -700,7 +750,7 @@
   gap: 10px;
   align-items: flex-end;
   max-width: min(var(--adam-bubble-max), var(--adam-bubble-assistant-max));
-  animation: adam-message-in 260ms var(--adam-ease) both;
+  animation: adam-message-in 220ms var(--adam-ease) both;
 }
 
 .adam-message--assistant {
@@ -724,19 +774,17 @@
 
 .adam-message__avatar-wrap.adam-avatar--halo::before {
   inset: -2px;
-  opacity: 0.22;
-  animation: adam-halo-spin 12s linear infinite;
+  animation: adam-halo-breathe 4s ease-in-out infinite;
 }
 
 .adam-message__avatar-wrap.adam-avatar--halo::after {
   inset: 0;
-  animation: none;
+  animation: adam-halo-glow-soft 4s ease-in-out infinite;
   box-shadow: 0 0 6px rgba(0, 207, 255, 0.14);
 }
 
 .adam-message__avatar-wrap--thinking.adam-avatar--halo::before {
-  opacity: 0.38;
-  animation: adam-halo-spin 7s linear infinite, adam-halo-opacity 2.5s ease-in-out infinite;
+  animation: adam-halo-breathe 4s ease-in-out infinite;
 }
 
 .adam-message__bubble {
@@ -782,7 +830,7 @@
 @keyframes adam-message-in {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -810,15 +858,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  min-height: 36px;
-  padding: 0 14px;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 38px;
+  height: 38px;
+  padding: 0 16px;
   border-radius: 12px;
   font-family: 'Outfit', sans-serif;
   font-size: 0.76rem;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.22s, transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  transition: background 0.22s var(--adam-ease),
+    transform 0.22s var(--adam-ease),
+    box-shadow 0.22s var(--adam-ease),
+    border-color 0.22s var(--adam-ease),
+    opacity 0.22s var(--adam-ease);
+}
+
+.adam-action-btn:focus-visible {
+  outline: 2px solid var(--adam-cyan);
+  outline-offset: 2px;
 }
 
 .adam-action-btn svg {
@@ -839,11 +898,10 @@
 }
 
 .adam-action-btn--secondary {
-  padding: 0 12px;
   background: rgba(0, 207, 255, 0.06);
   border: 1px solid rgba(0, 207, 255, 0.22);
   color: var(--adam-cyan);
-  font-weight: 500;
+  font-weight: 600;
   backdrop-filter: blur(6px);
 }
 
@@ -865,7 +923,8 @@
 
 .adam-typing {
   display: inline-flex;
-  gap: 4px;
+  align-items: center;
+  gap: 5px;
   vertical-align: middle;
 }
 
@@ -874,7 +933,8 @@
   height: 6px;
   border-radius: 50%;
   background: var(--adam-cyan);
-  animation: adam-bounce 1.2s infinite ease-in-out;
+  animation: adam-dot-pulse 1.2s infinite ease-in-out;
+  will-change: transform, opacity;
 }
 
 .adam-typing span:nth-child(2) { animation-delay: 0.15s; }
@@ -885,8 +945,8 @@
   font-size: 0.82rem;
 }
 
-@keyframes adam-bounce {
-  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+@keyframes adam-dot-pulse {
+  0%, 80%, 100% { transform: scale(0.65); opacity: 0.35; }
   40% { transform: scale(1); opacity: 1; }
 }
 
@@ -900,8 +960,13 @@
 }
 
 .adam-quick-prompts__chip {
-  padding: 8px 12px;
-  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 12px;
   border: 1px solid rgba(0, 207, 255, 0.28);
   background: rgba(0, 207, 255, 0.06);
   color: var(--adam-cyan);
@@ -909,7 +974,9 @@
   font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  transition: background 0.22s var(--adam-ease),
+    border-color 0.22s var(--adam-ease),
+    transform 0.22s var(--adam-ease);
 }
 
 .adam-quick-prompts__chip:hover:not(:disabled) {
@@ -1053,8 +1120,17 @@
   .adam-avatar__motion--thinking,
   .adam-status__dot,
   .adam-typing span,
-  .adam-fab__name:not(.adam-fab__name--muted) {
-    animation: none;
+  .adam-fab__name:not(.adam-fab__name--muted),
+  .adam-panel__wash,
+  .adam-panel__glow,
+  .adam-panel__shimmer,
+  .adam-panel__dot {
+    animation: none !important;
+  }
+
+  .adam-avatar__blink,
+  .adam-avatar__blink--on {
+    display: none;
   }
 
   .adam-avatar__motion--alive,
@@ -1064,19 +1140,20 @@
 
   .adam-panel__backdrop,
   .adam-panel__container,
-  .adam-message,
-  .adam-panel__wash,
-  .adam-panel__glow,
-  .adam-panel__shimmer,
-  .adam-panel__dot {
-    animation: none;
+  .adam-message {
+    animation: none !important;
+  }
+
+  .adam-messages {
+    scroll-behavior: auto;
   }
 
   .adam-fab,
   .adam-action-btn,
   .adam-quick-prompts__chip,
-  .adam-input__send {
-    transition: none;
+  .adam-input__send,
+  .adam-panel__icon-btn {
+    transition: none !important;
   }
 }
 

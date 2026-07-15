@@ -13,6 +13,8 @@ export default function AdamMessage({ message }) {
           expression={expression}
           size="msg"
           showHalo
+          alive
+          enableBlink
           className="adam-message__avatar-wrap"
           alt=""
         />

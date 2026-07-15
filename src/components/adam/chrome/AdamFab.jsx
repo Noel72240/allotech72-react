@@ -26,6 +26,7 @@ export default function AdamFab({ open, onToggle, name }) {
             size="xl"
             showHalo
             alive
+            enableBlink
             className="adam-fab__avatar"
             alt=""
           />

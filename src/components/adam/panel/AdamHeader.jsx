@@ -12,6 +12,7 @@ export default function AdamHeader({ name, tagline, onReset, onClose }) {
           size="sm"
           showHalo
           alive
+          enableBlink
           className="adam-panel__header-avatar"
           alt=""
         />
