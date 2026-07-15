@@ -393,10 +393,10 @@
   inset: 0;
   z-index: 98500;
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: center;
   pointer-events: none;
-  padding: 0 clamp(32px, 4vw, 60px) 24px;
+  padding: 16px clamp(12px, 2vw, 28px) 16px;
   box-sizing: border-box;
 }
 
@@ -412,10 +412,13 @@
 .adam-panel__container {
   position: relative;
   pointer-events: auto;
+  flex: 1 1 auto;
   width: 100%;
-  max-width: 1500px;
-  height: min(780px, calc(100dvh - 48px));
-  margin: 0 auto;
+  max-width: none;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  align-self: stretch;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--adam-border);
@@ -1075,13 +1078,13 @@
 
 @media (max-width: 1024px) {
   .adam-panel {
-    padding: 0 16px 16px;
+    padding: 10px;
     --adam-bubble-max: 78%;
   }
 
   .adam-panel__container {
     max-width: none;
-    height: min(720px, calc(100dvh - 32px));
+    width: 100%;
   }
 
   .adam-message--assistant {
@@ -1095,12 +1098,7 @@
 
 @media (max-width: 768px) {
   .adam-panel {
-    padding: 0 10px 10px;
-  }
-
-  .adam-panel__container {
-    max-width: none;
-    height: min(680px, calc(100dvh - 20px));
+    padding: 8px;
   }
 }
 
@@ -1137,7 +1135,8 @@
   .adam-panel__container {
     max-width: none;
     width: 100%;
-    height: min(92dvh, calc(100dvh - 8px));
+    flex: 1 1 auto;
+    height: auto;
     margin: 8px 8px 0;
     border-radius: 20px 20px 0 0;
   }
