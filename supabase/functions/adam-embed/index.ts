@@ -13,10 +13,12 @@ Deno.serve(async (req) => {
   }
 
   const embedSecret = Deno.env.get('ADAM_EMBED_SECRET')?.trim()
+  const headerSecret = req.headers.get('x-adam-embed-secret')?.trim() || ''
   const authHeader = req.headers.get('Authorization') || ''
   const bearer = authHeader.replace(/^Bearer\s+/i, '')
+  const provided = headerSecret || bearer
 
-  if (embedSecret && bearer !== embedSecret) {
+  if (embedSecret && provided !== embedSecret) {
     return new Response(JSON.stringify({ error: 'Non autorisé' }), { status: 401, headers })
   }
 

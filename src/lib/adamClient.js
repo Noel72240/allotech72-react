@@ -54,28 +54,35 @@ export function isAdamAvailable() {
 }
 
 async function invokeAdam(body) {
+  const useProxy = typeof window !== 'undefined' && !import.meta.env.DEV
   const supabaseUrl = resolveSupabaseUrl()
   const anonKey = getAnonKey()
-  if (!supabaseUrl || !anonKey) {
+
+  const url = useProxy
+    ? '/api/adam-chat'
+    : `${supabaseUrl.replace(/\/$/, '')}/functions/v1/adam`
+
+  if (!useProxy && (!supabaseUrl || !anonKey)) {
     throw new Error('Supabase non configuré (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).')
   }
 
-  const url = `${supabaseUrl.replace(/\/$/, '')}/functions/v1/adam`
+  const headers = { 'Content-Type': 'application/json' }
+  if (!useProxy) {
+    headers.Authorization = `Bearer ${anonKey}`
+    headers.apikey = anonKey
+  }
 
   let res
   try {
     res = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${anonKey}`,
-        apikey: anonKey,
-      },
+      headers,
       body: JSON.stringify(body),
     })
-  } catch {
+  } catch (e) {
     throw new Error(
-      'Impossible de joindre Adam. Vérifiez que l’Edge Function « adam » est déployée sur le même projet Supabase que le site.',
+      e?.message ||
+        'Impossible de joindre Adam. Vérifiez le déploiement Vercel et la Edge Function « adam ».',
     )
   }
 
