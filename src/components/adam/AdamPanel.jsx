@@ -29,6 +29,13 @@ export default function AdamPanel({ open, onClose, messages, loading, error, onS
     <div className="adam-panel" role="dialog" aria-label="Chat avec Adam" aria-modal="true" aria-busy={loading}>
       <div className="adam-panel__backdrop" onClick={onClose} aria-hidden="true" />
       <div className="adam-panel__container" ref={panelRef}>
+        <div className="adam-panel__aura" aria-hidden="true">
+          <span className="adam-panel__orb adam-panel__orb--1" />
+          <span className="adam-panel__orb adam-panel__orb--2" />
+          <span className="adam-panel__orb adam-panel__orb--3" />
+          <span className="adam-panel__grid" />
+        </div>
+
         <AdamHeader
           name={adamConfig.name}
           tagline={adamConfig.tagline}

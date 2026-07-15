@@ -16,6 +16,8 @@
   --adam-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --adam-duration: 280ms;
   --adam-bubble-max: 68%;
+  --adam-bubble-assistant-max: 720px;
+  --adam-bubble-user-max: 520px;
   --adam-glass: rgba(8, 14, 26, 0.72);
 }
 
@@ -392,8 +394,10 @@
   z-index: 98500;
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: center;
   pointer-events: none;
+  padding: 0 clamp(32px, 4vw, 60px) 24px;
+  box-sizing: border-box;
 }
 
 .adam-panel__backdrop {
@@ -409,17 +413,95 @@
   position: relative;
   pointer-events: auto;
   width: 100%;
-  max-width: 440px;
-  height: min(680px, calc(100dvh - 24px));
-  margin: 12px;
+  max-width: 1500px;
+  height: min(780px, calc(100dvh - 48px));
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--adam-border);
   border-radius: 20px;
-  background: var(--adam-bg-panel);
+  background:
+    linear-gradient(165deg, rgba(8, 14, 28, 0.92) 0%, rgba(5, 10, 20, 0.96) 55%, rgba(4, 9, 18, 0.98) 100%);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65), var(--adam-glow, 0 0 40px rgba(0, 207, 255, 0.12));
   overflow: hidden;
   animation: adam-panel-enter var(--adam-duration) var(--adam-ease) both;
+  isolation: isolate;
+}
+
+/* Fond dynamique type aurora Allotech72 */
+.adam-panel__aura {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.adam-panel__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  will-change: transform;
+}
+
+.adam-panel__orb--1 {
+  width: min(70%, 520px);
+  height: min(55%, 380px);
+  top: -18%;
+  left: -12%;
+  background: radial-gradient(ellipse, rgba(0, 207, 255, 0.22), transparent 68%);
+  animation: adam-orb-drift 16s ease-in-out infinite;
+}
+
+.adam-panel__orb--2 {
+  width: min(60%, 460px);
+  height: min(50%, 360px);
+  right: -14%;
+  bottom: -12%;
+  background: radial-gradient(ellipse, rgba(0, 255, 148, 0.14), transparent 70%);
+  animation: adam-orb-drift 19s ease-in-out infinite reverse;
+  animation-delay: -5s;
+}
+
+.adam-panel__orb--3 {
+  width: min(50%, 380px);
+  height: min(40%, 280px);
+  top: 38%;
+  left: 42%;
+  background: radial-gradient(ellipse, rgba(0, 174, 239, 0.12), transparent 72%);
+  animation: adam-orb-drift 22s ease-in-out infinite;
+  animation-delay: -9s;
+}
+
+.adam-panel__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(0, 207, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 207, 255, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 75%);
+  animation: adam-grid-pulse 10s ease-in-out infinite;
+}
+
+@keyframes adam-orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(36px, -28px) scale(1.08); }
+  66% { transform: translate(-28px, 22px) scale(0.94); }
+}
+
+@keyframes adam-grid-pulse {
+  0%, 100% { opacity: 0.14; }
+  50% { opacity: 0.22; }
+}
+
+.adam-panel__container > *:not(.adam-panel__aura) {
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes adam-fade-in {
@@ -443,11 +525,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 8px clamp(12px, 3vw, 40px);
   min-height: 0;
   border-bottom: 1px solid rgba(0, 207, 255, 0.1);
   background: rgba(0, 207, 255, 0.03);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
 }
 
 .adam-panel__header-avatar.adam-avatar--halo::before {
@@ -531,7 +613,7 @@
 .adam-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 18px 20px 20px;
+  padding: 18px clamp(20px, 3vw, 40px) 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -542,18 +624,22 @@
   display: flex;
   gap: 10px;
   align-items: flex-end;
-  max-width: var(--adam-bubble-max);
+  max-width: min(var(--adam-bubble-max), var(--adam-bubble-assistant-max));
   animation: adam-message-in 260ms var(--adam-ease) both;
 }
 
 .adam-message--assistant {
   align-self: flex-start;
+  max-width: min(75%, var(--adam-bubble-assistant-max));
 }
 
 .adam-message--user {
   align-self: flex-end;
   flex-direction: row-reverse;
   margin-left: auto;
+  margin-right: 4px;
+  max-width: min(60%, var(--adam-bubble-user-max));
+  width: fit-content;
 }
 
 .adam-message__avatar-wrap {
@@ -770,10 +856,10 @@
 /* ── Composer ───────────────────────────────────────────────────────────── */
 
 .adam-panel__footer {
-  padding: 14px 16px 16px;
+  padding: 14px clamp(16px, 3vw, 40px) 16px;
   border-top: 1px solid rgba(0, 207, 255, 0.08);
-  background: rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(8px);
+  background: rgba(4, 8, 16, 0.55);
+  backdrop-filter: blur(10px);
 }
 
 .adam-composer {
@@ -903,7 +989,9 @@
 
   .adam-panel__backdrop,
   .adam-panel__container,
-  .adam-message {
+  .adam-message,
+  .adam-panel__orb,
+  .adam-panel__grid {
     animation: none;
   }
 
@@ -926,13 +1014,34 @@
 
 /* ── Tablet ─────────────────────────────────────────────────────────────── */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .adam-panel {
+    padding: 0 16px 16px;
     --adam-bubble-max: 78%;
   }
 
   .adam-panel__container {
-    max-width: 400px;
+    max-width: none;
+    height: min(720px, calc(100dvh - 32px));
+  }
+
+  .adam-message--assistant {
+    max-width: min(80%, var(--adam-bubble-assistant-max));
+  }
+
+  .adam-message--user {
+    max-width: min(72%, var(--adam-bubble-user-max));
+  }
+}
+
+@media (max-width: 768px) {
+  .adam-panel {
+    padding: 0 10px 10px;
+  }
+
+  .adam-panel__container {
+    max-width: none;
+    height: min(680px, calc(100dvh - 20px));
   }
 }
 
@@ -941,6 +1050,7 @@
 @media (max-width: 480px) {
   .adam-panel {
     --adam-bubble-max: 86%;
+    padding: 0;
   }
   .adam-fab {
     bottom: 16px;
@@ -967,9 +1077,19 @@
 
   .adam-panel__container {
     max-width: none;
+    width: 100%;
     height: min(92dvh, calc(100dvh - 8px));
     margin: 8px 8px 0;
     border-radius: 20px 20px 0 0;
+  }
+
+  .adam-message--assistant {
+    max-width: 90%;
+  }
+
+  .adam-message--user {
+    max-width: 85%;
+    margin-right: 0;
   }
 
   body:has(.shop-mobile-cart-bar) .adam-fab {
