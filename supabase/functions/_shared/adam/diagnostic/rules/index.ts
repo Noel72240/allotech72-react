@@ -1,4 +1,4 @@
-import type { DiagnosticRule } from './types.ts'
+import type { DiagnosticRule } from '../types.ts'
 
 export const bootIssuesRule: DiagnosticRule = {
   id: 'boot-issues',

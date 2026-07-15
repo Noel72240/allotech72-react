@@ -1,4 +1,4 @@
-import type { LLMToolCall, LLMToolDefinition } from './types.ts'
+import type { LLMToolCall, LLMToolDefinition } from '../types.ts'
 
 /** Convertit les tools Adam → format OpenAI Chat Completions */
 export function toOpenAITools(tools: LLMToolDefinition[]) {
