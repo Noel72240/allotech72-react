@@ -1,0 +1,912 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ADAM V2 — Assistant IA Allotech72
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.adam-fab,
+.adam-panel {
+  --adam-bg: #0D0F1B;
+  --adam-bg-glass: rgba(13, 15, 27, 0.92);
+  --adam-bg-panel: linear-gradient(165deg, rgba(13, 15, 27, 0.98), rgba(8, 10, 20, 0.99));
+  --adam-cyan: #00CFFF;
+  --adam-green: #00FF94;
+  --adam-text: #E8F4FF;
+  --adam-text-dim: #7A9BB5;
+  --adam-border: rgba(0, 207, 255, 0.22);
+  --adam-border-strong: rgba(0, 207, 255, 0.42);
+  --adam-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --adam-duration: 280ms;
+}
+
+/* ── Avatar ─────────────────────────────────────────────────────────────── */
+
+.adam-avatar {
+  position: relative;
+  width: var(--adam-avatar-size, 40px);
+  height: var(--adam-avatar-size, 40px);
+  min-width: var(--adam-avatar-size, 40px);
+  min-height: var(--adam-avatar-size, 40px);
+  flex-shrink: 0;
+  border-radius: 50%;
+  contain: layout style paint;
+  --adam-face-zoom: 1.18;
+  --adam-face-origin-y: 38%;
+}
+
+.adam-avatar--xl {
+  --adam-face-zoom: 1.2;
+  --adam-face-origin-y: 37%;
+}
+
+.adam-avatar--lg {
+  --adam-face-zoom: 1.19;
+  --adam-face-origin-y: 38%;
+}
+
+/* Cadre fixe — fond opaque pour masquer le halo derrière */
+.adam-avatar__frame {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #060a12;
+}
+
+.adam-avatar__motion {
+  width: 100%;
+  height: 100%;
+  transform-origin: center 55%;
+  will-change: transform;
+}
+
+.adam-avatar__motion--alive {
+  animation: adam-alive-idle 4.8s ease-in-out infinite;
+}
+
+.adam-avatar__motion--thinking {
+  animation: adam-alive-thinking 3.2s ease-in-out infinite;
+}
+
+.adam-avatar__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  object-fit: cover;
+  object-position: center 24%;
+  display: block;
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  filter: none;
+  transform: scale(var(--adam-face-zoom));
+  transform-origin: 50% var(--adam-face-origin-y);
+}
+
+@keyframes adam-alive-idle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg) translateY(0);
+  }
+  35% {
+    transform: scale(1.014) rotate(0.35deg) translateY(-0.6px);
+  }
+  65% {
+    transform: scale(1.02) rotate(-0.25deg) translateY(-1px);
+  }
+}
+
+@keyframes adam-alive-thinking {
+  0%, 100% {
+    transform: scale(1) rotate(-0.5deg) translateY(0);
+  }
+  50% {
+    transform: scale(1.012) rotate(0.8deg) translateY(-0.8px);
+  }
+}
+
+/* Halo = anneau uniquement (jamais à l'intérieur du cercle) */
+.adam-avatar--halo::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    var(--adam-cyan),
+    var(--adam-green),
+    var(--adam-cyan),
+    var(--adam-green)
+  );
+  opacity: 0.55;
+  z-index: 0;
+  animation: adam-halo-spin 6s linear infinite;
+  -webkit-mask: radial-gradient(
+    circle,
+    transparent calc(50% - 2px),
+    #000 calc(50% + 2px)
+  );
+  mask: radial-gradient(
+    circle,
+    transparent calc(50% - 2px),
+    #000 calc(50% + 2px)
+  );
+}
+
+.adam-avatar--halo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    0 0 10px rgba(0, 207, 255, 0.22),
+    0 0 18px rgba(0, 255, 148, 0.1);
+  z-index: 1;
+  pointer-events: none;
+  animation: adam-halo-glow 3s ease-in-out infinite;
+}
+
+/* Reflet lumineux yeux */
+.adam-avatar__eye-glow {
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  z-index: 4;
+  width: 58%;
+  height: 18%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 207, 255, 0.35) 0%,
+    rgba(0, 207, 255, 0.1) 45%,
+    transparent 72%
+  );
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: adam-eye-pulse 3.5s ease-in-out infinite;
+}
+
+.adam-avatar--alive .adam-avatar__eye-glow {
+  animation: adam-eye-pulse 2.8s ease-in-out infinite;
+}
+
+.adam-avatar--glow-eyes .adam-avatar__eye-glow {
+  animation-duration: 2s;
+  opacity: 0.9;
+}
+
+/* Vivant = halo uniquement (pas de scale sur l'image) */
+.adam-avatar--alive.adam-avatar--halo::before {
+  animation: adam-halo-spin 8s linear infinite, adam-halo-opacity 4s ease-in-out infinite;
+}
+
+.adam-avatar--alive.adam-avatar--halo::after {
+  animation: adam-halo-glow 3.5s ease-in-out infinite;
+}
+
+@keyframes adam-halo-opacity {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+
+.adam-avatar--xs .adam-avatar__eye-glow {
+  top: 30%;
+  width: 52%;
+  height: 16%;
+}
+
+.adam-avatar--md .adam-avatar__eye-glow,
+.adam-avatar--lg .adam-avatar__eye-glow,
+.adam-avatar--xl .adam-avatar__eye-glow {
+  top: 26%;
+  width: 60%;
+}
+
+@keyframes adam-halo-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes adam-halo-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.85; }
+}
+
+@keyframes adam-halo-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 12px rgba(0, 207, 255, 0.28),
+      0 0 22px rgba(0, 255, 148, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(0, 207, 255, 0.5),
+      0 0 36px rgba(0, 255, 148, 0.28);
+  }
+}
+
+@keyframes adam-eye-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.65; }
+}
+
+/* ── Status badge ───────────────────────────────────────────────────────── */
+
+.adam-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--adam-green);
+}
+
+.adam-status__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--adam-green);
+  box-shadow: 0 0 8px rgba(0, 255, 148, 0.65);
+  animation: adam-status-pulse 2.4s ease-in-out infinite;
+}
+
+.adam-status--compact .adam-status__label {
+  display: none;
+}
+
+@keyframes adam-status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+/* ── FAB — portrait + nom stylé Allotech72 (sans bulle) ─────────────────── */
+
+.adam-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 98000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  color: var(--adam-text);
+  cursor: pointer;
+  box-shadow: none;
+  transition: transform var(--adam-duration) var(--adam-ease);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.adam-fab:hover {
+  transform: translateY(-4px);
+}
+
+.adam-fab:focus-visible {
+  outline: 2px solid var(--adam-cyan);
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+
+.adam-fab--open {
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(13, 15, 27, 0.88);
+  border: 1px solid rgba(0, 207, 255, 0.28);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 24px rgba(0, 207, 255, 0.12);
+}
+
+.adam-fab__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.adam-fab__name {
+  position: relative;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+  background: linear-gradient(
+    100deg,
+    #00CFFF 0%,
+    #2BFF9A 45%,
+    #00CFFF 90%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: adam-name-shimmer 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(0, 207, 255, 0.45));
+}
+
+.adam-fab__name--muted {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  animation: none;
+  filter: drop-shadow(0 0 6px rgba(0, 207, 255, 0.25));
+}
+
+.adam-fab:hover .adam-fab__name:not(.adam-fab__name--muted) {
+  filter: drop-shadow(0 0 14px rgba(43, 255, 154, 0.55));
+}
+
+.adam-fab__brand .adam-status {
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+}
+
+.adam-fab__close-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.adam-fab__close-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0, 207, 255, 0.08);
+  border: 1px solid rgba(0, 207, 255, 0.35);
+  color: var(--adam-cyan);
+  box-shadow: 0 0 16px rgba(0, 207, 255, 0.2);
+}
+
+.adam-fab__avatar {
+  margin: 0;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
+}
+
+@keyframes adam-name-shimmer {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+/* ── Panel ──────────────────────────────────────────────────────────────── */
+
+.adam-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 98500;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.adam-panel__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 8, 16, 0.6);
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+  animation: adam-fade-in 220ms var(--adam-ease) both;
+}
+
+.adam-panel__container {
+  position: relative;
+  pointer-events: auto;
+  width: 100%;
+  max-width: 440px;
+  height: min(680px, calc(100dvh - 24px));
+  margin: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--adam-border);
+  border-radius: 20px;
+  background: var(--adam-bg-panel);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65), var(--adam-glow, 0 0 40px rgba(0, 207, 255, 0.12));
+  overflow: hidden;
+  animation: adam-panel-enter var(--adam-duration) var(--adam-ease) both;
+}
+
+@keyframes adam-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes adam-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.adam-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 207, 255, 0.12);
+  background: rgba(0, 207, 255, 0.04);
+}
+
+.adam-panel__header-avatar.adam-avatar--halo::before {
+  inset: -4px;
+}
+
+.adam-panel__title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.adam-panel__title-text {
+  min-width: 0;
+}
+
+.adam-panel__title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.adam-panel__title strong {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.82rem;
+  color: var(--adam-text);
+  letter-spacing: 0.04em;
+}
+
+.adam-panel__subtitle {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem;
+  color: var(--adam-text-dim);
+  font-weight: 400;
+  margin-top: 3px;
+}
+
+.adam-panel__header-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.adam-panel__icon-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 207, 255, 0.2);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--adam-text-dim);
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.adam-panel__icon-btn:hover {
+  color: var(--adam-cyan);
+  border-color: rgba(0, 207, 255, 0.45);
+  background: rgba(0, 207, 255, 0.06);
+}
+
+.adam-panel__icon-btn:focus-visible {
+  outline: 2px solid var(--adam-cyan);
+  outline-offset: 2px;
+}
+
+/* ── Messages ───────────────────────────────────────────────────────────── */
+
+.adam-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scroll-behavior: smooth;
+}
+
+.adam-message {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  max-width: 100%;
+  animation: adam-message-in 220ms var(--adam-ease) both;
+}
+
+.adam-message--assistant {
+  align-self: stretch;
+}
+
+.adam-message--assistant .adam-message__bubble {
+  flex: 1;
+  min-width: 0;
+}
+
+@keyframes adam-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.adam-message--user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  max-width: 88%;
+}
+
+.adam-message__avatar-wrap {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.adam-message__avatar-wrap.adam-avatar--halo::before {
+  inset: -2px;
+  opacity: 0.28;
+  animation: adam-halo-spin 10s linear infinite;
+}
+
+.adam-message__avatar-wrap.adam-avatar--halo::after {
+  inset: 0;
+  animation: none;
+  box-shadow: 0 0 8px rgba(0, 207, 255, 0.18);
+}
+
+.adam-message__avatar-wrap--thinking.adam-avatar--halo::before {
+  opacity: 0.5;
+  animation: adam-halo-spin 6s linear infinite, adam-halo-opacity 2.5s ease-in-out infinite;
+}
+
+.adam-message__bubble {
+  padding: 12px 14px;
+  border-radius: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.adam-message--assistant .adam-message__bubble {
+  background: rgba(0, 207, 255, 0.07);
+  border: 1px solid rgba(0, 207, 255, 0.16);
+  color: var(--adam-text);
+  border-top-left-radius: 6px;
+  border-left: 3px solid rgba(0, 207, 255, 0.55);
+}
+
+.adam-message--user .adam-message__bubble {
+  background: rgba(0, 255, 148, 0.08);
+  border: 1px solid rgba(0, 255, 148, 0.2);
+  color: #fff;
+  border-top-right-radius: 6px;
+}
+
+.adam-message__bubble--typing {
+  padding: 14px 16px;
+}
+
+.adam-message__text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Suggested actions ──────────────────────────────────────────────────── */
+
+.adam-message__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.adam-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.adam-action-btn--primary {
+  background: linear-gradient(135deg, var(--adam-green), #00d4a8);
+  border: none;
+  color: #0a1218;
+  box-shadow: 0 4px 16px rgba(0, 255, 148, 0.25);
+}
+
+.adam-action-btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 255, 148, 0.35);
+}
+
+.adam-action-btn--secondary {
+  padding: 4px 0;
+  background: transparent;
+  border: none;
+  color: var(--adam-cyan);
+  font-weight: 500;
+}
+
+.adam-action-btn--secondary:hover {
+  color: var(--adam-green);
+  text-decoration: underline;
+}
+
+/* ── Typing indicator ───────────────────────────────────────────────────── */
+
+.adam-typing-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.adam-typing {
+  display: inline-flex;
+  gap: 4px;
+  vertical-align: middle;
+}
+
+.adam-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--adam-cyan);
+  animation: adam-bounce 1.2s infinite ease-in-out;
+}
+
+.adam-typing span:nth-child(2) { animation-delay: 0.15s; }
+.adam-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+.adam-typing__label {
+  color: var(--adam-text-dim);
+  font-size: 0.82rem;
+}
+
+@keyframes adam-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Quick prompts ────────────────────────────────────────────────────────── */
+
+.adam-quick-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.adam-quick-prompts__chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 207, 255, 0.28);
+  background: rgba(0, 207, 255, 0.06);
+  color: var(--adam-cyan);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.adam-quick-prompts__chip:hover:not(:disabled) {
+  background: rgba(0, 207, 255, 0.14);
+  border-color: rgba(0, 207, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+.adam-quick-prompts__chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.adam-quick-prompts__chip:focus-visible {
+  outline: 2px solid var(--adam-cyan);
+  outline-offset: 2px;
+}
+
+/* ── Composer ───────────────────────────────────────────────────────────── */
+
+.adam-panel__footer {
+  padding: 12px 14px 14px;
+  border-top: 1px solid rgba(0, 207, 255, 0.1);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.adam-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.adam-input {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.adam-input__field {
+  flex: 1;
+  padding: 11px 14px;
+  border: 1px solid rgba(0, 207, 255, 0.22);
+  border-radius: 14px;
+  background: rgba(13, 15, 27, 0.85);
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.adam-input__field:focus {
+  border-color: rgba(0, 207, 255, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.1);
+}
+
+.adam-input__send {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--adam-cyan), #0099cc);
+  color: #0a1218;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.adam-input__send:hover:not(:disabled) {
+  transform: scale(1.04);
+}
+
+.adam-input__send:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.adam-input__send:focus-visible {
+  outline: 2px solid var(--adam-green);
+  outline-offset: 2px;
+}
+
+.adam-panel__disclaimer {
+  margin: 8px 0 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  color: var(--adam-text-dim);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.adam-panel__error {
+  margin: 0 16px 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 80, 80, 0.1);
+  border: 1px solid rgba(255, 80, 80, 0.28);
+  color: #ffb4b4;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .adam-avatar--halo::before,
+  .adam-avatar--halo::after,
+  .adam-avatar__eye-glow,
+  .adam-avatar__motion--alive,
+  .adam-avatar__motion--thinking,
+  .adam-status__dot,
+  .adam-typing span,
+  .adam-fab__name:not(.adam-fab__name--muted) {
+    animation: none;
+  }
+
+  .adam-avatar__motion--alive,
+  .adam-avatar__motion--thinking {
+    transform: none;
+  }
+
+  .adam-panel__backdrop,
+  .adam-panel__container,
+  .adam-message {
+    animation: none;
+  }
+
+  .adam-fab,
+  .adam-action-btn,
+  .adam-quick-prompts__chip,
+  .adam-input__send {
+    transition: none;
+  }
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .adam-fab {
+    bottom: 16px;
+    right: 16px;
+    gap: 6px;
+  }
+
+  .adam-fab--open {
+    padding: 10px 14px;
+  }
+
+  .adam-fab__name {
+    font-size: 0.76rem;
+    letter-spacing: 0.14em;
+  }
+
+  .adam-fab__brand .adam-status {
+    font-size: 0.54rem;
+  }
+
+  .adam-fab__avatar.adam-avatar--xl {
+    --adam-avatar-size: 108px;
+  }
+
+  .adam-panel__container {
+    max-width: none;
+    height: min(92dvh, calc(100dvh - 8px));
+    margin: 8px 8px 0;
+    border-radius: 20px 20px 0 0;
+  }
+
+  body:has(.shop-mobile-cart-bar) .adam-fab {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .adam-message__text {
+    font-size: 0.9rem;
+  }
+
+  .adam-action-btn--primary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .adam-quick-prompts__chip {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+    text-align: center;
+  }
+}

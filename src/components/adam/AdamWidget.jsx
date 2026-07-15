@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAdam } from '../../hooks/useAdam.jsx'
 import AdamPanel from './AdamPanel.jsx'
+import AdamFab from './chrome/AdamFab.jsx'
+import { adamConfig } from '../../config/adam.js'
+import './adam.css'
 
 export default function AdamWidget() {
   const [open, setOpen] = useState(false)
@@ -15,16 +18,7 @@ export default function AdamWidget() {
 
   return (
     <>
-      <button
-        type="button"
-        className={`adam-fab ${open ? 'adam-fab--open' : ''}`}
-        onClick={() => setOpen(o => !o)}
-        aria-label={open ? 'Fermer Adam' : 'Ouvrir Adam, assistant Allotech72'}
-        aria-expanded={open}
-      >
-        <span className="adam-fab__icon" aria-hidden="true">{open ? '✕' : '🤖'}</span>
-        <span className="adam-fab__label">Adam</span>
-      </button>
+      <AdamFab open={open} onToggle={() => setOpen(o => !o)} name={adamConfig.name} />
 
       <AdamPanel
         open={open}

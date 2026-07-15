@@ -22,6 +22,8 @@ export function useAdam() {
             role: m.role,
             content: m.content,
             createdAt: m.createdAt,
+            suggestedActions: m.suggestedActions,
+            diagnostic: m.diagnostic,
           })))
         } else {
           setMessages([{
