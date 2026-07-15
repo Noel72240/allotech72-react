@@ -431,67 +431,89 @@
   isolation: isolate;
 }
 
-/* Fond dynamique — mesh + faisceau + anneau + particules */
+/* Fond dynamique plein cadre (toute la surface du chat) */
 .adam-panel__aura {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
 }
 
-.adam-panel__mesh {
+.adam-panel__wash {
   position: absolute;
-  inset: -20%;
+  inset: 0;
   background:
-    radial-gradient(ellipse 55% 45% at 18% 22%, rgba(0, 207, 255, 0.28), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 82% 78%, rgba(0, 255, 148, 0.2), transparent 58%),
-    radial-gradient(ellipse 40% 35% at 70% 20%, rgba(0, 174, 239, 0.14), transparent 60%),
-    radial-gradient(ellipse 35% 30% at 30% 85%, rgba(43, 255, 154, 0.1), transparent 62%);
-  background-size: 140% 140%;
-  animation: adam-mesh-shift 14s ease-in-out infinite;
-  filter: blur(2px);
+    radial-gradient(120% 80% at 50% 0%, rgba(0, 207, 255, 0.12), transparent 55%),
+    radial-gradient(100% 70% at 50% 100%, rgba(0, 255, 148, 0.08), transparent 50%),
+    linear-gradient(160deg, rgba(6, 16, 32, 0.4) 0%, transparent 45%, rgba(4, 20, 28, 0.35) 100%);
+  animation: adam-wash-breathe 10s ease-in-out infinite;
 }
 
-.adam-panel__beam {
+.adam-panel__glow {
   position: absolute;
-  top: -40%;
-  left: -30%;
   width: 55%;
-  height: 180%;
+  height: 55%;
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.85;
+  will-change: transform, opacity;
+}
+
+.adam-panel__glow--tl {
+  top: -18%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(0, 207, 255, 0.35) 0%, transparent 68%);
+  animation: adam-glow-drift-a 12s ease-in-out infinite;
+}
+
+.adam-panel__glow--tr {
+  top: -12%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(0, 174, 239, 0.28) 0%, transparent 68%);
+  animation: adam-glow-drift-b 14s ease-in-out infinite;
+}
+
+.adam-panel__glow--bl {
+  bottom: -20%;
+  left: -6%;
+  background: radial-gradient(circle, rgba(0, 255, 148, 0.2) 0%, transparent 70%);
+  animation: adam-glow-drift-b 16s ease-in-out infinite reverse;
+}
+
+.adam-panel__glow--br {
+  bottom: -16%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(43, 255, 154, 0.26) 0%, transparent 68%);
+  animation: adam-glow-drift-a 13s ease-in-out infinite reverse;
+}
+
+.adam-panel__glow--c {
+  width: 50%;
+  height: 45%;
+  top: 28%;
+  left: 25%;
+  background: radial-gradient(circle, rgba(0, 207, 255, 0.12) 0%, transparent 70%);
+  animation: adam-glow-drift-c 18s ease-in-out infinite;
+}
+
+.adam-panel__shimmer {
+  position: absolute;
+  inset: 0;
   background: linear-gradient(
-    105deg,
-    transparent 35%,
-    rgba(0, 207, 255, 0.07) 45%,
-    rgba(0, 255, 148, 0.1) 50%,
-    rgba(0, 207, 255, 0.06) 55%,
-    transparent 65%
+    100deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(0, 207, 255, 0.06) 48%,
+    rgba(0, 255, 148, 0.08) 50%,
+    rgba(0, 207, 255, 0.05) 52%,
+    transparent 60%,
+    transparent 100%
   );
-  transform: rotate(18deg);
-  animation: adam-beam-sweep 9s ease-in-out infinite;
-}
-
-.adam-panel__ring {
-  position: absolute;
-  width: min(420px, 55vw);
-  height: min(420px, 55vw);
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 207, 255, 0.12);
-  box-shadow:
-    0 0 40px rgba(0, 207, 255, 0.08),
-    inset 0 0 40px rgba(0, 255, 148, 0.05);
-  animation: adam-ring-pulse 6s ease-in-out infinite;
-}
-
-.adam-panel__ring::before {
-  content: '';
-  position: absolute;
-  inset: 18%;
-  border-radius: 50%;
-  border: 1px dashed rgba(0, 255, 148, 0.14);
-  animation: adam-ring-spin 28s linear infinite;
+  background-size: 220% 100%;
+  animation: adam-shimmer-slide 8s ease-in-out infinite;
 }
 
 .adam-panel__particles {
@@ -502,47 +524,40 @@
 .adam-panel__dot {
   position: absolute;
   left: var(--x);
-  bottom: -8%;
+  bottom: -6%;
   width: var(--size);
   height: var(--size);
   border-radius: 50%;
   background: rgb(var(--hue));
-  box-shadow: 0 0 8px rgb(var(--hue));
+  box-shadow: 0 0 10px rgb(var(--hue));
   opacity: 0;
   animation: adam-particle-rise var(--dur) ease-in-out infinite;
   animation-delay: var(--delay);
 }
 
-@keyframes adam-mesh-shift {
-  0%, 100% {
-    background-position: 0% 20%, 100% 80%, 70% 10%, 25% 90%;
-    transform: scale(1);
-  }
-  50% {
-    background-position: 30% 40%, 70% 55%, 40% 30%, 60% 70%;
-    transform: scale(1.08);
-  }
+@keyframes adam-wash-breathe {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
 }
 
-@keyframes adam-beam-sweep {
-  0% { transform: translateX(-35%) rotate(18deg); opacity: 0.35; }
-  45% { opacity: 0.85; }
-  100% { transform: translateX(145%) rotate(18deg); opacity: 0.3; }
+@keyframes adam-glow-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(8%, 6%) scale(1.12); }
 }
 
-@keyframes adam-ring-pulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(0.92);
-    opacity: 0.35;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.08);
-    opacity: 0.7;
-  }
+@keyframes adam-glow-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(-7%, 5%) scale(0.95); }
 }
 
-@keyframes adam-ring-spin {
-  to { transform: rotate(360deg); }
+@keyframes adam-glow-drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50% { transform: translate(4%, -5%) scale(1.2); opacity: 1; }
+}
+
+@keyframes adam-shimmer-slide {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
 }
 
 @keyframes adam-particle-rise {
@@ -550,10 +565,10 @@
     transform: translateY(0) scale(0.6);
     opacity: 0;
   }
-  15% { opacity: 0.7; }
-  70% { opacity: 0.45; }
+  15% { opacity: 0.75; }
+  70% { opacity: 0.4; }
   100% {
-    transform: translateY(-110vh) scale(1.2);
+    transform: translateY(-105vh) scale(1.15);
     opacity: 0;
   }
 }
@@ -677,6 +692,7 @@
   flex-direction: column;
   gap: 20px;
   scroll-behavior: smooth;
+  background: transparent;
 }
 
 .adam-message {
@@ -1049,10 +1065,9 @@
   .adam-panel__backdrop,
   .adam-panel__container,
   .adam-message,
-  .adam-panel__mesh,
-  .adam-panel__beam,
-  .adam-panel__ring,
-  .adam-panel__ring::before,
+  .adam-panel__wash,
+  .adam-panel__glow,
+  .adam-panel__shimmer,
   .adam-panel__dot {
     animation: none;
   }

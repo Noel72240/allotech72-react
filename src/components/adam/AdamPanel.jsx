@@ -4,7 +4,7 @@ import AdamMessages from './messages/AdamMessages.jsx'
 import AdamHeader from './panel/AdamHeader.jsx'
 import AdamComposer from './panel/AdamComposer.jsx'
 
-const PARTICLES = Array.from({ length: 18 }, (_, i) => i)
+const PARTICLES = Array.from({ length: 24 }, (_, i) => i)
 
 export default function AdamPanel({ open, onClose, messages, loading, error, onSend, onReset }) {
   const panelRef = useRef(null)
@@ -32,18 +32,22 @@ export default function AdamPanel({ open, onClose, messages, loading, error, onS
       <div className="adam-panel__backdrop" onClick={onClose} aria-hidden="true" />
       <div className="adam-panel__container" ref={panelRef}>
         <div className="adam-panel__aura" aria-hidden="true">
-          <span className="adam-panel__mesh" />
-          <span className="adam-panel__beam" />
-          <span className="adam-panel__ring" />
+          <span className="adam-panel__wash" />
+          <span className="adam-panel__glow adam-panel__glow--tl" />
+          <span className="adam-panel__glow adam-panel__glow--tr" />
+          <span className="adam-panel__glow adam-panel__glow--bl" />
+          <span className="adam-panel__glow adam-panel__glow--br" />
+          <span className="adam-panel__glow adam-panel__glow--c" />
+          <span className="adam-panel__shimmer" />
           <span className="adam-panel__particles">
             {PARTICLES.map((i) => (
               <span
                 key={i}
                 className="adam-panel__dot"
                 style={{
-                  '--x': `${8 + ((i * 17) % 84)}%`,
-                  '--delay': `${(i % 9) * 0.7}s`,
-                  '--dur': `${7 + (i % 6)}s`,
+                  '--x': `${4 + ((i * 13) % 92)}%`,
+                  '--delay': `${(i % 10) * 0.55}s`,
+                  '--dur': `${8 + (i % 7)}s`,
                   '--size': `${2 + (i % 3)}px`,
                   '--hue': i % 2 === 0 ? '0, 207, 255' : '0, 255, 148',
                 }}
