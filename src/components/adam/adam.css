@@ -64,14 +64,17 @@
 }
 
 .adam-avatar__motion--alive {
-  animation: adam-alive-idle 4.8s ease-in-out infinite;
+  animation: adam-alive-idle 6.8s ease-in-out infinite;
 }
 
 .adam-avatar__motion--thinking {
-  animation: adam-alive-thinking 3.2s ease-in-out infinite;
+  animation: adam-alive-thinking 4.2s ease-in-out infinite;
 }
 
-.adam-avatar__img {
+.adam-avatar__img,
+.adam-avatar__blend,
+.adam-avatar__blink,
+.adam-avatar__video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -84,53 +87,130 @@
   image-rendering: auto;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  filter: none;
   transform: scale(var(--adam-face-zoom));
   transform-origin: 50% var(--adam-face-origin-y);
 }
 
-.adam-avatar__blink {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  margin: 0;
-  object-fit: cover;
-  object-position: center 24%;
-  display: block;
-  border-radius: 0;
+.adam-avatar__video {
+  z-index: 2;
+  background: #060a12;
+}
+
+/* Dérive type plan vidéo (désync du bounce tête) */
+.adam-avatar--cinema .adam-avatar__img,
+.adam-avatar--cinema .adam-avatar__blend,
+.adam-avatar--cinema .adam-avatar__blink {
+  animation: adam-face-drift 9.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.adam-avatar__blend {
+  z-index: 2;
   opacity: 0;
   pointer-events: none;
+  animation:
+    adam-face-drift 9.5s ease-in-out infinite,
+    adam-expression-blend 7.2s ease-in-out infinite;
+}
+
+.adam-avatar__blink {
   z-index: 3;
-  transform: scale(var(--adam-face-zoom));
-  transform-origin: 50% var(--adam-face-origin-y);
-  transition: opacity 60ms ease-out;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 70ms ease-out;
 }
 
 .adam-avatar__blink--on {
   opacity: 1;
-  transition: opacity 40ms ease-in;
+  transition: opacity 45ms ease-in;
+}
+
+/* Balayage lumière — sensation caméra / volume */
+.adam-avatar__sheen {
+  position: absolute;
+  inset: -10%;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    118deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.07) 48%,
+    rgba(0, 207, 255, 0.1) 52%,
+    transparent 64%
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  animation: adam-sheen-sweep 6.4s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 @keyframes adam-alive-idle {
   0%, 100% {
-    transform: scale(1) rotate(0deg) translateY(0);
+    transform: scale(1) rotate(0deg) translate3d(0, 0, 0);
   }
-  35% {
-    transform: scale(1.014) rotate(0.35deg) translateY(-0.6px);
+  18% {
+    transform: scale(1.012) rotate(0.4deg) translate3d(0.4%, -0.5%, 0);
   }
-  65% {
-    transform: scale(1.02) rotate(-0.25deg) translateY(-1px);
+  42% {
+    transform: scale(1.022) rotate(-0.35deg) translate3d(-0.3%, -1.1%, 0);
+  }
+  68% {
+    transform: scale(1.016) rotate(0.28deg) translate3d(0.5%, -0.4%, 0);
+  }
+  86% {
+    transform: scale(1.008) rotate(-0.15deg) translate3d(-0.2%, -0.2%, 0);
   }
 }
 
 @keyframes adam-alive-thinking {
   0%, 100% {
-    transform: scale(1) rotate(-0.5deg) translateY(0);
+    transform: scale(1) rotate(-0.55deg) translate3d(0, 0, 0);
   }
-  50% {
-    transform: scale(1.012) rotate(0.8deg) translateY(-0.8px);
+  30% {
+    transform: scale(1.014) rotate(0.65deg) translate3d(0.35%, -0.9%, 0);
+  }
+  55% {
+    transform: scale(1.02) rotate(-0.2deg) translate3d(-0.4%, -0.5%, 0);
+  }
+  78% {
+    transform: scale(1.01) rotate(0.45deg) translate3d(0.25%, -1%, 0);
+  }
+}
+
+@keyframes adam-face-drift {
+  0%, 100% {
+    transform: scale(var(--adam-face-zoom)) translate3d(0, 0, 0);
+  }
+  33% {
+    transform: scale(calc(var(--adam-face-zoom) * 1.025)) translate3d(1.4%, -0.9%, 0);
+  }
+  66% {
+    transform: scale(calc(var(--adam-face-zoom) * 1.018)) translate3d(-1.1%, 0.6%, 0);
+  }
+}
+
+@keyframes adam-expression-blend {
+  0%, 100% { opacity: 0; }
+  40% { opacity: 0; }
+  52% { opacity: 0.18; }
+  64% { opacity: 0; }
+}
+
+@keyframes adam-sheen-sweep {
+  0%, 18% {
+    opacity: 0;
+    transform: translate3d(-18%, 0, 0);
+  }
+  38% {
+    opacity: 0.85;
+  }
+  55% {
+    opacity: 0.55;
+    transform: translate3d(18%, 0, 0);
+  }
+  70%, 100% {
+    opacity: 0;
+    transform: translate3d(22%, 0, 0);
   }
 }
 
@@ -1118,6 +1198,11 @@
   .adam-avatar__eye-glow,
   .adam-avatar__motion--alive,
   .adam-avatar__motion--thinking,
+  .adam-avatar__sheen,
+  .adam-avatar__blend,
+  .adam-avatar--cinema .adam-avatar__img,
+  .adam-avatar--cinema .adam-avatar__blend,
+  .adam-avatar--cinema .adam-avatar__blink,
   .adam-status__dot,
   .adam-typing span,
   .adam-fab__name:not(.adam-fab__name--muted),
@@ -1129,7 +1214,9 @@
   }
 
   .adam-avatar__blink,
-  .adam-avatar__blink--on {
+  .adam-avatar__blink--on,
+  .adam-avatar__sheen,
+  .adam-avatar__blend {
     display: none;
   }
 
@@ -1137,6 +1224,7 @@
   .adam-avatar__motion--thinking {
     transform: none;
   }
+
 
   .adam-panel__backdrop,
   .adam-panel__container,
