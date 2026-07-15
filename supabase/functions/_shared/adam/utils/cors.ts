@@ -10,10 +10,32 @@ const DEFAULT_ORIGINS = [
   'http://127.0.0.1:5173',
 ]
 
+function hostKey(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '')
+  } catch {
+    return ''
+  }
+}
+
+/** Reflète l'origine exacte du navigateur (requis CORS) — gère www vs sans www */
+function resolveAllowedOrigin(origin: string, allowed: string[]): string {
+  if (!origin) return allowed[0] || '*'
+  if (allowed.includes(origin)) return origin
+
+  const originHost = hostKey(origin)
+  if (originHost) {
+    const sibling = allowed.find(a => hostKey(a) === originHost)
+    if (sibling) return origin
+  }
+
+  return allowed[0] || '*'
+}
+
 export function corsHeaders(req: Request): Record<string, string> {
   const origin = req.headers.get('Origin') || ''
   const allowed = ALLOWED.length ? ALLOWED : DEFAULT_ORIGINS
-  const match = allowed.includes(origin) ? origin : allowed[0]
+  const match = resolveAllowedOrigin(origin, allowed)
 
   return {
     'Access-Control-Allow-Origin': match,

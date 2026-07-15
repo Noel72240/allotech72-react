@@ -1,7 +1,19 @@
-import { supabase, isSupabaseConfigured } from './supabase.js'
+import { isSupabaseConfigured } from './supabase.js'
 import { ADAM_SESSION_KEY } from '../config/adam.js'
 
 /** Client Adam — interface unique front ↔ Edge Function (aucune logique agent) */
+
+function resolveSupabaseUrl() {
+  const raw =
+    import.meta.env.VITE_SUPABASE_URL?.trim() ||
+    import.meta.env.URL_SUPABASE_VITE?.trim()
+  if (!raw) return ''
+  return raw.replace(/\.supabase\.com(\/?|$)/i, '.supabase.co$1')
+}
+
+function getAnonKey() {
+  return import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || ''
+}
 
 function generateSessionId() {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {
@@ -41,9 +53,53 @@ export function isAdamAvailable() {
   return isSupabaseConfigured
 }
 
+async function invokeAdam(body) {
+  const supabaseUrl = resolveSupabaseUrl()
+  const anonKey = getAnonKey()
+  if (!supabaseUrl || !anonKey) {
+    throw new Error('Supabase non configuré (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).')
+  }
+
+  const url = `${supabaseUrl.replace(/\/$/, '')}/functions/v1/adam`
+
+  let res
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${anonKey}`,
+        apikey: anonKey,
+      },
+      body: JSON.stringify(body),
+    })
+  } catch {
+    throw new Error(
+      'Impossible de joindre Adam. Vérifiez que l’Edge Function « adam » est déployée sur le même projet Supabase que le site.',
+    )
+  }
+
+  let data = null
+  try {
+    data = await res.json()
+  } catch {
+    data = null
+  }
+
+  if (!res.ok) {
+    const detail = data?.error || data?.message || `HTTP ${res.status}`
+    throw new Error(detail)
+  }
+
+  if (data?.error) {
+    throw new Error(data.error)
+  }
+
+  return data
+}
+
 /**
  * @param {{ text: string, pageContext?: object }} params
- * @returns {Promise<{ reply: string, suggestedActions?: Array, diagnostic?: object, conversationId?: string }>}
  */
 export async function sendMessage({ text, pageContext = {} }) {
   if (!isSupabaseConfigured) {
@@ -51,37 +107,27 @@ export async function sendMessage({ text, pageContext = {} }) {
   }
 
   const sessionToken = getOrCreateSessionId()
-  const { data, error } = await supabase.functions.invoke('adam', {
-    body: {
-      action: 'chat',
-      sessionToken,
-      message: text.trim(),
-      channel: 'web',
-      pageContext: {
-        path: typeof window !== 'undefined' ? window.location.pathname : '/',
-        ...pageContext,
-      },
+  return invokeAdam({
+    action: 'chat',
+    sessionToken,
+    message: text.trim(),
+    channel: 'web',
+    pageContext: {
+      path: typeof window !== 'undefined' ? window.location.pathname : '/',
+      ...pageContext,
     },
   })
-
-  if (error) {
-    throw new Error(error.message || 'Erreur de communication avec Adam.')
-  }
-  if (data?.error) {
-    throw new Error(data.error)
-  }
-  return data
 }
 
 /** Recharge l'historique persistant depuis Supabase */
 export async function loadConversation() {
   if (!isSupabaseConfigured) return { messages: [] }
 
-  const sessionToken = getOrCreateSessionId()
-  const { data, error } = await supabase.functions.invoke('adam', {
-    body: { action: 'history', sessionToken, channel: 'web' },
-  })
-
-  if (error || data?.error) return { messages: [] }
-  return { messages: data.messages || [] }
+  try {
+    const sessionToken = getOrCreateSessionId()
+    const data = await invokeAdam({ action: 'history', sessionToken, channel: 'web' })
+    return { messages: data.messages || [] }
+  } catch {
+    return { messages: [] }
+  }
 }
