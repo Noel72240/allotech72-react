@@ -2,11 +2,12 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import {
   getAvatarAssetPaths,
   getAvatarSrc,
+  getAvatarVideoSrc,
   ADAM_AVATAR_SIZES,
   ADAM_AVATAR_STATES,
 } from '../../../config/adamAvatar.js'
 
-const BLINK_MS = 150
+const BLINK_MS = 160
 const BLINKABLE = new Set([
   ADAM_AVATAR_STATES.NEUTRAL,
   ADAM_AVATAR_STATES.SMILE,
@@ -23,7 +24,7 @@ function preloadAvatarAssets() {
 let assetsPreloaded = false
 
 /**
- * Avatar Adam — halo / yeux / clignement via transform+opacity (taille fixe).
+ * Avatar Adam — rendu cinématique (CSS) + option vidéo WebM si disponible.
  */
 export default function AdamAvatar({
   expression = ADAM_AVATAR_STATES.NEUTRAL,
@@ -39,8 +40,22 @@ export default function AdamAvatar({
   const px = ADAM_AVATAR_SIZES[size] ?? ADAM_AVATAR_SIZES.sm
   const [useSvgFallback, setUseSvgFallback] = useState(false)
   const [blinking, setBlinking] = useState(false)
+  const [videoFailed, setVideoFailed] = useState(false)
   const blinkTimeoutRef = useRef(null)
   const blinkRestoreRef = useRef(null)
+
+  const reduceMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  // Vidéo sur FAB/header + indicateur « réfléchit ». Bulles : PNG (perf).
+  const videoAllowed = size === 'xl' || size === 'lg' || size === 'md' || size === 'sm'
+    || (size === 'msg' && motion === 'thinking')
+  const videoSrc = !videoFailed && !reduceMotion && videoAllowed
+    ? getAvatarVideoSrc(expression, motion)
+    : null
+  const useVideo = Boolean(alive && videoSrc)
+  const posterSrc = useSvgFallback
+    ? getAvatarAssetPaths(expression).svg
+    : getAvatarSrc(expression)
 
   const mainSrc = useSvgFallback
     ? getAvatarAssetPaths(expression).svg
@@ -48,6 +63,13 @@ export default function AdamAvatar({
   const blinkSrc = useSvgFallback
     ? getAvatarAssetPaths(ADAM_AVATAR_STATES.BLINK).svg
     : getAvatarSrc(ADAM_AVATAR_STATES.BLINK)
+  const blendSrc = useSvgFallback
+    ? getAvatarAssetPaths(ADAM_AVATAR_STATES.SMILE).svg
+    : getAvatarSrc(ADAM_AVATAR_STATES.SMILE)
+  const showBlend = alive
+    && !useVideo
+    && expression === ADAM_AVATAR_STATES.NEUTRAL
+    && (size === 'xl' || size === 'lg' || size === 'md')
 
   useEffect(() => {
     if (assetsPreloaded) return undefined
@@ -55,6 +77,10 @@ export default function AdamAvatar({
     assetsPreloaded = true
     return undefined
   }, [])
+
+  useEffect(() => {
+    setVideoFailed(false)
+  }, [expression, motion])
 
   const handleError = useCallback(() => {
     if (!useSvgFallback) setUseSvgFallback(true)
@@ -65,7 +91,9 @@ export default function AdamAvatar({
     if (blinkRestoreRef.current) window.clearTimeout(blinkRestoreRef.current)
     setBlinking(false)
 
-    if (!enableBlink || !alive || !BLINKABLE.has(expression)) return undefined
+    if (useVideo || !enableBlink || !alive || !BLINKABLE.has(expression)) {
+      return undefined
+    }
     if (typeof window !== 'undefined'
       && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return undefined
@@ -87,7 +115,7 @@ export default function AdamAvatar({
       if (blinkTimeoutRef.current) window.clearTimeout(blinkTimeoutRef.current)
       if (blinkRestoreRef.current) window.clearTimeout(blinkRestoreRef.current)
     }
-  }, [enableBlink, alive, expression])
+  }, [enableBlink, alive, expression, useVideo])
 
   const motionClass = alive
     ? motion === 'thinking'
@@ -103,37 +131,70 @@ export default function AdamAvatar({
         showHalo && 'adam-avatar--halo',
         glowingEyes && 'adam-avatar--glow-eyes',
         alive && 'adam-avatar--alive',
+        alive && !useVideo && 'adam-avatar--cinema',
+        useVideo && 'adam-avatar--video',
         className,
       ].filter(Boolean).join(' ')}
       style={{ '--adam-avatar-size': `${px}px` }}
     >
-      {(alive || glowingEyes) && (
+      {(alive || glowingEyes) && !useVideo && (
         <span className="adam-avatar__eye-glow" aria-hidden="true" />
       )}
 
       <div className="adam-avatar__frame">
         <div className={`adam-avatar__motion ${motionClass}`.trim()}>
-          <img
-            className="adam-avatar__img"
-            src={mainSrc}
-            alt={alt}
-            width={px}
-            height={px}
-            loading="eager"
-            decoding="async"
-            draggable={false}
-            onError={handleError}
-          />
-          {enableBlink && (
-            <img
-              className={`adam-avatar__blink ${blinking ? 'adam-avatar__blink--on' : ''}`}
-              src={blinkSrc}
-              alt=""
-              aria-hidden="true"
-              width={px}
-              height={px}
-              draggable={false}
+          {useVideo ? (
+            <video
+              key={videoSrc}
+              className="adam-avatar__video"
+              src={videoSrc}
+              poster={posterSrc}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              disablePictureInPicture
+              aria-label={alt}
+              onError={() => setVideoFailed(true)}
             />
+          ) : (
+            <>
+              <img
+                className="adam-avatar__img"
+                src={mainSrc}
+                alt={alt}
+                width={px}
+                height={px}
+                loading="eager"
+                decoding="async"
+                draggable={false}
+                onError={handleError}
+              />
+              {showBlend && (
+                <img
+                  className="adam-avatar__blend"
+                  src={blendSrc}
+                  alt=""
+                  aria-hidden="true"
+                  width={px}
+                  height={px}
+                  draggable={false}
+                />
+              )}
+              {enableBlink && (
+                <img
+                  className={`adam-avatar__blink ${blinking ? 'adam-avatar__blink--on' : ''}`}
+                  src={blinkSrc}
+                  alt=""
+                  aria-hidden="true"
+                  width={px}
+                  height={px}
+                  draggable={false}
+                />
+              )}
+              {alive && <span className="adam-avatar__sheen" aria-hidden="true" />}
+            </>
           )}
         </div>
       </div>

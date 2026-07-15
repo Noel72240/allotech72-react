@@ -16,6 +16,16 @@ const BASE = '/adam/avatar'
 /** PNG définitifs dans public/adam/avatar/ */
 export const ADAM_AVATAR_PREFER_PNG = true
 
+/**
+ * Boucles vidéo (Kling MP4). Idle = attente, thinking = « Adam réfléchit… ».
+ */
+export const ADAM_AVATAR_USE_VIDEO = true
+
+export const ADAM_AVATAR_VIDEOS = {
+  idle: `${BASE}/adam-idle.mp4`,
+  thinking: `${BASE}/adam-thinking-loop.mp4`,
+}
+
 /** @param {keyof typeof ADAM_AVATAR_STATES | string} state */
 export function getAvatarAssetPaths(state) {
   const key = String(state).toLowerCase()
@@ -29,6 +39,19 @@ export function getAvatarAssetPaths(state) {
 export function getAvatarSrc(state, preferPng = ADAM_AVATAR_PREFER_PNG) {
   const paths = getAvatarAssetPaths(state)
   return preferPng ? paths.png : paths.svg
+}
+
+/**
+ * @param {string} expression
+ * @param {'idle' | 'thinking'} [motion]
+ * @returns {string | null}
+ */
+export function getAvatarVideoSrc(expression, motion = 'idle') {
+  if (!ADAM_AVATAR_USE_VIDEO) return null
+  if (motion === 'thinking' || expression === ADAM_AVATAR_STATES.THINKING) {
+    return ADAM_AVATAR_VIDEOS.thinking
+  }
+  return ADAM_AVATAR_VIDEOS.idle
 }
 
 export const ADAM_AVATAR_SIZES = {

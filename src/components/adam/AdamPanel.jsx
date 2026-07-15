@@ -59,6 +59,7 @@ export default function AdamPanel({ open, onClose, messages, loading, error, onS
         <AdamHeader
           name={adamConfig.name}
           tagline={adamConfig.tagline}
+          thinking={loading}
           onReset={onReset}
           onClose={onClose}
         />

@@ -3,16 +3,18 @@ import AdamStatusBadge from '../chrome/AdamStatusBadge.jsx'
 import { IconClose, IconReset } from '../icons/AdamIcons.jsx'
 import { ADAM_AVATAR_STATES } from '../../../config/adamAvatar.js'
 
-export default function AdamHeader({ name, tagline, onReset, onClose }) {
+export default function AdamHeader({ name, tagline, thinking = false, onReset, onClose }) {
   return (
     <header className="adam-panel__header">
       <div className="adam-panel__title">
         <AdamAvatar
-          expression={ADAM_AVATAR_STATES.SMILE}
+          expression={thinking ? ADAM_AVATAR_STATES.THINKING : ADAM_AVATAR_STATES.SMILE}
           size="sm"
           showHalo
           alive
-          enableBlink
+          enableBlink={!thinking}
+          motion={thinking ? 'thinking' : 'idle'}
+          glowingEyes={thinking}
           className="adam-panel__header-avatar"
           alt=""
         />
