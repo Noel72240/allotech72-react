@@ -4,6 +4,8 @@ import AdamMessages from './messages/AdamMessages.jsx'
 import AdamHeader from './panel/AdamHeader.jsx'
 import AdamComposer from './panel/AdamComposer.jsx'
 
+const PARTICLES = Array.from({ length: 18 }, (_, i) => i)
+
 export default function AdamPanel({ open, onClose, messages, loading, error, onSend, onReset }) {
   const panelRef = useRef(null)
 
@@ -30,10 +32,24 @@ export default function AdamPanel({ open, onClose, messages, loading, error, onS
       <div className="adam-panel__backdrop" onClick={onClose} aria-hidden="true" />
       <div className="adam-panel__container" ref={panelRef}>
         <div className="adam-panel__aura" aria-hidden="true">
-          <span className="adam-panel__orb adam-panel__orb--1" />
-          <span className="adam-panel__orb adam-panel__orb--2" />
-          <span className="adam-panel__orb adam-panel__orb--3" />
-          <span className="adam-panel__grid" />
+          <span className="adam-panel__mesh" />
+          <span className="adam-panel__beam" />
+          <span className="adam-panel__ring" />
+          <span className="adam-panel__particles">
+            {PARTICLES.map((i) => (
+              <span
+                key={i}
+                className="adam-panel__dot"
+                style={{
+                  '--x': `${8 + ((i * 17) % 84)}%`,
+                  '--delay': `${(i % 9) * 0.7}s`,
+                  '--dur': `${7 + (i % 6)}s`,
+                  '--size': `${2 + (i % 3)}px`,
+                  '--hue': i % 2 === 0 ? '0, 207, 255' : '0, 255, 148',
+                }}
+              />
+            ))}
+          </span>
         </div>
 
         <AdamHeader

@@ -428,7 +428,7 @@
   isolation: isolate;
 }
 
-/* Fond dynamique type aurora Allotech72 */
+/* Fond dynamique — mesh + faisceau + anneau + particules */
 .adam-panel__aura {
   position: absolute;
   inset: 0;
@@ -437,66 +437,122 @@
   overflow: hidden;
 }
 
-.adam-panel__orb {
+.adam-panel__mesh {
   position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 55% 45% at 18% 22%, rgba(0, 207, 255, 0.28), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 82% 78%, rgba(0, 255, 148, 0.2), transparent 58%),
+    radial-gradient(ellipse 40% 35% at 70% 20%, rgba(0, 174, 239, 0.14), transparent 60%),
+    radial-gradient(ellipse 35% 30% at 30% 85%, rgba(43, 255, 154, 0.1), transparent 62%);
+  background-size: 140% 140%;
+  animation: adam-mesh-shift 14s ease-in-out infinite;
+  filter: blur(2px);
+}
+
+.adam-panel__beam {
+  position: absolute;
+  top: -40%;
+  left: -30%;
+  width: 55%;
+  height: 180%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(0, 207, 255, 0.07) 45%,
+    rgba(0, 255, 148, 0.1) 50%,
+    rgba(0, 207, 255, 0.06) 55%,
+    transparent 65%
+  );
+  transform: rotate(18deg);
+  animation: adam-beam-sweep 9s ease-in-out infinite;
+}
+
+.adam-panel__ring {
+  position: absolute;
+  width: min(420px, 55vw);
+  height: min(420px, 55vw);
+  top: 50%;
+  left: 50%;
   border-radius: 50%;
-  filter: blur(70px);
-  mix-blend-mode: screen;
-  opacity: 0.85;
-  will-change: transform;
+  border: 1px solid rgba(0, 207, 255, 0.12);
+  box-shadow:
+    0 0 40px rgba(0, 207, 255, 0.08),
+    inset 0 0 40px rgba(0, 255, 148, 0.05);
+  animation: adam-ring-pulse 6s ease-in-out infinite;
 }
 
-.adam-panel__orb--1 {
-  width: min(70%, 520px);
-  height: min(55%, 380px);
-  top: -18%;
-  left: -12%;
-  background: radial-gradient(ellipse, rgba(0, 207, 255, 0.22), transparent 68%);
-  animation: adam-orb-drift 16s ease-in-out infinite;
+.adam-panel__ring::before {
+  content: '';
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 255, 148, 0.14);
+  animation: adam-ring-spin 28s linear infinite;
 }
 
-.adam-panel__orb--2 {
-  width: min(60%, 460px);
-  height: min(50%, 360px);
-  right: -14%;
-  bottom: -12%;
-  background: radial-gradient(ellipse, rgba(0, 255, 148, 0.14), transparent 70%);
-  animation: adam-orb-drift 19s ease-in-out infinite reverse;
-  animation-delay: -5s;
-}
-
-.adam-panel__orb--3 {
-  width: min(50%, 380px);
-  height: min(40%, 280px);
-  top: 38%;
-  left: 42%;
-  background: radial-gradient(ellipse, rgba(0, 174, 239, 0.12), transparent 72%);
-  animation: adam-orb-drift 22s ease-in-out infinite;
-  animation-delay: -9s;
-}
-
-.adam-panel__grid {
+.adam-panel__particles {
   position: absolute;
   inset: 0;
-  opacity: 0.18;
-  background-image:
-    linear-gradient(rgba(0, 207, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 207, 255, 0.045) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 20%, transparent 75%);
-  animation: adam-grid-pulse 10s ease-in-out infinite;
 }
 
-@keyframes adam-orb-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(36px, -28px) scale(1.08); }
-  66% { transform: translate(-28px, 22px) scale(0.94); }
+.adam-panel__dot {
+  position: absolute;
+  left: var(--x);
+  bottom: -8%;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: rgb(var(--hue));
+  box-shadow: 0 0 8px rgb(var(--hue));
+  opacity: 0;
+  animation: adam-particle-rise var(--dur) ease-in-out infinite;
+  animation-delay: var(--delay);
 }
 
-@keyframes adam-grid-pulse {
-  0%, 100% { opacity: 0.14; }
-  50% { opacity: 0.22; }
+@keyframes adam-mesh-shift {
+  0%, 100% {
+    background-position: 0% 20%, 100% 80%, 70% 10%, 25% 90%;
+    transform: scale(1);
+  }
+  50% {
+    background-position: 30% 40%, 70% 55%, 40% 30%, 60% 70%;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes adam-beam-sweep {
+  0% { transform: translateX(-35%) rotate(18deg); opacity: 0.35; }
+  45% { opacity: 0.85; }
+  100% { transform: translateX(145%) rotate(18deg); opacity: 0.3; }
+}
+
+@keyframes adam-ring-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0.7;
+  }
+}
+
+@keyframes adam-ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes adam-particle-rise {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  15% { opacity: 0.7; }
+  70% { opacity: 0.45; }
+  100% {
+    transform: translateY(-110vh) scale(1.2);
+    opacity: 0;
+  }
 }
 
 .adam-panel__container > *:not(.adam-panel__aura) {
@@ -990,8 +1046,11 @@
   .adam-panel__backdrop,
   .adam-panel__container,
   .adam-message,
-  .adam-panel__orb,
-  .adam-panel__grid {
+  .adam-panel__mesh,
+  .adam-panel__beam,
+  .adam-panel__ring,
+  .adam-panel__ring::before,
+  .adam-panel__dot {
     animation: none;
   }
 
