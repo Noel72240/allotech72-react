@@ -71,5 +71,5 @@ export const ADAM_AVATAR_SIZES = {
   sm: 56,
   md: 64,
   lg: 80,
-  xl: 108,
+  xl: 132,
 }
