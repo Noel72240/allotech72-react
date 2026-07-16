@@ -47,13 +47,11 @@ export default function Nav() {
                 <span className="nav-services__chev" aria-hidden="true">▼</span>
               </a>
 
-              <div className="nav-services__panel" hidden={!dropdown}>
-                <a href={home ? '#services' : '/#services'} className="nav-services__featured">
-                  <span className="nav-services__featured-label">Tous nos services</span>
-                  <span className="nav-services__featured-arrow" aria-hidden="true">→</span>
+              <div className="nav-services__panel" hidden={!dropdown} role="menu">
+                <a href={home ? '#services' : '/#services'} className="nav-services__featured" role="menuitem">
+                  <span>Tous nos services</span>
+                  <span aria-hidden="true">→</span>
                 </a>
-
-                <p className="nav-services__section">Pages locales</p>
 
                 <ul className="nav-services__list">
                   {SEO_NAV_DROPDOWN_PRIMARY.map((l) => (
@@ -62,30 +60,27 @@ export default function Nav() {
                         to={l.to}
                         onClick={() => setDropdown(false)}
                         className={`nav-services__link${pageActive(l.to) ? ' is-active' : ''}`}
+                        role="menuitem"
                       >
                         <span className="nav-services__link-title">{l.label}</span>
                         {l.hint && <span className="nav-services__link-hint">{l.hint}</span>}
                       </Link>
                     </li>
                   ))}
+                  <li>
+                    <Link
+                      to={SEO_NAV_DROPDOWN_EXTRA.to}
+                      onClick={() => setDropdown(false)}
+                      className={`nav-services__link${pageActive(SEO_NAV_DROPDOWN_EXTRA.to) ? ' is-active' : ''}`}
+                      role="menuitem"
+                    >
+                      <span className="nav-services__link-title">{SEO_NAV_DROPDOWN_EXTRA.label}</span>
+                      {SEO_NAV_DROPDOWN_EXTRA.hint && (
+                        <span className="nav-services__link-hint">{SEO_NAV_DROPDOWN_EXTRA.hint}</span>
+                      )}
+                    </Link>
+                  </li>
                 </ul>
-
-                <div className="nav-services__divider" />
-
-                <Link
-                  to={SEO_NAV_DROPDOWN_EXTRA.to}
-                  onClick={() => setDropdown(false)}
-                  className={`nav-services__link nav-services__link--accent${pageActive(SEO_NAV_DROPDOWN_EXTRA.to) ? ' is-active' : ''}`}
-                >
-                  <span className="nav-services__link-title">{SEO_NAV_DROPDOWN_EXTRA.label}</span>
-                  {SEO_NAV_DROPDOWN_EXTRA.hint && (
-                    <span className="nav-services__link-hint">{SEO_NAV_DROPDOWN_EXTRA.hint}</span>
-                  )}
-                </Link>
-
-                <p className="nav-services__note">
-                  Virus, Wi-Fi et autres guides : pied de page
-                </p>
               </div>
             </li>
 
@@ -151,13 +146,13 @@ export default function Nav() {
           <div className="shop-guides-title">Guides locaux</div>
           {SEO_NAV_DROPDOWN_PRIMARY.map((l) => (
             <Link key={l.to} to={l.to} onClick={close} className="mob-services__link">
-              {l.label}
-              {l.hint ? <span> · {l.hint}</span> : null}
+              <span>{l.label}</span>
+              {l.hint ? <span>{l.hint}</span> : null}
             </Link>
           ))}
-          <Link to={SEO_NAV_DROPDOWN_EXTRA.to} onClick={close} className="mob-services__link mob-services__link--accent">
-            {SEO_NAV_DROPDOWN_EXTRA.label}
-            {SEO_NAV_DROPDOWN_EXTRA.hint ? <span> · {SEO_NAV_DROPDOWN_EXTRA.hint}</span> : null}
+          <Link to={SEO_NAV_DROPDOWN_EXTRA.to} onClick={close} className="mob-services__link">
+            <span>{SEO_NAV_DROPDOWN_EXTRA.label}</span>
+            {SEO_NAV_DROPDOWN_EXTRA.hint ? <span>{SEO_NAV_DROPDOWN_EXTRA.hint}</span> : null}
           </Link>
         </div>
 
