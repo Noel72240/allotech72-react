@@ -62,8 +62,7 @@ export default function Nav() {
                         className={`nav-services__link${pageActive(l.to) ? ' is-active' : ''}`}
                         role="menuitem"
                       >
-                        <span className="nav-services__link-title">{l.label}</span>
-                        {l.hint && <span className="nav-services__link-hint">{l.hint}</span>}
+                        {l.label}{l.hint ? ` · ${l.hint}` : ''}
                       </Link>
                     </li>
                   ))}
@@ -74,10 +73,8 @@ export default function Nav() {
                       className={`nav-services__link${pageActive(SEO_NAV_DROPDOWN_EXTRA.to) ? ' is-active' : ''}`}
                       role="menuitem"
                     >
-                      <span className="nav-services__link-title">{SEO_NAV_DROPDOWN_EXTRA.label}</span>
-                      {SEO_NAV_DROPDOWN_EXTRA.hint && (
-                        <span className="nav-services__link-hint">{SEO_NAV_DROPDOWN_EXTRA.hint}</span>
-                      )}
+                      {SEO_NAV_DROPDOWN_EXTRA.label}
+                      {SEO_NAV_DROPDOWN_EXTRA.hint ? ` · ${SEO_NAV_DROPDOWN_EXTRA.hint}` : ''}
                     </Link>
                   </li>
                 </ul>
@@ -146,13 +143,12 @@ export default function Nav() {
           <div className="shop-guides-title">Guides locaux</div>
           {SEO_NAV_DROPDOWN_PRIMARY.map((l) => (
             <Link key={l.to} to={l.to} onClick={close} className="mob-services__link">
-              <span>{l.label}</span>
-              {l.hint ? <span>{l.hint}</span> : null}
+              {l.label}{l.hint ? ` · ${l.hint}` : ''}
             </Link>
           ))}
           <Link to={SEO_NAV_DROPDOWN_EXTRA.to} onClick={close} className="mob-services__link">
-            <span>{SEO_NAV_DROPDOWN_EXTRA.label}</span>
-            {SEO_NAV_DROPDOWN_EXTRA.hint ? <span>{SEO_NAV_DROPDOWN_EXTRA.hint}</span> : null}
+            {SEO_NAV_DROPDOWN_EXTRA.label}
+            {SEO_NAV_DROPDOWN_EXTRA.hint ? ` · ${SEO_NAV_DROPDOWN_EXTRA.hint}` : ''}
           </Link>
         </div>
 
