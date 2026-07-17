@@ -84,6 +84,21 @@ export async function deleteAdamConversation(conversationId) {
   if (error) throw new Error(error.message)
 }
 
+/** Supprime plusieurs conversations d’un coup */
+export async function deleteAdamConversations(conversationIds) {
+  const ids = [...new Set((conversationIds || []).filter(Boolean))]
+  if (!ids.length) return 0
+
+  const { data, error } = await supabase
+    .from('adam_conversations')
+    .delete()
+    .in('id', ids)
+    .select('id')
+
+  if (error) throw new Error(error.message)
+  return data?.length ?? 0
+}
+
 /** Supprime toutes les conversations archivées */
 export async function deleteArchivedAdamConversations() {
   const { data, error } = await supabase

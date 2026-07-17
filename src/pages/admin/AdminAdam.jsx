@@ -7,6 +7,7 @@ import {
   fetchAdamMemories,
   archiveAdamConversation,
   deleteAdamConversation,
+  deleteAdamConversations,
   deleteArchivedAdamConversations,
   formatAdamDate,
   truncateSessionToken,
@@ -43,8 +44,11 @@ export default function AdminAdam() {
   const [detailLoad, setDetailLoad] = useState(false)
   const [msg, setMsg] = useState(null)
   const [busyId, setBusyId] = useState(null)
+  const [checkedIds, setCheckedIds] = useState(() => new Set())
 
   const archivedCount = conversations.filter((c) => c.status === 'archived').length
+  const checkedCount = checkedIds.size
+  const allChecked = conversations.length > 0 && checkedCount === conversations.length
 
   const refresh = useCallback(async () => {
     setLoad(true)
@@ -53,6 +57,10 @@ export default function AdminAdam() {
       const [s, c] = await Promise.all([fetchAdamStats(), fetchAdamConversations(80)])
       setStats(s)
       setConversations(c)
+      setCheckedIds((prev) => {
+        const ids = new Set(c.map((x) => x.id))
+        return new Set([...prev].filter((id) => ids.has(id)))
+      })
     } catch (e) {
       setMsg({ ok: false, txt: e.message || 'Erreur chargement Adam. Avez-vous exécuté adam-admin-rls.sql ?' })
     } finally {
@@ -131,9 +139,52 @@ export default function AdminAdam() {
       if (selectedId && conversations.find((c) => c.id === selectedId)?.status === 'archived') {
         setSelectedId(null)
       }
+      setCheckedIds(new Set())
       await refresh()
     } catch (e) {
       setMsg({ ok: false, txt: e.message })
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  const toggleChecked = (id) => {
+    setCheckedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const toggleAll = () => {
+    if (allChecked) setCheckedIds(new Set())
+    else setCheckedIds(new Set(conversations.map((c) => c.id)))
+  }
+
+  const removeSelected = async () => {
+    const ids = [...checkedIds]
+    if (!ids.length) return
+    if (!window.confirm(`Supprimer définitivement ${ids.length} conversation(s) et tous leurs messages ?`)) return
+    setBusyId('bulk')
+    try {
+      const n = await deleteAdamConversations(ids)
+      setMsg({ ok: true, txt: `${n} conversation(s) supprimée(s).` })
+      if (selectedId && ids.includes(selectedId)) {
+        setSelectedId(null)
+        setMessages([])
+        setDiagnostic(null)
+        setMemories([])
+      }
+      setCheckedIds(new Set())
+      await refresh()
+    } catch (e) {
+      setMsg({
+        ok: false,
+        txt: e.message?.includes('policy') || e.message?.includes('permission')
+          ? `${e.message} — Réexécutez supabase/adam-admin-delete.sql`
+          : e.message,
+      })
     } finally {
       setBusyId(null)
     }
@@ -165,6 +216,16 @@ export default function AdminAdam() {
               🤖 Conversations Adam
             </h3>
             <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+              {checkedCount > 0 && (
+                <button
+                  type="button"
+                  style={{ ...btnD, opacity: busyId === 'bulk' ? 0.6 : 1 }}
+                  disabled={busyId === 'bulk'}
+                  onClick={removeSelected}
+                >
+                  🗑 Sélection ({checkedCount})
+                </button>
+              )}
               {archivedCount > 0 && (
                 <button
                   type="button"
@@ -187,42 +248,59 @@ export default function AdminAdam() {
               Aucune conversation. Les échanges apparaîtront ici une fois Adam déployé.
             </p>
           ) : (
-            <div className="adam-conv-list">
-              {conversations.map(c => (
-                <div
-                  key={c.id}
-                  className={`adam-conv-row${selectedId === c.id ? ' is-selected' : ''}`}
-                >
-                  <button
-                    type="button"
-                    className="adam-conv-row__main"
-                    onClick={() => openConversation(c.id)}
+            <>
+              <label className="adam-conv-select-all">
+                <input
+                  type="checkbox"
+                  checked={allChecked}
+                  onChange={toggleAll}
+                />
+                <span>Tout sélectionner ({conversations.length})</span>
+              </label>
+              <div className="adam-conv-list">
+                {conversations.map(c => (
+                  <div
+                    key={c.id}
+                    className={`adam-conv-row${selectedId === c.id ? ' is-selected' : ''}${checkedIds.has(c.id) ? ' is-checked' : ''}`}
                   >
-                    <span className="adam-conv-row__top">
-                      <span className="adam-conv-row__title">
-                        Session {truncateSessionToken(c.session_token)}
+                    <label className="adam-conv-row__check" onClick={(e) => e.stopPropagation()}>
+                      <input
+                        type="checkbox"
+                        checked={checkedIds.has(c.id)}
+                        onChange={() => toggleChecked(c.id)}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      className="adam-conv-row__main"
+                      onClick={() => openConversation(c.id)}
+                    >
+                      <span className="adam-conv-row__top">
+                        <span className="adam-conv-row__title">
+                          Session {truncateSessionToken(c.session_token)}
+                        </span>
+                        <span className={`adam-conv-row__status adam-conv-row__status--${c.status || 'unknown'}`}>
+                          {c.status || '—'}
+                        </span>
                       </span>
-                      <span className={`adam-conv-row__status adam-conv-row__status--${c.status || 'unknown'}`}>
-                        {c.status || '—'}
+                      <span className="adam-conv-row__meta">
+                        {formatAdamDate(c.last_active_at)}
+                        {c.metadata?.pageContext?.path ? ` · ${c.metadata.pageContext.path}` : ''}
                       </span>
-                    </span>
-                    <span className="adam-conv-row__meta">
-                      {formatAdamDate(c.last_active_at)}
-                      {c.metadata?.pageContext?.path ? ` · ${c.metadata.pageContext.path}` : ''}
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    className="adam-conv-row__delete"
-                    disabled={busyId === c.id}
-                    title="Supprimer cette conversation"
-                    onClick={() => remove(c.id)}
-                  >
-                    Suppr.
-                  </button>
-                </div>
-              ))}
-            </div>
+                    </button>
+                    <button
+                      type="button"
+                      className="adam-conv-row__delete"
+                      disabled={busyId === c.id}
+                      title="Supprimer cette conversation"
+                      onClick={() => remove(c.id)}
+                    >
+                      Suppr.
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
 
