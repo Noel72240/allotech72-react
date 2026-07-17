@@ -322,7 +322,7 @@ export default function AdminDashboard({ onChangePassword }) {
                 <div className="admin-dash-photo-grid" style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:14 }}>
                   {photos.map(p => (
                     <div key={p.id} style={{ background:'rgba(5,14,28,0.7)', border:'1px solid rgba(0,207,255,0.1)', borderRadius:14, overflow:'hidden' }}>
-                      <GaleriePhotoMedia photo={p} onLightbox={setLightbox} height={110} />
+                      <GaleriePhotoMedia photo={p} onLightbox={setLightbox} compact />
                       <div style={{ padding:'10px 14px', display:'flex', justifyContent:'space-between', alignItems:'center', gap:8 }}>
                         <div>
                           <p style={{ color:'#fff', fontSize:'.82rem', fontWeight:600 }}>{p.titre}</p>

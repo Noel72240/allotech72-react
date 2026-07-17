@@ -1,13 +1,14 @@
 import { isGalerieAvantApres, getGalerieMainImage } from '../lib/galerie.js'
 
-export default function GaleriePhotoMedia({ photo, onLightbox }) {
+export default function GaleriePhotoMedia({ photo, onLightbox, compact = false }) {
   const open = (src, titre) => src && onLightbox?.({ src, titre })
+  const mediaClass = `gal-media${compact ? ' gal-media--compact' : ''}`
 
   if (!isGalerieAvantApres(photo)) {
     const src = getGalerieMainImage(photo)
     return (
       <div
-        className="gal-media gal-media--single"
+        className={`${mediaClass} gal-media--single`}
         role={src ? 'button' : undefined}
         tabIndex={src ? 0 : undefined}
         onClick={() => open(src, photo.titre)}
@@ -31,7 +32,7 @@ export default function GaleriePhotoMedia({ photo, onLightbox }) {
   }
 
   return (
-    <div className="gal-media gal-media--compare">
+    <div className={`${mediaClass} gal-media--compare`}>
       {[['avant_url', 'Avant'], ['apres_url', 'Après']].map(([key, label]) => (
         <div
           key={key}
