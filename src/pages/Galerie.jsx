@@ -6,6 +6,44 @@ import { supabase } from '../lib/supabase.js'
 import config from '../config.js'
 
 const CATEGORIES = ['Tous', 'Ordinateur', 'Téléphone', 'Tablette', 'Montage PC', 'Réseau', 'Site Web', 'Autre']
+const DESC_PREVIEW = 140
+
+function GalerieCard({ photo, onLightbox }) {
+  const [open, setOpen] = useState(false)
+  const desc = (photo.description || '').trim()
+  const long = desc.length > DESC_PREVIEW
+
+  return (
+    <article className={`gal-card${open ? ' is-expanded' : ''}`}>
+      <GaleriePhotoMedia photo={photo} onLightbox={onLightbox} />
+      <div className="gal-card__body">
+        <div className="gal-card__top">
+          <h2 className="gal-card__title">{photo.titre}</h2>
+          {photo.categorie ? (
+            <span className="gal-card__tag">{photo.categorie}</span>
+          ) : null}
+        </div>
+        {desc ? (
+          <>
+            <p className={`gal-card__desc${open || !long ? ' is-full' : ''}`}>
+              {desc}
+            </p>
+            {long ? (
+              <button
+                type="button"
+                className="gal-card__more"
+                onClick={() => setOpen((v) => !v)}
+                aria-expanded={open}
+              >
+                {open ? 'Réduire' : 'Lire la suite'}
+              </button>
+            ) : null}
+          </>
+        ) : null}
+      </div>
+    </article>
+  )
+}
 
 export default function Galerie() {
   const [photos, setPhotos] = useState([])
@@ -66,20 +104,7 @@ export default function Galerie() {
         ) : (
           <div className="gal-grid">
             {affichees.map((photo) => (
-              <article key={photo.id} className="gal-card">
-                <GaleriePhotoMedia photo={photo} onLightbox={setLightbox} />
-                <div className="gal-card__body">
-                  <div className="gal-card__top">
-                    <h2 className="gal-card__title">{photo.titre}</h2>
-                    {photo.categorie ? (
-                      <span className="gal-card__tag">{photo.categorie}</span>
-                    ) : null}
-                  </div>
-                  {photo.description ? (
-                    <p className="gal-card__desc">{photo.description}</p>
-                  ) : null}
-                </div>
-              </article>
+              <GalerieCard key={photo.id} photo={photo} onLightbox={setLightbox} />
             ))}
           </div>
         )}

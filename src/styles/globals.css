@@ -1915,10 +1915,33 @@ nav, footer, #aurora, #bgc, #cursor, #cring, #prog, #btt {
   color: var(--dim);
   font-size: 0.82rem;
   line-height: 1.55;
+  white-space: pre-wrap;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.gal-card__desc.is-full {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.gal-card__more {
+  align-self: flex-start;
+  margin-top: 2px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--c);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.gal-card__more:hover {
+  color: #fff;
 }
 
 .gal-media {
