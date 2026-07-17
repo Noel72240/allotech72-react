@@ -60,4 +60,11 @@ export const PRERENDER_ROUTES = [
       'Actualités et conseils informatiques hebdomadaires par Allotech72 — dépannage PC, téléphone et web sur Le Mans et la Sarthe.',
     ogTitle: 'Actualités informatiques Sarthe — Allotech72',
   },
+  {
+    path: '/references',
+    title: 'Références web — Sites créés en Sarthe | Allotech72',
+    description:
+      'Sites internet créés par Allotech72 pour des entreprises et indépendants en Sarthe. Découvrez nos références web.',
+    ogTitle: 'Références web Allotech72',
+  },
 ]

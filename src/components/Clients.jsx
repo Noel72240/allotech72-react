@@ -109,7 +109,10 @@ export default function Clients() {
           </p>
         )}
 
-        <div className="clients__cta rev vis">
+        <div className="clients__cta rev vis" style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link to="/references" className="bm bo">
+            Toutes les références →
+          </Link>
           <Link to="/creation-site-internet-sarthe" className="bm bp">
             Créer mon site →
           </Link>

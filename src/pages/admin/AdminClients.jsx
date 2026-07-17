@@ -179,7 +179,7 @@ export default function AdminClients() {
           {editId ? '✏️ Modifier un client' : '➕ Ajouter un client web'}
         </h3>
         <p style={{ color: 'var(--dim)', fontSize: '.8rem', marginBottom: 20, lineHeight: 1.5 }}>
-          Affiché dans la section « Ils me font confiance » de l’accueil.
+          Affiché sur l’accueil et la page <strong style={{ color: 'var(--c)' }}>/references</strong> (liens SEO).
         </p>
 
         <div style={{ marginBottom: 14 }}>

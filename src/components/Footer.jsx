@@ -41,7 +41,7 @@ export default function Footer() {
                   {SEO_PILLAR.label} →
                 </Link>
               </li>
-              <li><a href="#references">Références web</a></li>
+              <li><Link to="/references" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Références web</Link></li>
               <li><a href="#services">Mes services</a></li>
               <li><a href="#qui">Qui suis-je ?</a></li>
               <li><a href="#zone">Zone</a></li>
