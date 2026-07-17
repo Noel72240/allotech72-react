@@ -30,22 +30,32 @@ export default function Clients() {
 
   useEffect(() => {
     let cancelled = false
-    fetchWebClientsPublic().then((rows) => {
-      if (!cancelled) {
-        setList(rows)
-        setReady(true)
-      }
-    })
+    fetchWebClientsPublic()
+      .then((rows) => {
+        if (!cancelled) {
+          setList(rows)
+          setReady(true)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setReady(true)
+      })
     return () => { cancelled = true }
   }, [])
 
-  if (!ready) return null
-  if (!list.length && !WEB_CLIENTS_SHOW_EMPTY) return null
+  // Les .rev montés après le 1er paint restent invisibles sans ça
+  useEffect(() => {
+    document.querySelectorAll('#references .rev').forEach((el) => {
+      el.classList.add('vis')
+    })
+  }, [ready, list])
+
+  if (!list.length && ready && !WEB_CLIENTS_SHOW_EMPTY) return null
 
   return (
     <section id="references" className="sp clients">
       <div className="container">
-        <div className="rev" style={{ textAlign: 'center', marginBottom: 48 }}>
+        <div className="rev vis" style={{ textAlign: 'center', marginBottom: 48 }}>
           <div className="stag">Création de sites</div>
           <h2>Ils me font <span className="c">confiance</span></h2>
           <p className="clients__lead">
@@ -54,8 +64,10 @@ export default function Clients() {
           <div className="div-line" />
         </div>
 
-        {list.length > 0 ? (
-          <ul className="clients__grid rev">
+        {!ready ? (
+          <p className="clients__empty rev vis">Chargement des références…</p>
+        ) : list.length > 0 ? (
+          <ul className="clients__grid rev vis">
             {list.map((client) => {
               const inner = (
                 <>
@@ -92,12 +104,12 @@ export default function Clients() {
             })}
           </ul>
         ) : (
-          <p className="clients__empty rev">
-            Bientôt : les logos et sites de mes clients web.
+          <p className="clients__empty rev vis">
+            Ajoutez vos clients depuis Admin → Clients web.
           </p>
         )}
 
-        <div className="clients__cta rev">
+        <div className="clients__cta rev vis">
           <Link to="/creation-site-internet-sarthe" className="bm bp">
             Créer mon site →
           </Link>
