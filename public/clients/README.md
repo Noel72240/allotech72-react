@@ -1,16 +1,6 @@
 # Logos clients web
 
-Déposez ici les logos (PNG, SVG ou WebP), fond transparent de préférence.
+Les logos sont gérés depuis **Admin → Clients web**
+(upload vers le bucket Supabase `clients`).
 
-Taille recommandée : **environ 320×160 px** (ou SVG).
-
-Puis ajoutez chaque client dans `src/data/clients.js` :
-
-```js
-{
-  name: 'Nom du client',
-  logo: '/clients/nom-fichier.png',
-  url: 'https://www.site-client.fr',
-  sector: 'Commerce', // optionnel
-}
-```
+Fichier SQL à exécuter une fois : `supabase/web-clients.sql`

@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { WEB_CLIENTS, WEB_CLIENTS_SHOW_EMPTY } from '../data/clients.js'
+import { fetchWebClientsPublic } from '../lib/clients.js'
+import { WEB_CLIENTS_SHOW_EMPTY } from '../data/clients.js'
 
 function ClientLogo({ client }) {
   if (client.logo) {
@@ -23,7 +25,21 @@ function ClientLogo({ client }) {
 }
 
 export default function Clients() {
-  const list = WEB_CLIENTS.filter((c) => c?.name)
+  const [list, setList] = useState([])
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    fetchWebClientsPublic().then((rows) => {
+      if (!cancelled) {
+        setList(rows)
+        setReady(true)
+      }
+    })
+    return () => { cancelled = true }
+  }, [])
+
+  if (!ready) return null
   if (!list.length && !WEB_CLIENTS_SHOW_EMPTY) return null
 
   return (
@@ -56,7 +72,7 @@ export default function Clients() {
               )
 
               return (
-                <li key={client.name + (client.url || '')} className="clients__item">
+                <li key={client.id || client.name + (client.url || '')} className="clients__item">
                   {client.url ? (
                     <a
                       href={client.url}
