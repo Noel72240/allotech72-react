@@ -6,6 +6,8 @@ import {
   fetchAdamDiagnostic,
   fetchAdamMemories,
   archiveAdamConversation,
+  deleteAdamConversation,
+  deleteArchivedAdamConversations,
   formatAdamDate,
   truncateSessionToken,
 } from '../../lib/adamAdmin.js'
@@ -13,6 +15,7 @@ import {
 const card = { background:'rgba(5,14,28,0.85)', border:'1px solid rgba(0,207,255,0.15)', borderRadius:20, padding:32, backdropFilter:'blur(20px)' }
 const btnP = { background:'linear-gradient(135deg,#00CFFF,#00AEEF)', border:'none', color:'#040B14', padding:'8px 18px', borderRadius:8, fontFamily:"'Orbitron',sans-serif", fontWeight:700, fontSize:'.75rem', cursor:'pointer' }
 const btnS = { background:'rgba(0,207,255,0.08)', border:'1px solid rgba(0,207,255,0.2)', color:'var(--c)', padding:'4px 12px', borderRadius:6, cursor:'pointer', fontSize:'.72rem' }
+const btnD = { background:'rgba(255,80,80,0.12)', border:'1px solid rgba(255,80,80,0.3)', color:'#ff6b6b', padding:'4px 10px', borderRadius:6, cursor:'pointer', fontSize:'.72rem', fontWeight:700 }
 
 const Msg = ({ msg }) => msg ? (
   <div style={{ padding:'10px 14px', borderRadius:8, marginBottom:16, fontSize:'.82rem', fontWeight:600,
@@ -39,12 +42,15 @@ export default function AdminAdam() {
   const [load, setLoad] = useState(true)
   const [detailLoad, setDetailLoad] = useState(false)
   const [msg, setMsg] = useState(null)
+  const [busyId, setBusyId] = useState(null)
+
+  const archivedCount = conversations.filter((c) => c.status === 'archived').length
 
   const refresh = useCallback(async () => {
     setLoad(true)
     setMsg(null)
     try {
-      const [s, c] = await Promise.all([fetchAdamStats(), fetchAdamConversations()])
+      const [s, c] = await Promise.all([fetchAdamStats(), fetchAdamConversations(80)])
       setStats(s)
       setConversations(c)
     } catch (e) {
@@ -77,13 +83,59 @@ export default function AdminAdam() {
 
   const archive = async (id) => {
     if (!window.confirm('Archiver cette conversation ?')) return
+    setBusyId(id)
     try {
       await archiveAdamConversation(id)
       setMsg({ ok: true, txt: 'Conversation archivée.' })
       if (selectedId === id) setSelectedId(null)
-      refresh()
+      await refresh()
     } catch (e) {
       setMsg({ ok: false, txt: e.message })
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  const remove = async (id) => {
+    if (!window.confirm('Supprimer définitivement cette conversation et tous ses messages ?')) return
+    setBusyId(id)
+    try {
+      await deleteAdamConversation(id)
+      setMsg({ ok: true, txt: 'Conversation supprimée.' })
+      if (selectedId === id) {
+        setSelectedId(null)
+        setMessages([])
+        setDiagnostic(null)
+        setMemories([])
+      }
+      await refresh()
+    } catch (e) {
+      setMsg({
+        ok: false,
+        txt: e.message?.includes('policy') || e.message?.includes('permission')
+          ? `${e.message} — Réexécutez supabase/adam-admin-rls.sql (policies DELETE).`
+          : e.message,
+      })
+    } finally {
+      setBusyId(null)
+    }
+  }
+
+  const removeArchived = async () => {
+    if (!archivedCount) return
+    if (!window.confirm(`Supprimer les ${archivedCount} conversation(s) archivée(s) ?`)) return
+    setBusyId('archived')
+    try {
+      const n = await deleteArchivedAdamConversations()
+      setMsg({ ok: true, txt: `${n} conversation(s) archivée(s) supprimée(s).` })
+      if (selectedId && conversations.find((c) => c.id === selectedId)?.status === 'archived') {
+        setSelectedId(null)
+      }
+      await refresh()
+    } catch (e) {
+      setMsg({ ok: false, txt: e.message })
+    } finally {
+      setBusyId(null)
     }
   }
 
@@ -93,7 +145,6 @@ export default function AdminAdam() {
     <div>
       <Msg msg={msg} />
 
-      {/* Stats */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:14, marginBottom:24 }}>
         {[
           { val: stats.totalConversations, lbl: 'Conversations' },
@@ -108,13 +159,25 @@ export default function AdminAdam() {
       </div>
 
       <div className="admin-dash-two-col" style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:24, alignItems:'start' }}>
-        {/* Liste conversations */}
         <div style={card}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16, gap:10, flexWrap:'wrap' }}>
             <h3 style={{ color:'#fff', fontFamily:"'Orbitron',sans-serif", fontSize:'1rem', margin:0 }}>
               🤖 Conversations Adam
             </h3>
-            <button type="button" style={btnS} onClick={refresh}>🔄</button>
+            <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+              {archivedCount > 0 && (
+                <button
+                  type="button"
+                  style={{ ...btnD, opacity: busyId === 'archived' ? 0.6 : 1 }}
+                  disabled={busyId === 'archived'}
+                  onClick={removeArchived}
+                  title="Supprimer toutes les archivées"
+                >
+                  🗑 Archivées ({archivedCount})
+                </button>
+              )}
+              <button type="button" style={btnS} onClick={refresh}>🔄</button>
+            </div>
           </div>
 
           {load ? (
@@ -126,43 +189,73 @@ export default function AdminAdam() {
           ) : (
             <div style={{ display:'flex', flexDirection:'column', gap:8, maxHeight:520, overflowY:'auto' }}>
               {conversations.map(c => (
-                <button
+                <div
                   key={c.id}
-                  type="button"
-                  onClick={() => openConversation(c.id)}
                   style={{
-                    textAlign:'left',
-                    padding:'12px 14px',
+                    display:'flex',
+                    alignItems:'stretch',
+                    gap:6,
                     borderRadius:12,
                     border: selectedId === c.id ? '1px solid rgba(0,207,255,0.45)' : '1px solid rgba(0,207,255,0.1)',
                     background: selectedId === c.id ? 'rgba(0,207,255,0.1)' : 'rgba(5,14,28,0.5)',
-                    cursor:'pointer',
-                    color:'inherit',
+                    overflow:'hidden',
                   }}
                 >
-                  <div style={{ display:'flex', justifyContent:'space-between', gap:8, marginBottom:4 }}>
-                    <span style={{ color:'#fff', fontSize:'.82rem', fontWeight:600 }}>
-                      Session {truncateSessionToken(c.session_token)}
-                    </span>
-                    <span style={{
-                      fontSize:'.65rem', fontWeight:700, padding:'2px 8px', borderRadius:4,
-                      background: c.status === 'active' ? 'rgba(43,255,154,0.12)' : 'rgba(255,255,255,0.06)',
-                      color: c.status === 'active' ? 'var(--g)' : 'var(--dim)',
-                    }}>
-                      {c.status}
-                    </span>
-                  </div>
-                  <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>
-                    {formatAdamDate(c.last_active_at)}
-                    {c.metadata?.pageContext?.path && ` · ${c.metadata.pageContext.path}`}
-                  </div>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => openConversation(c.id)}
+                    style={{
+                      flex:1,
+                      textAlign:'left',
+                      padding:'12px 14px',
+                      border:'none',
+                      background:'transparent',
+                      cursor:'pointer',
+                      color:'inherit',
+                    }}
+                  >
+                    <div style={{ display:'flex', justifyContent:'space-between', gap:8, marginBottom:4 }}>
+                      <span style={{ color:'#fff', fontSize:'.82rem', fontWeight:600 }}>
+                        Session {truncateSessionToken(c.session_token)}
+                      </span>
+                      <span style={{
+                        fontSize:'.65rem', fontWeight:700, padding:'2px 8px', borderRadius:4,
+                        background: c.status === 'active' ? 'rgba(43,255,154,0.12)' : 'rgba(255,255,255,0.06)',
+                        color: c.status === 'active' ? 'var(--g)' : 'var(--dim)',
+                      }}>
+                        {c.status}
+                      </span>
+                    </div>
+                    <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>
+                      {formatAdamDate(c.last_active_at)}
+                      {c.metadata?.pageContext?.path && ` · ${c.metadata.pageContext.path}`}
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    style={{
+                      ...btnD,
+                      border:'none',
+                      borderLeft:'1px solid rgba(255,80,80,0.2)',
+                      borderRadius:0,
+                      padding:'0 12px',
+                      opacity: busyId === c.id ? 0.5 : 1,
+                    }}
+                    disabled={busyId === c.id}
+                    title="Supprimer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      remove(c.id)
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* Détail conversation */}
         <div style={card}>
           {!selectedId ? (
             <p style={{ color:'var(--dim)', textAlign:'center', padding:60 }}>
@@ -181,9 +274,21 @@ export default function AdminAdam() {
                     {formatAdamDate(selected?.last_active_at)} · {messages.length} messages
                   </p>
                 </div>
-                {selected?.status === 'active' && (
-                  <button type="button" style={btnP} onClick={() => archive(selectedId)}>Archiver</button>
-                )}
+                <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+                  {selected?.status === 'active' && (
+                    <button type="button" style={btnP} onClick={() => archive(selectedId)} disabled={busyId === selectedId}>
+                      Archiver
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    style={{ ...btnD, padding:'8px 14px' }}
+                    onClick={() => remove(selectedId)}
+                    disabled={busyId === selectedId}
+                  >
+                    Supprimer
+                  </button>
+                </div>
               </div>
 
               {diagnostic && (

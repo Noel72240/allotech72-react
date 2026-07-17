@@ -16,9 +16,21 @@ CREATE POLICY "adam_conversations_update_auth"
   USING (true)
   WITH CHECK (true);
 
+DROP POLICY IF EXISTS "adam_conversations_delete_auth" ON public.adam_conversations;
+CREATE POLICY "adam_conversations_delete_auth"
+  ON public.adam_conversations FOR DELETE
+  TO authenticated
+  USING (true);
+
 DROP POLICY IF EXISTS "adam_messages_select_auth" ON public.adam_messages;
 CREATE POLICY "adam_messages_select_auth"
   ON public.adam_messages FOR SELECT
+  TO authenticated
+  USING (true);
+
+DROP POLICY IF EXISTS "adam_messages_delete_auth" ON public.adam_messages;
+CREATE POLICY "adam_messages_delete_auth"
+  ON public.adam_messages FOR DELETE
   TO authenticated
   USING (true);
 
@@ -28,15 +40,33 @@ CREATE POLICY "adam_memories_select_auth"
   TO authenticated
   USING (true);
 
+DROP POLICY IF EXISTS "adam_memories_delete_auth" ON public.adam_memories;
+CREATE POLICY "adam_memories_delete_auth"
+  ON public.adam_memories FOR DELETE
+  TO authenticated
+  USING (true);
+
 DROP POLICY IF EXISTS "adam_diagnostic_sessions_select_auth" ON public.adam_diagnostic_sessions;
 CREATE POLICY "adam_diagnostic_sessions_select_auth"
   ON public.adam_diagnostic_sessions FOR SELECT
   TO authenticated
   USING (true);
 
+DROP POLICY IF EXISTS "adam_diagnostic_sessions_delete_auth" ON public.adam_diagnostic_sessions;
+CREATE POLICY "adam_diagnostic_sessions_delete_auth"
+  ON public.adam_diagnostic_sessions FOR DELETE
+  TO authenticated
+  USING (true);
+
 DROP POLICY IF EXISTS "adam_tool_logs_select_auth" ON public.adam_tool_logs;
 CREATE POLICY "adam_tool_logs_select_auth"
   ON public.adam_tool_logs FOR SELECT
+  TO authenticated
+  USING (true);
+
+DROP POLICY IF EXISTS "adam_tool_logs_delete_auth" ON public.adam_tool_logs;
+CREATE POLICY "adam_tool_logs_delete_auth"
+  ON public.adam_tool_logs FOR DELETE
   TO authenticated
   USING (true);
 

@@ -74,6 +74,28 @@ export async function archiveAdamConversation(conversationId) {
   if (error) throw new Error(error.message)
 }
 
+/** Supprime une conversation (+ messages / mémoires / diagnostics en cascade) */
+export async function deleteAdamConversation(conversationId) {
+  const { error } = await supabase
+    .from('adam_conversations')
+    .delete()
+    .eq('id', conversationId)
+
+  if (error) throw new Error(error.message)
+}
+
+/** Supprime toutes les conversations archivées */
+export async function deleteArchivedAdamConversations() {
+  const { data, error } = await supabase
+    .from('adam_conversations')
+    .delete()
+    .eq('status', 'archived')
+    .select('id')
+
+  if (error) throw new Error(error.message)
+  return data?.length ?? 0
+}
+
 export function formatAdamDate(iso) {
   if (!iso) return '—'
   return new Date(iso).toLocaleString('fr-FR', {
