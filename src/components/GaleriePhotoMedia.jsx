@@ -1,42 +1,29 @@
 import { isGalerieAvantApres, getGalerieMainImage } from '../lib/galerie.js'
 
-const labelStyle = (i) => ({
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  right: 0,
-  background: i === 0 ? 'rgba(255,80,80,0.8)' : 'rgba(43,255,154,0.8)',
-  color: i === 0 ? '#fff' : '#040B14',
-  textAlign: 'center',
-  fontSize: '.68rem',
-  fontWeight: 700,
-  padding: '5px',
-  fontFamily: "'Orbitron',sans-serif",
-  letterSpacing: '.1em',
-})
-
-export default function GaleriePhotoMedia({ photo, onLightbox, height = 190 }) {
-  const open = (src, titre) => src && onLightbox({ src, titre })
+export default function GaleriePhotoMedia({ photo, onLightbox }) {
+  const open = (src, titre) => src && onLightbox?.({ src, titre })
 
   if (!isGalerieAvantApres(photo)) {
     const src = getGalerieMainImage(photo)
     return (
       <div
-        style={{ height, background: '#071120', position: 'relative', overflow: 'hidden', cursor: src ? 'pointer' : 'default' }}
+        className="gal-media gal-media--single"
+        role={src ? 'button' : undefined}
+        tabIndex={src ? 0 : undefined}
         onClick={() => open(src, photo.titre)}
+        onKeyDown={(e) => {
+          if (src && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault()
+            open(src, photo.titre)
+          }
+        }}
       >
         {src ? (
-          <img
-            src={src}
-            alt={photo.titre}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .3s' }}
-            onMouseEnter={e => { e.target.style.transform = 'scale(1.05)' }}
-            onMouseLeave={e => { e.target.style.transform = '' }}
-          />
+          <img src={src} alt={photo.titre || ''} loading="lazy" decoding="async" />
         ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-            <span style={{ fontSize: '1.8rem' }}>📷</span>
-            <span style={{ color: 'var(--dim)', fontSize: '.72rem' }}>Photo</span>
+          <div className="gal-media__empty">
+            <span aria-hidden="true">📷</span>
+            <span>Photo</span>
           </div>
         )}
       </div>
@@ -44,28 +31,32 @@ export default function GaleriePhotoMedia({ photo, onLightbox, height = 190 }) {
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height, background: '#071120' }}>
-      {[['avant_url', 'AVANT'], ['apres_url', 'APRÈS']].map(([key, label], i) => (
+    <div className="gal-media gal-media--compare">
+      {[['avant_url', 'Avant'], ['apres_url', 'Après']].map(([key, label]) => (
         <div
           key={key}
-          style={{ position: 'relative', overflow: 'hidden', cursor: photo[key] ? 'pointer' : 'default' }}
+          className="gal-media__half"
+          role={photo[key] ? 'button' : undefined}
+          tabIndex={photo[key] ? 0 : undefined}
           onClick={() => open(photo[key], `${photo.titre} — ${label}`)}
+          onKeyDown={(e) => {
+            if (photo[key] && (e.key === 'Enter' || e.key === ' ')) {
+              e.preventDefault()
+              open(photo[key], `${photo.titre} — ${label}`)
+            }
+          }}
         >
           {photo[key] ? (
-            <img
-              src={photo[key]}
-              alt={label}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .3s' }}
-              onMouseEnter={e => { e.target.style.transform = 'scale(1.05)' }}
-              onMouseLeave={e => { e.target.style.transform = '' }}
-            />
+            <img src={photo[key]} alt={`${photo.titre} — ${label}`} loading="lazy" decoding="async" />
           ) : (
-            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-              <span style={{ fontSize: '1.8rem' }}>📷</span>
-              <span style={{ color: 'var(--dim)', fontSize: '.72rem' }}>{label}</span>
+            <div className="gal-media__empty">
+              <span aria-hidden="true">📷</span>
+              <span>{label}</span>
             </div>
           )}
-          <div style={labelStyle(i)}>{label}</div>
+          <span className={`gal-media__badge gal-media__badge--${key === 'avant_url' ? 'avant' : 'apres'}`}>
+            {label}
+          </span>
         </div>
       ))}
     </div>
