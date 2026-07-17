@@ -730,11 +730,11 @@ h3 { font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 72px;
+  height: 120px;
 }
 .clients__logo-img {
-  max-width: 140px;
-  max-height: 64px;
+  max-width: 200px;
+  max-height: 108px;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -748,12 +748,12 @@ h3 { font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 88px;
+  height: 88px;
+  border-radius: 18px;
   font-family: 'Orbitron', sans-serif;
   font-weight: 700;
-  font-size: .95rem;
+  font-size: 1.35rem;
   color: #040B14;
   background: linear-gradient(135deg, var(--c), var(--g));
 }
@@ -806,8 +806,8 @@ h3 { font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(
     gap: 10px;
   }
   .clients__link { padding: 16px 10px 14px; }
-  .clients__logo { height: 56px; }
-  .clients__logo-img { max-width: 110px; max-height: 48px; }
+  .clients__logo { height: 96px; }
+  .clients__logo-img { max-width: 160px; max-height: 88px; }
   .clients__visit { display: none; }
 }
 .rb { display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:52px;padding:24px 36px;background:rgba(43,255,154,.04);border:1px solid rgba(43,255,154,.15);border-radius:20px;backdrop-filter:blur(16px); }
