@@ -54,7 +54,7 @@ export default function Avis() {
       <div className="container">
         <div className="rev" style={{ textAlign: 'center', marginBottom: 52 }}>
           <div className="stag">Google Reviews</div>
-          <h2>Ils me font <span className="c">confiance</span></h2>
+          <h2>Ce qu'ils en <span className="c">disent</span></h2>
           <div className="div-line" />
         </div>
 

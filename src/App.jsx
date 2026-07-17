@@ -14,6 +14,8 @@ import Services     from './components/Services.jsx'
 import Avantages    from './components/Avantages.jsx'
 import About        from './components/About.jsx'
 import Zone         from './components/Zone.jsx'
+import SeoLocalTeaser from './components/SeoLocalTeaser.jsx'
+import Clients      from './components/Clients.jsx'
 import Avis         from './components/Avis.jsx'
 import Contact      from './components/Contact.jsx'
 import Footer       from './components/Footer.jsx'
@@ -45,7 +47,6 @@ import InstallationWindowsSarthe    from './pages/seo/InstallationWindowsSarthe.
 import MaintenanceInformatiqueSarthe from './pages/seo/MaintenanceInformatiqueSarthe.jsx'
 import DepannagePcPortableSarthe    from './pages/seo/DepannagePcPortableSarthe.jsx'
 import CreationLogicielSurMesureSarthe from './pages/seo/CreationLogicielSurMesureSarthe.jsx'
-import SeoLocalTeaser             from './components/SeoLocalTeaser.jsx'
 import VenteHub                  from './pages/vente/VenteHub.jsx'
 import VenteOccasion             from './pages/vente/VenteOccasion.jsx'
 import VenteNeuf                 from './pages/vente/VenteNeuf.jsx'
@@ -242,7 +243,7 @@ function Home() {
       <main>
         <Hero />
         <NewsCarousel slides={newsSlides} />
-        <Services /><Avantages /><About /><Zone /><SeoLocalTeaser /><Avis /><Contact />
+        <Services /><Avantages /><About /><Zone /><SeoLocalTeaser /><Clients /><Avis /><Contact />
       </main>
       <Footer />
       <Modals />
