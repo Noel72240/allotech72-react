@@ -187,68 +187,38 @@ export default function AdminAdam() {
               Aucune conversation. Les échanges apparaîtront ici une fois Adam déployé.
             </p>
           ) : (
-            <div style={{ display:'flex', flexDirection:'column', gap:8, maxHeight:520, overflowY:'auto' }}>
+            <div className="adam-conv-list">
               {conversations.map(c => (
                 <div
                   key={c.id}
-                  style={{
-                    display:'flex',
-                    alignItems:'stretch',
-                    gap:6,
-                    borderRadius:12,
-                    border: selectedId === c.id ? '1px solid rgba(0,207,255,0.45)' : '1px solid rgba(0,207,255,0.1)',
-                    background: selectedId === c.id ? 'rgba(0,207,255,0.1)' : 'rgba(5,14,28,0.5)',
-                    overflow:'hidden',
-                  }}
+                  className={`adam-conv-row${selectedId === c.id ? ' is-selected' : ''}`}
                 >
                   <button
                     type="button"
+                    className="adam-conv-row__main"
                     onClick={() => openConversation(c.id)}
-                    style={{
-                      flex:1,
-                      textAlign:'left',
-                      padding:'12px 14px',
-                      border:'none',
-                      background:'transparent',
-                      cursor:'pointer',
-                      color:'inherit',
-                    }}
                   >
-                    <div style={{ display:'flex', justifyContent:'space-between', gap:8, marginBottom:4 }}>
-                      <span style={{ color:'#fff', fontSize:'.82rem', fontWeight:600 }}>
+                    <span className="adam-conv-row__top">
+                      <span className="adam-conv-row__title">
                         Session {truncateSessionToken(c.session_token)}
                       </span>
-                      <span style={{
-                        fontSize:'.65rem', fontWeight:700, padding:'2px 8px', borderRadius:4,
-                        background: c.status === 'active' ? 'rgba(43,255,154,0.12)' : 'rgba(255,255,255,0.06)',
-                        color: c.status === 'active' ? 'var(--g)' : 'var(--dim)',
-                      }}>
-                        {c.status}
+                      <span className={`adam-conv-row__status adam-conv-row__status--${c.status || 'unknown'}`}>
+                        {c.status || '—'}
                       </span>
-                    </div>
-                    <div style={{ color:'var(--dim)', fontSize:'.72rem' }}>
+                    </span>
+                    <span className="adam-conv-row__meta">
                       {formatAdamDate(c.last_active_at)}
-                      {c.metadata?.pageContext?.path && ` · ${c.metadata.pageContext.path}`}
-                    </div>
+                      {c.metadata?.pageContext?.path ? ` · ${c.metadata.pageContext.path}` : ''}
+                    </span>
                   </button>
                   <button
                     type="button"
-                    style={{
-                      ...btnD,
-                      border:'none',
-                      borderLeft:'1px solid rgba(255,80,80,0.2)',
-                      borderRadius:0,
-                      padding:'0 12px',
-                      opacity: busyId === c.id ? 0.5 : 1,
-                    }}
+                    className="adam-conv-row__delete"
                     disabled={busyId === c.id}
-                    title="Supprimer"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      remove(c.id)
-                    }}
+                    title="Supprimer cette conversation"
+                    onClick={() => remove(c.id)}
                   >
-                    ✕
+                    Suppr.
                   </button>
                 </div>
               ))}
