@@ -7,7 +7,7 @@ function isExternal(url) {
   return /^https?:\/\//i.test(url || '')
 }
 
-function SlideLink({ slide, children }) {
+function SlideMedia({ slide, children }) {
   const href = slide?.link?.trim()
   if (!href) return <div className="news-slide-inner">{children}</div>
 
@@ -26,6 +26,25 @@ function SlideLink({ slide, children }) {
   )
 }
 
+function CaptionLink({ slide, children }) {
+  const href = slide?.link?.trim()
+  if (!href) return <div className="news-caption">{children}</div>
+
+  if (isExternal(href)) {
+    return (
+      <a className="news-caption news-caption--link" href={href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    )
+  }
+
+  return (
+    <Link className="news-caption news-caption--link" to={href}>
+      {children}
+    </Link>
+  )
+}
+
 export default function NewsCarousel({ title = 'Les nouveautés Allotech72', slides = [] }) {
   const list = useMemo(
     () => (Array.isArray(slides) ? slides : []).filter(s => s?.image && (s?.title || s?.text)),
@@ -35,6 +54,7 @@ export default function NewsCarousel({ title = 'Les nouveautés Allotech72', sli
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const count = list.length
+  const current = list[index]
 
   const goTo = useCallback(
     next => {
@@ -78,21 +98,14 @@ export default function NewsCarousel({ title = 'Les nouveautés Allotech72', sli
             <div className="news-track" style={{ transform: `translateX(-${index * 100}%)` }}>
               {list.map((slide, i) => (
                 <div key={`${slide.image}-${i}`} className={`news-slide${i === index ? ' is-active' : ''}`} aria-hidden={i !== index}>
-                  <SlideLink slide={slide}>
+                  <SlideMedia slide={slide}>
                     <img
                       src={slide.image}
                       alt={slide.title || slide.text || 'Nouveauté Allotech72'}
                       className="news-img"
                       loading={i === index ? 'eager' : 'lazy'}
                     />
-                    <div className="news-overlay" />
-                    <div className="news-content">
-                      {slide.kicker ? <div className="news-kicker">{slide.kicker}</div> : null}
-                      {slide.title ? <div className="news-title">{slide.title}</div> : null}
-                      {slide.text ? <div className="news-text">{slide.text}</div> : null}
-                      {slide.cta ? <div className="news-cta">{slide.cta} →</div> : null}
-                    </div>
-                  </SlideLink>
+                  </SlideMedia>
                 </div>
               ))}
             </div>
@@ -108,6 +121,15 @@ export default function NewsCarousel({ title = 'Les nouveautés Allotech72', sli
               </>
             ) : null}
           </div>
+
+          {current && (current.kicker || current.title || current.text || current.cta) ? (
+            <CaptionLink slide={current}>
+              {current.kicker ? <div className="news-kicker">{current.kicker}</div> : null}
+              {current.title ? <div className="news-title">{current.title}</div> : null}
+              {current.text ? <p className="news-text">{current.text}</p> : null}
+              {current.cta ? <div className="news-cta">{current.cta} →</div> : null}
+            </CaptionLink>
+          ) : null}
 
           {count > 1 ? (
             <div className="news-dots" role="tablist" aria-label="Choisir une nouveauté">
@@ -129,4 +151,3 @@ export default function NewsCarousel({ title = 'Les nouveautés Allotech72', sli
     </section>
   )
 }
-

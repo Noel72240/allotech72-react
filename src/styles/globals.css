@@ -4087,56 +4087,53 @@ a.seo-aside-link--compact {
   border: none;
   filter: saturate(1.08) contrast(1.05);
 }
-.news-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(700px 240px at 18% 10%, rgba(0,207,255,0.22), transparent 60%),
-    radial-gradient(700px 240px at 80% 15%, rgba(43,255,154,0.16), transparent 62%),
-    linear-gradient(90deg, rgba(4,11,20,0.88) 0%, rgba(4,11,20,0.45) 58%, rgba(4,11,20,0.18) 100%);
-  pointer-events: none;
-}
-.news-content {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 16px;
-  max-width: 720px;
+.news-caption {
+  display: block;
+  padding: 18px 20px 16px;
   color: #fff;
-  z-index: 2;
-  line-height: 1.2;
+  background: rgba(4, 11, 20, 0.92);
+  border-top: 1px solid rgba(0, 207, 255, 0.12);
+  text-decoration: none;
+  line-height: 1.35;
+}
+.news-caption--link {
+  transition: background 0.2s;
+}
+.news-caption--link:hover {
+  background: rgba(0, 207, 255, 0.06);
 }
 .news-kicker {
   font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(0,207,255,0.75);
+  color: rgba(0, 207, 255, 0.85);
   margin-bottom: 8px;
 }
 .news-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: clamp(1.05rem, 3.4vw, 1.6rem);
+  font-size: clamp(1.05rem, 3.4vw, 1.45rem);
   font-weight: 900;
   letter-spacing: 0.02em;
   margin-bottom: 10px;
-  text-shadow: 0 18px 70px rgba(0,0,0,0.55);
+  color: #fff;
 }
 .news-text {
   font-size: 0.95rem;
-  line-height: 1.5;
-  color: rgba(200,232,255,0.9);
-  max-width: 62ch;
+  line-height: 1.6;
+  color: rgba(200, 232, 255, 0.92);
+  margin: 0;
+  max-width: 75ch;
 }
 .news-cta {
-  margin-top: 12px;
+  margin-top: 14px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid rgba(0,207,255,0.18);
-  background: rgba(0,207,255,0.06);
+  border: 1px solid rgba(0, 207, 255, 0.18);
+  background: rgba(0, 207, 255, 0.06);
   color: var(--c);
   font-weight: 900;
   letter-spacing: 0.04em;
@@ -4193,10 +4190,15 @@ a.seo-aside-link--compact {
   .news-viewport { aspect-ratio: 16 / 10; }
   .news-arrow { width: 32px; height: 52px; font-size: 1.5rem; }
   .news-text { font-size: 0.9rem; }
+  .news-caption { padding: 14px 14px 12px; }
 }
 @media (max-width: 600px) {
-  .news-content { left: 14px; right: 14px; bottom: 12px; }
-  .news-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .news-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 .shop-topbar {
   display: flex;
