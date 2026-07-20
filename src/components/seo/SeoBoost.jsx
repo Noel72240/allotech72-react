@@ -25,7 +25,7 @@ export default function SeoBoost({ pageKey, showAvis = true }) {
     `${config.avisTotal || 52}+ avis`,
     '5★',
     'Dès 20€',
-    '24–48h',
+    config.garantie ? `Garantie ${config.garantie.jours}j` : '24–48h',
     '352 communes',
   ]
 

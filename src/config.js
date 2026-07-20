@@ -76,8 +76,52 @@ const config = {
     { label: 'Diagnostic gratuit' },
     { label: 'Dès 20€' },
     { label: '5★ avis' },
+    { label: 'Garantie 30j' },
     { label: '24–48h' },
-    { label: '7j/7' },
+  ],
+
+  // ── PROMESSE + GARANTIE (unique Allotech72 — pas un clone concurrent) ─
+  promesse: {
+    titre: 'La promesse Allotech72',
+    texte: 'Réparer plutôt que remplacer. Expliquer clairement. Rester joignable et local.',
+  },
+  garantie: {
+    jours: 30,
+    titre: 'Garantie Proximité',
+    resume: 'Si la même panne traitée revient sous 30 jours, je reviens — sans frais de main-d’œuvre.',
+    details: 'Hors panne différente, hors casse accidentelle, hors pièces sous garantie constructeur. Devis toujours validé avant réparation.',
+  },
+  parcours: [
+    { n: '1', titre: 'Vous appelez', desc: 'On clarifie le souci en quelques minutes. Devis ou créneau rapidement.' },
+    { n: '2', titre: 'Je viens chez vous', desc: 'Diagnostic sur place à domicile en Sarthe — 352 communes.' },
+    { n: '3', titre: 'C’est réglé & expliqué', desc: 'Réparation validée, conseils pour éviter que ça se reproduise.' },
+  ],
+  formules: [
+    {
+      id: 'coup-de-main',
+      nom: 'Coup de main',
+      price: 'Dès 20€',
+      badge: 'Simple',
+      desc: 'Diagnostic à domicile + conseils clairs. Idéal pour savoir quoi faire avant d’investir.',
+      points: ['Déplacement + diagnostic', 'Explications sans jargon', 'Devis si réparation'],
+    },
+    {
+      id: 'remise-en-route',
+      nom: 'Remise en route',
+      price: 'Sur devis',
+      badge: 'Le + demandé',
+      featured: true,
+      desc: 'Réparation complète chez vous : PC, virus, Wi-Fi, téléphone… avec prix annoncé avant action.',
+      points: ['Réparation à domicile', 'Garantie Proximité 30j', 'Pièces seulement si besoin'],
+    },
+    {
+      id: 'tranquillite-locale',
+      nom: 'Tranquillité locale',
+      price: 'Sur devis',
+      badge: 'Prévention',
+      desc: 'Check-up / entretien pour particuliers & indépendants : prévenir plutôt que subir la panne.',
+      points: ['Bilan + nettoyage', 'Mises à jour & sauvegardes', 'Conseils personnalisés'],
+    },
   ],
 
   // ── PROBLÈMES → SERVICES (matching conversion) ────────────

@@ -52,8 +52,12 @@ export default function About() {
               <div><h4>Types de services</h4><p>PC, Mac, téléphones, tablettes, sites internet, apps mobiles.</p></div>
             </div>
             <div style={{ padding: 20, background: 'rgba(43,255,154,.05)', border: '1px solid rgba(43,255,154,.18)', borderRadius: 14 }}>
-              <p style={{ color: 'var(--g)', fontSize: '.85rem', fontWeight: 700, marginBottom: 6 }}>⚡ Réactivité garantie</p>
-              <p style={{ color: 'var(--dim)', fontSize: '.85rem' }}>Intervention rapide, disponibilité souple, respect du domicile et des données personnelles.</p>
+              <p style={{ color: 'var(--g)', fontSize: '.85rem', fontWeight: 700, marginBottom: 6 }}>
+                ✓ {config.garantie?.titre || 'Garantie Proximité'}
+              </p>
+              <p style={{ color: 'var(--dim)', fontSize: '.85rem' }}>
+                {config.garantie?.resume || 'Si la même panne revient, je reviens.'}
+              </p>
             </div>
           </div>
         </div>
