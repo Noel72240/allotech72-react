@@ -73,6 +73,7 @@ export default function Nav() {
               </a>
 
               <div className="nav-services__panel" hidden={!dropdown} role="menu">
+                <p className="nav-services__eyebrow">Prestations Allotech72</p>
                 <div className="nav-services__list">
                   {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
                     <Link
@@ -86,7 +87,16 @@ export default function Nav() {
                       <span className="nav-services__txt">
                         <span className="nav-services__name">{l.label}</span>
                         <span className="nav-services__hint">{l.hint}</span>
+                        {l.desc ? <span className="nav-services__desc">{l.desc}</span> : null}
+                        {l.tags?.length ? (
+                          <span className="nav-services__tags">
+                            {l.tags.map((t) => (
+                              <span key={t} className="nav-services__tag">{t}</span>
+                            ))}
+                          </span>
+                        ) : null}
                       </span>
+                      <span className="nav-services__arrow" aria-hidden="true">→</span>
                     </Link>
                   ))}
                 </div>

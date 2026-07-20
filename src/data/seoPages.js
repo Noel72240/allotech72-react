@@ -10,13 +10,15 @@ export const SEO_SIDEBAR_LINKS = [
   { to: '/creation-site-internet-sarthe', label: 'Création de sites web' },
 ]
 
-/** Menu principal (dropdown) : 3 entrées + 1 lien « web » pour ne pas surcharger */
+/** Menu principal (dropdown) — fiches détaillées */
 export const SEO_NAV_DROPDOWN_PRIMARY = [
   {
     to: '/depannage-informatique-le-mans',
     label: 'Dépannage informatique',
     short: 'Dépannage',
-    hint: 'À domicile · Le Mans',
+    hint: 'À domicile · Le Mans & Sarthe',
+    desc: 'PC lent, qui ne démarre plus, panne soudaine — diagnostic et réparation sur place ou à distance.',
+    tags: ['Domicile', 'Distance', 'Urgence'],
     ico: '🛠️',
   },
   {
@@ -24,6 +26,8 @@ export const SEO_NAV_DROPDOWN_PRIMARY = [
     label: 'Réparation PC & Mac',
     short: 'PC & Mac',
     hint: 'Portable · bureau · upgrade',
+    desc: 'Écran, clavier, batterie, SSD, RAM — réparation matérielle et optimisation des performances.',
+    tags: ['Windows', 'Mac', 'Upgrade'],
     ico: '💻',
   },
   {
@@ -31,6 +35,8 @@ export const SEO_NAV_DROPDOWN_PRIMARY = [
     label: 'Téléphone & tablettes',
     short: 'Téléphone',
     hint: 'Écran · batterie · iPhone',
+    desc: 'Écran cassé, batterie HS, logiciel bloqué — intervention soignée sur iPhone, Android et tablettes.',
+    tags: ['iPhone', 'Android', 'Tablette'],
     ico: '📱',
   },
 ]
@@ -40,6 +46,8 @@ export const SEO_NAV_DROPDOWN_EXTRA = {
   label: 'Création de sites web',
   short: 'Sites web',
   hint: 'Vitrine · SEO · Sarthe',
+  desc: 'Site vitrine moderne, référencement local et présence en ligne pour votre activité en Sarthe.',
+  tags: ['Vitrine', 'SEO', 'Mobile'],
   ico: '🌐',
 }
 
