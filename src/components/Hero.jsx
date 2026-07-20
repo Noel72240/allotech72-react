@@ -117,22 +117,74 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Graphic */}
           <div className="hr">
-            <div className="dsc">
-              <div className="dr r1" /><div className="dr r2" /><div className="dr r3" />
-              <div className="dow">
-                <div className="dorb">💻</div>
-                <div className="fi fi1">📱</div>
-                <div className="fi fi2">🛡️</div>
-                <div className="fi fi3">🌐</div>
-                <div className="fi fi4">📶</div>
-              </div>
-              <div className="clines">
-                &gt; boot.diagnose()<br />
-                &gt; scan.virus: ✓ clean<br />
-                &gt; repair.status: OK<br />
-                &gt; client.happy: true
+            <div className="hero-visual" aria-hidden="true">
+              <div className="hero-visual__glow" />
+              <div className="hero-visual__card">
+                <div className="hero-visual__top">
+                  <span className="hero-visual__dot" />
+                  <span className="hero-visual__dot" />
+                  <span className="hero-visual__dot" />
+                  <span className="hero-visual__label">Diagnostic Allotech72</span>
+                </div>
+
+                <div className="hero-visual__screen">
+                  <svg className="hero-visual__device" viewBox="0 0 120 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="8" y="4" width="104" height="62" rx="6" stroke="currentColor" strokeWidth="2" opacity=".9" />
+                    <rect x="14" y="10" width="92" height="46" rx="3" fill="url(#heroScreenGrad)" />
+                    <path d="M2 70h116" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity=".55" />
+                    <path d="M42 70h36c2 0 3 1.5 3 3H39c0-1.5 1-3 3-3z" fill="currentColor" opacity=".4" />
+                    <defs>
+                      <linearGradient id="heroScreenGrad" x1="14" y1="10" x2="106" y2="56" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#00CFFF" stopOpacity=".35" />
+                        <stop offset="1" stopColor="#2BFF9A" stopOpacity=".2" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div className="hero-visual__status">
+                    <span className="hero-visual__ok" />
+                    Système prêt
+                  </div>
+                </div>
+
+                <ul className="hero-visual__list">
+                  <li>
+                    <span className="hero-visual__ico">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg>
+                    </span>
+                    <div>
+                      <strong>PC &amp; Mac</strong>
+                      <em>Réparation · upgrade</em>
+                    </div>
+                  </li>
+                  <li>
+                    <span className="hero-visual__ico">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+                    </span>
+                    <div>
+                      <strong>Téléphone</strong>
+                      <em>Écran · batterie</em>
+                    </div>
+                  </li>
+                  <li>
+                    <span className="hero-visual__ico">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>
+                    </span>
+                    <div>
+                      <strong>Sites web</strong>
+                      <em>Vitrine · SEO Sarthe</em>
+                    </div>
+                  </li>
+                  <li>
+                    <span className="hero-visual__ico">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+                    </span>
+                    <div>
+                      <strong>Sécurité</strong>
+                      <em>Virus · malwares</em>
+                    </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
