@@ -103,12 +103,7 @@ section { position: relative; z-index: 5; }
   animation: am 14s ease-in-out infinite -9s;
 }
 .blob.b4 {
-  width: 360px;
-  height: 360px;
-  background: radial-gradient(ellipse, rgba(43, 255, 154, 0.08), transparent 70%);
-  top: 18%;
-  right: 12%;
-  animation: am 20s ease-in-out infinite -2s;
+  display: none;
 }
 @keyframes am {
   0%, 100% { transform: translate(0, 0) scale(1); }
