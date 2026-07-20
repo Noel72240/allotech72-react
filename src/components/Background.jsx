@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Fond Allotech72 — traces circuit animées (PCB glow)
+ * Fond Allotech72 — rubans fluides (liquid ribbons)
  * Hex : BackgroundHex.jsx
  */
 export default function Background() {
@@ -18,189 +18,116 @@ export default function Background() {
     let animId = 0
     let t = 0
 
-    const makePath = () => {
-      const pts = []
-      let x = Math.random() < 0.5 ? -20 : W + 20
-      let y = Math.random() * H
-      pts.push({ x, y })
-      const steps = mobile ? 4 + Math.floor(Math.random() * 3) : 6 + Math.floor(Math.random() * 5)
-      for (let i = 0; i < steps; i++) {
-        if (Math.random() > 0.45) x += (Math.random() > 0.5 ? 1 : -1) * (80 + Math.random() * 140)
-        else y += (Math.random() > 0.5 ? 1 : -1) * (60 + Math.random() * 120)
-        x = Math.max(-40, Math.min(W + 40, x))
-        y = Math.max(-40, Math.min(H + 40, y))
-        pts.push({ x, y })
-      }
-      return {
-        pts,
-        progress: Math.random(),
-        speed: 0.08 + Math.random() * 0.12,
-        green: Math.random() > 0.45,
-        width: 1.2 + Math.random() * 1.2,
-      }
-    }
+    const ribbons = mobile
+      ? [
+          { y: 0.25, amp: 40, freq: 0.003, sp: 0.6, green: false, thick: 90 },
+          { y: 0.55, amp: 50, freq: 0.0025, sp: -0.45, green: true, thick: 110 },
+          { y: 0.8, amp: 35, freq: 0.0035, sp: 0.35, green: false, thick: 80 },
+        ]
+      : [
+          { y: 0.18, amp: 55, freq: 0.0028, sp: 0.55, green: false, thick: 120 },
+          { y: 0.4, amp: 70, freq: 0.0022, sp: -0.4, green: true, thick: 140 },
+          { y: 0.62, amp: 50, freq: 0.003, sp: 0.48, green: false, thick: 110 },
+          { y: 0.85, amp: 60, freq: 0.0024, sp: -0.32, green: true, thick: 130 },
+        ]
 
-    let paths = []
-    const nodes = []
+    const dots = Array.from({ length: mobile ? 12 : 24 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: 1 + Math.random() * 2,
+      ph: Math.random() * Math.PI * 2,
+      green: Math.random() > 0.5,
+    }))
 
     const resize = () => {
       W = cvs.width = window.innerWidth
       H = cvs.height = window.innerHeight
-      const n = mobile ? 5 : 10
-      paths = Array.from({ length: n }, makePath)
-      nodes.length = 0
-      for (let i = 0; i < (mobile ? 8 : 16); i++) {
-        nodes.push({
-          x: 0.1 + Math.random() * 0.8,
-          y: 0.1 + Math.random() * 0.8,
-          ph: Math.random() * Math.PI * 2,
-          green: Math.random() > 0.5,
-        })
-      }
     }
     resize()
     window.addEventListener('resize', resize)
 
-    const pathLen = (pts) => {
-      let L = 0
-      for (let i = 1; i < pts.length; i++) {
-        const dx = pts[i].x - pts[i - 1].x
-        const dy = pts[i].y - pts[i - 1].y
-        L += Math.sqrt(dx * dx + dy * dy)
-      }
-      return L || 1
-    }
+    const drawRibbon = (r) => {
+      const baseY = r.y * H
+      const phase = reduce ? 0 : t * r.sp
 
-    const pointAt = (pts, p) => {
-      const total = pathLen(pts)
-      let target = p * total
-      for (let i = 1; i < pts.length; i++) {
-        const dx = pts[i].x - pts[i - 1].x
-        const dy = pts[i].y - pts[i - 1].y
-        const seg = Math.sqrt(dx * dx + dy * dy)
-        if (target <= seg) {
-          const k = seg ? target / seg : 0
-          return {
-            x: pts[i - 1].x + dx * k,
-            y: pts[i - 1].y + dy * k,
-          }
-        }
-        target -= seg
+      ctx.beginPath()
+      for (let x = 0; x <= W; x += 6) {
+        const y =
+          baseY +
+          Math.sin(x * r.freq + phase) * r.amp +
+          Math.sin(x * r.freq * 1.7 + phase * 1.3) * (r.amp * 0.35)
+        if (x === 0) ctx.moveTo(x, y - r.thick / 2)
+        else ctx.lineTo(x, y - r.thick / 2)
       }
-      return pts[pts.length - 1]
+      for (let x = W; x >= 0; x -= 6) {
+        const y =
+          baseY +
+          Math.sin(x * r.freq + phase) * r.amp +
+          Math.sin(x * r.freq * 1.7 + phase * 1.3) * (r.amp * 0.35)
+        ctx.lineTo(x, y + r.thick / 2)
+      }
+      ctx.closePath()
+
+      const g = ctx.createLinearGradient(0, baseY - r.thick, 0, baseY + r.thick)
+      if (r.green) {
+        g.addColorStop(0, 'rgba(43, 255, 154, 0)')
+        g.addColorStop(0.5, 'rgba(43, 255, 154, 0.11)')
+        g.addColorStop(1, 'rgba(43, 255, 154, 0)')
+      } else {
+        g.addColorStop(0, 'rgba(0, 207, 255, 0)')
+        g.addColorStop(0.5, 'rgba(0, 207, 255, 0.13)')
+        g.addColorStop(1, 'rgba(0, 207, 255, 0)')
+      }
+      ctx.fillStyle = g
+      ctx.fill()
+
+      // Ligne centrale brillante
+      ctx.beginPath()
+      for (let x = 0; x <= W; x += 6) {
+        const y =
+          baseY +
+          Math.sin(x * r.freq + phase) * r.amp +
+          Math.sin(x * r.freq * 1.7 + phase * 1.3) * (r.amp * 0.35)
+        if (x === 0) ctx.moveTo(x, y)
+        else ctx.lineTo(x, y)
+      }
+      ctx.strokeStyle = r.green
+        ? 'rgba(43, 255, 154, 0.28)'
+        : 'rgba(0, 207, 255, 0.32)'
+      ctx.lineWidth = 1.5
+      ctx.stroke()
     }
 
     const frame = () => {
       ctx.clearRect(0, 0, W, H)
       if (!reduce) t += 0.016
 
-      // Fond
-      const bg = ctx.createLinearGradient(0, 0, W, H)
-      bg.addColorStop(0, 'rgba(0, 35, 55, 0.35)')
-      bg.addColorStop(0.5, 'rgba(4, 11, 20, 0.1)')
-      bg.addColorStop(1, 'rgba(0, 45, 40, 0.28)')
-      ctx.fillStyle = bg
+      // Glow ambiant
+      const amb = ctx.createRadialGradient(
+        W * 0.5,
+        H * (0.45 + Math.sin(t * 0.2) * 0.05),
+        40,
+        W * 0.5,
+        H * 0.5,
+        Math.max(W, H) * 0.7,
+      )
+      amb.addColorStop(0, 'rgba(0, 70, 95, 0.3)')
+      amb.addColorStop(1, 'rgba(4, 11, 20, 0)')
+      ctx.fillStyle = amb
       ctx.fillRect(0, 0, W, H)
 
-      // Traces circuit
-      for (const path of paths) {
-        if (!reduce) {
-          path.progress += path.speed * 0.016
-          if (path.progress > 1.4) {
-            Object.assign(path, makePath())
-            path.progress = 0
-          }
-        }
+      for (const r of ribbons) drawRibbon(r)
 
-        const drawUntil = Math.min(1, path.progress)
-        const total = pathLen(path.pts)
-        let drawn = 0
-        const target = drawUntil * total
-
+      // Points flottants
+      for (const d of dots) {
+        const px = d.x * W + Math.sin(t * 0.5 + d.ph) * 20
+        const py = d.y * H + Math.cos(t * 0.4 + d.ph) * 16
+        const a = 0.25 + Math.sin(t * 2 + d.ph) * 0.2
         ctx.beginPath()
-        ctx.moveTo(path.pts[0].x, path.pts[0].y)
-        for (let i = 1; i < path.pts.length; i++) {
-          const dx = path.pts[i].x - path.pts[i - 1].x
-          const dy = path.pts[i].y - path.pts[i - 1].y
-          const seg = Math.sqrt(dx * dx + dy * dy)
-          if (drawn + seg <= target) {
-            ctx.lineTo(path.pts[i].x, path.pts[i].y)
-            drawn += seg
-          } else {
-            const k = (target - drawn) / (seg || 1)
-            ctx.lineTo(
-              path.pts[i - 1].x + dx * k,
-              path.pts[i - 1].y + dy * k,
-            )
-            break
-          }
-        }
-
-        ctx.strokeStyle = path.green
-          ? 'rgba(43, 255, 154, 0.22)'
-          : 'rgba(0, 207, 255, 0.25)'
-        ctx.lineWidth = path.width
-        ctx.lineJoin = 'round'
-        ctx.lineCap = 'round'
-        ctx.stroke()
-
-        // Tête lumineuse
-        if (drawUntil > 0.02 && drawUntil < 1.05) {
-          const tip = pointAt(path.pts, Math.min(1, drawUntil))
-          const g = ctx.createRadialGradient(tip.x, tip.y, 0, tip.x, tip.y, 18)
-          if (path.green) {
-            g.addColorStop(0, 'rgba(43, 255, 154, 0.7)')
-            g.addColorStop(1, 'rgba(43, 255, 154, 0)')
-          } else {
-            g.addColorStop(0, 'rgba(0, 207, 255, 0.7)')
-            g.addColorStop(1, 'rgba(0, 207, 255, 0)')
-          }
-          ctx.fillStyle = g
-          ctx.beginPath()
-          ctx.arc(tip.x, tip.y, 18, 0, Math.PI * 2)
-          ctx.fill()
-
-          ctx.beginPath()
-          ctx.arc(tip.x, tip.y, 2.5, 0, Math.PI * 2)
-          ctx.fillStyle = path.green ? '#2BFF9A' : '#00CFFF'
-          ctx.fill()
-        }
-
-        // Coudes (pads)
-        for (let i = 0; i < path.pts.length; i++) {
-          const along = i / (path.pts.length - 1 || 1)
-          if (along > drawUntil) break
-          const p = path.pts[i]
-          ctx.beginPath()
-          ctx.arc(p.x, p.y, 3, 0, Math.PI * 2)
-          ctx.fillStyle = path.green
-            ? 'rgba(43, 255, 154, 0.35)'
-            : 'rgba(0, 207, 255, 0.4)'
-          ctx.fill()
-          ctx.strokeStyle = path.green
-            ? 'rgba(43, 255, 154, 0.5)'
-            : 'rgba(0, 207, 255, 0.55)'
-          ctx.lineWidth = 1
-          ctx.stroke()
-        }
-      }
-
-      // Nœuds fixes qui pulsent
-      for (const n of nodes) {
-        const px = n.x * W
-        const py = n.y * H
-        const pulse = 0.4 + Math.sin(t * 2 + n.ph) * 0.35
-        const g = ctx.createRadialGradient(px, py, 0, px, py, 22)
-        if (n.green) {
-          g.addColorStop(0, `rgba(43, 255, 154, ${0.25 * pulse})`)
-          g.addColorStop(1, 'rgba(43, 255, 154, 0)')
-        } else {
-          g.addColorStop(0, `rgba(0, 207, 255, ${0.25 * pulse})`)
-          g.addColorStop(1, 'rgba(0, 207, 255, 0)')
-        }
-        ctx.fillStyle = g
-        ctx.beginPath()
-        ctx.arc(px, py, 22, 0, Math.PI * 2)
+        ctx.arc(px, py, d.r, 0, Math.PI * 2)
+        ctx.fillStyle = d.green
+          ? `rgba(43, 255, 154, ${a})`
+          : `rgba(0, 207, 255, ${a})`
         ctx.fill()
       }
 
