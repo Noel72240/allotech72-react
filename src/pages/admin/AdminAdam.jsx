@@ -12,6 +12,7 @@ import {
   formatAdamDate,
   truncateSessionToken,
 } from '../../lib/adamAdmin.js'
+import { ADAM_ADMIN_AVATAR } from '../../config/adamAvatar.js'
 
 const card = { background:'rgba(5,14,28,0.85)', border:'1px solid rgba(0,207,255,0.15)', borderRadius:20, padding:32, backdropFilter:'blur(20px)' }
 const btnP = { background:'linear-gradient(135deg,#00CFFF,#00AEEF)', border:'none', color:'#040B14', padding:'8px 18px', borderRadius:8, fontFamily:"'Orbitron',sans-serif", fontWeight:700, fontSize:'.75rem', cursor:'pointer' }
@@ -212,8 +213,15 @@ export default function AdminAdam() {
       <div className="admin-dash-two-col" style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:24, alignItems:'start' }}>
         <div style={card}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16, gap:10, flexWrap:'wrap' }}>
-            <h3 style={{ color:'#fff', fontFamily:"'Orbitron',sans-serif", fontSize:'1rem', margin:0 }}>
-              🤖 Conversations Adam
+            <h3 style={{ color:'#fff', fontFamily:"'Orbitron',sans-serif", fontSize:'1rem', margin:0, display:'flex', alignItems:'center', gap:10 }}>
+              <img
+                src={ADAM_ADMIN_AVATAR}
+                alt="Adam"
+                width={28}
+                height={28}
+                style={{ borderRadius: '50%', objectFit: 'cover', boxShadow: '0 0 0 1.5px rgba(0,207,255,0.4), 0 0 12px rgba(0,207,255,0.25)' }}
+              />
+              Conversations Adam
             </h3>
             <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
               {checkedCount > 0 && (

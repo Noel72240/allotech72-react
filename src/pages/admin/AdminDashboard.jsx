@@ -8,6 +8,7 @@ import AdminHome from './AdminHome.jsx'
 import AdminActu from './AdminActu.jsx'
 import AdminClients from './AdminClients.jsx'
 import AdminAdam from './AdminAdam.jsx'
+import { ADAM_ADMIN_AVATAR } from '../../config/adamAvatar.js'
 import GaleriePhotoMedia from '../../components/GaleriePhotoMedia.jsx'
 import { isGalerieAvantApres } from '../../lib/galerie.js'
 
@@ -214,7 +215,19 @@ export default function AdminDashboard({ onChangePassword }) {
           <Tab id="actu"    ico="📰" label="Actu" />
           <Tab id="accueil" ico="🏠" label="Page accueil" />
           <Tab id="boutique" ico="🛒" label="Boutique" />
-          <Tab id="adam"    ico="🤖" label="Adam IA" />
+          <Tab
+            id="adam"
+            ico={
+              <img
+                src={ADAM_ADMIN_AVATAR}
+                alt=""
+                width={22}
+                height={22}
+                style={{ borderRadius: '50%', objectFit: 'cover', display: 'block', boxShadow: '0 0 0 1px rgba(0,207,255,0.35)' }}
+              />
+            }
+            label="Adam IA"
+          />
           <Tab id="infos"   ico="ℹ️"  label="Infos site" />
         </div>
 

@@ -14,6 +14,9 @@ export const ADAM_AVATAR_STATES = {
 
 const BASE = '/adam/avatar'
 
+/** Avatar admin (Conversations Adam / onglet) */
+export const ADAM_ADMIN_AVATAR = `${BASE}/adam-admin.png`
+
 /** PNG définitifs dans public/adam/avatar/ */
 export const ADAM_AVATAR_PREFER_PNG = true
 
