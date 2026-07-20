@@ -73,30 +73,33 @@ export default function Nav() {
               </a>
 
               <div className="nav-services__panel" hidden={!dropdown} role="menu">
-                <p className="nav-services__title">Nos interventions</p>
-                <ul className="nav-services__list">
+                <div className="nav-services__list">
                   {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
-                    <li key={l.to}>
-                      <Link
-                        to={l.to}
-                        onClick={() => setDropdown(false)}
-                        className={`nav-services__item${pageActive(l.to) ? ' is-active' : ''}`}
-                        role="menuitem"
-                      >
-                        {l.label}
-                      </Link>
-                    </li>
+                    <Link
+                      key={l.to}
+                      to={l.to}
+                      onClick={() => setDropdown(false)}
+                      className={`nav-services__row${pageActive(l.to) ? ' is-active' : ''}`}
+                      role="menuitem"
+                    >
+                      <span className="nav-services__ico" aria-hidden="true">{l.ico}</span>
+                      <span className="nav-services__txt">
+                        <span className="nav-services__name">{l.label}</span>
+                        <span className="nav-services__hint">{l.hint}</span>
+                      </span>
+                    </Link>
                   ))}
-                </ul>
-                <Link
-                  to={SEO_PILLAR.to}
-                  onClick={() => setDropdown(false)}
-                  className="nav-services__more"
-                  role="menuitem"
-                >
-                  Voir tous les services
-                  <span aria-hidden="true">→</span>
-                </Link>
+                </div>
+                <div className="nav-services__foot">
+                  <Link
+                    to={SEO_PILLAR.to}
+                    onClick={() => setDropdown(false)}
+                    className="nav-services__cta"
+                    role="menuitem"
+                  >
+                    Tous les services
+                  </Link>
+                </div>
               </div>
             </li>
 
