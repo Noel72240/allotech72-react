@@ -3274,8 +3274,15 @@ a.seo-aside-link--pillar {
   display: none;
 }
 .seo-aside-more-summary::before {
-  content: '? ';
+  content: '';
   display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 8px;
+  vertical-align: middle;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid rgba(0, 207, 255, 0.55);
   transition: transform 0.2s;
 }
 .seo-aside-more[open] .seo-aside-more-summary::before {
