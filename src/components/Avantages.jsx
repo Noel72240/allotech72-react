@@ -5,6 +5,8 @@ const avantages = [
   { ico: '🌱', titre: 'Écologique',            desc: 'Prolonger la vie de vos appareils évite le gaspillage électronique.' },
   { ico: '💾', titre: 'Données préservées',    desc: 'Vos photos et fichiers importants sont précieux — intervention soigneuse.' },
   { ico: '🏠', titre: 'Domicile',              desc: `Pas besoin de vous déplacer — ${config.prenom} vient chez vous en Sarthe.` },
+  { ico: '⏱️', titre: 'Réponse rapide',        desc: 'Intervention typique sous 24–48h. Urgence : appelez, on priorise.' },
+  { ico: '✅', titre: 'Devis avant réparation', desc: 'Rien n’est lancé sans votre accord. Diagnostic clair, prix annoncé.' },
 ]
 
 export default function Avantages() {

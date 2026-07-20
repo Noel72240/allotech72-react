@@ -57,6 +57,61 @@ const config = {
     { num: 20, suffix: '+', label: 'Communes' },
   ],
 
+  // ── PREUVES CONVERSION (bandeau hero — n’efface pas les stats) ─
+  proofs: [
+    { label: 'Diagnostic gratuit' },
+    { label: 'Dès 40€' },
+    { label: '5★ Google' },
+    { label: '24–48h' },
+    { label: '7j/7' },
+  ],
+
+  // ── PROBLÈMES → SERVICES (matching conversion) ────────────
+  problems: [
+    {
+      ico: '💻',
+      title: 'PC lent ou en panne',
+      quote: 'Mon PC ne démarre plus…',
+      to: '/reparation-ordinateur-le-mans',
+      tags: ['Écran noir', 'Lenteur', 'Surchauffe'],
+    },
+    {
+      ico: '🛡️',
+      title: 'Virus & sécurité',
+      quote: 'Mon PC est infecté…',
+      to: '/virus-malwares-depannage-le-mans',
+      tags: ['Malware', 'Pop-ups', 'Ransomware'],
+    },
+    {
+      ico: '📶',
+      title: 'Internet & Wi-Fi',
+      quote: 'Ma connexion ne marche plus…',
+      to: '/wifi-reseau-internet-le-mans',
+      tags: ['Box', 'Wi-Fi lent', 'Coupures'],
+    },
+    {
+      ico: '📱',
+      title: 'Téléphone / tablette',
+      quote: 'Écran cassé ou batterie HS…',
+      to: '/reparateur-telephone-le-mans',
+      tags: ['iPhone', 'Android', 'Batterie'],
+    },
+    {
+      ico: '💾',
+      title: 'Données perdues',
+      quote: 'J’ai tout perdu…',
+      to: '/recuperation-donnees-sarthe',
+      tags: ['Disque', 'SSD', 'USB'],
+    },
+    {
+      ico: '🌐',
+      title: 'Besoin d’un site web',
+      quote: 'Je veux être visible en ligne…',
+      to: '/creation-site-internet-sarthe',
+      tags: ['Vitrine', 'SEO', 'Sarthe'],
+    },
+  ],
+
   // ── SERVICES ──────────────────────────────────────────────
   services: [
     {
@@ -64,36 +119,48 @@ const config = {
       titre: 'Réparation Ordinateur',
       desc: 'PC Windows ou Mac, portable ou bureau — panne matérielle, lenteur, écran, clavier, démarrage impossible. Diagnostic précis et réparation efficace.',
       tags: ['Windows', 'Mac', 'Montage PC'],
+      priceFrom: '40€',
+      to: '/reparation-ordinateur-le-mans',
     },
     {
       icon: '📱',
       titre: 'Téléphone & Tablette',
       desc: 'Écran cassé, batterie défaillante, logiciel bloqué — intervention soigneuse sur toutes marques.',
       tags: ['iPhone', 'Android', 'Tablette'],
+      priceFrom: 'Devis',
+      to: '/reparateur-telephone-le-mans',
     },
     {
       icon: '🛡️',
       titre: 'Suppression Virus',
       desc: 'Nettoyage complet des malwares, sécurisation et conseils de prévention pour votre ordinateur.',
       tags: ['Antivirus', 'Malware', 'Optimisation'],
+      priceFrom: '40€',
+      to: '/virus-malwares-depannage-le-mans',
     },
     {
       icon: '📶',
       titre: 'Connexion & Réseau',
       desc: 'Wi-Fi instable, box mal configurée, réseau lent — résolution des problèmes de connexion.',
       tags: ['Wi-Fi', 'Box', 'Réseau'],
+      priceFrom: '40€',
+      to: '/wifi-reseau-internet-le-mans',
     },
     {
       icon: '🌐',
       titre: 'Site Internet & App Mobile',
       desc: 'Création de sites vitrine modernes, référencement SEO, et applications mobiles Android/iOS pour développer votre présence en ligne.',
       tags: ['Site vitrine', 'SEO', 'App mobile'],
+      priceFrom: 'Sur devis',
+      to: '/creation-site-internet-sarthe',
     },
     {
       icon: '🎓',
       titre: 'Cours Informatique',
       desc: "Débutants bienvenus ! Apprentissage à votre rythme, ordinateur, tablette ou smartphone.",
       tags: ['Débutant', 'Seniors', 'Domicile'],
+      priceFrom: 'Sur devis',
+      to: '/#contact',
     },
   ],
 

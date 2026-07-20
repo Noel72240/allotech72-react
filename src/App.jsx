@@ -11,6 +11,7 @@ import Nav          from './components/Nav.jsx'
 import Hero         from './components/Hero.jsx'
 import NewsCarousel from './components/NewsCarousel.jsx'
 import Services     from './components/Services.jsx'
+import ProblemMatch from './components/ProblemMatch.jsx'
 import Avantages    from './components/Avantages.jsx'
 import About        from './components/About.jsx'
 import Zone         from './components/Zone.jsx'
@@ -245,6 +246,7 @@ function Home() {
       <main>
         <Hero />
         <NewsCarousel slides={newsSlides} />
+        <ProblemMatch />
         <Services /><Avantages /><About /><Zone /><SeoLocalTeaser /><Clients /><Avis /><Contact />
       </main>
       <Footer />

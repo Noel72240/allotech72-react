@@ -248,7 +248,7 @@ export default function Hero() {
           <div className="hl">
             <div className="hbadge">
               <div className="bdot" />
-              Intervention rapide à domicile
+              Intervention rapide à domicile · 24–48h
             </div>
 
             <h1>
@@ -256,6 +256,10 @@ export default function Hero() {
               <span className="glitch" data-text="Informatique">Informatique</span><br />
               <span className="gt">Le Mans & Sarthe</span>
             </h1>
+
+            <p className="hlead">
+              Votre PC en panne ? On règle ça clairement — diagnostic gratuit, devis avant réparation.
+            </p>
 
             <div className="tl">
               {typed}<span className="tc" />
@@ -271,7 +275,7 @@ export default function Hero() {
 
             <div className="hacts">
               <a href={`tel:${config.telBrut}`} className="bm bp" onMouseMove={magMove} onMouseLeave={magLeave}>
-                📞 Appeler maintenant
+                📞 Appeler — {config.telephone}
               </a>
               <Link to="/boutique" className="bm bo hero-shop-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
                 🛒 Boutique en ligne
@@ -280,6 +284,14 @@ export default function Hero() {
                 Devis gratuit →
               </a>
             </div>
+
+            {config.proofs?.length > 0 && (
+              <ul className="hproofs" aria-label="Engagements Allotech72">
+                {config.proofs.map((p) => (
+                  <li key={p.label} className="hproof">{p.label}</li>
+                ))}
+              </ul>
+            )}
 
             <div className="hstats">
               {config.stats.map((s, i) => (
