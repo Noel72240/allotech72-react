@@ -14,6 +14,7 @@ import Services     from './components/Services.jsx'
 import ProblemMatch from './components/ProblemMatch.jsx'
 import Formules     from './components/Formules.jsx'
 import Engagements  from './components/Engagements.jsx'
+import PortalTeaser from './components/PortalTeaser.jsx'
 import Avantages    from './components/Avantages.jsx'
 import About        from './components/About.jsx'
 import Zone         from './components/Zone.jsx'
@@ -252,7 +253,9 @@ function Home() {
         <Formules />
         <Services />
         <Engagements />
-        <Avantages /><About /><Zone /><SeoLocalTeaser /><Clients /><Avis /><Contact />
+        <Avantages /><About /><Zone /><SeoLocalTeaser /><Clients /><Avis />
+        <PortalTeaser />
+        <Contact />
       </main>
       <Footer />
       <Modals />

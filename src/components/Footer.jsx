@@ -28,6 +28,16 @@ export default function Footer() {
               <a href={`tel:${config.telBrut}`} className="fb-chip fb-chip--tel">
                 📞 {config.telephone}
               </a>
+              {config.portalRegister && (
+                <a
+                  href={config.portalRegister}
+                  className="fb-chip fb-chip--portal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Espace client
+                </a>
+              )}
               {config.facebook && (
                 <a href={config.facebook} target="_blank" rel="noopener" className="fb-chip">
                   Facebook
@@ -70,6 +80,18 @@ export default function Footer() {
               <li><Link to="/partenaires">Partenaires</Link></li>
               <li><Link to="/actu">Actualités</Link></li>
               <li><a href="#contact">Contact</a></li>
+              {config.portalRegister && (
+                <li>
+                  <a
+                    href={config.portalRegister}
+                    className="fcol-link--accent"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Espace client →
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
 

@@ -39,6 +39,9 @@ const config = {
   // ── SEO ───────────────────────────────────────────────────
   // Aligner avec la redirection Vercel + sitemap (www ou apex, un seul choix)
   siteUrl:     'https://www.allotech72.fr',
+  // Portail client (espace interventions / compte)
+  portalUrl:      'https://portal.allotech72.fr',
+  portalRegister: 'https://portal.allotech72.fr/register',
   seoTitle:    'Dépannage Informatique Le Mans & Sarthe | Allotech72 – Noël Liebault',
   seoDesc:     'Allotech72 : dépannage informatique à domicile sur Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois et tout le secteur Sarthe. Réparation PC, téléphone, tablette, création de sites internet et applications mobiles. Intervention rapide – 06 13 89 39 67.',
   seoKeywords: 'dépannage informatique Le Mans, réparation ordinateur Sarthe, dépannage téléphone Lombron, technicien informatique domicile, Allotech72, Noël Liebault',

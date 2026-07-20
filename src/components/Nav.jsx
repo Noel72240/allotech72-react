@@ -137,6 +137,16 @@ export default function Nav() {
               <Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''}>Actu</Link>
             </li>
             <li className="nav-actions">
+              {config.portalUrl && (
+                <a
+                  href={config.portalRegister || config.portalUrl}
+                  className="nav-portal-cta"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Espace client
+                </a>
+              )}
               <Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link>
               <CartNavButton />
               <a href={`tel:${config.telBrut}`} className="ncta">{config.telephone}</a>
@@ -184,6 +194,17 @@ export default function Nav() {
 
       <div className={`mob${open ? ' open' : ''}`}>
         <Link to="/boutique" className="mob-shop-cta" onClick={close}>🛒 Voir la boutique</Link>
+        {config.portalRegister && (
+          <a
+            href={config.portalRegister}
+            className="mob-portal-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={close}
+          >
+            Espace client — créer mon compte
+          </a>
+        )}
 
         <a href={home ? '#services' : '/#services'} onClick={close}>Services</a>
 

@@ -40,6 +40,24 @@ export default function Contact() {
                 <p>{config.horaires}</p>
               </div>
             </div>
+            {config.portalRegister && (
+              <div className="cbl">
+                <div className="cico">🔐</div>
+                <div>
+                  <h4>Espace client</h4>
+                  <a
+                    href={config.portalRegister}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Créer mon compte / portail
+                  </a>
+                  <p style={{ fontSize: '.78rem', color: 'var(--dim)', marginTop: 3 }}>
+                    Suivi interventions &amp; infos client
+                  </p>
+                </div>
+              </div>
+            )}
             {config.facebook && (
               <div className="cbl">
                 <div className="cico">📘</div>
