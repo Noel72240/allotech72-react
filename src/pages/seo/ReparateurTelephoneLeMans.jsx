@@ -76,7 +76,7 @@ export default function ReparateurTelephoneLeMans() {
         <div style={{ marginBottom:64 }}>
           <div style={{ textAlign:'center', marginBottom:36 }}>
             <div className="stag">Ils nous font confiance</div>
-            <h2><span className="g">5/5</span> — {config.avis.length}+ avis Google</h2>
+            <h2><span className="g">5/5</span> — {config.avis.length}+ avis clients</h2>
             <div className="div-line" />
           </div>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:16 }}>

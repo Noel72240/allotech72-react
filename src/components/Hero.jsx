@@ -303,6 +303,12 @@ export default function Hero() {
                 </div>
               ))}
             </div>
+
+            {config.avisSources?.length > 0 && (
+              <p className="hstats-sources">
+                Google · AlloVoisin · Facebook · Pages Jaunes
+              </p>
+            )}
           </div>
 
           <div className="hr">

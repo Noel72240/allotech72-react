@@ -64,7 +64,7 @@ const config = {
 
   // ── STATS HERO ────────────────────────────────────────────
   stats: [
-    { num: 32, suffix: '+', label: 'Avis clients' },
+    { num: 32, suffix: '+', label: 'Avis regroupés' },
     { num: null, label: 'Note moyenne', fixed: '5★' },
     { num: null, label: 'Communes Sarthe', fixed: '352' },
   ],
