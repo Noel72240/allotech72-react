@@ -799,22 +799,24 @@ h1 { font-family:'Orbitron',sans-serif;font-size:clamp(2rem,5vw,3.8rem);font-wei
 .hproofs {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
   list-style: none;
-  margin: 22px 0 0;
+  margin: 28px 0 0;
   padding: 0;
-  max-width: 520px;
+  max-width: 640px;
   animation: fu .8s .45s both;
 }
 .hproof {
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .04em;
+  font-size: .95rem;
+  font-weight: 800;
+  letter-spacing: .03em;
   color: var(--g);
-  background: rgba(43,255,154,.08);
-  border: 1px solid rgba(43,255,154,.22);
+  background: rgba(43,255,154,.12);
+  border: 1.5px solid rgba(43,255,154,.4);
   border-radius: 100px;
-  padding: 6px 12px;
+  padding: 11px 18px;
+  box-shadow: 0 0 18px rgba(43,255,154,.12);
+  line-height: 1.2;
 }
 .hstats { display:flex;gap:40px;margin-top:52px;animation:fu .8s .5s both; }
 .stn { font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;color:var(--c);text-shadow:var(--glow);line-height:1; }
@@ -2647,8 +2649,8 @@ nav, footer, #aurora, #bgc, #cursor, #cring, #prog, #btt {
   #hero { padding: 95px 0 50px !important; }
   .hdesc { font-size: .88rem !important; line-height: 1.7 !important; }
   .hlead { font-size: 1rem !important; margin-bottom: 14px !important; }
-  .hproofs { gap: 6px !important; margin-top: 16px !important; }
-  .hproof { font-size: .65rem !important; padding: 5px 10px !important; }
+  .hproofs { gap: 10px !important; margin-top: 20px !important; max-width: 100% !important; }
+  .hproof { font-size: .82rem !important; padding: 9px 14px !important; }
   .hacts { flex-direction: column !important; gap: 10px !important; width: 100% !important; }
   .bm {
     width: 100% !important;
