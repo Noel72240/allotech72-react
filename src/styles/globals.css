@@ -94,14 +94,7 @@ section { position: relative; z-index: 5; }
   right: -120px;
   animation: am 18s ease-in-out infinite -5s;
 }
-.blob.b3 {
-  width: 440px;
-  height: 340px;
-  background: radial-gradient(ellipse, rgba(0, 174, 239, 0.12), transparent 70%);
-  top: 38%;
-  left: 48%;
-  animation: am 14s ease-in-out infinite -9s;
-}
+.blob.b3,
 .blob.b4 {
   display: none;
 }

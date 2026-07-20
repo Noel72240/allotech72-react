@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Fond Allotech72 actif — anneaux orbitaux + nœuds lumineux
- * Version hexagonale sauvegardée : BackgroundHex.jsx (à réactiver sur demande)
+ * Fond Allotech72 — faisceaux néon + orbes (très visible, sans hexagones)
+ * Hex sauvegardé : BackgroundHex.jsx
  */
 export default function Background() {
   const canvasRef = useRef(null)
@@ -17,28 +17,27 @@ export default function Background() {
     let H = 0
     let animId = 0
     let t = 0
-    let mx = 0.5
-    let my = 0.5
 
-    const rings = mobile
+    const beams = mobile
       ? [
-          { r: 0.18, nodes: 4, sp: 0.18, green: false },
-          { r: 0.32, nodes: 6, sp: -0.12, green: true },
-          { r: 0.48, nodes: 8, sp: 0.08, green: false },
+          { x: 0.2, w: 90, sp: 0.35, green: false },
+          { x: 0.55, w: 70, sp: -0.28, green: true },
+          { x: 0.82, w: 60, sp: 0.22, green: false },
         ]
       : [
-          { r: 0.16, nodes: 5, sp: 0.22, green: false },
-          { r: 0.28, nodes: 7, sp: -0.14, green: true },
-          { r: 0.42, nodes: 9, sp: 0.1, green: false },
-          { r: 0.58, nodes: 11, sp: -0.07, green: true },
+          { x: 0.12, w: 110, sp: 0.4, green: false },
+          { x: 0.38, w: 80, sp: -0.32, green: true },
+          { x: 0.62, w: 100, sp: 0.26, green: false },
+          { x: 0.88, w: 70, sp: -0.2, green: true },
         ]
 
-    const sparks = Array.from({ length: mobile ? 18 : 36 }, () => ({
-      a: Math.random() * Math.PI * 2,
-      d: 0.1 + Math.random() * 0.7,
-      s: 0.002 + Math.random() * 0.006,
-      sz: 0.6 + Math.random() * 1.4,
-      green: Math.random() > 0.5,
+    const orbs = Array.from({ length: mobile ? 6 : 12 }, (_, i) => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: mobile ? 50 + Math.random() * 60 : 80 + Math.random() * 120,
+      ph: Math.random() * Math.PI * 2,
+      sp: 0.2 + Math.random() * 0.35,
+      green: i % 2 === 0,
     }))
 
     const resize = () => {
@@ -48,102 +47,78 @@ export default function Background() {
     resize()
     window.addEventListener('resize', resize)
 
-    const onMove = (e) => {
-      mx = e.clientX / W
-      my = e.clientY / H
-    }
-    const touch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-    if (!touch && !reduce) window.addEventListener('mousemove', onMove)
-
     const frame = () => {
       ctx.clearRect(0, 0, W, H)
       if (!reduce) t += 0.016
 
-      const cx = W * (0.5 + (mx - 0.5) * 0.06)
-      const cy = H * (0.42 + (my - 0.5) * 0.05)
-      const base = Math.min(W, H)
-
-      // Halo central
-      const halo = ctx.createRadialGradient(cx, cy, 10, cx, cy, base * 0.55)
-      halo.addColorStop(0, 'rgba(0, 207, 255, 0.1)')
-      halo.addColorStop(0.4, 'rgba(43, 255, 154, 0.04)')
-      halo.addColorStop(1, 'rgba(4, 11, 20, 0)')
-      ctx.fillStyle = halo
+      // Fond dégradé animé (très lisible)
+      const gx = 0.5 + Math.sin(t * 0.25) * 0.15
+      const gy = 0.35 + Math.cos(t * 0.2) * 0.1
+      const bg = ctx.createRadialGradient(W * gx, H * gy, 20, W * 0.5, H * 0.5, Math.max(W, H) * 0.85)
+      bg.addColorStop(0, 'rgba(0, 90, 120, 0.35)')
+      bg.addColorStop(0.35, 'rgba(0, 40, 55, 0.18)')
+      bg.addColorStop(1, 'rgba(4, 11, 20, 0)')
+      ctx.fillStyle = bg
       ctx.fillRect(0, 0, W, H)
 
-      // Étoiles / étincelles en orbite lente
-      for (const s of sparks) {
-        if (!reduce) s.a += s.s
-        const x = cx + Math.cos(s.a) * s.d * base * 0.7
-        const y = cy + Math.sin(s.a) * s.d * base * 0.55
+      // Faisceaux verticaux néon
+      for (const b of beams) {
+        const drift = reduce ? 0 : Math.sin(t * b.sp) * 0.04
+        const x = (b.x + drift) * W
+        const g = ctx.createLinearGradient(x - b.w, 0, x + b.w, 0)
+        if (b.green) {
+          g.addColorStop(0, 'rgba(43, 255, 154, 0)')
+          g.addColorStop(0.5, `rgba(43, 255, 154, ${0.14 + Math.sin(t * 1.2 + b.x) * 0.05})`)
+          g.addColorStop(1, 'rgba(43, 255, 154, 0)')
+        } else {
+          g.addColorStop(0, 'rgba(0, 207, 255, 0)')
+          g.addColorStop(0.5, `rgba(0, 207, 255, ${0.16 + Math.sin(t * 1.1 + b.x) * 0.05})`)
+          g.addColorStop(1, 'rgba(0, 207, 255, 0)')
+        }
+        ctx.fillStyle = g
+        ctx.fillRect(x - b.w, 0, b.w * 2, H)
+
+        // Ligne centrale du faisceau
         ctx.beginPath()
-        ctx.arc(x, y, s.sz, 0, Math.PI * 2)
-        ctx.fillStyle = s.green
-          ? 'rgba(43, 255, 154, 0.35)'
-          : 'rgba(0, 207, 255, 0.35)'
+        ctx.moveTo(x, 0)
+        ctx.lineTo(x, H)
+        ctx.strokeStyle = b.green
+          ? 'rgba(43, 255, 154, 0.22)'
+          : 'rgba(0, 207, 255, 0.25)'
+        ctx.lineWidth = 1.5
+        ctx.stroke()
+      }
+
+      // Balayage horizontal
+      if (!reduce) {
+        const y = ((t * 40) % (H + 100)) - 50
+        const scan = ctx.createLinearGradient(0, y - 50, 0, y + 50)
+        scan.addColorStop(0, 'rgba(0, 207, 255, 0)')
+        scan.addColorStop(0.5, 'rgba(0, 207, 255, 0.12)')
+        scan.addColorStop(1, 'rgba(43, 255, 154, 0)')
+        ctx.fillStyle = scan
+        ctx.fillRect(0, y - 50, W, 100)
+      }
+
+      // Grosses orbes
+      for (const o of orbs) {
+        const px = o.x * W + Math.sin(t * o.sp + o.ph) * (mobile ? 40 : 70)
+        const py = o.y * H + Math.cos(t * o.sp * 0.8 + o.ph) * (mobile ? 30 : 50)
+        const pulse = 0.7 + Math.sin(t * 1.4 + o.ph) * 0.3
+        const g = ctx.createRadialGradient(px, py, 0, px, py, o.r)
+        if (o.green) {
+          g.addColorStop(0, `rgba(43, 255, 154, ${0.22 * pulse})`)
+          g.addColorStop(0.4, `rgba(43, 255, 154, ${0.08 * pulse})`)
+        } else {
+          g.addColorStop(0, `rgba(0, 207, 255, ${0.24 * pulse})`)
+          g.addColorStop(0.4, `rgba(0, 174, 239, ${0.09 * pulse})`)
+        }
+        g.addColorStop(1, 'rgba(4, 11, 20, 0)')
+        ctx.fillStyle = g
+        ctx.beginPath()
+        ctx.arc(px, py, o.r, 0, Math.PI * 2)
         ctx.fill()
       }
-
-      // Anneaux
-      for (const ring of rings) {
-        const radius = ring.r * base
-        const rot = reduce ? 0 : t * ring.sp
-
-        ctx.beginPath()
-        ctx.arc(cx, cy, radius, 0, Math.PI * 2)
-        ctx.strokeStyle = ring.green
-          ? 'rgba(43, 255, 154, 0.12)'
-          : 'rgba(0, 207, 255, 0.14)'
-        ctx.lineWidth = 1.2
-        ctx.setLineDash(mobile ? [] : [6, 10])
-        ctx.lineDashOffset = reduce ? 0 : -t * 20 * Math.sign(ring.sp || 1)
-        ctx.stroke()
-        ctx.setLineDash([])
-
-        // Arc lumineux qui tourne
-        const arcStart = rot
-        ctx.beginPath()
-        ctx.arc(cx, cy, radius, arcStart, arcStart + 0.9)
-        ctx.strokeStyle = ring.green
-          ? 'rgba(43, 255, 154, 0.45)'
-          : 'rgba(0, 207, 255, 0.5)'
-        ctx.lineWidth = 2
-        ctx.stroke()
-
-        // Nœuds
-        for (let i = 0; i < ring.nodes; i++) {
-          const a = rot + (i / ring.nodes) * Math.PI * 2
-          const x = cx + Math.cos(a) * radius
-          const y = cy + Math.sin(a) * radius
-          const pulse = 0.55 + Math.sin(t * 2 + i) * 0.25
-
-          const g = ctx.createRadialGradient(x, y, 0, x, y, 14)
-          if (ring.green) {
-            g.addColorStop(0, `rgba(43, 255, 154, ${0.55 * pulse})`)
-            g.addColorStop(1, 'rgba(43, 255, 154, 0)')
-          } else {
-            g.addColorStop(0, `rgba(0, 207, 255, ${0.55 * pulse})`)
-            g.addColorStop(1, 'rgba(0, 207, 255, 0)')
-          }
-          ctx.fillStyle = g
-          ctx.beginPath()
-          ctx.arc(x, y, 14, 0, Math.PI * 2)
-          ctx.fill()
-
-          ctx.beginPath()
-          ctx.arc(x, y, 2.4, 0, Math.PI * 2)
-          ctx.fillStyle = ring.green ? '#2BFF9A' : '#00CFFF'
-          ctx.globalAlpha = 0.85
-          ctx.fill()
-          ctx.globalAlpha = 1
-        }
-      }
-
-      // Croisement central discret
-      ctx.beginPath()
-      ctx.arc(cx, cy, 3, 0, Math.PI * 2)
-      ctx.fillStyle = 'rgba(0, 207, 255, 0.7)'
-      ctx.fill()
 
       animId = requestAnimationFrame(frame)
     }
@@ -151,33 +126,16 @@ export default function Background() {
 
     return () => {
       window.removeEventListener('resize', resize)
-      window.removeEventListener('mousemove', onMove)
       cancelAnimationFrame(animId)
     }
   }, [])
 
-  useEffect(() => {
-    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (isTouch || reduce) return
-    const onMove = (e) => {
-      const x = e.clientX / window.innerWidth - 0.5
-      const y = e.clientY / window.innerHeight - 0.5
-      document.querySelectorAll('#aurora .blob').forEach((b, i) => {
-        const s = (i + 1) * 10
-        b.style.transform = `translate(${x * s}px, ${y * s}px)`
-      })
-    }
-    window.addEventListener('mousemove', onMove)
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
-
+  // Aurora CSS allégée — pas de hex
   return (
     <>
       <div id="aurora" aria-hidden="true">
         <div className="blob b1" />
         <div className="blob b2" />
-        <div className="blob b3" />
       </div>
       <canvas
         id="bgc"
