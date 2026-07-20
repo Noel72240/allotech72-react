@@ -11,7 +11,7 @@ const schema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   name: 'Dépannage informatique Le Mans',
-  description: 'Service de dépannage et réparation informatique à domicile sur Le Mans et la Sarthe. Réparation PC, téléphone, tablette. Intervention rapide.',
+  description: 'Allotech72 : 15 ans de passion et +100 clients satisfaits depuis août 2025. Dépannage et réparation informatique à domicile sur Le Mans et la Sarthe — PC, téléphone, tablette.',
   provider: {
     '@type': 'LocalBusiness',
     name: config.brand,
@@ -82,7 +82,7 @@ export default function DepannageLeMansSEO() {
   return (
     <PageLayout
       title="Dépannage Informatique Le Mans — Réparation PC, Téléphone | Allotech72"
-      description="Dépannage informatique à domicile sur Le Mans et Sarthe. Réparation PC, téléphone, tablette, récupération données, suppression virus. Technicien local — 06 13 89 39 67."
+      description="Allotech72 : 15 ans de passion et +100 clients satisfaits depuis août 2025. Dépannage informatique à domicile Le Mans & Sarthe — PC, téléphone, virus. Technicien local — 06 13 89 39 67."
     >
       {/* JSON-LD */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />

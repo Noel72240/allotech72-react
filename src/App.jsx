@@ -77,6 +77,7 @@ function SeoHome() {
     email:       `contact@${siteDomainForEmail()}`,
     logo:        config.siteUrl + '/logo-allotech72.png',
     image:       config.siteUrl + '/og-image.jpg',
+    foundingDate: config.founded || '2025-08',
     priceRange:  '€',
     paymentAccepted: 'Cash, Chèque, Virement',
     currenciesAccepted: 'EUR',

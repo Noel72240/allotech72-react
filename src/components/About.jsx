@@ -23,11 +23,11 @@ export default function About() {
               </div>
             </div>
             <p className="about-txt">
-              Basé à <strong>{config.ville}</strong>, je propose avec <strong>{config.brand}</strong> un service de{' '}
-              <strong>dépannage et d'assistance informatique</strong> pour les <strong>particuliers</strong> du secteur de {config.ville}, Allonnes et alentours.
+              Basé à <strong>{config.ville}</strong>, je propose avec <strong>{config.brand}</strong> (ouvert depuis <strong>août 2025</strong>) un service de{' '}
+              <strong>dépannage et d&apos;assistance informatique</strong> pour les <strong>particuliers</strong> du secteur de {config.ville}, Allonnes et alentours.
               <br /><br />
-              Passionné par les nouvelles technologies, j'interviens sur{' '}
-              <strong>ordinateurs, téléphones, tablettes, sites internet et applications mobiles</strong>,
+              <strong>15 ans de passion</strong> pour les nouvelles technologies et déjà <strong>plus de 100 clients satisfaits</strong> :
+              j&apos;interviens sur <strong>ordinateurs, téléphones, tablettes, sites internet et applications mobiles</strong>,
               avec une approche simple, claire et personnalisée.
             </p>
             <div className="aln">

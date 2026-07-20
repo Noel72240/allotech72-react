@@ -43,8 +43,10 @@ const config = {
   portalUrl:      'https://portal.allotech72.fr',
   portalRegister: 'https://portal.allotech72.fr/register',
   seoTitle:    'Dépannage Informatique Le Mans & Sarthe | Allotech72 – Noël Liebault',
-  seoDesc:     'Allotech72 : dépannage informatique à domicile sur Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois et tout le secteur Sarthe. Réparation PC, téléphone, tablette, création de sites internet et applications mobiles. Intervention rapide – 06 13 89 39 67.',
-  seoKeywords: 'dépannage informatique Le Mans, réparation ordinateur Sarthe, dépannage téléphone Lombron, technicien informatique domicile, Allotech72, Noël Liebault',
+  // Ouverture Allotech72 : août 2025 — 15 ans de passion info + 100+ clients satisfaits
+  founded:     '2025-08',
+  seoDesc:     'Allotech72 : 15 ans de passion informatique et plus de 100 clients satisfaits depuis août 2025. Dépannage à domicile Le Mans & Sarthe — PC, téléphone, virus, Wi-Fi. Dès 20€ – 06 13 89 39 67.',
+  seoKeywords: 'dépannage informatique Le Mans, réparation ordinateur Sarthe, dépannage téléphone Lombron, technicien informatique domicile, Allotech72, Noël Liebault, 15 ans expérience',
 
   // ── RÉSEAUX SOCIAUX ───────────────────────────────────────
   facebook:    'https://www.facebook.com/people/AlloTech72/61578478083963/',
@@ -68,19 +70,20 @@ const config = {
   // ── STATS HERO ────────────────────────────────────────────
   // avisTotal = total regroupé (Google + AlloVoisin + Facebook + Pages Jaunes + site)
   avisTotal: 52,
+  clientsSatisfaits: 100,
   stats: [
+    { num: 15, suffix: '', label: 'Ans de passion' },
+    { num: 100, suffix: '+', label: 'Clients satisfaits' },
     { num: 52, suffix: '+', label: 'Avis regroupés' },
-    { num: null, label: 'Note moyenne', fixed: '5★' },
-    { num: null, label: 'Communes Sarthe', fixed: '352' },
   ],
 
   // ── PREUVES CONVERSION (bandeau hero — n’efface pas les stats) ─
   proofs: [
-    { label: 'Diagnostic gratuit' },
+    { label: '15 ans de passion' },
+    { label: '100+ clients' },
     { label: 'Dès 20€' },
     { label: '5★ avis' },
     { label: 'Garantie 30j' },
-    { label: '24–48h' },
   ],
 
   // ── PROMESSE + GARANTIE (unique Allotech72 — pas un clone concurrent) ─

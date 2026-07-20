@@ -21,6 +21,10 @@ const commonFaqTail = [
     q: 'Quel est le délai d’intervention ?',
     r: `En général sous 24 à 48h. Pour une urgence, contactez ${prenom} au ${tel}.`,
   },
+  {
+    q: `Depuis quand existe ${brand} ?`,
+    r: `${brand} a ouvert en août 2025. ${fullName()} apporte 15 ans de passion informatique et compte déjà plus de 100 clients satisfaits en Sarthe.`,
+  },
 ]
 
 /** Contenu SEO enrichi par page — textes uniques pour éviter le duplicate content */
@@ -384,8 +388,8 @@ export const SEO_BOOST = {
     topic: 'Dépannage informatique Le Mans',
     city: 'Le Mans',
     paragraphs: [
-      `${brand} est le dépannage informatique à domicile sur Le Mans et la Sarthe : PC, Mac, téléphone, virus, Wi-Fi, données et sites. ${fullName()} intervient rapidement avec devis transparent.`,
-      `Cette page concentre nos prestations locales. Utilisez les guides liés pour un sujet précis (virus, Wi-Fi, portable…) et contactez-nous pour un RDV.`,
+      `${brand} est le dépannage informatique à domicile sur Le Mans et la Sarthe : PC, Mac, téléphone, virus, Wi-Fi, données et sites. Ouvert depuis août 2025, ${fullName()} met 15 ans de passion informatique au service de plus de 100 clients déjà satisfaits.`,
+      `Cette page concentre nos prestations locales. Utilisez les guides liés pour un sujet précis (virus, Wi-Fi, portable…) et contactez-nous pour un RDV — devis transparent, intervention rapide.`,
     ],
     steps: [
       { t: 'Appel', d: `Réponse au ${tel}.` },

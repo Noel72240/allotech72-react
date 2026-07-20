@@ -22,11 +22,12 @@ export default function SeoBoost({ pageKey, showAvis = true }) {
   }
 
   const proofs = [
+    '15 ans de passion',
+    `${config.clientsSatisfaits || 100}+ clients`,
     `${config.avisTotal || 52}+ avis`,
     '5★',
     'Dès 20€',
     config.garantie ? `Garantie ${config.garantie.jours}j` : '24–48h',
-    '352 communes',
   ]
 
   return (
