@@ -1655,6 +1655,59 @@ h3 { font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(
 .pcard { display:flex;align-items:center;gap:14px;background:rgba(0,207,255,.06);border:1px solid rgba(0,207,255,.2);border-radius:14px;padding:18px 22px;text-decoration:none;color:var(--c);font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:700;transition:all .3s;box-shadow:0 4px 20px rgba(0,207,255,.1);margin-top:8px;cursor:none; }
 .pcard:hover { background:rgba(0,207,255,.12);box-shadow:0 8px 30px rgba(0,207,255,.25);transform:translateY(-2px); }
 .cg { display:grid;grid-template-columns:repeat(3,1fr);gap:10px; }
+.zone-list { min-width: 0; }
+.zone-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.zone-search .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.zone-search input {
+  flex: 1;
+  min-width: 0;
+  background: rgba(5,14,28,.85);
+  border: 1px solid rgba(0,207,255,.22);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--tx);
+  font-size: .9rem;
+  outline: none;
+}
+.zone-search input:focus {
+  border-color: rgba(0,207,255,.55);
+  box-shadow: 0 0 0 3px rgba(0,207,255,.12);
+}
+.zone-count {
+  flex-shrink: 0;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--g);
+  letter-spacing: .04em;
+}
+.zone-list .cg {
+  max-height: 420px;
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,207,255,.35) transparent;
+}
+.zone-empty {
+  grid-column: 1 / -1;
+  color: var(--dim);
+  font-size: .9rem;
+  margin: 8px 0 0;
+}
 .chip { background:rgba(5,14,28,.7);border:1px solid rgba(0,207,255,.1);border-radius:10px;padding:12px 14px;font-size:.82rem;color:var(--tx);transition:all .3s;display:flex;align-items:center;gap:7px;backdrop-filter:blur(10px);cursor:default; }
 .chip::before { content:'??';font-size:.7rem;opacity:.7; }
 .chip:hover { border-color:var(--c);color:var(--c);background:rgba(0,207,255,.08);transform:scale(1.03); }

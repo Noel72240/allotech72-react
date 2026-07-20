@@ -3,6 +3,8 @@
 // ║   Remplissez ce fichier et le site se met à jour seul    ║
 // ╚══════════════════════════════════════════════════════════╝
 
+import COMMUNES_SARTHE from './data/communes-sarthe.js'
+
 const config = {
 
   // ── FORMSPREE ─────────────────────────────────────────────
@@ -54,7 +56,7 @@ const config = {
   stats: [
     { num: 32, suffix: '+', label: 'Avis Google' },
     { num: null, label: 'Note moyenne', fixed: '5★' },
-    { num: 20, suffix: '+', label: 'Communes' },
+    { num: null, label: 'Communes Sarthe', fixed: '352' },
   ],
 
   // ── PREUVES CONVERSION (bandeau hero — n’efface pas les stats) ─
@@ -164,17 +166,8 @@ const config = {
     },
   ],
 
-  // ── ZONE D'INTERVENTION ───────────────────────────────────
-  communes: [
-    'Lombron', 'Le Mans', 'Allonnes', 'Champagné',
-    'Montfort-le-Gesnois', 'Connerré', "Yvré-l'Évêque",
-    'Changé', 'Saint-Mars-la-Brière', 'Rouillon', 'Arnage',
-    'Mulsanne', "Parigné-l'Évêque", 'Fatines', 'Surfonds',
-    'Soulitré', 'Saint-Célerin', 'Sceaux-sur-Huisne',
-    'Tuffé-Val-de-la-Chéronne',
-    "Savigné-l'Évêque", 'Bonnétable', 'Bouloire', 'La Suze-sur-Sarthe',
-    '…et environs',
-  ],
+  // ── ZONE D'INTERVENTION (352 communes — geo.api.gouv.fr) ──
+  communes: COMMUNES_SARTHE,
 
   // ── AVIS CLIENTS ──────────────────────────────────────────
   avis: [

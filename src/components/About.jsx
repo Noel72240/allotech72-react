@@ -44,8 +44,8 @@ export default function About() {
               <div><h4>Avis Google ★★★★★</h4><p>100% d'avis 5 étoiles — preuve de qualité et fiabilité.</p></div>
             </div>
             <div className="sb">
-              <div className="sbn">{config.communes.length - 1}+</div>
-              <div><h4>Communes couvertes</h4><p>De {config.ville} à Le Mans et tout le secteur Sarthe.</p></div>
+              <div className="sbn">{config.communes.length}+</div>
+              <div><h4>Communes couvertes</h4><p>Toute la Sarthe — de {config.ville} à Le Mans et les {config.communes.length} communes.</p></div>
             </div>
             <div className="sb">
               <div className="sbn">{config.services.length}+</div>
