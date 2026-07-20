@@ -131,30 +131,61 @@ function HeroShowcase() {
         <div className="hero-stage__laptop">
           <div className="hero-stage__lid">
             <span className="hero-stage__cam" />
+            <span className="hero-stage__mic" />
             <div className="hero-stage__screen">
+              <div className="hero-stage__gloss" />
               <div className="hero-stage__scan" />
               <div className="hero-stage__menubar">
                 <span /><span /><span />
                 <em>atelier.at72</em>
+                <b className="hero-stage__wifi-ico" />
               </div>
-              <div className="hero-stage__ui">
-                <div className="hero-stage__ui-head">
-                  <span className="hero-stage__brand">Allotech72</span>
-                  <span className="hero-stage__badge-live">Live</span>
+              <div className="hero-stage__workspace">
+                <aside className="hero-stage__sidebar">
+                  <i className="is-on" />
+                  <i />
+                  <i />
+                  <i />
+                </aside>
+                <div className="hero-stage__ui">
+                  <div className="hero-stage__ui-head">
+                    <span className="hero-stage__brand">Allotech72</span>
+                    <span className="hero-stage__badge-live">Live</span>
+                  </div>
+                  <div className="hero-stage__chart">
+                    <svg viewBox="0 0 120 28" preserveAspectRatio="none">
+                      <path d="M0 22 C12 18 18 8 30 12 S48 26 60 16 S84 2 96 10 S112 20 120 14" fill="none" stroke="url(#heroChartGrad)" strokeWidth="2" />
+                      <defs>
+                        <linearGradient id="heroChartGrad" x1="0" y1="0" x2="120" y2="0" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#00CFFF" />
+                          <stop offset="1" stopColor="#2BFF9A" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div className="hero-stage__cards">
+                    <span className="hero-stage__mini"><b>PC</b><em>OK</em><i style={{ width: '78%' }} /></span>
+                    <span className="hero-stage__mini"><b>Net</b><em>Bon</em><i style={{ width: '64%' }} /></span>
+                    <span className="hero-stage__mini"><b>Sec</b><em>Safe</em><i style={{ width: '90%' }} /></span>
+                  </div>
+                  <div className="hero-stage__actions">
+                    <span className="hero-stage__pill">Diagnostic gratuit</span>
+                    <span className="hero-stage__ghost">Devis</span>
+                  </div>
                 </div>
-                <div className="hero-stage__cards">
-                  <span className="hero-stage__mini"><b>PC</b><i style={{ width: '78%' }} /></span>
-                  <span className="hero-stage__mini"><b>Net</b><i style={{ width: '64%' }} /></span>
-                  <span className="hero-stage__mini"><b>Sec</b><i style={{ width: '90%' }} /></span>
-                </div>
-                <span className="hero-stage__pill">Diagnostic gratuit</span>
               </div>
             </div>
           </div>
           <div className="hero-stage__hinge" />
           <div className="hero-stage__deck">
-            <div className="hero-stage__keys" />
+            <div className="hero-stage__speakers" />
+            <div className="hero-stage__keys">
+              <span className="hero-stage__space" />
+            </div>
             <div className="hero-stage__track" />
+            <div className="hero-stage__ports">
+              <i /><i /><i />
+            </div>
           </div>
         </div>
 
@@ -162,18 +193,24 @@ function HeroShowcase() {
           <span className="hero-stage__btn hero-stage__btn--vol" />
           <span className="hero-stage__btn hero-stage__btn--pwr" />
           <div className="hero-stage__phone-screen">
+            <div className="hero-stage__gloss hero-stage__gloss--phone" />
             <div className="hero-stage__notch" />
             <div className="hero-stage__status">
               <em>9:41</em>
-              <span className="hero-stage__signal" />
+              <span className="hero-stage__status-right">
+                <i className="hero-stage__sig" />
+                <i className="hero-stage__bat" />
+              </span>
             </div>
             <div className="hero-stage__app">
-              <i className="hero-stage__app-dot" />
+              <div className="hero-stage__avatar">AT</div>
               <strong>À domicile</strong>
               <small>Intervention Sarthe</small>
+              <div className="hero-stage__rating">★★★★★</div>
               <div className="hero-stage__app-row">
                 <span /><span /><span />
               </div>
+              <span className="hero-stage__phone-cta">Appeler</span>
             </div>
             <div className="hero-stage__home" />
           </div>
