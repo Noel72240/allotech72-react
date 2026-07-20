@@ -57,83 +57,85 @@ export default function Nav() {
           </Link>
 
           <ul className="nl">
-            <li
-              className={`nav-services${dropdown ? ' is-open' : ''}`}
-              onMouseEnter={openServices}
-              onMouseLeave={scheduleCloseServices}
-            >
-              <a
-                href={home ? '#services' : '/#services'}
-                className="nav-services__trigger"
-                aria-expanded={dropdown}
-                aria-haspopup="true"
+            <li className="nav-links">
+              <div
+                className={`nav-services${dropdown ? ' is-open' : ''}`}
+                onMouseEnter={openServices}
+                onMouseLeave={scheduleCloseServices}
               >
-                Services
-                <span className="nav-services__chev" aria-hidden="true">▼</span>
-              </a>
+                <a
+                  href={home ? '#services' : '/#services'}
+                  className="nav-services__trigger"
+                  aria-expanded={dropdown}
+                  aria-haspopup="true"
+                >
+                  Services
+                  <span className="nav-services__chev" aria-hidden="true">▼</span>
+                </a>
 
-              <div className="nav-services__panel" hidden={!dropdown} role="menu">
-                <div className="nav-services__bar">
-                  <div className="nav-services__bar-top">
-                    <span className="nav-services__brand">Allotech72</span>
-                    <span className="nav-services__badge">Sarthe</span>
+                <div className="nav-services__panel" hidden={!dropdown} role="menu">
+                  <div className="nav-services__bar">
+                    <div className="nav-services__bar-top">
+                      <span className="nav-services__brand">Allotech72</span>
+                      <span className="nav-services__badge">Sarthe</span>
+                    </div>
+                    <p className="nav-services__bar-sub">
+                      Dépannage, réparation &amp; web — à domicile ou à distance
+                    </p>
+                    <div className="nav-services__bar-meta">
+                      <span>📍 Le Mans &amp; environs</span>
+                      <span>⚡ Intervention rapide</span>
+                      <span>💬 Devis gratuit</span>
+                    </div>
                   </div>
-                  <p className="nav-services__bar-sub">
-                    Dépannage, réparation &amp; web — à domicile ou à distance
-                  </p>
-                  <div className="nav-services__bar-meta">
-                    <span>📍 Le Mans &amp; environs</span>
-                    <span>⚡ Intervention rapide</span>
-                    <span>💬 Devis gratuit</span>
+                  <div className="nav-services__list">
+                    {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
+                      <Link
+                        key={l.to}
+                        to={l.to}
+                        onClick={() => setDropdown(false)}
+                        className={`nav-services__row${pageActive(l.to) ? ' is-active' : ''}`}
+                        role="menuitem"
+                      >
+                        <span className="nav-services__ico" aria-hidden="true">{l.ico}</span>
+                        <span className="nav-services__txt">
+                          <span className="nav-services__name">{l.label}</span>
+                          <span className="nav-services__hint">{l.hint}</span>
+                          {l.desc ? <span className="nav-services__desc">{l.desc}</span> : null}
+                          {l.tags?.length ? (
+                            <span className="nav-services__tags">
+                              {l.tags.map((t) => (
+                                <span key={t} className="nav-services__tag">{t}</span>
+                              ))}
+                            </span>
+                          ) : null}
+                        </span>
+                        <span className="nav-services__arrow" aria-hidden="true">→</span>
+                      </Link>
+                    ))}
                   </div>
-                </div>
-                <div className="nav-services__list">
-                  {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
+                  <div className="nav-services__foot">
                     <Link
-                      key={l.to}
-                      to={l.to}
+                      to={SEO_PILLAR.to}
                       onClick={() => setDropdown(false)}
-                      className={`nav-services__row${pageActive(l.to) ? ' is-active' : ''}`}
+                      className="nav-services__cta"
                       role="menuitem"
                     >
-                      <span className="nav-services__ico" aria-hidden="true">{l.ico}</span>
-                      <span className="nav-services__txt">
-                        <span className="nav-services__name">{l.label}</span>
-                        <span className="nav-services__hint">{l.hint}</span>
-                        {l.desc ? <span className="nav-services__desc">{l.desc}</span> : null}
-                        {l.tags?.length ? (
-                          <span className="nav-services__tags">
-                            {l.tags.map((t) => (
-                              <span key={t} className="nav-services__tag">{t}</span>
-                            ))}
-                          </span>
-                        ) : null}
-                      </span>
-                      <span className="nav-services__arrow" aria-hidden="true">→</span>
+                      Tous les services
                     </Link>
-                  ))}
-                </div>
-                <div className="nav-services__foot">
-                  <Link
-                    to={SEO_PILLAR.to}
-                    onClick={() => setDropdown(false)}
-                    className="nav-services__cta"
-                    role="menuitem"
-                  >
-                    Tous les services
-                  </Link>
+                  </div>
                 </div>
               </div>
-            </li>
 
-            <li><a href={home ? '#avantages' : '/#avantages'}>Avantages</a></li>
-            <li><a href={home ? '#qui' : '/#qui'}>Qui suis-je</a></li>
-            <li><a href={home ? '#zone' : '/#zone'}>Zone</a></li>
-            <li><Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''}>Avis</Link></li>
-            <li><Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''}>Galerie</Link></li>
-            <li><Link to="/outils" className={pageActive('/outils') ? 'nav-page-active' : ''}>Outils</Link></li>
-            <li><Link to="/partenaires" className={pageActive('/partenaires') ? 'nav-page-active' : ''}>Partenaires</Link></li>
-            <li><Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''}>Actu</Link></li>
+              <a href={home ? '#avantages' : '/#avantages'}>Avantages</a>
+              <a href={home ? '#qui' : '/#qui'}>Qui suis-je</a>
+              <a href={home ? '#zone' : '/#zone'}>Zone</a>
+              <Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''}>Avis</Link>
+              <Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''}>Galerie</Link>
+              <Link to="/outils" className={pageActive('/outils') ? 'nav-page-active' : ''}>Outils</Link>
+              <Link to="/partenaires" className={pageActive('/partenaires') ? 'nav-page-active' : ''}>Partenaires</Link>
+              <Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''}>Actu</Link>
+            </li>
             <li className="nav-actions">
               <Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link>
               <CartNavButton />
