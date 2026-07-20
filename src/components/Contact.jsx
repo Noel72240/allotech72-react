@@ -44,7 +44,7 @@ export default function Contact() {
               <div className="cbl">
                 <div className="cico">🔐</div>
                 <div>
-                  <h4>Espace client</h4>
+                  <h4>Espace client + Adam</h4>
                   <a
                     href={config.portalRegister}
                     target="_blank"
@@ -53,7 +53,7 @@ export default function Contact() {
                     Créer mon compte / portail
                   </a>
                   <p style={{ fontSize: '.78rem', color: 'var(--dim)', marginTop: 3 }}>
-                    Suivi interventions &amp; infos client
+                    Suivi interventions &amp; assistant Adam intégré
                   </p>
                 </div>
               </div>

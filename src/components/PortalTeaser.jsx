@@ -1,6 +1,6 @@
 import config from '../config.js'
 
-/** Bandeau pro — accès espace client (portail) */
+/** Bandeau pro — accès espace client (portail + Adam) */
 export default function PortalTeaser() {
   const register = config.portalRegister || config.portalUrl
   const login = config.portalUrl
@@ -13,13 +13,19 @@ export default function PortalTeaser() {
           <div className="portal-teaser__copy">
             <div className="stag">Espace client</div>
             <h2>
-              Votre portail <span className="c">Allotech72</span>
+              Portail + <span className="c">Adam</span>
             </h2>
             <div className="div-line" style={{ marginLeft: 0 }} />
             <p>
-              Créez votre compte pour suivre vos interventions, retrouver vos infos et rester
-              connecté avec {config.prenom} — simple, sécurisé, 100&nbsp;% local.
+              Votre espace Allotech72 : suivi des interventions, infos client, et{' '}
+              <strong>Adam</strong> — l’assistant intelligent pour vous aider 24&nbsp;h/24
+              (diagnostic, conseils, orientation). Simple, sécurisé, 100&nbsp;% local.
             </p>
+            <ul className="portal-teaser__perks">
+              <li>Adam — assistant IA intégré</li>
+              <li>Suivi de vos interventions</li>
+              <li>Compte sécurisé</li>
+            </ul>
           </div>
           <div className="portal-teaser__acts">
             {register && (

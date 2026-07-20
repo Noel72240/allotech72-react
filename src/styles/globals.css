@@ -1745,6 +1745,27 @@ h2 .g { color:var(--g); }
   font-size: 0.95rem;
   line-height: 1.7;
 }
+.portal-teaser__copy strong {
+  color: var(--g);
+}
+.portal-teaser__perks {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.portal-teaser__perks li {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--c);
+  border: 1px solid rgba(0, 207, 255, 0.25);
+  background: rgba(0, 207, 255, 0.07);
+  border-radius: 100px;
+  padding: 6px 11px;
+}
 .portal-teaser__acts {
   display: flex;
   flex-wrap: wrap;

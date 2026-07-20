@@ -87,9 +87,9 @@ export default function Footer() {
                     className="fcol-link--accent"
                     target="_blank"
                     rel="noopener noreferrer"
-                  >
-                    Espace client →
-                  </a>
+                >
+                  Espace client + Adam →
+                </a>
                 </li>
               )}
             </ul>
