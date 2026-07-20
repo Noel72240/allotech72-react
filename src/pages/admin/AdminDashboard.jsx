@@ -221,8 +221,8 @@ export default function AdminDashboard({ onChangePassword }) {
               <img
                 src={ADAM_ADMIN_AVATAR}
                 alt=""
-                width={22}
-                height={22}
+                width={28}
+                height={28}
                 style={{ borderRadius: '50%', objectFit: 'cover', display: 'block', boxShadow: '0 0 0 1px rgba(0,207,255,0.35)' }}
               />
             }

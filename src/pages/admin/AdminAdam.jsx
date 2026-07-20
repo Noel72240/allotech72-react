@@ -217,8 +217,8 @@ export default function AdminAdam() {
               <img
                 src={ADAM_ADMIN_AVATAR}
                 alt="Adam"
-                width={28}
-                height={28}
+                width={40}
+                height={40}
                 style={{ borderRadius: '50%', objectFit: 'cover', boxShadow: '0 0 0 1.5px rgba(0,207,255,0.4), 0 0 12px rgba(0,207,255,0.25)' }}
               />
               Conversations Adam
