@@ -418,12 +418,44 @@ export const OUTILS_FAQ = [
     a: 'Rufus crée une clé bootable depuis une ISO Windows. Ventoy permet d’avoir plusieurs ISO sur la même clé. Attention : sauvegardez vos données avant toute réinstallation.',
   },
   {
+    q: 'Comment récupérer des fichiers supprimés par erreur ?',
+    a: 'Recuva convient pour une suppression récente. TestDisk / PhotoRec sont plus puissants pour photos et partitions. Plus vous utilisez le disque après la suppression, moins les chances sont bonnes — arrêtez d’écrire dessus et contactez ALLOTECH72 si les fichiers sont critiques.',
+  },
+  {
+    q: 'Comment libérer de l’espace sur mon disque C: ?',
+    a: 'WizTree ou TreeSize Free montrent les dossiers les plus volumineux. BleachBit nettoie caches et temporaires. Everything retrouve rapidement les gros fichiers oubliés (téléchargements, ISO, vidéos).',
+  },
+  {
+    q: 'Comment tester ma connexion internet (fibre / box) ?',
+    a: 'Speedtest (Ookla) mesure débit et latence. Advanced IP Scanner liste les appareils sur votre Wi-Fi. Si le débit est bon mais le Wi-Fi coupe, ALLOTECH72 peut optimiser box et couverture à domicile.',
+  },
+  {
+    q: 'Quels logiciels bureautiques gratuits recommandez-vous ?',
+    a: 'LibreOffice remplace Word / Excel / PowerPoint. 7-Zip gère les archives. SumatraPDF lit les PDF rapidement. VLC lit presque toutes les vidéos. Notepad++ est idéal pour notes et fichiers techniques.',
+  },
+  {
+    q: 'AnyDesk est-il sûr ? Dois-je laisser la session ouverte ?',
+    a: 'AnyDesk est sûr si vous validez la connexion et ne communiquez votre code qu’à une personne de confiance (ALLOTECH72). Fermez la session après l’intervention. Ne laissez jamais un accès permanent sans votre accord.',
+  },
+  {
+    q: 'Puis-je utiliser ces outils sur un Mac ?',
+    a: 'Certains sont Windows uniquement (CPU-Z, Rufus, Geek Uninstaller…). D’autres existent aussi sur Mac (VLC, LibreOffice, Malwarebytes, AnyDesk, VeraCrypt). En cas de doute, demandez à ALLOTECH72 avant d’installer.',
+  },
+  {
+    q: 'Ces outils remplacent-ils un technicien ?',
+    a: 'Non : ils aident au diagnostic et aux gestes simples. Une panne matérielle, un ransomware, une récupération critique ou une réinstallation risquée méritent une intervention ALLOTECH72 à domicile ou à distance.',
+  },
+  {
     q: 'Comment obtenir une assistance informatique à distance ?',
     a: 'Téléchargez AnyDesk, installez-le, puis contactez ALLOTECH72 au 06 13 89 39 67 ou via le formulaire. Vous communiquez votre code pour une prise en main sécurisée.',
   },
   {
     q: 'Comment ALLOTECH72 intervient à distance ?',
     a: 'Après installation d’AnyDesk, vous me communiquez votre code de session. Je me connecte avec votre accord pour messagerie, virus, Windows, imprimantes ou bureautique — sans déplacement.',
+  },
+  {
+    q: 'Combien-vous aussi intervenir à domicile en Sarthe ?',
+    a: 'Oui. ALLOTECH72 se déplace sur Le Mans, Lombron et toute la Sarthe (352 communes). Appelez le 06 13 89 39 67 — diagnostic clair, devis avant réparation, garantie Proximité 30 jours.',
   },
 ]
 
