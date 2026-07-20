@@ -130,9 +130,42 @@ function HeroDesk() {
   return (
     <div className="hero-desk">
       <div className="hero-desk__glow" aria-hidden="true" />
-      <span className="hero-desk__float hero-desk__float--a" aria-hidden="true" />
-      <span className="hero-desk__float hero-desk__float--b" aria-hidden="true" />
-      <span className="hero-desk__float hero-desk__float--c" aria-hidden="true" />
+      <div className="hero-desk__float hero-desk__float--wifi" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M5 12.5a9 9 0 0 1 14 0" />
+          <path d="M8.5 15.5a5 5 0 0 1 7 0" />
+          <circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none" />
+        </svg>
+      </div>
+      <div className="hero-desk__float hero-desk__float--shield" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" />
+          <path d="M9 12l2 2 4-4" />
+        </svg>
+      </div>
+      <div className="hero-desk__float hero-desk__float--pc" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3" y="4" width="18" height="12" rx="2" />
+          <path d="M8 20h8M12 16v4" />
+        </svg>
+      </div>
+      <div className="hero-desk__float hero-desk__float--phone" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="7" y="2" width="10" height="20" rx="2" />
+          <path d="M11 18h2" />
+        </svg>
+      </div>
+      <div className="hero-desk__float hero-desk__float--web" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" />
+        </svg>
+      </div>
+      <div className="hero-desk__float hero-desk__float--tool" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-2.5 2.5-2.5z" />
+        </svg>
+      </div>
 
       <div className="hero-desk__panel">
         <div className="hero-desk__chrome">
