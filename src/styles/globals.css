@@ -110,7 +110,7 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 }
 .nl { display:flex;gap:5px;list-style:none;margin-left:auto;align-items:center;flex-wrap:wrap;justify-content:flex-end; }
 
-/* Menu Services — grille de cartes ALLOTECH72 (pas de mega-menu latéral) */
+/* Menu Services — liste simple, lisible */
 .nav-services { position: relative; list-style: none; }
 .nav-services__trigger {
   display: inline-flex;
@@ -129,152 +129,80 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 
 .nav-services__panel {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   left: 0;
   z-index: 100050;
-  isolation: isolate;
-  animation: navServicesIn .16s ease;
+  width: 280px;
+  padding: 8px;
+  background: #060e1a;
+  border: 1px solid rgba(0, 207, 255, 0.22);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  animation: navServicesIn .14s ease;
 }
 .nav-services__panel::before {
   content: '';
   position: absolute;
-  top: -14px;
-  left: -12px;
-  right: -12px;
-  height: 24px;
-  z-index: 1;
+  top: -16px;
+  left: 0;
+  right: 0;
+  height: 18px;
 }
 .nav-services__panel[hidden] { display: none !important; }
 
-.nav-services__panel--cards {
-  width: 420px;
-  padding: 18px 16px 14px;
-  margin-top: 0;
-  background:
-    linear-gradient(160deg, rgba(0, 207, 255, 0.07) 0%, transparent 42%),
-    rgba(4, 11, 20, 0.98);
-  border: 1px solid rgba(0, 207, 255, 0.28);
-  border-radius: 18px;
-  box-shadow:
-    0 0 0 1px rgba(43, 255, 154, 0.06),
-    0 20px 50px rgba(0, 0, 0, 0.55),
-    0 0 40px rgba(0, 207, 255, 0.08);
-  backdrop-filter: blur(16px);
-}
-
 @keyframes navServicesIn {
-  from { opacity: 0; transform: translateY(-6px) scale(.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.nav-svc-head {
-  text-align: center;
-  margin-bottom: 14px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(0, 207, 255, 0.12);
-}
-.nav-svc-head__brand {
-  display: block;
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  font-size: .95rem;
-  background: linear-gradient(90deg, #00CFFF, #2BFF9A);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: .04em;
-}
-.nav-svc-head__sub {
-  display: block;
-  margin-top: 4px;
-  font-size: .72rem;
-  color: rgba(160, 195, 230, 0.65);
-  font-family: 'Outfit', sans-serif;
-}
-
-.nav-svc-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.nav-svc-card {
+.nav-services__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 2px;
-  padding: 12px 12px 11px;
-  border-radius: 14px;
-  text-decoration: none;
-  background: rgba(0, 207, 255, 0.04);
-  border: 1px solid rgba(0, 207, 255, 0.12);
-  transition: border-color .2s, background .2s, transform .2s, box-shadow .2s;
-}
-.nav-svc-card:hover,
-.nav-svc-card.is-active {
-  background: rgba(0, 207, 255, 0.1);
-  border-color: rgba(0, 207, 255, 0.35);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 207, 255, 0.12);
-}
-.nav-svc-card__ico {
-  font-size: 1.25rem;
-  line-height: 1;
-  margin-bottom: 6px;
-  filter: drop-shadow(0 0 8px rgba(0, 207, 255, 0.35));
-}
-.nav-svc-card__label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: .72rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: .03em;
-}
-.nav-svc-card__hint {
-  font-family: 'Outfit', sans-serif;
-  font-size: .68rem;
-  color: rgba(160, 195, 230, 0.7);
-  line-height: 1.3;
 }
 
-.nav-svc-foot {
+.nav-services__item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(0, 207, 255, 0.12);
+  flex-direction: column;
+  gap: 1px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background .15s;
 }
-.nav-svc-foot__link {
+.nav-services__item:hover,
+.nav-services__item.is-active {
+  background: rgba(0, 207, 255, 0.1);
+}
+.nav-services__item-label {
   font-family: 'Outfit', sans-serif;
-  font-size: .78rem;
+  font-size: .9rem;
+  font-weight: 600;
+  color: #e8f4ff;
+  line-height: 1.25;
+}
+.nav-services__item-hint {
+  font-family: 'Outfit', sans-serif;
+  font-size: .72rem;
+  color: rgba(0, 207, 255, 0.7);
+}
+
+.nav-services__all {
+  display: block;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(0, 207, 255, 0.12);
+  font-family: 'Outfit', sans-serif;
+  font-size: .85rem;
   font-weight: 600;
   color: var(--c);
   text-decoration: none;
+  border-radius: 0 0 8px 8px;
 }
-.nav-svc-foot__link:hover { text-decoration: underline; }
-.nav-svc-foot__cta {
-  font-family: 'Orbitron', sans-serif;
-  font-size: .68rem;
-  font-weight: 700;
-  color: #040B14;
-  text-decoration: none;
-  padding: 8px 14px;
-  border-radius: 100px;
-  background: linear-gradient(135deg, #00CFFF, #2BFF9A);
-  box-shadow: 0 4px 16px rgba(0, 207, 255, 0.3);
-  white-space: nowrap;
-  transition: transform .15s, box-shadow .15s;
-}
-.nav-svc-foot__cta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 207, 255, 0.4);
-}
-
-@media (max-width: 1100px) {
-  .nav-services__panel--cards { width: 360px; }
-}
+.nav-services__all:hover { color: #2BFF9A; }
 
 .mob-services {
   display: flex;

@@ -23,16 +23,6 @@ export const SEO_NAV_DROPDOWN_EXTRA = {
   hint: 'Sarthe',
 }
 
-/** Panneau Services desktop — grille de cartes (style propre ALLOTECH72) */
-export const SEO_NAV_SERVICE_CARDS = [
-  { to: '/depannage-informatique-le-mans', label: 'Dépannage', hint: 'À domicile · Le Mans', ico: '🛠️' },
-  { to: '/reparation-ordinateur-le-mans', label: 'PC & Mac', hint: 'Réparation · upgrade', ico: '💻' },
-  { to: '/reparateur-telephone-le-mans', label: 'Téléphone', hint: 'iPhone · Android', ico: '📱' },
-  { to: '/creation-site-internet-sarthe', label: 'Sites web', hint: 'Vitrine · SEO Sarthe', ico: '🌐' },
-  { to: '/virus-malwares-depannage-le-mans', label: 'Sécurité', hint: 'Virus · malwares', ico: '🛡️' },
-  { to: '/outils', label: 'À distance', hint: 'AnyDesk · outils', ico: '🖥️' },
-]
-
 /** Pages complémentaires : footer + maillage (pas dans le menu principal) */
 export const SEO_FOOTER_SECONDARY = [
   { to: '/virus-malwares-depannage-le-mans', label: 'Virus & sécurité PC' },

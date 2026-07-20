@@ -4,7 +4,6 @@ import config from '../config.js'
 import {
   SEO_NAV_DROPDOWN_PRIMARY,
   SEO_NAV_DROPDOWN_EXTRA,
-  SEO_NAV_SERVICE_CARDS,
   SEO_PILLAR,
 } from '../data/seoPages.js'
 import CartNavButton from './shop/CartNavButton.jsx'
@@ -73,36 +72,43 @@ export default function Nav() {
                 <span className="nav-services__chev" aria-hidden="true">▼</span>
               </a>
 
-              <div className="nav-services__panel nav-services__panel--cards" hidden={!dropdown} role="menu">
-                <div className="nav-svc-head">
-                  <span className="nav-svc-head__brand">Allotech72</span>
-                  <span className="nav-svc-head__sub">Interventions Sarthe · à domicile & à distance</span>
-                </div>
-
-                <div className="nav-svc-grid">
-                  {SEO_NAV_SERVICE_CARDS.map(card => (
+              <div className="nav-services__panel" hidden={!dropdown} role="menu">
+                <ul className="nav-services__list">
+                  {SEO_NAV_DROPDOWN_PRIMARY.map((l) => (
+                    <li key={l.to}>
+                      <Link
+                        to={l.to}
+                        onClick={() => setDropdown(false)}
+                        className={`nav-services__item${pageActive(l.to) ? ' is-active' : ''}`}
+                        role="menuitem"
+                      >
+                        <span className="nav-services__item-label">{l.label}</span>
+                        {l.hint ? <span className="nav-services__item-hint">{l.hint}</span> : null}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
                     <Link
-                      key={card.to}
-                      to={card.to}
+                      to={SEO_NAV_DROPDOWN_EXTRA.to}
                       onClick={() => setDropdown(false)}
-                      className={`nav-svc-card${pageActive(card.to) ? ' is-active' : ''}`}
+                      className={`nav-services__item${pageActive(SEO_NAV_DROPDOWN_EXTRA.to) ? ' is-active' : ''}`}
                       role="menuitem"
                     >
-                      <span className="nav-svc-card__ico" aria-hidden>{card.ico}</span>
-                      <span className="nav-svc-card__label">{card.label}</span>
-                      <span className="nav-svc-card__hint">{card.hint}</span>
+                      <span className="nav-services__item-label">{SEO_NAV_DROPDOWN_EXTRA.label}</span>
+                      {SEO_NAV_DROPDOWN_EXTRA.hint ? (
+                        <span className="nav-services__item-hint">{SEO_NAV_DROPDOWN_EXTRA.hint}</span>
+                      ) : null}
                     </Link>
-                  ))}
-                </div>
-
-                <div className="nav-svc-foot">
-                  <Link to={SEO_PILLAR.to} onClick={() => setDropdown(false)} className="nav-svc-foot__link" role="menuitem">
-                    Voir tous les services
-                  </Link>
-                  <a href={home ? '#contact' : '/#contact'} className="nav-svc-foot__cta" role="menuitem">
-                    Demander un devis
-                  </a>
-                </div>
+                  </li>
+                </ul>
+                <Link
+                  to={SEO_PILLAR.to}
+                  onClick={() => setDropdown(false)}
+                  className="nav-services__all"
+                  role="menuitem"
+                >
+                  Tous les services
+                </Link>
               </div>
             </li>
 
