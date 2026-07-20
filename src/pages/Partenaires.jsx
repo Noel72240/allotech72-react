@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageLayout from '../components/PageLayout.jsx'
 import config from '../config.js'
-import { PARTENAIRES } from '../data/partenaires.js'
+import { PARTENAIRES, PARTENAIRE_CATEGORIES } from '../data/partenaires.js'
 import '../styles/partenaires.css'
 
 const SEO_TITLE = 'Partenaires — Annuaire & collaborations | ALLOTECH72'
@@ -11,6 +11,13 @@ const SEO_DESC =
 
 export default function Partenaires() {
   const base = config.siteUrl.replace(/\/$/, '')
+  const [cat, setCat] = useState(PARTENAIRE_CATEGORIES[0]?.id || 'annuaires')
+
+  const filtered = useMemo(
+    () => PARTENAIRES.filter(p => p.category === cat),
+    [cat],
+  )
+  const activeCat = PARTENAIRE_CATEGORIES.find(c => c.id === cat)
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -31,14 +38,13 @@ export default function Partenaires() {
       position: i + 1,
       name: p.name,
       url: p.url,
-      description: p.description,
+      description: p.description || p.hint,
     })),
   }
 
   useEffect(() => {
-    const els = document.querySelectorAll('.partenaires-page .rev')
-    els.forEach(el => el.classList.add('vis'))
-  }, [])
+    document.querySelectorAll('.partenaires-page .rev').forEach(el => el.classList.add('vis'))
+  }, [cat])
 
   return (
     <PageLayout title={SEO_TITLE} description={SEO_DESC}>
@@ -52,65 +58,92 @@ export default function Partenaires() {
             <span aria-hidden>›</span>
             <span>Partenaires</span>
           </nav>
-          <div className="stag">Collaborations</div>
-          <h1>
-            Nos <span className="c">partenaires</span>
-          </h1>
+          <div className="stag">Réseau</div>
+          <h1>Nos <span className="c">partenaires</span></h1>
           <p className="partenaires-hero-sub">
-            ALLOTECH72 collabore avec des acteurs du numérique pour mieux servir les clients
-            en Sarthe et en France. Échange de liens et recommandations croisées.
+            Collaborations et liens réciproques autour d&apos;{config.brand}.
           </p>
         </header>
 
-        <div className="partenaires-grid">
-          {PARTENAIRES.map(p => (
-            <article key={p.id} className="partenaire-card svc-card rev">
-              <div className="partenaire-logo-wrap">
-                <img
-                  src={p.logo}
-                  alt={`Logo ${p.name}`}
-                  className="partenaire-logo"
-                  loading="eager"
-                />
-              </div>
-              <span className="partenaire-badge">🤝 Partenaire officiel</span>
-              <h2>{p.name}</h2>
-              <p className="partenaire-tagline">{p.tagline}</p>
-              <p className="partenaire-desc">{p.description}</p>
-              {p.highlights?.length > 0 && (
-                <ul className="partenaire-tags">
-                  {p.highlights.map(h => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </ul>
-              )}
-              <a
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bm bp partenaire-cta"
+        <div className="partenaires-menu rev">
+          {/* Colonne gauche — catégories */}
+          <aside className="partenaires-menu__side" aria-label="Catégories">
+            {PARTENAIRE_CATEGORIES.map(c => (
+              <button
+                key={c.id}
+                type="button"
+                className={`partenaires-menu__cat${cat === c.id ? ' is-active' : ''}`}
+                onClick={() => setCat(c.id)}
               >
-                Visiter {p.name} →
-              </a>
-              <p className="partenaire-url">
-                <a href={p.url} target="_blank" rel="noopener noreferrer">
-                  {p.url.replace(/^https?:\/\//, '')}
-                </a>
-              </p>
-            </article>
-          ))}
-        </div>
+                <span className="partenaires-menu__cat-text">
+                  <span className="partenaires-menu__cat-title">{c.label}</span>
+                  <span className="partenaires-menu__cat-hint">{c.hint}</span>
+                </span>
+                <span className="partenaires-menu__cat-chev" aria-hidden>›</span>
+              </button>
+            ))}
+            <div className="partenaires-menu__side-foot">
+              <Link to="/contact" className="partenaires-menu__express">
+                <span aria-hidden>⚡</span> Devenir partenaire
+              </Link>
+            </div>
+          </aside>
 
-        <section className="partenaires-cta rev">
-          <h2>Vous souhaitez devenir partenaire ?</h2>
-          <p>
-            Échange de liens, annuaire, ou collaboration locale — contactez {config.brand}.
-          </p>
-          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginTop: 20 }}>
-            <Link to="/contact" className="bm bp">Nous contacter</Link>
-            <a href={`tel:${config.telBrut}`} className="bm bo">📞 {config.telephone}</a>
+          {/* Colonne droite — liste */}
+          <div className="partenaires-menu__main">
+            <p className="partenaires-menu__eyebrow">· {activeCat?.label?.toUpperCase() || 'PARTENAIRES'}</p>
+
+            <div className="partenaires-menu__featured">
+              <span>Tous nos partenaires</span>
+              <span aria-hidden>→</span>
+            </div>
+
+            <ul className="partenaires-menu__list">
+              {filtered.length === 0 ? (
+                <li className="partenaires-menu__empty">Aucun partenaire dans cette catégorie.</li>
+              ) : (
+                filtered.map(p => (
+                  <li key={p.id}>
+                    <a
+                      href={p.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="partenaires-menu__item"
+                    >
+                      <span
+                        className="partenaires-menu__icon"
+                        style={{
+                          borderColor: p.accent || 'var(--c)',
+                          boxShadow: `0 0 16px ${(p.accent || '#00CFFF')}33`,
+                        }}
+                      >
+                        <img src={p.logo} alt="" />
+                      </span>
+                      <span className="partenaires-menu__item-body">
+                        <span className="partenaires-menu__item-title">{p.name}</span>
+                        <span className="partenaires-menu__item-desc">{p.description || p.hint}</span>
+                      </span>
+                    </a>
+                  </li>
+                ))
+              )}
+            </ul>
+
+            <div className="partenaires-menu__promo">
+              <span
+                className="partenaires-menu__icon partenaires-menu__icon--promo"
+                aria-hidden
+              >
+                🔗
+              </span>
+              <div className="partenaires-menu__promo-text">
+                <strong>Lien réciproque</strong>
+                <span>Échange de liens partenaires avec {config.brand}</span>
+              </div>
+              <span className="partenaires-menu__badge">ACTIF</span>
+            </div>
           </div>
-        </section>
+        </div>
       </div>
     </PageLayout>
   )
