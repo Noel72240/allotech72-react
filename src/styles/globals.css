@@ -1943,6 +1943,52 @@ h3 { font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(
 .rscore { font-family:'Orbitron',sans-serif;font-size:2.8rem;font-weight:900;color:var(--g);text-shadow:var(--glow-g); }
 .ri p { color:var(--dim);font-size:.85rem; }
 .rsbig { font-size:1.4rem;letter-spacing:2px; }
+.avis-sources-lead {
+  margin: 10px auto 16px;
+  max-width: 520px;
+}
+.avis-sources {
+  list-style: none;
+  margin: 0 auto 8px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.avis-source {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  border-radius: 100px;
+  border: 1px solid rgba(0,207,255,.22);
+  background: rgba(0,207,255,.07);
+  color: var(--c);
+}
+.avis-source a,
+.avis-source > span {
+  display: block;
+  padding: 7px 12px;
+  color: inherit;
+  text-decoration: none;
+}
+.avis-source a:hover {
+  background: rgba(0,207,255,.14);
+}
+.avis-source--google { border-color: rgba(66,133,244,.35); color: #8ab4f8; background: rgba(66,133,244,.08); }
+.avis-source--allovoisin { border-color: rgba(255,140,0,.35); color: #ffb347; background: rgba(255,140,0,.08); }
+.avis-source--facebook { border-color: rgba(24,119,242,.4); color: #7eb3ff; background: rgba(24,119,242,.1); }
+.avis-source--pagesjaunes { border-color: rgba(255,204,0,.4); color: #ffe066; background: rgba(255,204,0,.08); }
+.avis-rb-sources {
+  margin-top: 6px !important;
+  font-size: .75rem !important;
+  color: var(--g) !important;
+}
+.avis-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
 .avis-wrap { overflow:hidden;position:relative; }
 .avis-track { display:flex;gap:20px;align-items:flex-start;transition:transform .6s cubic-bezier(.23,1,.32,1); }
 .avis-card { flex-shrink:0;width:330px;background:rgba(5,14,28,.8);border:1px solid rgba(0,207,255,.1);border-radius:18px;padding:28px;backdrop-filter:blur(20px);transition:border-color .3s,transform .3s; }

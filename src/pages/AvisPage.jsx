@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PageLayout from '../components/PageLayout.jsx'
+import { AvisSources } from '../components/Avis.jsx'
 import { supabase } from '../lib/supabase.js'
 import config from '../config.js'
 
@@ -19,22 +20,27 @@ export default function AvisPage() {
   return (
     <PageLayout
       title="Avis clients | Allotech72"
-      description={`${allAvis.length}+ avis clients 5 étoiles pour ${config.brand} — dépannage informatique sur Le Mans et la Sarthe.`}
+      description={`${allAvis.length}+ avis clients 5 étoiles pour ${config.brand} (Google, AlloVoisin, Facebook, Pages Jaunes) — dépannage informatique sur Le Mans et la Sarthe.`}
     >
       <div className="container" style={{ paddingBottom: 80 }}>
 
         <div style={{ textAlign: 'center', marginBottom: 52, paddingTop: 20 }}>
-          <div className="stag">Google Reviews</div>
+          <div className="stag">Avis regroupés</div>
           <h2>Avis <span className="c">Clients</span></h2>
           <div className="div-line" />
+          <p className="sub avis-sources-lead">
+            Google · AlloVoisin · Facebook · Pages Jaunes
+          </p>
+          <AvisSources />
         </div>
 
-        <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:24, marginBottom:56, padding:'28px 40px', background:'rgba(43,255,154,0.04)', border:'1px solid rgba(43,255,154,0.15)', borderRadius:20, flexWrap:'wrap' }}>
-          <div style={{ fontSize:'1.6rem', letterSpacing:4 }}>⭐⭐⭐⭐⭐</div>
-          <div style={{ fontFamily:"'Orbitron',sans-serif", fontSize:'3rem', fontWeight:900, color:'#2BFF9A', textShadow:'0 0 30px rgba(43,255,154,0.4)' }}>5/5</div>
-          <div>
+        <div className="rb" style={{ marginBottom: 56 }}>
+          <div className="rsbig">⭐⭐⭐⭐⭐</div>
+          <div className="rscore">5/5</div>
+          <div className="ri">
             <p style={{ color:'#fff', fontWeight:700, fontFamily:"'Orbitron',sans-serif", fontSize:'1rem' }}>Note parfaite</p>
             <p style={{ color:'var(--dim)', fontSize:'.88rem', marginTop:4 }}>{allAvis.length}+ avis · 100% de satisfaction</p>
+            <p className="avis-rb-sources">Sur Google, AlloVoisin, Facebook &amp; Pages Jaunes</p>
           </div>
         </div>
 

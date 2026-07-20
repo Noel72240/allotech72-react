@@ -48,13 +48,23 @@ const config = {
   instagram:   '',                     // laisser vide si pas de compte
   google:      '',                     // URL fiche Google My Business (ex: https://g.page/allotech72)
   googleMapsId:'',                     // ID Google My Business pour l'intégration carte
+  allovoisin:  '',                     // URL profil AlloVoisin (optionnel)
+  pagesJaunes: '',                     // URL fiche Pages Jaunes (optionnel)
+
+  // ── SOURCES D'AVIS (regroupés sur le site) ────────────────
+  avisSources: [
+    { id: 'google',     label: 'Google',      short: 'Google' },
+    { id: 'allovoisin', label: 'AlloVoisin',  short: 'AlloVoisin' },
+    { id: 'facebook',   label: 'Facebook',    short: 'Facebook' },
+    { id: 'pagesjaunes',label: 'Pages Jaunes', short: 'Pages Jaunes' },
+  ],
 
   // ── HORAIRES ──────────────────────────────────────────────
   horaires:    'Lun – Sam : 8h – 19h',
 
   // ── STATS HERO ────────────────────────────────────────────
   stats: [
-    { num: 32, suffix: '+', label: 'Avis Google' },
+    { num: 32, suffix: '+', label: 'Avis clients' },
     { num: null, label: 'Note moyenne', fixed: '5★' },
     { num: null, label: 'Communes Sarthe', fixed: '352' },
   ],
@@ -63,7 +73,7 @@ const config = {
   proofs: [
     { label: 'Diagnostic gratuit' },
     { label: 'Dès 20€' },
-    { label: '5★ Google' },
+    { label: '5★ avis' },
     { label: '24–48h' },
     { label: '7j/7' },
   ],

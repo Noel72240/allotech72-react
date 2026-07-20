@@ -1,6 +1,36 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import config from '../config.js'
+
+function sourceHref(id) {
+  if (id === 'google') return config.google || null
+  if (id === 'facebook') return config.facebook || null
+  if (id === 'allovoisin') return config.allovoisin || null
+  if (id === 'pagesjaunes') return config.pagesJaunes || null
+  return null
+}
+
+function AvisSources({ className = '' }) {
+  const sources = config.avisSources || []
+  return (
+    <ul className={`avis-sources ${className}`.trim()} aria-label="Sources des avis">
+      {sources.map((s) => {
+        const href = sourceHref(s.id)
+        const inner = <span>{s.label}</span>
+        return (
+          <li key={s.id} className={`avis-source avis-source--${s.id}`}>
+            {href ? (
+              <a href={href} target="_blank" rel="noopener noreferrer">{inner}</a>
+            ) : (
+              inner
+            )}
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
 
 export default function Avis() {
   const [slide, setSlide]   = useState(0)
@@ -53,9 +83,13 @@ export default function Avis() {
     <section id="avis" className="sp">
       <div className="container">
         <div className="rev" style={{ textAlign: 'center', marginBottom: 52 }}>
-          <div className="stag">Google Reviews</div>
-          <h2>Ce qu'ils en <span className="c">disent</span></h2>
+          <div className="stag">Avis regroupés</div>
+          <h2>Avis <span className="c">Clients</span></h2>
           <div className="div-line" />
+          <p className="sub avis-sources-lead">
+            Google · AlloVoisin · Facebook · Pages Jaunes
+          </p>
+          <AvisSources />
         </div>
 
         <div className="rb rev">
@@ -64,6 +98,7 @@ export default function Avis() {
           <div className="ri">
             <p style={{ color: '#fff', fontWeight: 600, fontFamily: "'Orbitron',sans-serif", fontSize: '.9rem' }}>Note parfaite</p>
             <p>{allAvis.length}+ avis · 100% de satisfaction</p>
+            <p className="avis-rb-sources">Sur Google, AlloVoisin, Facebook &amp; Pages Jaunes</p>
           </div>
         </div>
 
@@ -94,7 +129,13 @@ export default function Avis() {
           </div>
           <button className="cbtn" onClick={() => go((slide + 1) % total)}>▶</button>
         </div>
+
+        <div className="avis-more rev">
+          <Link to="/avis" className="bm bo">Voir tous les avis →</Link>
+        </div>
       </div>
     </section>
   )
 }
+
+export { AvisSources }
