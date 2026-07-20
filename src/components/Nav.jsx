@@ -73,7 +73,20 @@ export default function Nav() {
               </a>
 
               <div className="nav-services__panel" hidden={!dropdown} role="menu">
-                <p className="nav-services__eyebrow">Prestations Allotech72</p>
+                <div className="nav-services__bar">
+                  <div className="nav-services__bar-top">
+                    <span className="nav-services__brand">Allotech72</span>
+                    <span className="nav-services__badge">Sarthe</span>
+                  </div>
+                  <p className="nav-services__bar-sub">
+                    Dépannage, réparation &amp; web — à domicile ou à distance
+                  </p>
+                  <div className="nav-services__bar-meta">
+                    <span>📍 Le Mans &amp; environs</span>
+                    <span>⚡ Intervention rapide</span>
+                    <span>💬 Devis gratuit</span>
+                  </div>
+                </div>
                 <div className="nav-services__list">
                   {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
                     <Link
