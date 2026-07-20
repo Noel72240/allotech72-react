@@ -60,7 +60,7 @@ const config = {
   // ── PREUVES CONVERSION (bandeau hero — n’efface pas les stats) ─
   proofs: [
     { label: 'Diagnostic gratuit' },
-    { label: 'Dès 40€' },
+    { label: 'Dès 20€' },
     { label: '5★ Google' },
     { label: '24–48h' },
     { label: '7j/7' },
@@ -119,7 +119,7 @@ const config = {
       titre: 'Réparation Ordinateur',
       desc: 'PC Windows ou Mac, portable ou bureau — panne matérielle, lenteur, écran, clavier, démarrage impossible. Diagnostic précis et réparation efficace.',
       tags: ['Windows', 'Mac', 'Montage PC'],
-      priceFrom: '40€',
+      priceFrom: '20€',
       to: '/reparation-ordinateur-le-mans',
     },
     {
@@ -135,7 +135,7 @@ const config = {
       titre: 'Suppression Virus',
       desc: 'Nettoyage complet des malwares, sécurisation et conseils de prévention pour votre ordinateur.',
       tags: ['Antivirus', 'Malware', 'Optimisation'],
-      priceFrom: '40€',
+      priceFrom: '20€',
       to: '/virus-malwares-depannage-le-mans',
     },
     {
@@ -143,7 +143,7 @@ const config = {
       titre: 'Connexion & Réseau',
       desc: 'Wi-Fi instable, box mal configurée, réseau lent — résolution des problèmes de connexion.',
       tags: ['Wi-Fi', 'Box', 'Réseau'],
-      priceFrom: '40€',
+      priceFrom: '20€',
       to: '/wifi-reseau-internet-le-mans',
     },
     {

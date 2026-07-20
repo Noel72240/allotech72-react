@@ -71,7 +71,7 @@ const services = [
 
 const faq = [
   { q: 'Quel est le délai d\'intervention à Le Mans ?', r: `${config.brand} intervient généralement dans les 24 à 48h. Pour les urgences, contactez directement ${config.prenom} au ${config.telephone}.` },
-  { q: 'Combien coûte un dépannage informatique à domicile ?', r: 'Les tarifs sont transparents et communiqués avant toute intervention. Un simple déplacement + diagnostic à partir de 40€. Devis gratuit au téléphone.' },
+  { q: 'Combien coûte un dépannage informatique à domicile ?', r: 'Les tarifs sont transparents et communiqués avant toute intervention. Un simple déplacement + diagnostic à partir de 20€. Devis gratuit au téléphone.' },
   { q: 'Intervenez-vous dans toute la Sarthe ?', r: `${config.brand} couvre Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois, Connerré, Yvré-l'Évêque, Changé, Saint-Mars-la-Brière et tout le secteur Sarthe.` },
   { q: 'Réparez-vous les téléphones iPhone et Android ?', r: `Oui, ${config.prenom} répare tous les smartphones et tablettes : iPhone, Samsung, Huawei, et toutes marques Android, à votre domicile.` },
   { q: 'Proposez-vous des cours d\'informatique à domicile ?', r: `Oui ! ${config.brand} propose des initiations à l'informatique pour débutants et seniors, directement chez vous, à votre rythme.` },
