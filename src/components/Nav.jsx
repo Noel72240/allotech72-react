@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import config from '../config.js'
 import {
@@ -14,6 +14,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
   const [dropdown, setDropdown] = useState(false)
   const [megaCat, setMegaCat] = useState(SEO_NAV_MEGA[0]?.id || 'particuliers')
+  const closeTimer = useRef(null)
   const close = () => { setOpen(false); setDropdown(false) }
   const loc = useLocation()
   const home = loc.pathname === '/'
@@ -22,6 +23,26 @@ export default function Nav() {
     loc.pathname === path || (path.length > 1 && loc.pathname.startsWith(`${path}/`))
 
   const activeMega = SEO_NAV_MEGA.find(c => c.id === megaCat) || SEO_NAV_MEGA[0]
+
+  const openServices = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current)
+      closeTimer.current = null
+    }
+    setDropdown(true)
+  }
+
+  const scheduleCloseServices = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = setTimeout(() => {
+      setDropdown(false)
+      closeTimer.current = null
+    }, 280)
+  }
+
+  useEffect(() => () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+  }, [])
 
   return (
     <>
@@ -43,8 +64,8 @@ export default function Nav() {
           <ul className="nl">
             <li
               className={`nav-services${dropdown ? ' is-open' : ''}`}
-              onMouseEnter={() => setDropdown(true)}
-              onMouseLeave={() => setDropdown(false)}
+              onMouseEnter={openServices}
+              onMouseLeave={scheduleCloseServices}
             >
               <a
                 href={home ? '#services' : '/#services'}
