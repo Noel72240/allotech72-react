@@ -134,9 +134,9 @@ export default function Nav() {
             <li><Link to="/outils" className={pageActive('/outils') ? 'nav-page-active' : ''}>Outils</Link></li>
             <li><Link to="/partenaires" className={pageActive('/partenaires') ? 'nav-page-active' : ''}>Partenaires</Link></li>
             <li><Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''}>Actu</Link></li>
-            <li><Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link></li>
-            <li><CartNavButton /></li>
-            <li>
+            <li className="nav-actions">
+              <Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link>
+              <CartNavButton />
               <a href={`tel:${config.telBrut}`} className="ncta">{config.telephone}</a>
             </li>
           </ul>
