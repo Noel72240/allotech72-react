@@ -73,24 +73,29 @@ export default function Nav() {
               </a>
 
               <div className="nav-services__panel" hidden={!dropdown} role="menu">
-                {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
-                  <Link
-                    key={l.to}
-                    to={l.to}
-                    onClick={() => setDropdown(false)}
-                    className={`nav-services__link${pageActive(l.to) ? ' is-active' : ''}`}
-                    role="menuitem"
-                  >
-                    {l.short || l.label}
-                  </Link>
-                ))}
+                <p className="nav-services__title">Nos interventions</p>
+                <ul className="nav-services__list">
+                  {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
+                    <li key={l.to}>
+                      <Link
+                        to={l.to}
+                        onClick={() => setDropdown(false)}
+                        className={`nav-services__item${pageActive(l.to) ? ' is-active' : ''}`}
+                        role="menuitem"
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
                 <Link
                   to={SEO_PILLAR.to}
                   onClick={() => setDropdown(false)}
-                  className="nav-services__link nav-services__link--all"
+                  className="nav-services__more"
                   role="menuitem"
                 >
-                  Tous →
+                  Voir tous les services
+                  <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </li>

@@ -20,11 +20,8 @@ export default function Cursor() {
     }
     animate()
 
-    const addHover = (e) => {
-      if (e.currentTarget.closest?.('.nav-services')) return
-      document.body.classList.add('chov')
-    }
-    const rmHover = () => document.body.classList.remove('chov')
+    const addHover = () => document.body.classList.add('chov')
+    const rmHover  = () => document.body.classList.remove('chov')
     const sel = 'a,button,.svc-card,.chip,.avis-card,.av-item,.sb'
     document.querySelectorAll(sel).forEach(el => {
       el.addEventListener('mouseenter', addHover)
