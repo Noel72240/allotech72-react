@@ -44,13 +44,13 @@ export default function Nav() {
       <nav id="nav">
         <div className="ni">
 
-          <Link to="/" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
-            <img src="/logoat72.png" alt="Allotech72" style={{ width: 48, height: 48, objectFit: 'contain' }} />
+          <Link to="/" className="nav-brand" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
+            <img src="/logoat72.png" alt="Allotech72" style={{ width: 44, height: 44, objectFit: 'contain' }} />
             <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-              <span style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 900, fontSize: '1.3rem', background: 'linear-gradient(90deg,#00CFFF,#2BFF9A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 0 8px rgba(0,207,255,0.4))' }}>
+              <span style={{ fontFamily: "'Orbitron',sans-serif", fontWeight: 800, fontSize: '1.15rem', background: 'linear-gradient(90deg,#00CFFF,#2BFF9A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 Allotech72
               </span>
-              <span style={{ fontSize: '.5rem', color: 'rgba(0,207,255,0.55)', letterSpacing: '.22em', textTransform: 'uppercase', fontFamily: "'Outfit',sans-serif", fontWeight: 700, marginTop: 3 }}>
+              <span style={{ fontSize: '.55rem', color: 'rgba(180,205,230,0.55)', letterSpacing: '.18em', textTransform: 'uppercase', fontFamily: "'Outfit',sans-serif", fontWeight: 600, marginTop: 4 }}>
                 Dépannage & Web
               </span>
             </div>
