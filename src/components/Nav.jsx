@@ -1,18 +1,27 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import config from '../config.js'
-import { SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA } from '../data/seoPages.js'
+import {
+  SEO_NAV_DROPDOWN_PRIMARY,
+  SEO_NAV_DROPDOWN_EXTRA,
+  SEO_NAV_MEGA,
+  SEO_NAV_MEGA_PROMO,
+  SEO_PILLAR,
+} from '../data/seoPages.js'
 import CartNavButton from './shop/CartNavButton.jsx'
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const [dropdown, setDropdown] = useState(false)
+  const [megaCat, setMegaCat] = useState(SEO_NAV_MEGA[0]?.id || 'particuliers')
   const close = () => { setOpen(false); setDropdown(false) }
   const loc = useLocation()
   const home = loc.pathname === '/'
   const onShop = loc.pathname.startsWith('/boutique') || loc.pathname.startsWith('/panier')
   const pageActive = (path) =>
     loc.pathname === path || (path.length > 1 && loc.pathname.startsWith(`${path}/`))
+
+  const activeMega = SEO_NAV_MEGA.find(c => c.id === megaCat) || SEO_NAV_MEGA[0]
 
   return (
     <>
@@ -47,37 +56,83 @@ export default function Nav() {
                 <span className="nav-services__chev" aria-hidden="true">▼</span>
               </a>
 
-              <div className="nav-services__panel" hidden={!dropdown} role="menu">
-                <a href={home ? '#services' : '/#services'} className="nav-services__featured" role="menuitem">
-                  <span>Tous nos services</span>
-                  <span aria-hidden="true">→</span>
-                </a>
-
-                <ul className="nav-services__list">
-                  {SEO_NAV_DROPDOWN_PRIMARY.map((l) => (
-                    <li key={l.to}>
-                      <Link
-                        to={l.to}
-                        onClick={() => setDropdown(false)}
-                        className={`nav-services__link${pageActive(l.to) ? ' is-active' : ''}`}
-                        role="menuitem"
-                      >
-                        {l.label}{l.hint ? ` · ${l.hint}` : ''}
-                      </Link>
-                    </li>
-                  ))}
-                  <li>
-                    <Link
-                      to={SEO_NAV_DROPDOWN_EXTRA.to}
-                      onClick={() => setDropdown(false)}
-                      className={`nav-services__link${pageActive(SEO_NAV_DROPDOWN_EXTRA.to) ? ' is-active' : ''}`}
-                      role="menuitem"
+              <div className="nav-services__panel nav-services__panel--mega" hidden={!dropdown} role="menu">
+                <aside className="nav-mega__side" aria-label="Catégories de services">
+                  {SEO_NAV_MEGA.map(cat => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      className={`nav-mega__cat${megaCat === cat.id ? ' is-active' : ''}`}
+                      onMouseEnter={() => setMegaCat(cat.id)}
+                      onFocus={() => setMegaCat(cat.id)}
+                      onClick={() => setMegaCat(cat.id)}
                     >
-                      {SEO_NAV_DROPDOWN_EXTRA.label}
-                      {SEO_NAV_DROPDOWN_EXTRA.hint ? ` · ${SEO_NAV_DROPDOWN_EXTRA.hint}` : ''}
-                    </Link>
-                  </li>
-                </ul>
+                      <span className="nav-mega__cat-text">
+                        <span className="nav-mega__cat-title">{cat.label}</span>
+                        <span className="nav-mega__cat-hint">{cat.hint}</span>
+                      </span>
+                      <span className="nav-mega__cat-chev" aria-hidden>›</span>
+                    </button>
+                  ))}
+                  <div className="nav-mega__side-foot">
+                    <a href={home ? '#contact' : '/#contact'} className="nav-mega__express" role="menuitem">
+                      <span aria-hidden>⚡</span> Devis express
+                    </a>
+                  </div>
+                </aside>
+
+                <div className="nav-mega__main">
+                  <p className="nav-mega__eyebrow">· {activeMega.label.toUpperCase()}</p>
+
+                  <ul className="nav-mega__list">
+                    {activeMega.items.map(item => (
+                      <li key={item.to}>
+                        <Link
+                          to={item.to}
+                          onClick={() => setDropdown(false)}
+                          className={`nav-mega__item${pageActive(item.to) ? ' is-active' : ''}`}
+                          role="menuitem"
+                        >
+                          <span
+                            className="nav-mega__icon"
+                            style={{ borderColor: item.accent, color: item.accent, boxShadow: `0 0 14px ${item.accent}33` }}
+                            aria-hidden
+                          >
+                            {item.icon}
+                          </span>
+                          <span className="nav-mega__item-body">
+                            <span className="nav-mega__item-title">{item.label}</span>
+                            <span className="nav-mega__item-desc">{item.desc}</span>
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link
+                    to={SEO_NAV_MEGA_PROMO.to}
+                    onClick={() => setDropdown(false)}
+                    className="nav-mega__promo"
+                    role="menuitem"
+                  >
+                    <span className="nav-mega__icon nav-mega__icon--promo" aria-hidden>🛠️</span>
+                    <span className="nav-mega__promo-text">
+                      <strong>{SEO_NAV_MEGA_PROMO.label}</strong>
+                      <span>{SEO_NAV_MEGA_PROMO.desc}</span>
+                    </span>
+                    <span className="nav-mega__badge">{SEO_NAV_MEGA_PROMO.badge}</span>
+                  </Link>
+
+                  <Link
+                    to={SEO_PILLAR.to}
+                    onClick={() => setDropdown(false)}
+                    className="nav-mega__all"
+                    role="menuitem"
+                  >
+                    <span>Tous nos services Sarthe</span>
+                    <span aria-hidden>→</span>
+                  </Link>
+                </div>
               </div>
             </li>
 
