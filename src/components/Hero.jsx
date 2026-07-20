@@ -129,23 +129,53 @@ function HeroShowcase() {
 
       <div className="hero-stage__devices" aria-hidden="true">
         <div className="hero-stage__laptop">
-          <div className="hero-stage__bezel">
+          <div className="hero-stage__lid">
+            <span className="hero-stage__cam" />
             <div className="hero-stage__screen">
               <div className="hero-stage__scan" />
+              <div className="hero-stage__menubar">
+                <span /><span /><span />
+                <em>atelier.at72</em>
+              </div>
               <div className="hero-stage__ui">
-                <span className="hero-stage__brand">Allotech72</span>
-                <span className="hero-stage__line" />
-                <span className="hero-stage__line hero-stage__line--short" />
+                <div className="hero-stage__ui-head">
+                  <span className="hero-stage__brand">Allotech72</span>
+                  <span className="hero-stage__badge-live">Live</span>
+                </div>
+                <div className="hero-stage__cards">
+                  <span className="hero-stage__mini"><b>PC</b><i style={{ width: '78%' }} /></span>
+                  <span className="hero-stage__mini"><b>Net</b><i style={{ width: '64%' }} /></span>
+                  <span className="hero-stage__mini"><b>Sec</b><i style={{ width: '90%' }} /></span>
+                </div>
                 <span className="hero-stage__pill">Diagnostic gratuit</span>
               </div>
             </div>
           </div>
-          <div className="hero-stage__base" />
+          <div className="hero-stage__hinge" />
+          <div className="hero-stage__deck">
+            <div className="hero-stage__keys" />
+            <div className="hero-stage__track" />
+          </div>
         </div>
+
         <div className="hero-stage__phone">
+          <span className="hero-stage__btn hero-stage__btn--vol" />
+          <span className="hero-stage__btn hero-stage__btn--pwr" />
           <div className="hero-stage__phone-screen">
-            <i />
-            <span>À domicile</span>
+            <div className="hero-stage__notch" />
+            <div className="hero-stage__status">
+              <em>9:41</em>
+              <span className="hero-stage__signal" />
+            </div>
+            <div className="hero-stage__app">
+              <i className="hero-stage__app-dot" />
+              <strong>À domicile</strong>
+              <small>Intervention Sarthe</small>
+              <div className="hero-stage__app-row">
+                <span /><span /><span />
+              </div>
+            </div>
+            <div className="hero-stage__home" />
           </div>
         </div>
       </div>
