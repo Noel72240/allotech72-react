@@ -20,28 +20,47 @@ export default function Footer() {
             <a href="#hero" className="footer-logo-link">
               <img src="/logo-allotech72.png" alt="Allotech72" className="footer-logo-img" />
             </a>
-            <p>Dépannage informatique à domicile sur Le Mans et le secteur Sarthe. Réparation PC, téléphone, tablette, création de sites internet et applications mobiles.</p>
+            <p>
+              Dépannage informatique à domicile sur Le Mans et le secteur Sarthe. Réparation PC,
+              téléphone, tablette, création de sites internet et applications mobiles.
+            </p>
+            <div className="fb-contact">
+              <a href={`tel:${config.telBrut}`} className="fb-chip fb-chip--tel">
+                📞 {config.telephone}
+              </a>
+              {config.facebook && (
+                <a href={config.facebook} target="_blank" rel="noopener" className="fb-chip">
+                  Facebook
+                </a>
+              )}
+            </div>
             <p className="sr">SIRET : {config.siret} – {config.statut} – {fullName()}</p>
             <p className="sr">TVA non applicable, art. 293B du CGI</p>
           </div>
 
           <div className="fcol">
-            <h4>Navigation</h4>
+            <h4>Guides locaux</h4>
             <ul>
-              <li><Link to="/boutique" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Boutique (neuf & occasion)</Link></li>
-              <li><Link to="/depannage-informatique-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Dépannage Le Mans</Link></li>
-              <li><Link to="/reparation-ordinateur-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparation PC Le Mans</Link></li>
-              <li><Link to="/reparateur-telephone-le-mans" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Réparateur téléphone</Link></li>
-              <li><Link to="/creation-site-internet-sarthe" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Création site Sarthe</Link></li>
+              <li><Link to="/boutique">Boutique (neuf &amp; occasion)</Link></li>
+              <li><Link to="/depannage-informatique-le-mans">Dépannage Le Mans</Link></li>
+              <li><Link to="/reparation-ordinateur-le-mans">Réparation PC Le Mans</Link></li>
+              <li><Link to="/reparateur-telephone-le-mans">Réparateur téléphone</Link></li>
+              <li><Link to="/creation-site-internet-sarthe">Création site Sarthe</Link></li>
               {SEO_FOOTER_SECONDARY.map((l) => (
-                <li key={l.to}><Link to={l.to} style={{ color:'var(--dim)', textDecoration:'none', fontSize:'.88rem' }}>{l.label}</Link></li>
+                <li key={l.to}><Link to={l.to}>{l.label}</Link></li>
               ))}
               <li>
-                <Link to={SEO_PILLAR.to} style={{ color:'var(--c)', textDecoration:'none', fontSize:'.88rem', fontWeight:600 }}>
+                <Link to={SEO_PILLAR.to} className="fcol-link--accent">
                   {SEO_PILLAR.label} →
                 </Link>
               </li>
-              <li><Link to="/references" style={{color:'var(--dim)',textDecoration:'none',fontSize:'.88rem'}}>Références web</Link></li>
+            </ul>
+          </div>
+
+          <div className="fcol">
+            <h4>Navigation</h4>
+            <ul>
+              <li><Link to="/references">Références web</Link></li>
               <li><a href="#services">Mes services</a></li>
               <li><a href="#qui">Qui suis-je ?</a></li>
               <li><a href="#zone">Zone</a></li>
@@ -55,7 +74,7 @@ export default function Footer() {
           </div>
 
           <div className="fcol">
-            <h4>Légal & Confidentialité</h4>
+            <h4>Légal &amp; Confidentialité</h4>
             <ul>
               <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-legal') }}>Mentions légales</a></li>
               <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-conf') }}>Politique de confidentialité</a></li>
