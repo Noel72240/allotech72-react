@@ -63,8 +63,10 @@ const config = {
   horaires:    'Lun – Sam : 8h – 19h',
 
   // ── STATS HERO ────────────────────────────────────────────
+  // avisTotal = total regroupé (Google + AlloVoisin + Facebook + Pages Jaunes + site)
+  avisTotal: 52,
   stats: [
-    { num: 32, suffix: '+', label: 'Avis regroupés' },
+    { num: 52, suffix: '+', label: 'Avis regroupés' },
     { num: null, label: 'Note moyenne', fixed: '5★' },
     { num: null, label: 'Communes Sarthe', fixed: '352' },
   ],

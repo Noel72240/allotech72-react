@@ -40,7 +40,7 @@ export default function About() {
 
           <div className="ast rev">
             <div className="sb">
-              <div className="sbn">{config.avis.length}+</div>
+              <div className="sbn">{config.avisTotal}+</div>
               <div><h4>Avis clients ★★★★★</h4><p>Google, AlloVoisin, Facebook &amp; Pages Jaunes — 100% d&apos;avis 5 étoiles.</p></div>
             </div>
             <div className="sb">

@@ -123,7 +123,7 @@ export default function DepannageLeMansSEO() {
           {/* Badges confiance */}
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginTop: 32 }}>
             {[
-              '⭐ 32+ avis 5 étoiles',
+              '⭐ 52+ avis 5 étoiles',
               '🏠 Intervention à domicile',
               '💰 Tarifs transparents',
               '⚡ Disponible 6j/7',
