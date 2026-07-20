@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
+import SeoBoost from '../../components/seo/SeoBoost.jsx'
 import config, { fullName } from '../../config.js'
 import { SEO_ALL_SERVICE_PAGES, SEO_LOCAL_CITIES } from '../../data/seoPages.js'
 
@@ -97,6 +98,7 @@ export default function ServicesInformatiquesSarthe() {
           <p style={{ color: 'var(--dim)', marginBottom: 24 }}>Intervention à domicile — devis gratuit — {config.telephone}</p>
           <a href={`tel:${config.telBrut}`} className="bm bp">📞 Appeler maintenant</a>
         </div>
+        <SeoBoost pageKey="services-pilier" />
       </div>
     </PageLayout>
   )

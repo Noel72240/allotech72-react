@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
+import SeoBoost from '../../components/seo/SeoBoost.jsx'
 import config from '../../config.js'
 import { SEO_PILLAR } from '../../data/seoPages.js'
 
@@ -66,6 +67,7 @@ export default function MaintenanceInformatiqueSarthe() {
           <h2 style={{ marginBottom: 12 }}>Maintenance PC en <span className="c">Sarthe</span></h2>
           <a href={`tel:${config.telBrut}`} className="bm bp">📞 {config.telephone}</a>
         </div>
+        <SeoBoost pageKey="maintenance" />
       </div>
     </PageLayout>
   )

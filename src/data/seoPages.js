@@ -107,10 +107,12 @@ export const SEO_ALL_SERVICE_PAGES = [
   { to: '/creation-logiciel-sur-mesure-sarthe', label: 'Logiciel & portail client sur mesure' },
 ]
 
-/** Villes cibles SEO local (nouvelles pages uniquement) */
+/** Villes cibles SEO local (affichage zone + maillage) */
 export const SEO_LOCAL_CITIES = [
-  'Le Mans', 'Lombron', 'Connerré', 'Montfort-le-Gesnois', "Savigné-l'Évêque",
-  'Mulsanne', 'Allonnes', 'Bonnétable', 'Bouloire', 'La Suze-sur-Sarthe',
+  'Le Mans', 'Lombron', 'Allonnes', 'Champagné', 'Montfort-le-Gesnois',
+  'Connerré', "Yvré-l'Évêque", 'Changé', 'Saint-Mars-la-Brière', 'Rouillon',
+  'Arnage', 'Mulsanne', "Parigné-l'Évêque", "Savigné-l'Évêque", 'Bonnétable',
+  'Bouloire', 'La Suze-sur-Sarthe', 'Fatines', 'Surfonds', 'Soulitré',
 ]
 
 export const SEO_PATHS_WITH_SIDEBAR = [

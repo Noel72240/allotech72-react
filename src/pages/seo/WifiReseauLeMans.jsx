@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
+import SeoBoost from '../../components/seo/SeoBoost.jsx'
 import config from '../../config.js'
 
 const schema = {
@@ -77,6 +78,7 @@ export default function WifiReseauLeMans() {
           <p style={{ color: 'var(--dim)', marginBottom: 24 }}>Intervention à domicile — explications claires</p>
           <a href={`tel:${config.telBrut}`} className="bm bp">📞 {config.telephone}</a>
         </div>
+        <SeoBoost pageKey="wifi-reseau" />
       </div>
     </PageLayout>
   )

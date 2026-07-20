@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
+import SeoBoost from '../../components/seo/SeoBoost.jsx'
 import config from '../../config.js'
 
 const schema = {
@@ -92,6 +93,7 @@ export default function CreationSiteInternetSarthe() {
           </div>
         </div>
 
+        <SeoBoost pageKey="creation-site" />
       </div>
     </PageLayout>
   )

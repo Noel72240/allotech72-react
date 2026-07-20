@@ -111,7 +111,7 @@ function SeoHome() {
     aggregateRating: {
       '@type':       'AggregateRating',
       ratingValue:   '5',
-      reviewCount:    String(config.avis.length),
+      reviewCount:    String(config.avisTotal || config.avis.length),
       bestRating:    '5',
       worstRating:   '1',
     },

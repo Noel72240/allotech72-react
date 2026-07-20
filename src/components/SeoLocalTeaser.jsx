@@ -1,19 +1,34 @@
 import { Link } from 'react-router-dom'
-import { SEO_FOOTER_SECONDARY } from '../data/seoPages.js'
+import {
+  SEO_ALL_SERVICE_PAGES,
+  SEO_FOOTER_SECONDARY,
+  SEO_PILLAR,
+} from '../data/seoPages.js'
 
-/** Maillage interne discret sur l’accueil — pas dans le menu principal */
+/** Maillage interne fort sur l’accueil — guides SEO locaux */
 export default function SeoLocalTeaser() {
-  const [a, b] = SEO_FOOTER_SECONDARY
+  const links = [
+    SEO_PILLAR,
+    ...SEO_FOOTER_SECONDARY,
+    ...SEO_ALL_SERVICE_PAGES.filter(
+      (p) =>
+        p.to !== SEO_PILLAR.to &&
+        !SEO_FOOTER_SECONDARY.some((s) => s.to === p.to),
+    ).slice(0, 8),
+  ]
+
   return (
     <div className="container">
-      <p className="seo-local-teaser rev">
-        Besoin d’aide sur un cas précis ? Guides{' '}
-        <Link to={a.to}>{a.label}</Link>
-        {' · '}
-        <Link to={b.to}>{b.label}</Link>
-        {' — '}
-        <Link to="/depannage-informatique-le-mans">tous les services à Le Mans & en Sarthe</Link>.
-      </p>
+      <div className="seo-local-teaser rev">
+        <p className="seo-local-teaser__title">Guides locaux — Le Mans & Sarthe</p>
+        <ul className="seo-local-teaser__links">
+          {links.map((l) => (
+            <li key={l.to}>
+              <Link to={l.to}>{l.label}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

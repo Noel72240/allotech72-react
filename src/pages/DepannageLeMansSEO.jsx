@@ -4,6 +4,7 @@
 // ══════════════════════════════════════════════════════════
 import { Link } from 'react-router-dom'
 import PageLayout from '../components/PageLayout.jsx'
+import SeoBoost from '../components/seo/SeoBoost.jsx'
 import config, { fullName } from '../config.js'
 
 const schema = {
@@ -260,6 +261,7 @@ export default function DepannageLeMansSEO() {
           </div>
         </div>
 
+        <SeoBoost pageKey="depannage-le-mans" showAvis={false} />
       </div>
     </PageLayout>
   )

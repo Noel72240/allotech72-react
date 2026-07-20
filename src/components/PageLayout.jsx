@@ -48,6 +48,9 @@ export default function PageLayout({ children, title, description }) {
       <Helmet>
         <title>{resolvedTitle}</title>
         <meta name="description" content={desc} />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+        <meta name="geo.region" content="FR-72" />
+        <meta name="geo.placename" content="Sarthe, Le Mans, Lombron" />
         <link rel="canonical" href={canonical} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="fr_FR" />
