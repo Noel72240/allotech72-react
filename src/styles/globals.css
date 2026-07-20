@@ -63,12 +63,61 @@ section { position: relative; z-index: 5; }
 .sp { padding: 110px 0; }
 
 /* ?? AURORA ?? */
-.aurora { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.blob { position: absolute; border-radius: 50%; filter: blur(80px); mix-blend-mode: screen; }
-.blob.b1 { width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,207,255,.12),transparent 70%);top:-100px;left:-100px;animation:am 12s ease-in-out infinite; }
-.blob.b2 { width:500px;height:500px;background:radial-gradient(ellipse,rgba(43,255,154,.08),transparent 70%);bottom:-150px;right:-100px;animation:am 12s ease-in-out infinite -4s; }
-.blob.b3 { width:400px;height:300px;background:radial-gradient(ellipse,rgba(0,174,239,.1),transparent 70%);top:40%;left:50%;animation:am 12s ease-in-out infinite -8s; }
-@keyframes am { 0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(60px,-40px) scale(1.1);}66%{transform:translate(-40px,30px) scale(.9);} }
+#aurora,
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.blob.b1 {
+  width: 680px;
+  height: 460px;
+  background: radial-gradient(ellipse, rgba(0, 207, 255, 0.16), transparent 70%);
+  top: -120px;
+  left: -140px;
+  animation: am 16s ease-in-out infinite;
+}
+.blob.b2 {
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(ellipse, rgba(43, 255, 154, 0.11), transparent 70%);
+  bottom: -180px;
+  right: -120px;
+  animation: am 18s ease-in-out infinite -5s;
+}
+.blob.b3 {
+  width: 440px;
+  height: 340px;
+  background: radial-gradient(ellipse, rgba(0, 174, 239, 0.12), transparent 70%);
+  top: 38%;
+  left: 48%;
+  animation: am 14s ease-in-out infinite -9s;
+}
+.blob.b4 {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(ellipse, rgba(43, 255, 154, 0.08), transparent 70%);
+  top: 18%;
+  right: 12%;
+  animation: am 20s ease-in-out infinite -2s;
+}
+@keyframes am {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -36px) scale(1.08); }
+  66% { transform: translate(-36px, 28px) scale(0.94); }
+}
+#bgc {
+  opacity: 0.95;
+}
 
 /* ?? NAV ?? */
 /* base nav rules overridden below for modern glass style */
