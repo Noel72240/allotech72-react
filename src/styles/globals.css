@@ -110,7 +110,7 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 }
 .nl { display:flex;gap:5px;list-style:none;margin-left:auto;align-items:center;flex-wrap:wrap;justify-content:flex-end; }
 
-/* Menu Services — liste simple, lisible */
+/* Menu Services — barre horizontale légère (curseur custom masqué dessus) */
 .nav-services { position: relative; list-style: none; }
 .nav-services__trigger {
   display: inline-flex;
@@ -129,24 +129,27 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
 
 .nav-services__panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   left: 0;
   z-index: 100050;
-  width: 280px;
-  padding: 8px;
-  background: #060e1a;
-  border: 1px solid rgba(0, 207, 255, 0.22);
-  border-radius: 12px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px;
+  background: #071018;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
   animation: navServicesIn .14s ease;
+  white-space: nowrap;
 }
 .nav-services__panel::before {
   content: '';
   position: absolute;
-  top: -16px;
+  top: -14px;
   left: 0;
   right: 0;
-  height: 18px;
+  height: 16px;
 }
 .nav-services__panel[hidden] { display: none !important; }
 
@@ -155,54 +158,41 @@ nav.sc { background: rgba(4,11,20,.88); backdrop-filter: blur(24px) saturate(180
   to { opacity: 1; transform: translateY(0); }
 }
 
-.nav-services__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.nav-services__item {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding: 10px 12px;
-  border-radius: 8px;
+.nav-services__link {
+  font-family: 'Outfit', sans-serif;
+  font-size: .82rem;
+  font-weight: 600;
+  color: rgba(230, 240, 255, 0.88);
   text-decoration: none;
-  transition: background .15s;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: background .15s, color .15s;
 }
-.nav-services__item:hover,
-.nav-services__item.is-active {
-  background: rgba(0, 207, 255, 0.1);
+.nav-services__link:hover,
+.nav-services__link.is-active {
+  color: #fff;
+  background: rgba(0, 207, 255, 0.14);
 }
-.nav-services__item-label {
-  font-family: 'Outfit', sans-serif;
-  font-size: .9rem;
-  font-weight: 600;
-  color: #e8f4ff;
-  line-height: 1.25;
-}
-.nav-services__item-hint {
-  font-family: 'Outfit', sans-serif;
-  font-size: .72rem;
-  color: rgba(0, 207, 255, 0.7);
-}
-
-.nav-services__all {
-  display: block;
-  margin-top: 6px;
-  padding: 10px 12px;
-  border-top: 1px solid rgba(0, 207, 255, 0.12);
-  font-family: 'Outfit', sans-serif;
-  font-size: .85rem;
-  font-weight: 600;
+.nav-services__link--all {
   color: var(--c);
-  text-decoration: none;
-  border-radius: 0 0 8px 8px;
+  margin-left: 2px;
 }
-.nav-services__all:hover { color: #2BFF9A; }
+.nav-services__link--all:hover {
+  color: #2BFF9A;
+  background: rgba(43, 255, 154, 0.1);
+}
+
+/* Curseur néon hors du menu (lisibilité) */
+body:has(.nav-services:hover) #cursor,
+body:has(.nav-services:hover) #cring {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+body:has(.nav-services:hover),
+body:has(.nav-services:hover) .nav-services,
+body:has(.nav-services:hover) .nav-services a {
+  cursor: pointer !important;
+}
 
 .mob-services {
   display: flex;

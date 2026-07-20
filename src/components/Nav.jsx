@@ -73,41 +73,24 @@ export default function Nav() {
               </a>
 
               <div className="nav-services__panel" hidden={!dropdown} role="menu">
-                <ul className="nav-services__list">
-                  {SEO_NAV_DROPDOWN_PRIMARY.map((l) => (
-                    <li key={l.to}>
-                      <Link
-                        to={l.to}
-                        onClick={() => setDropdown(false)}
-                        className={`nav-services__item${pageActive(l.to) ? ' is-active' : ''}`}
-                        role="menuitem"
-                      >
-                        <span className="nav-services__item-label">{l.label}</span>
-                        {l.hint ? <span className="nav-services__item-hint">{l.hint}</span> : null}
-                      </Link>
-                    </li>
-                  ))}
-                  <li>
-                    <Link
-                      to={SEO_NAV_DROPDOWN_EXTRA.to}
-                      onClick={() => setDropdown(false)}
-                      className={`nav-services__item${pageActive(SEO_NAV_DROPDOWN_EXTRA.to) ? ' is-active' : ''}`}
-                      role="menuitem"
-                    >
-                      <span className="nav-services__item-label">{SEO_NAV_DROPDOWN_EXTRA.label}</span>
-                      {SEO_NAV_DROPDOWN_EXTRA.hint ? (
-                        <span className="nav-services__item-hint">{SEO_NAV_DROPDOWN_EXTRA.hint}</span>
-                      ) : null}
-                    </Link>
-                  </li>
-                </ul>
+                {[...SEO_NAV_DROPDOWN_PRIMARY, SEO_NAV_DROPDOWN_EXTRA].map((l) => (
+                  <Link
+                    key={l.to}
+                    to={l.to}
+                    onClick={() => setDropdown(false)}
+                    className={`nav-services__link${pageActive(l.to) ? ' is-active' : ''}`}
+                    role="menuitem"
+                  >
+                    {l.short || l.label}
+                  </Link>
+                ))}
                 <Link
                   to={SEO_PILLAR.to}
                   onClick={() => setDropdown(false)}
-                  className="nav-services__all"
+                  className="nav-services__link nav-services__link--all"
                   role="menuitem"
                 >
-                  Tous les services
+                  Tous →
                 </Link>
               </div>
             </li>
