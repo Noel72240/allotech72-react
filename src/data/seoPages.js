@@ -23,54 +23,15 @@ export const SEO_NAV_DROPDOWN_EXTRA = {
   hint: 'Sarthe',
 }
 
-/**
- * Mega-menu Services (desktop) — catégories + liste avec icônes
- * Style ALLOTECH72 (inspiré présentation moderne, contenu propre au site)
- */
-export const SEO_NAV_MEGA = [
-  {
-    id: 'particuliers',
-    label: 'Particuliers',
-    hint: 'Dépannage à domicile',
-    items: [
-      { to: '/reparation-ordinateur-le-mans', label: 'Réparation PC & Mac', desc: 'Écran, lenteur, panne démarrage', icon: '💻', accent: '#00CFFF' },
-      { to: '/reparateur-telephone-le-mans', label: 'Téléphone & tablettes', desc: 'Écran, batterie, iPhone & Android', icon: '📱', accent: '#FF6B9D' },
-      { to: '/virus-malwares-depannage-le-mans', label: 'Virus & sécurité', desc: 'Malwares, nettoyage, protection', icon: '🛡️', accent: '#2BFF9A' },
-      { to: '/wifi-reseau-internet-le-mans', label: 'Wi-Fi & réseau', desc: 'Box, connexion, couverture', icon: '📶', accent: '#7C9CFF' },
-      { to: '/depannage-informatique-le-mans', label: 'Dépannage à domicile', desc: 'Intervention Le Mans & Sarthe', icon: '🏠', accent: '#FFB800' },
-      { to: '/outils', label: 'Assistance à distance', desc: 'Prise en main via AnyDesk', icon: '🖥️', accent: '#A78BFA' },
-    ],
-  },
-  {
-    id: 'pros',
-    label: 'Professionnels',
-    hint: 'Entreprises & artisans',
-    items: [
-      { to: '/maintenance-informatique-sarthe', label: 'Maintenance informatique', desc: 'Suivi & prévention pannes', icon: '🔧', accent: '#00CFFF' },
-      { to: '/informaticien-domicile-sarthe', label: 'Informaticien à domicile', desc: 'Intervention sur site', icon: '🚐', accent: '#2BFF9A' },
-      { to: '/recuperation-donnees-sarthe', label: 'Récupération de données', desc: 'Disques, SSD, clés USB', icon: '💾', accent: '#FF6B9D' },
-      { to: '/installation-windows-sarthe', label: 'Installation Windows', desc: 'Réinstall, config, migration', icon: '🪟', accent: '#7C9CFF' },
-      { to: '/depannage-pc-portable-sarthe', label: 'PC portable', desc: 'Réparation & upgrade', icon: '💻', accent: '#FFB800' },
-    ],
-  },
-  {
-    id: 'web',
-    label: 'Création Web',
-    hint: 'Sites & logiciels',
-    items: [
-      { to: '/creation-site-internet-sarthe', label: 'Site internet vitrine', desc: 'SEO local, responsive, contact', icon: '🌐', accent: '#00CFFF' },
-      { to: '/creation-logiciel-sur-mesure-sarthe', label: 'Logiciel sur mesure', desc: 'Outils métier & portails', icon: '⚙️', accent: '#A78BFA' },
-      { to: '/references', label: 'Références web', desc: 'Sites réalisés en Sarthe', icon: '✨', accent: '#2BFF9A' },
-    ],
-  },
+/** Panneau Services desktop — grille de cartes (style propre ALLOTECH72) */
+export const SEO_NAV_SERVICE_CARDS = [
+  { to: '/depannage-informatique-le-mans', label: 'Dépannage', hint: 'À domicile · Le Mans', ico: '🛠️' },
+  { to: '/reparation-ordinateur-le-mans', label: 'PC & Mac', hint: 'Réparation · upgrade', ico: '💻' },
+  { to: '/reparateur-telephone-le-mans', label: 'Téléphone', hint: 'iPhone · Android', ico: '📱' },
+  { to: '/creation-site-internet-sarthe', label: 'Sites web', hint: 'Vitrine · SEO Sarthe', ico: '🌐' },
+  { to: '/virus-malwares-depannage-le-mans', label: 'Sécurité', hint: 'Virus · malwares', ico: '🛡️' },
+  { to: '/outils', label: 'À distance', hint: 'AnyDesk · outils', ico: '🖥️' },
 ]
-
-export const SEO_NAV_MEGA_PROMO = {
-  to: '/outils',
-  label: 'Outils gratuits & AnyDesk',
-  desc: 'Diagnostic PC + assistance à distance',
-  badge: 'UTILE',
-}
 
 /** Pages complémentaires : footer + maillage (pas dans le menu principal) */
 export const SEO_FOOTER_SECONDARY = [

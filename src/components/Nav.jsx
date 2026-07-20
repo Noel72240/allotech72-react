@@ -4,8 +4,7 @@ import config from '../config.js'
 import {
   SEO_NAV_DROPDOWN_PRIMARY,
   SEO_NAV_DROPDOWN_EXTRA,
-  SEO_NAV_MEGA,
-  SEO_NAV_MEGA_PROMO,
+  SEO_NAV_SERVICE_CARDS,
   SEO_PILLAR,
 } from '../data/seoPages.js'
 import CartNavButton from './shop/CartNavButton.jsx'
@@ -13,7 +12,6 @@ import CartNavButton from './shop/CartNavButton.jsx'
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const [dropdown, setDropdown] = useState(false)
-  const [megaCat, setMegaCat] = useState(SEO_NAV_MEGA[0]?.id || 'particuliers')
   const closeTimer = useRef(null)
   const close = () => { setOpen(false); setDropdown(false) }
   const loc = useLocation()
@@ -21,8 +19,6 @@ export default function Nav() {
   const onShop = loc.pathname.startsWith('/boutique') || loc.pathname.startsWith('/panier')
   const pageActive = (path) =>
     loc.pathname === path || (path.length > 1 && loc.pathname.startsWith(`${path}/`))
-
-  const activeMega = SEO_NAV_MEGA.find(c => c.id === megaCat) || SEO_NAV_MEGA[0]
 
   const openServices = () => {
     if (closeTimer.current) {
@@ -77,82 +73,35 @@ export default function Nav() {
                 <span className="nav-services__chev" aria-hidden="true">▼</span>
               </a>
 
-              <div className="nav-services__panel nav-services__panel--mega" hidden={!dropdown} role="menu">
-                <aside className="nav-mega__side" aria-label="Catégories de services">
-                  {SEO_NAV_MEGA.map(cat => (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      className={`nav-mega__cat${megaCat === cat.id ? ' is-active' : ''}`}
-                      onMouseEnter={() => setMegaCat(cat.id)}
-                      onFocus={() => setMegaCat(cat.id)}
-                      onClick={() => setMegaCat(cat.id)}
+              <div className="nav-services__panel nav-services__panel--cards" hidden={!dropdown} role="menu">
+                <div className="nav-svc-head">
+                  <span className="nav-svc-head__brand">Allotech72</span>
+                  <span className="nav-svc-head__sub">Interventions Sarthe · à domicile & à distance</span>
+                </div>
+
+                <div className="nav-svc-grid">
+                  {SEO_NAV_SERVICE_CARDS.map(card => (
+                    <Link
+                      key={card.to}
+                      to={card.to}
+                      onClick={() => setDropdown(false)}
+                      className={`nav-svc-card${pageActive(card.to) ? ' is-active' : ''}`}
+                      role="menuitem"
                     >
-                      <span className="nav-mega__cat-text">
-                        <span className="nav-mega__cat-title">{cat.label}</span>
-                        <span className="nav-mega__cat-hint">{cat.hint}</span>
-                      </span>
-                      <span className="nav-mega__cat-chev" aria-hidden>›</span>
-                    </button>
+                      <span className="nav-svc-card__ico" aria-hidden>{card.ico}</span>
+                      <span className="nav-svc-card__label">{card.label}</span>
+                      <span className="nav-svc-card__hint">{card.hint}</span>
+                    </Link>
                   ))}
-                  <div className="nav-mega__side-foot">
-                    <a href={home ? '#contact' : '/#contact'} className="nav-mega__express" role="menuitem">
-                      <span aria-hidden>⚡</span> Devis express
-                    </a>
-                  </div>
-                </aside>
+                </div>
 
-                <div className="nav-mega__main">
-                  <p className="nav-mega__eyebrow">· {activeMega.label.toUpperCase()}</p>
-
-                  <ul className="nav-mega__list">
-                    {activeMega.items.map(item => (
-                      <li key={item.to}>
-                        <Link
-                          to={item.to}
-                          onClick={() => setDropdown(false)}
-                          className={`nav-mega__item${pageActive(item.to) ? ' is-active' : ''}`}
-                          role="menuitem"
-                        >
-                          <span
-                            className="nav-mega__icon"
-                            style={{ borderColor: item.accent, color: item.accent, boxShadow: `0 0 14px ${item.accent}33` }}
-                            aria-hidden
-                          >
-                            {item.icon}
-                          </span>
-                          <span className="nav-mega__item-body">
-                            <span className="nav-mega__item-title">{item.label}</span>
-                            <span className="nav-mega__item-desc">{item.desc}</span>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Link
-                    to={SEO_NAV_MEGA_PROMO.to}
-                    onClick={() => setDropdown(false)}
-                    className="nav-mega__promo"
-                    role="menuitem"
-                  >
-                    <span className="nav-mega__icon nav-mega__icon--promo" aria-hidden>🛠️</span>
-                    <span className="nav-mega__promo-text">
-                      <strong>{SEO_NAV_MEGA_PROMO.label}</strong>
-                      <span>{SEO_NAV_MEGA_PROMO.desc}</span>
-                    </span>
-                    <span className="nav-mega__badge">{SEO_NAV_MEGA_PROMO.badge}</span>
+                <div className="nav-svc-foot">
+                  <Link to={SEO_PILLAR.to} onClick={() => setDropdown(false)} className="nav-svc-foot__link" role="menuitem">
+                    Voir tous les services
                   </Link>
-
-                  <Link
-                    to={SEO_PILLAR.to}
-                    onClick={() => setDropdown(false)}
-                    className="nav-mega__all"
-                    role="menuitem"
-                  >
-                    <span>Tous nos services Sarthe</span>
-                    <span aria-hidden>→</span>
-                  </Link>
+                  <a href={home ? '#contact' : '/#contact'} className="nav-svc-foot__cta" role="menuitem">
+                    Demander un devis
+                  </a>
                 </div>
               </div>
             </li>
