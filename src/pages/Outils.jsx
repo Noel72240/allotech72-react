@@ -256,7 +256,8 @@ export default function Outils() {
             <span className="c">recommandés par ALLOTECH72</span>
           </h1>
           <p className="outils-hero-sub">
-            Retrouvez une sélection d&apos;outils gratuits pour diagnostiquer, nettoyer, sécuriser et optimiser votre ordinateur.
+            Sélection enrichie d&apos;outils gratuits pour diagnostiquer, nettoyer, sécuriser,
+            sauvegarder et optimiser votre ordinateur — recommandés par ALLOTECH72.
           </p>
           <Link to="/contact" className="bm bp">Besoin d&apos;aide ? Contactez ALLOTECH72</Link>
         </header>
