@@ -1800,7 +1800,7 @@ nav, footer, #aurora, #bgc, #cursor, #cring, #prog, #btt {
 
 /* RÃ©duit les animations sur mobile */
 @media (max-width: 950px) {
-  .dsc, .dr, .dorb, .fi, .logo-mark { animation: none !important; }
+  .hero-visual__glow, .logo-mark { animation: none !important; }
   .blob { animation: none !important; transition: none !important; }
 }
 
