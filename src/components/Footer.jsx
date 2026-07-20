@@ -48,6 +48,7 @@ export default function Footer() {
               <li><Link to="/avis">Avis clients</Link></li>
               <li><Link to="/galerie">Galerie</Link></li>
               <li><Link to="/outils">Outils gratuits</Link></li>
+              <li><Link to="/partenaires">Partenaires</Link></li>
               <li><Link to="/actu">Actualités</Link></li>
               <li><a href="#contact">Contact</a></li>
             </ul>

@@ -54,6 +54,13 @@ export const PRERENDER_ROUTES = [
     ogTitle: 'Outils informatiques gratuits — ALLOTECH72',
   },
   {
+    path: '/partenaires',
+    title: 'Partenaires — Annuaire & collaborations | ALLOTECH72',
+    description:
+      'Découvrez les partenaires d’ALLOTECH72. Lien réciproque avec ServicesDeGeek, l’annuaire gratuit des informaticiens en France.',
+    ogTitle: 'Partenaires ALLOTECH72',
+  },
+  {
     path: '/actu',
     title: 'Actualités informatiques Sarthe — Conseils & actus | Allotech72',
     description:

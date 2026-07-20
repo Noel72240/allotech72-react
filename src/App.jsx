@@ -31,6 +31,7 @@ import ActuArticle  from './pages/ActuArticle.jsx'
 import AvisPage     from './pages/AvisPage.jsx'
 import References   from './pages/References.jsx'
 import Outils         from './pages/Outils.jsx'
+import Partenaires    from './pages/Partenaires.jsx'
 import ContactRedirect from './components/ContactRedirect.jsx'
 import NotFound  from './pages/NotFound.jsx'
 import AdminPage             from './pages/admin/AdminPage.jsx'
@@ -268,6 +269,7 @@ export default function App() {
         <Route path="/"        element={<Home />} />
         <Route path="/galerie" element={<Galerie />} />
         <Route path="/outils" element={<Outils />} />
+        <Route path="/partenaires" element={<Partenaires />} />
         <Route path="/contact" element={<ContactRedirect />} />
         <Route path="/actu" element={<Actu />} />
         <Route path="/actu/:slug" element={<ActuArticle />} />

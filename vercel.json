@@ -13,6 +13,7 @@
     { "source": "/reparateur-telephone-le-mans", "destination": "/reparateur-telephone-le-mans/index.html" },
     { "source": "/creation-site-internet-sarthe", "destination": "/creation-site-internet-sarthe/index.html" },
     { "source": "/outils", "destination": "/outils/index.html" },
+    { "source": "/partenaires", "destination": "/partenaires/index.html" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
   "headers": [
