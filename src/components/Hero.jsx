@@ -50,61 +50,12 @@ function useCounters() {
   }, [])
 }
 
-function HeroDesk() {
-  const [scan, setScan] = useState(18)
-  const [clock, setClock] = useState(() =>
-    new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-  )
-
-  useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) {
-      setScan(100)
-      return
-    }
-    const id = setInterval(() => {
-      setScan((v) => (v >= 100 ? 12 : v + 1))
-    }, 70)
-    return () => clearInterval(id)
-  }, [])
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setClock(new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }))
-    }, 30000)
-    return () => clearInterval(id)
-  }, [])
-
-  const topics = [
-    {
-      to: '/depannage-informatique-le-mans',
-      title: 'PC lent',
-      hint: 'Optimisation',
-      tone: 'amber',
-      ico: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <rect x="3" y="4" width="18" height="12" rx="2" />
-          <path d="M8 20h8M12 16v4" />
-        </svg>
-      ),
-    },
-    {
-      to: '/virus-malwares-depannage-le-mans',
-      title: 'Virus',
-      hint: 'Nettoyage',
-      tone: 'cyan',
-      ico: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" />
-          <path d="M9 12l2 2 4-4" />
-        </svg>
-      ),
-    },
+function HeroShowcase() {
+  const chips = [
     {
       to: '/wifi-reseau-internet-le-mans',
-      title: 'Wi-Fi',
-      hint: 'Connexion',
-      tone: 'green',
+      label: 'Wi-Fi',
+      cls: 'wifi',
       ico: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <path d="M5 12.5a9 9 0 0 1 14 0" />
@@ -114,131 +65,95 @@ function HeroDesk() {
       ),
     },
     {
+      to: '/virus-malwares-depannage-le-mans',
+      label: 'Sécurité',
+      cls: 'shield',
+      ico: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" />
+          <path d="M9 12l2 2 4-4" />
+        </svg>
+      ),
+    },
+    {
+      to: '/reparation-ordinateur-le-mans',
+      label: 'PC & Mac',
+      cls: 'pc',
+      ico: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3" y="4" width="18" height="12" rx="2" />
+          <path d="M8 20h8M12 16v4" />
+        </svg>
+      ),
+    },
+    {
       to: '/reparateur-telephone-le-mans',
-      title: 'Écran',
-      hint: 'Mobile',
-      tone: 'blue',
+      label: 'Mobile',
+      cls: 'phone',
       ico: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <rect x="7" y="2" width="10" height="20" rx="2" />
           <path d="M11 18h2" />
+        </svg>
+      ),
+    },
+    {
+      to: '/creation-site-internet-sarthe',
+      label: 'Web',
+      cls: 'web',
+      ico: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" />
         </svg>
       ),
     },
   ]
 
   return (
-    <div className="hero-desk">
-      <div className="hero-desk__glow" aria-hidden="true" />
-      <div className="hero-desk__float hero-desk__float--wifi" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <path d="M5 12.5a9 9 0 0 1 14 0" />
-          <path d="M8.5 15.5a5 5 0 0 1 7 0" />
-          <circle cx="12" cy="19" r="1.2" fill="currentColor" stroke="none" />
-        </svg>
-      </div>
-      <div className="hero-desk__float hero-desk__float--shield" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z" />
-          <path d="M9 12l2 2 4-4" />
-        </svg>
-      </div>
-      <div className="hero-desk__float hero-desk__float--pc" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <rect x="3" y="4" width="18" height="12" rx="2" />
-          <path d="M8 20h8M12 16v4" />
-        </svg>
-      </div>
-      <div className="hero-desk__float hero-desk__float--phone" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <rect x="7" y="2" width="10" height="20" rx="2" />
-          <path d="M11 18h2" />
-        </svg>
-      </div>
-      <div className="hero-desk__float hero-desk__float--web" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" />
-        </svg>
-      </div>
-      <div className="hero-desk__float hero-desk__float--tool" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-          <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-2.5 2.5-2.5z" />
-        </svg>
-      </div>
+    <div className="hero-stage">
+      <div className="hero-stage__aura" aria-hidden="true" />
+      <div className="hero-stage__ring" aria-hidden="true" />
 
-      <div className="hero-desk__panel">
-        <div className="hero-desk__chrome">
-          <span className="hero-desk__traffic" aria-hidden="true">
-            <i /><i /><i />
-          </span>
-          <span className="hero-desk__title">AT72 · Desk live</span>
-          <span className="hero-desk__live">
-            <i /> En ligne
-          </span>
-        </div>
+      {chips.map((c) => (
+        <Link
+          key={c.to}
+          to={c.to}
+          className={`hero-stage__chip hero-stage__chip--${c.cls}`}
+          aria-label={c.label}
+        >
+          <span className="hero-stage__chip-ico">{c.ico}</span>
+          <span className="hero-stage__chip-lbl">{c.label}</span>
+        </Link>
+      ))}
 
-        <div className="hero-desk__body">
-          <div className="hero-desk__radar" aria-hidden="true">
-            <div className="hero-desk__ring hero-desk__ring--1" />
-            <div className="hero-desk__ring hero-desk__ring--2" />
-            <div className="hero-desk__ring hero-desk__ring--3" />
-            <div className="hero-desk__sweep" />
-            <div className="hero-desk__core">
-              <strong>{scan}%</strong>
-              <span>Analyse</span>
+      <div className="hero-stage__devices" aria-hidden="true">
+        <div className="hero-stage__laptop">
+          <div className="hero-stage__bezel">
+            <div className="hero-stage__screen">
+              <div className="hero-stage__scan" />
+              <div className="hero-stage__ui">
+                <span className="hero-stage__brand">Allotech72</span>
+                <span className="hero-stage__line" />
+                <span className="hero-stage__line hero-stage__line--short" />
+                <span className="hero-stage__pill">Diagnostic gratuit</span>
+              </div>
             </div>
           </div>
-
-          <div className="hero-desk__side">
-            <div className="hero-desk__meter">
-              <div className="hero-desk__meter-head">
-                <span>Santé PC</span>
-                <b>OK</b>
-              </div>
-              <div className="hero-desk__bar"><i style={{ width: '86%' }} /></div>
-            </div>
-            <div className="hero-desk__meter">
-              <div className="hero-desk__meter-head">
-                <span>Sécurité</span>
-                <b>Stable</b>
-              </div>
-              <div className="hero-desk__bar hero-desk__bar--g"><i style={{ width: '92%' }} /></div>
-            </div>
-            <div className="hero-desk__meter">
-              <div className="hero-desk__meter-head">
-                <span>Réseau</span>
-                <b>Bon</b>
-              </div>
-              <div className="hero-desk__bar hero-desk__bar--c"><i style={{ width: '78%' }} /></div>
-            </div>
-            <div className="hero-desk__meta">
-              <span>Sarthe · {config.ville}</span>
-              <span>{clock}</span>
-            </div>
+          <div className="hero-stage__base" />
+        </div>
+        <div className="hero-stage__phone">
+          <div className="hero-stage__phone-screen">
+            <i />
+            <span>À domicile</span>
           </div>
         </div>
+      </div>
 
-        <div className="hero-desk__ask">
-          <div className="hero-desk__ask-top">
-            <p>Par où commencer ?</p>
-            <a href={`tel:${config.telBrut}`} className="hero-desk__call">
-              {config.telephone}
-            </a>
-          </div>
-          <div className="hero-desk__topics">
-            {topics.map((t) => (
-              <Link key={t.to} to={t.to} className={`hero-desk__topic hero-desk__topic--${t.tone}`}>
-                <span className="hero-desk__topic-ico" aria-hidden="true">{t.ico}</span>
-                <span className="hero-desk__topic-txt">
-                  <strong>{t.title}</strong>
-                  <em>{t.hint}</em>
-                </span>
-                <span className="hero-desk__topic-go" aria-hidden="true">→</span>
-              </Link>
-            ))}
-          </div>
-        </div>
+      <div className="hero-stage__promises">
+        <span>Sarthe · {config.ville}</span>
+        <span>Devis transparent</span>
+        <span>7j/7</span>
       </div>
     </div>
   )
@@ -312,7 +227,7 @@ export default function Hero() {
           </div>
 
           <div className="hr">
-            <HeroDesk />
+            <HeroShowcase />
           </div>
         </div>
       </div>
