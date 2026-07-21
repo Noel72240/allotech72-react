@@ -116,6 +116,10 @@ export default function Location() {
               <li>Remise ou retrait près de Lombron / Le Mans — matériel contrôlé avant départ.</li>
             </ol>
             <p>
+              Vous ne trouvez pas ce qu’il vous faut sur le site ? Dites-moi ce dont vous avez besoin :
+              on peut chercher et essayer de le trouver pour vous.
+            </p>
+            <p>
               Besoin d’un kit complet (PC + écran + câbles) ? On compose une offre adaptée.
               Pour acheter plutôt que louer, voir la{' '}
               <Link to="/boutique">boutique neuf &amp; occasion</Link>.

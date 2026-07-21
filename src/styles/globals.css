@@ -5055,9 +5055,12 @@ a.seo-aside-link--compact {
   line-height: 1.65;
 }
 .location-note p {
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--dim);
   line-height: 1.6;
+}
+.location-note p:last-child {
+  margin-bottom: 0;
 }
 .location-note a {
   color: var(--c);
