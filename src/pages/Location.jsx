@@ -24,7 +24,7 @@ export default function Location() {
     ;(async () => {
       setLoading(true)
       try {
-        const rows = await fetchLocationItems({ allowStaticFallback: true })
+        const rows = await fetchLocationItems({ allowStaticFallback: false })
         if (!cancelled) setAllItems(rows)
       } catch {
         if (!cancelled) setAllItems([])
@@ -94,7 +94,7 @@ export default function Location() {
             <div className="shop-empty">Chargement du matériel…</div>
           ) : items.length === 0 ? (
             <div className="shop-empty">
-              Aucun matériel dans cette catégorie.{' '}
+              Aucun matériel en location pour le moment.{' '}
               <a href={`tel:${config.telBrut}`}>Appelez-moi</a> pour une demande sur mesure.
             </div>
           ) : (

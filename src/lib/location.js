@@ -74,11 +74,13 @@ export function formatLocationDbError(message) {
 }
 
 /**
- * @param {{ includeUnpublished?: boolean, allowStaticFallback?: boolean }} [opts]
+ * Lit le catalogue Location.
+ * Avec Supabase : uniquement les lignes en base (liste vide = page vide).
+ * Sans Supabase (local) : fallback éventuel sur LOCATION_ITEMS (actuellement vide).
  */
 export async function fetchLocationItems({
   includeUnpublished = false,
-  allowStaticFallback = true,
+  allowStaticFallback = false,
 } = {}) {
   if (!isSupabaseConfigured) {
     if (allowStaticFallback && !includeUnpublished) {
@@ -99,21 +101,9 @@ export async function fetchLocationItems({
   }
 
   const { data, error } = await query
-  if (error) {
-    if (allowStaticFallback && !includeUnpublished) {
-      return LOCATION_ITEMS.map(mapStaticItem)
-    }
-    throw error
-  }
+  if (error) throw error
 
-  if (!data?.length) {
-    if (allowStaticFallback && !includeUnpublished) {
-      return LOCATION_ITEMS.map(mapStaticItem)
-    }
-    return []
-  }
-
-  return data.map(mapLocationRow)
+  return (data || []).map(mapLocationRow)
 }
 
 export async function uploadLocationImage(file) {
