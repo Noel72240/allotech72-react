@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/useAuth.jsx'
 import { supabase } from '../../lib/supabase.js'
 import config, { fullName } from '../../config.js'
 import AdminShop from './AdminShop.jsx'
+import AdminLocation from './AdminLocation.jsx'
 import AdminHome from './AdminHome.jsx'
 import AdminActu from './AdminActu.jsx'
 import AdminClients from './AdminClients.jsx'
@@ -383,6 +384,9 @@ export default function AdminDashboard({ onChangePassword }) {
 
         {/* ═══ BOUTIQUE ═══ */}
         {tab === 'boutique' && <AdminShop />}
+
+        {/* ═══ LOCATION ═══ */}
+        {tab === 'location' && <AdminLocation />}
 
         {/* ═══ ADAM IA ═══ */}
         {tab === 'adam' && <AdminAdam />}
