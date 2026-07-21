@@ -5024,6 +5024,51 @@ a.seo-aside-link--compact {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 14px;
 }
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+.location-card .shop-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.location-note {
+  margin-top: 40px;
+  padding: 24px 26px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 207, 255, 0.14);
+  background: rgba(5, 14, 28, 0.75);
+}
+.location-note h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.15rem;
+  color: #fff;
+  margin: 0 0 14px;
+}
+.location-note ol {
+  margin: 0 0 16px;
+  padding-left: 1.2em;
+  color: rgba(200, 232, 255, 0.9);
+  line-height: 1.65;
+}
+.location-note p {
+  margin: 0;
+  color: var(--dim);
+  line-height: 1.6;
+}
+.location-note a {
+  color: var(--c);
+  font-weight: 700;
+}
+.nav-location-cta {
+  border-color: rgba(43, 255, 154, 0.35) !important;
+}
+.mob-location-cta {
+  border-color: rgba(43, 255, 154, 0.3);
+}
 .shop-card {
   background: rgba(5, 14, 28, 0.86);
   border: 1px solid rgba(0, 207, 255, 0.14);

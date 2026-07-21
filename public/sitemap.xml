@@ -155,4 +155,11 @@
     <priority>0.75</priority>
   </url>
 
+  <url>
+    <loc>https://www.allotech72.fr/location</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
 </urlset>

@@ -12,6 +12,13 @@ export const PRERENDER_ROUTES = [
     ogTitle: 'Boutique Allotech72 — Informatique neuf & occasion',
   },
   {
+    path: '/location',
+    title: 'Location matériel informatique Le Mans & Sarthe | Allotech72',
+    description:
+      'Location PC portable, écrans, vidéoprojecteur et réseau près du Mans. Tarifs à la journée ou à la semaine — Allotech72.',
+    ogTitle: 'Location matériel informatique — Allotech72',
+  },
+  {
     path: '/services-informatiques-sarthe',
     title: 'Services Informatiques en Sarthe — Dépannage, PC, Téléphone & Web | Allotech72',
     description:

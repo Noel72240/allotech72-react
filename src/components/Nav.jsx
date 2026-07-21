@@ -148,6 +148,7 @@ export default function Nav() {
                 </a>
               )}
               <Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link>
+              <Link to="/location" className={`nav-shop-cta nav-location-cta${pageActive('/location') ? ' is-active' : ''}`}>Location</Link>
               <CartNavButton />
               <a href={`tel:${config.telBrut}`} className="ncta">{config.telephone}</a>
             </li>
@@ -194,6 +195,7 @@ export default function Nav() {
 
       <div className={`mob${open ? ' open' : ''}`}>
         <Link to="/boutique" className="mob-shop-cta" onClick={close}>🛒 Voir la boutique</Link>
+        <Link to="/location" className="mob-shop-cta mob-location-cta" onClick={close}>📦 Location matériel</Link>
         {config.portalRegister && (
           <a
             href={config.portalRegister}

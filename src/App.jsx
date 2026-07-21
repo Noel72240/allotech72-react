@@ -59,6 +59,7 @@ import VenteNeuf                 from './pages/vente/VenteNeuf.jsx'
 import VenteNeufCategorie         from './pages/vente/VenteNeufCategorie.jsx'
 import Panier                       from './pages/vente/Panier.jsx'
 import Checkout, { CheckoutSuccess } from './pages/vente/Checkout.jsx'
+import Location from './pages/Location.jsx'
 import AdamWidget from './components/adam/AdamWidget.jsx'
 
 // ─────────────────────────────────────────────
@@ -291,6 +292,7 @@ export default function App() {
         <Route path="/boutique/occasion" element={<VenteOccasion />} />
         <Route path="/boutique/neuf" element={<VenteNeuf />} />
         <Route path="/boutique/neuf/:categoryId" element={<VenteNeufCategorie />} />
+        <Route path="/location" element={<Location />} />
         <Route path="/vente" element={<Navigate to="/boutique" replace />} />
         <Route path="/vente/occasion" element={<Navigate to="/boutique/occasion" replace />} />
         <Route path="/vente/neuf" element={<Navigate to="/boutique/neuf" replace />} />

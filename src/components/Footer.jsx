@@ -52,6 +52,7 @@ export default function Footer() {
             <h4>Guides locaux</h4>
             <ul>
               <li><Link to="/boutique">Boutique (neuf &amp; occasion)</Link></li>
+              <li><Link to="/location">Location de matériel</Link></li>
               <li><Link to="/depannage-informatique-le-mans">Dépannage Le Mans</Link></li>
               <li><Link to="/reparation-ordinateur-le-mans">Réparation PC Le Mans</Link></li>
               <li><Link to="/reparateur-telephone-le-mans">Réparateur téléphone</Link></li>
