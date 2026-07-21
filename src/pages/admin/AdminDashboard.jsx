@@ -215,6 +215,7 @@ export default function AdminDashboard({ onChangePassword }) {
           <Tab id="actu"    ico="📰" label="Actu" />
           <Tab id="accueil" ico="🏠" label="Page accueil" />
           <Tab id="boutique" ico="🛒" label="Boutique" />
+          <Tab id="location" ico="📦" label="Location" />
           <Tab
             id="adam"
             ico={

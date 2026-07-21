@@ -1,12 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageLayout from '../components/PageLayout.jsx'
 import LocationProductCard from '../components/location/LocationProductCard.jsx'
 import config, { siteDomainForEmail } from '../config.js'
-import {
-  LOCATION_CATEGORIES,
-  getLocationItems,
-} from '../data/locationCatalog.js'
+import { LOCATION_CATEGORIES } from '../data/locationCatalog.js'
+import { fetchLocationItems, filterLocationItems } from '../lib/location.js'
 
 const TRUST_ITEMS = [
   { icon: '✓', text: 'Matériel testé avant départ' },
@@ -17,8 +15,29 @@ const TRUST_ITEMS = [
 
 export default function Location() {
   const [categoryId, setCategoryId] = useState('all')
-  const items = useMemo(() => getLocationItems(categoryId), [categoryId])
+  const [allItems, setAllItems] = useState([])
+  const [loading, setLoading] = useState(true)
   const email = `contact@${siteDomainForEmail()}`
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      setLoading(true)
+      try {
+        const rows = await fetchLocationItems({ allowStaticFallback: true })
+        if (!cancelled) setAllItems(rows)
+      } catch {
+        if (!cancelled) setAllItems([])
+      }
+      if (!cancelled) setLoading(false)
+    })()
+    return () => { cancelled = true }
+  }, [])
+
+  const items = useMemo(
+    () => filterLocationItems(allItems, categoryId),
+    [allItems, categoryId],
+  )
 
   return (
     <PageLayout
@@ -71,7 +90,9 @@ export default function Location() {
             ))}
           </div>
 
-          {items.length === 0 ? (
+          {loading ? (
+            <div className="shop-empty">Chargement du matériel…</div>
+          ) : items.length === 0 ? (
             <div className="shop-empty">
               Aucun matériel dans cette catégorie.{' '}
               <a href={`tel:${config.telBrut}`}>Appelez-moi</a> pour une demande sur mesure.
