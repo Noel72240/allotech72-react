@@ -13,6 +13,7 @@ import SeoSidebar   from './SeoSidebar.jsx'
 import MobileCartBar from './shop/MobileCartBar.jsx'
 import config       from '../config.js'
 import { isSeoHubPath } from '../data/seoPages.js'
+import { useShopVisible } from '../hooks/useShopCatalog.jsx'
 
 function resolvePageTitle(title, brand) {
   if (!title) return brand
@@ -29,7 +30,11 @@ export default function PageLayout({ children, title, description }) {
   const ogImage = `${base}/og-image.png`
   const desc = description || config.seoDesc
   const showSeoAside = isSeoHubPath(location.pathname)
-  const showMobileCartbar = location.pathname.startsWith('/boutique') && !location.pathname.startsWith('/panier')
+  const { shopVisible } = useShopVisible()
+  const showMobileCartbar =
+    shopVisible &&
+    location.pathname.startsWith('/boutique') &&
+    !location.pathname.startsWith('/panier')
 
   // Scroll nav shrink
   useEffect(() => {

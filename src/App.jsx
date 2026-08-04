@@ -15,6 +15,7 @@ import ProblemMatch from './components/ProblemMatch.jsx'
 import Formules     from './components/Formules.jsx'
 import Engagements  from './components/Engagements.jsx'
 import PortalTeaser from './components/PortalTeaser.jsx'
+import QreateurPromo from './components/QreateurPromo.jsx'
 import Avantages    from './components/Avantages.jsx'
 import About        from './components/About.jsx'
 import Zone         from './components/Zone.jsx'
@@ -60,6 +61,7 @@ import VenteNeufCategorie         from './pages/vente/VenteNeufCategorie.jsx'
 import Panier                       from './pages/vente/Panier.jsx'
 import Checkout, { CheckoutSuccess } from './pages/vente/Checkout.jsx'
 import Location from './pages/Location.jsx'
+import ShopGate from './components/shop/ShopGate.jsx'
 import AdamWidget from './components/adam/AdamWidget.jsx'
 
 // ─────────────────────────────────────────────
@@ -251,6 +253,9 @@ function Home() {
       <main>
         <Hero />
         <NewsCarousel slides={newsSlides} />
+        <div className="container qreateur-home-wrap">
+          <QreateurPromo variant="home" />
+        </div>
         <ProblemMatch />
         <Formules />
         <Services />
@@ -288,18 +293,18 @@ export default function App() {
         <Route path="/avis"    element={<AvisPage />} />
         <Route path="/references" element={<References />} />
         <Route path="/admin"   element={<AdminPage />} />
-        <Route path="/boutique" element={<VenteHub />} />
-        <Route path="/boutique/occasion" element={<VenteOccasion />} />
-        <Route path="/boutique/neuf" element={<VenteNeuf />} />
-        <Route path="/boutique/neuf/:categoryId" element={<VenteNeufCategorie />} />
+        <Route path="/boutique" element={<ShopGate><VenteHub /></ShopGate>} />
+        <Route path="/boutique/occasion" element={<ShopGate><VenteOccasion /></ShopGate>} />
+        <Route path="/boutique/neuf" element={<ShopGate><VenteNeuf /></ShopGate>} />
+        <Route path="/boutique/neuf/:categoryId" element={<ShopGate><VenteNeufCategorie /></ShopGate>} />
         <Route path="/location" element={<Location />} />
         <Route path="/vente" element={<Navigate to="/boutique" replace />} />
         <Route path="/vente/occasion" element={<Navigate to="/boutique/occasion" replace />} />
         <Route path="/vente/neuf" element={<Navigate to="/boutique/neuf" replace />} />
         <Route path="/vente/neuf/:categoryId" element={<Navigate to="/boutique/neuf/:categoryId" replace />} />
-        <Route path="/panier" element={<Panier />} />
-        <Route path="/panier/paiement" element={<Checkout />} />
-        <Route path="/panier/confirmation" element={<CheckoutSuccess />} />
+        <Route path="/panier" element={<ShopGate><Panier /></ShopGate>} />
+        <Route path="/panier/paiement" element={<ShopGate><Checkout /></ShopGate>} />
+        <Route path="/panier/confirmation" element={<ShopGate><CheckoutSuccess /></ShopGate>} />
         <Route path="/depannage-informatique-le-mans" element={<DepannageLeMansSEO />} />
         <Route path="/reparation-ordinateur-le-mans"      element={<ReparationPCLeMans />} />
         <Route path="/reparateur-telephone-le-mans"       element={<ReparateurTelephoneLeMans />} />

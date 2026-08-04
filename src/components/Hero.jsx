@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import config, { fullName } from '../config.js'
+import { useShopVisible } from '../hooks/useShopCatalog.jsx'
 
 function useTyping(phrases) {
   const [text, setText] = useState('')
@@ -229,6 +230,7 @@ function HeroShowcase() {
 export default function Hero() {
   const typed = useTyping(config.typingPhrases)
   useCounters()
+  const { shopVisible } = useShopVisible()
 
   // Magnetic buttons — desktop seulement
   const isMobile = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches
@@ -277,9 +279,11 @@ export default function Hero() {
               <a href={`tel:${config.telBrut}`} className="bm bp" onMouseMove={magMove} onMouseLeave={magLeave}>
                 📞 Appeler — {config.telephone}
               </a>
-              <Link to="/boutique" className="bm bo hero-shop-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
-                🛒 Boutique en ligne
-              </Link>
+              {shopVisible && (
+                <Link to="/boutique" className="bm bo hero-shop-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
+                  🛒 Boutique en ligne
+                </Link>
+              )}
               <a href="#contact" className="bm bo hero-devis-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
                 Devis gratuit →
               </a>

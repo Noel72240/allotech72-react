@@ -8,7 +8,7 @@ export function ShopCatalogProvider({ children }) {
   const [settings, setSettings] = useState({
     sumupMerchantCode: '',
     sumupEnabled: false,
-    shopEnabled: true,
+    shopEnabled: false,
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -68,4 +68,10 @@ export function useShopCatalog() {
   const ctx = useContext(ShopCatalogContext)
   if (!ctx) throw new Error('useShopCatalog doit être utilisé dans <ShopCatalogProvider>')
   return ctx
+}
+
+/** true si la boutique doit apparaître (nav, hero, etc.) */
+export function useShopVisible() {
+  const { settings, loading } = useShopCatalog()
+  return { shopVisible: settings.shopEnabled === true, loading }
 }

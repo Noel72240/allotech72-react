@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useCookies } from '../hooks/useCookies.jsx'
 import config, { fullName } from '../config.js'
 import { SEO_FOOTER_SECONDARY, SEO_PILLAR } from '../data/seoPages.js'
+import { useShopVisible } from '../hooks/useShopCatalog.jsx'
 
 const openModal = (id) => {
   document.getElementById(id)?.classList.add('open')
@@ -11,6 +12,7 @@ const openModal = (id) => {
 export default function Footer() {
   const { reset } = useCookies()
   const year = new Date().getFullYear()
+  const { shopVisible } = useShopVisible()
 
   return (
     <footer>
@@ -51,7 +53,10 @@ export default function Footer() {
           <div className="fcol">
             <h4>Guides locaux</h4>
             <ul>
-              <li><Link to="/boutique">Boutique (neuf &amp; occasion)</Link></li>
+              {shopVisible && (
+                <li><Link to="/boutique">Boutique (neuf &amp; occasion)</Link></li>
+              )}
+              <li><a href="/qreateur/">Qréateur Pro — logiciel QR</a></li>
               <li><Link to="/location">Location de matériel</Link></li>
               <li><Link to="/depannage-informatique-le-mans">Dépannage Le Mans</Link></li>
               <li><Link to="/reparation-ordinateur-le-mans">Réparation PC Le Mans</Link></li>

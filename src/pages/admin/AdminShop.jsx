@@ -76,7 +76,7 @@ export default function AdminShop() {
   const [settings, setSettings] = useState({
     sumupMerchantCode: '',
     sumupEnabled: false,
-    shopEnabled: true,
+    shopEnabled: false,
     mondialRelayFee: 0.5,
     mondialRelayBrand: '',
     pickupEnabled: true,
@@ -89,6 +89,7 @@ export default function AdminShop() {
   const [ordersLoad, setOrdersLoad] = useState(false)
   const [cancellingRef, setCancellingRef] = useState(null)
   const [restoringRef, setRestoringRef] = useState(null)
+  const [togglingShop, setTogglingShop] = useState(false)
 
   const loadAll = async () => {
     setLoad(true)
@@ -303,6 +304,26 @@ export default function AdminShop() {
     }
   }
 
+  const toggleShopVisible = async () => {
+    const next = !settings.shopEnabled
+    setTogglingShop(true)
+    setSettings(s => ({ ...s, shopEnabled: next }))
+    try {
+      await saveShopSettings({ shopEnabled: next })
+      setSettingsMsg({
+        ok: true,
+        txt: next
+          ? '✅ Boutique visible sur le site (nav, hero, /boutique)'
+          : '✅ Boutique masquée sur le site — réactive-la ici quand tu veux',
+      })
+      setTimeout(() => setSettingsMsg(null), 4000)
+    } catch (e) {
+      setSettings(s => ({ ...s, shopEnabled: !next }))
+      setSettingsMsg({ ok: false, txt: e.message })
+    }
+    setTogglingShop(false)
+  }
+
   const saveBannersClick = async () => {
     setSettingsMsg({ ok: true, txt: 'Enregistrement bannières…' })
     try {
@@ -342,6 +363,44 @@ export default function AdminShop() {
 
   return (
     <div>
+      <div style={{
+        marginBottom: 20,
+        padding: '16px 18px',
+        borderRadius: 14,
+        border: `1px solid ${settings.shopEnabled ? 'rgba(43,255,154,0.35)' : 'rgba(255,180,80,0.35)'}`,
+        background: settings.shopEnabled ? 'rgba(43,255,154,0.08)' : 'rgba(255,180,80,0.08)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 16,
+        flexWrap: 'wrap',
+      }}>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ color: '#fff', fontFamily: "'Orbitron',sans-serif", fontWeight: 700, fontSize: '.95rem' }}>
+            Boutique sur le site : {settings.shopEnabled ? 'VISIBLE' : 'MASQUÉE'}
+          </div>
+          <div style={{ color: 'var(--dim)', fontSize: '.8rem', marginTop: 4, lineHeight: 1.45 }}>
+            Masquée = plus de lien Boutique / panier (nav, hero, footer). Les pages /boutique affichent « indisponible ».
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={toggleShopVisible}
+          disabled={togglingShop}
+          style={{
+            ...btnP,
+            opacity: togglingShop ? 0.6 : 1,
+            background: settings.shopEnabled
+              ? 'linear-gradient(135deg,#ff8a4c,#ff5c5c)'
+              : 'linear-gradient(135deg,#00CFFF,#2BFF9A)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {togglingShop ? '…' : settings.shopEnabled ? 'Masquer la boutique' : 'Afficher la boutique'}
+        </button>
+      </div>
+      <Msg msg={settingsMsg} />
+
       <div style={{ display:'flex', gap:10, marginBottom:24, flexWrap:'wrap' }}>
         <button type="button" onClick={() => setSubTab('products')} style={{
           padding:'8px 16px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:700,
@@ -449,7 +508,7 @@ export default function AdminShop() {
           </label>
           <label style={{ display:'flex', alignItems:'center', gap:10, marginBottom:20, cursor:'pointer' }}>
             <input type="checkbox" checked={settings.shopEnabled} onChange={e => setSettings(s => ({ ...s, shopEnabled: e.target.checked }))} />
-            <span style={{ color:'var(--tx)', fontSize:'.9rem' }}>Boutique visible</span>
+            <span style={{ color:'var(--tx)', fontSize:'.9rem' }}>Boutique visible sur le site (nav, hero, /boutique)</span>
           </label>
 
           <h4 style={{ color:'#fff', margin:'24px 0 14px', fontFamily:"'Orbitron',sans-serif", fontSize:'.9rem' }}>Livraison</h4>

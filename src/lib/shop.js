@@ -187,7 +187,7 @@ export async function fetchShopSettings() {
   const defaults = {
     sumupMerchantCode: '',
     sumupEnabled: false,
-    shopEnabled: true,
+    shopEnabled: false,
     mondialRelayFee: 0.5,
     mondialRelayBrand: '',
     pickupEnabled: true,
@@ -202,7 +202,7 @@ export async function fetchShopSettings() {
   return {
     sumupMerchantCode: data.sumup_merchant_code || '',
     sumupEnabled: !!data.sumup_enabled,
-    shopEnabled: data.shop_enabled !== false,
+    shopEnabled: data.shop_enabled === true,
     mondialRelayFee: data.mondial_relay_fee != null ? Number(data.mondial_relay_fee) : 0.5,
     mondialRelayBrand: data.mondial_relay_brand || '',
     pickupEnabled: data.pickup_enabled !== false,
@@ -219,7 +219,7 @@ export async function saveShopSettings(patch) {
     id: 1,
     sumup_merchant_code: merged.sumupMerchantCode?.trim() || '',
     sumup_enabled: !!merged.sumupEnabled,
-    shop_enabled: merged.shopEnabled !== false,
+    shop_enabled: merged.shopEnabled === true,
     mondial_relay_fee: merged.mondialRelayFee != null ? Number(merged.mondialRelayFee) : 0.5,
     mondial_relay_brand: merged.mondialRelayBrand?.trim() || '',
     pickup_enabled: merged.pickupEnabled !== false,

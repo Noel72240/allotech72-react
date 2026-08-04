@@ -7,6 +7,7 @@ import {
   SEO_PILLAR,
 } from '../data/seoPages.js'
 import CartNavButton from './shop/CartNavButton.jsx'
+import { useShopVisible } from '../hooks/useShopCatalog.jsx'
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
@@ -15,7 +16,8 @@ export default function Nav() {
   const close = () => { setOpen(false); setDropdown(false) }
   const loc = useLocation()
   const home = loc.pathname === '/'
-  const onShop = loc.pathname.startsWith('/boutique') || loc.pathname.startsWith('/panier')
+  const { shopVisible } = useShopVisible()
+  const onShop = shopVisible && (loc.pathname.startsWith('/boutique') || loc.pathname.startsWith('/panier'))
   const pageActive = (path) =>
     loc.pathname === path || (path.length > 1 && loc.pathname.startsWith(`${path}/`))
 
@@ -147,9 +149,12 @@ export default function Nav() {
                   Espace client
                 </a>
               )}
-              <Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link>
+              {shopVisible && (
+                <Link to="/boutique" className={`nav-shop-cta${pageActive('/boutique') ? ' is-active' : ''}`}>Boutique</Link>
+              )}
+              <a href="/qreateur/" className="nav-qreateur-cta">Qréateur · 9,90&nbsp;€</a>
               <Link to="/location" className={`nav-shop-cta nav-location-cta${pageActive('/location') ? ' is-active' : ''}`}>Location</Link>
-              <CartNavButton />
+              {shopVisible && <CartNavButton />}
               <a href={`tel:${config.telBrut}`} className="ncta">{config.telephone}</a>
             </li>
           </ul>
@@ -194,7 +199,10 @@ export default function Nav() {
       </nav>
 
       <div className={`mob${open ? ' open' : ''}`}>
-        <Link to="/boutique" className="mob-shop-cta" onClick={close}>🛒 Voir la boutique</Link>
+        {shopVisible && (
+          <Link to="/boutique" className="mob-shop-cta" onClick={close}>🛒 Voir la boutique</Link>
+        )}
+        <a href="/qreateur/" className="mob-qreateur-cta" onClick={close}>✦ Qréateur Pro — 9,90&nbsp;€ à vie</a>
         <Link to="/location" className="mob-shop-cta mob-location-cta" onClick={close}>📦 Location matériel</Link>
         {config.portalRegister && (
           <a
@@ -231,7 +239,7 @@ export default function Nav() {
         <Link to="/outils" className={pageActive('/outils') ? 'nav-page-active' : ''} onClick={close}>Outils gratuits</Link>
         <Link to="/partenaires" className={pageActive('/partenaires') ? 'nav-page-active' : ''} onClick={close}>Partenaires</Link>
         <Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''} onClick={close}>Actu</Link>
-        <Link to="/panier" onClick={close}>Panier 🛒</Link>
+        {shopVisible && <Link to="/panier" onClick={close}>Panier 🛒</Link>}
         <a href={home ? '#contact' : '/#contact'} onClick={close}>Contact</a>
         <a href={`tel:${config.telBrut}`} style={{ color: 'var(--c)', fontFamily: "'Orbitron',sans-serif", fontSize: '1.2rem' }}>
           📞 {config.telephone}

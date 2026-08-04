@@ -5,6 +5,7 @@ import LocationProductCard from '../components/location/LocationProductCard.jsx'
 import config, { siteDomainForEmail } from '../config.js'
 import { LOCATION_CATEGORIES } from '../data/locationCatalog.js'
 import { fetchLocationItems, filterLocationItems } from '../lib/location.js'
+import { useShopVisible } from '../hooks/useShopCatalog.jsx'
 
 const TRUST_ITEMS = [
   { icon: '✓', text: 'Matériel testé avant départ' },
@@ -18,6 +19,7 @@ export default function Location() {
   const [allItems, setAllItems] = useState([])
   const [loading, setLoading] = useState(true)
   const email = `contact@${siteDomainForEmail()}`
+  const { shopVisible } = useShopVisible()
 
   useEffect(() => {
     let cancelled = false
@@ -66,9 +68,11 @@ export default function Location() {
               </p>
             </div>
             <div className="shop-hero-actions">
-              <Link to="/boutique" className="shop-hero-cart">
-                🛒 Boutique
-              </Link>
+              {shopVisible && (
+                <Link to="/boutique" className="shop-hero-cart">
+                  🛒 Boutique
+                </Link>
+              )}
               <a href={`tel:${config.telBrut}`} className="shop-call shop-call-sm">
                 📞 {config.telephone}
               </a>
@@ -121,8 +125,12 @@ export default function Location() {
             </p>
             <p>
               Besoin d’un kit complet (PC + écran + câbles) ? On compose une offre adaptée.
-              Pour acheter plutôt que louer, voir la{' '}
-              <Link to="/boutique">boutique neuf &amp; occasion</Link>.
+              {shopVisible && (
+                <>
+                  {' '}Pour acheter plutôt que louer, voir la{' '}
+                  <Link to="/boutique">boutique neuf &amp; occasion</Link>.
+                </>
+              )}
             </p>
           </div>
         </div>
