@@ -65,7 +65,7 @@ const Msg = ({ msg }) => msg ? (
 ) : null
 
 export default function AdminShop() {
-  const [subTab, setSubTab] = useState('products')
+  const [subTab, setSubTab] = useState('visibility')
   const [products, setProducts] = useState([])
   const [load, setLoad] = useState(true)
   const [msg, setMsg] = useState(null)
@@ -364,11 +364,15 @@ export default function AdminShop() {
   return (
     <div>
       <div style={{
+        position: 'sticky',
+        top: 78,
+        zIndex: 40,
         marginBottom: 20,
-        padding: '16px 18px',
+        padding: '18px 20px',
         borderRadius: 14,
-        border: `1px solid ${settings.shopEnabled ? 'rgba(43,255,154,0.35)' : 'rgba(255,180,80,0.35)'}`,
-        background: settings.shopEnabled ? 'rgba(43,255,154,0.08)' : 'rgba(255,180,80,0.08)',
+        border: `2px solid ${settings.shopEnabled ? 'rgba(43,255,154,0.55)' : 'rgba(255,140,60,0.65)'}`,
+        background: settings.shopEnabled ? 'rgba(8,40,28,0.97)' : 'rgba(40,22,8,0.97)',
+        boxShadow: '0 12px 40px rgba(0,0,0,0.45)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -376,11 +380,11 @@ export default function AdminShop() {
         flexWrap: 'wrap',
       }}>
         <div style={{ minWidth: 0 }}>
-          <div style={{ color: '#fff', fontFamily: "'Orbitron',sans-serif", fontWeight: 700, fontSize: '.95rem' }}>
-            Boutique sur le site : {settings.shopEnabled ? 'VISIBLE' : 'MASQUÉE'}
+          <div style={{ color: '#fff', fontFamily: "'Orbitron',sans-serif", fontWeight: 800, fontSize: '1.05rem' }}>
+            {settings.shopEnabled ? '🟢 Boutique VISIBLE sur le site' : '🟠 Boutique MASQUÉE sur le site'}
           </div>
-          <div style={{ color: 'var(--dim)', fontSize: '.8rem', marginTop: 4, lineHeight: 1.45 }}>
-            Masquée = plus de lien Boutique / panier (nav, hero, footer). Les pages /boutique affichent « indisponible ».
+          <div style={{ color: 'rgba(220,235,255,0.85)', fontSize: '.85rem', marginTop: 6, lineHeight: 1.45 }}>
+            Clique le bouton à droite pour afficher ou cacher la boutique (menu, hero, panier, /boutique).
           </div>
         </div>
         <button
@@ -389,6 +393,8 @@ export default function AdminShop() {
           disabled={togglingShop}
           style={{
             ...btnP,
+            fontSize: '.9rem',
+            padding: '14px 22px',
             opacity: togglingShop ? 0.6 : 1,
             background: settings.shopEnabled
               ? 'linear-gradient(135deg,#ff8a4c,#ff5c5c)'
@@ -396,12 +402,17 @@ export default function AdminShop() {
             whiteSpace: 'nowrap',
           }}
         >
-          {togglingShop ? '…' : settings.shopEnabled ? 'Masquer la boutique' : 'Afficher la boutique'}
+          {togglingShop ? 'Enregistrement…' : settings.shopEnabled ? 'Masquer maintenant' : 'Afficher maintenant'}
         </button>
       </div>
       <Msg msg={settingsMsg} />
 
       <div style={{ display:'flex', gap:10, marginBottom:24, flexWrap:'wrap' }}>
+        <button type="button" onClick={() => setSubTab('visibility')} style={{
+          padding:'8px 16px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:700,
+          background: subTab === 'visibility' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
+          color: subTab === 'visibility' ? 'var(--c)' : 'var(--dim)',
+        }}>👁 Visibilité</button>
         <button type="button" onClick={() => setSubTab('products')} style={{
           padding:'8px 16px', borderRadius:8, border:'none', cursor:'pointer', fontWeight:700,
           background: subTab === 'products' ? 'rgba(0,207,255,0.2)' : 'rgba(0,207,255,0.06)',
@@ -423,6 +434,44 @@ export default function AdminShop() {
           color: subTab === 'banners' ? 'var(--c)' : 'var(--dim)',
         }}>Bannières</button>
       </div>
+
+      {subTab === 'visibility' && (
+        <div className="admin-dash-card" style={{ ...card, maxWidth: 640 }}>
+          <h3 style={{ color:'#fff', marginBottom:14, fontFamily:"'Orbitron',sans-serif", fontSize:'1.05rem' }}>
+            Afficher / masquer la boutique
+          </h3>
+          <p style={{ color:'var(--dim)', fontSize:'.9rem', lineHeight:1.6, marginBottom:18 }}>
+            Quand c’est <strong style={{ color:'#ffb070' }}>masqué</strong> : plus de bouton Boutique dans le menu,
+            plus de panier, et la page /boutique dit « indisponible ».
+            Tu peux tout réafficher d’un clic quand tu veux vendre à nouveau.
+          </p>
+          <button
+            type="button"
+            onClick={toggleShopVisible}
+            disabled={togglingShop}
+            style={{
+              ...btnP,
+              fontSize: '1rem',
+              padding: '16px 28px',
+              opacity: togglingShop ? 0.6 : 1,
+              background: settings.shopEnabled
+                ? 'linear-gradient(135deg,#ff8a4c,#ff5c5c)'
+                : 'linear-gradient(135deg,#00CFFF,#2BFF9A)',
+            }}
+          >
+            {togglingShop
+              ? 'Enregistrement…'
+              : settings.shopEnabled
+                ? '🟠 Masquer la boutique sur le site'
+                : '🟢 Afficher la boutique sur le site'}
+          </button>
+          <p style={{ color:'var(--dim)', fontSize:'.78rem', marginTop:16 }}>
+            État actuel : <strong style={{ color: settings.shopEnabled ? 'var(--g)' : '#ffb070' }}>
+              {settings.shopEnabled ? 'VISIBLE' : 'MASQUÉE'}
+            </strong>
+          </p>
+        </div>
+      )}
 
       {subTab === 'banners' && (
         <div className="admin-dash-card" style={{ ...card, maxWidth: 720 }}>
