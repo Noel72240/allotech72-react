@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import PageLayout from '../../components/PageLayout.jsx'
 import ShopProductCarousel from '../../components/shop/ShopProductCarousel.jsx'
 import ShopBannerCarousel from '../../components/shop/ShopBannerCarousel.jsx'
+import QreateurPromo from '../../components/QreateurPromo.jsx'
 import config from '../../config.js'
 import { SHOP_CATEGORIES } from '../../data/shopCatalog.js'
 import { useShopCatalog } from '../../hooks/useShopCatalog.jsx'
@@ -115,7 +116,7 @@ export default function VenteHub() {
     setCategoryId('all')
   }
 
-  const shopOff = settings.shopEnabled === false
+  const shopOff = settings.shopEnabled !== true
 
   return (
     <PageLayout
@@ -131,6 +132,8 @@ export default function VenteHub() {
               </span>
             ))}
           </div>
+
+          <QreateurPromo variant="featured" />
 
           <ShopBannerCarousel banners={settings.banners} />
 
