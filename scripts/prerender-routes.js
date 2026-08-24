@@ -95,4 +95,53 @@ export const PRERENDER_ROUTES = [
       'Réservez un créneau avec Noël (Allotech72). Rappel rapide, diagnostic gratuit. 06 13 89 39 67.',
     ogTitle: 'Prendre RDV — Allotech72',
   },
+  {
+    path: '/presse',
+    title: 'Allotech72 dans la presse — Ouest-France / Maine Libre',
+    description:
+      'Noël Liebault (Allotech72, Lombron) dans Ouest-France : lancement de l’entreprise de dépannage informatique en Sarthe.',
+    ogTitle: 'Allotech72 dans la presse',
+  },
+  {
+    path: '/depannage-informatique-allonnes',
+    title: 'Dépannage informatique Allonnes (72700) | Allotech72',
+    description:
+      'Technicien à domicile à Allonnes : PC, téléphone, virus, Wi-Fi. Diagnostic gratuit. 06 13 89 39 67.',
+    ogTitle: 'Dépannage informatique Allonnes',
+  },
+  {
+    path: '/depannage-informatique-coulaines',
+    title: 'Dépannage informatique Coulaines (72190) | Allotech72',
+    description:
+      'Informaticien à domicile à Coulaines : réparation PC, Mac, iPhone, box. Devis avant réparation. 06 13 89 39 67.',
+    ogTitle: 'Dépannage informatique Coulaines',
+  },
+  {
+    path: '/depannage-informatique-champagne',
+    title: 'Dépannage informatique Champagné (72470) | Allotech72',
+    description:
+      'Dépannage à domicile à Champagné, près de Lombron. Déplacement souvent offert, diagnostic gratuit. 06 13 89 39 67.',
+    ogTitle: 'Dépannage informatique Champagné',
+  },
+  {
+    path: '/depannage-informatique-arnage',
+    title: 'Dépannage informatique Arnage (72230) | Allotech72',
+    description:
+      'Réparation PC et téléphone à Arnage, à domicile. Diagnostic gratuit, devis avant intervention. 06 13 89 39 67.',
+    ogTitle: 'Dépannage informatique Arnage',
+  },
+  {
+    path: '/depannage-informatique-la-fleche',
+    title: 'Dépannage informatique La Flèche (72200) | Allotech72',
+    description:
+      'Technicien indépendant à La Flèche : PC, Mac, téléphone à domicile. Déplacement annoncé, diagnostic gratuit. 06 13 89 39 67.',
+    ogTitle: 'Dépannage informatique La Flèche',
+  },
+  {
+    path: '/depannage-informatique-sable-sur-sarthe',
+    title: 'Dépannage informatique Sablé-sur-Sarthe (72300) | Allotech72',
+    description:
+      'Informaticien à domicile à Sablé-sur-Sarthe. Diagnostic gratuit, devis avant réparation. 06 13 89 39 67.',
+    ogTitle: 'Dépannage informatique Sablé-sur-Sarthe',
+  },
 ]

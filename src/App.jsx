@@ -56,6 +56,8 @@ import InstallationWindowsSarthe    from './pages/seo/InstallationWindowsSarthe.
 import MaintenanceInformatiqueSarthe from './pages/seo/MaintenanceInformatiqueSarthe.jsx'
 import DepannagePcPortableSarthe    from './pages/seo/DepannagePcPortableSarthe.jsx'
 import CreationLogicielSurMesureSarthe from './pages/seo/CreationLogicielSurMesureSarthe.jsx'
+import DepannageVille from './pages/seo/DepannageVille.jsx'
+import Presse from './pages/Presse.jsx'
 import VenteHub                  from './pages/vente/VenteHub.jsx'
 import VenteOccasion             from './pages/vente/VenteOccasion.jsx'
 import VenteNeuf                 from './pages/vente/VenteNeuf.jsx'
@@ -68,6 +70,7 @@ import PrendreRdv from './pages/PrendreRdv.jsx'
 import ShopGate from './components/shop/ShopGate.jsx'
 import AdamWidget from './components/adam/AdamWidget.jsx'
 import StickyCallBar from './components/StickyCallBar.jsx'
+import { SEO_CITY_PAGES } from './data/seoPages.js'
 
 // ─────────────────────────────────────────────
 // SEO Head — page d'accueil
@@ -139,7 +142,7 @@ function SeoHome() {
       reviewBody:     a.texte,
       name:           a.type,
     })),
-    sameAs: [config.facebook, config.google, config.instagram].filter(Boolean),
+    sameAs: [config.facebook, config.google, config.instagram, config.allovoisin, ...(config.presse || []).map((p) => p.url)].filter(Boolean),
     founder: { '@type':'Person', name: fullName() },
     vatID:   'FR - TVA non applicable art.293B CGI',
   }
@@ -297,6 +300,7 @@ export default function App() {
         <Route path="/galerie" element={<Galerie />} />
         <Route path="/outils" element={<Outils />} />
         <Route path="/partenaires" element={<Partenaires />} />
+        <Route path="/presse" element={<Presse />} />
         <Route path="/tarifs" element={<Tarifs />} />
         <Route path="/prendre-rdv" element={<PrendreRdv />} />
         <Route path="/contact" element={<ContactRedirect />} />
@@ -331,6 +335,9 @@ export default function App() {
         <Route path="/maintenance-informatique-sarthe"   element={<MaintenanceInformatiqueSarthe />} />
         <Route path="/depannage-pc-portable-sarthe"      element={<DepannagePcPortableSarthe />} />
         <Route path="/creation-logiciel-sur-mesure-sarthe" element={<CreationLogicielSurMesureSarthe />} />
+        {SEO_CITY_PAGES.map((c) => (
+          <Route key={c.to} path={c.to} element={<DepannageVille />} />
+        ))}
         <Route path="*"        element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import config from '../config.js'
+import { getCityPathByName } from '../data/seoCities.js'
 
 export default function Zone() {
   const [q, setQ] = useState('')
@@ -48,9 +50,14 @@ export default function Zone() {
             </label>
 
             <div className="cg" role="list">
-              {filtered.map((c) => (
-                <div key={c} className="chip" role="listitem">{c}</div>
-              ))}
+              {filtered.map((c) => {
+                const to = getCityPathByName(c)
+                return to ? (
+                  <Link key={c} to={to} className="chip chip--link" role="listitem">{c}</Link>
+                ) : (
+                  <div key={c} className="chip" role="listitem">{c}</div>
+                )
+              })}
               {filtered.length === 0 && (
                 <p className="zone-empty">Aucune commune trouvée — appelez-moi, on trouve une solution.</p>
               )}

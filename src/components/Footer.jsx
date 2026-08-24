@@ -65,6 +65,9 @@ export default function Footer() {
               {SEO_FOOTER_SECONDARY.map((l) => (
                 <li key={l.to}><Link to={l.to}>{l.label}</Link></li>
               ))}
+              <li><Link to="/depannage-informatique-allonnes">Dépannage Allonnes</Link></li>
+              <li><Link to="/depannage-informatique-coulaines">Dépannage Coulaines</Link></li>
+              <li><Link to="/presse">Presse (Ouest-France)</Link></li>
               <li>
                 <Link to={SEO_PILLAR.to} className="fcol-link--accent">
                   {SEO_PILLAR.label} →
@@ -86,6 +89,7 @@ export default function Footer() {
               <li><Link to="/tarifs">Tarifs</Link></li>
               <li><Link to="/prendre-rdv">Prendre RDV</Link></li>
               <li><Link to="/partenaires">Partenaires</Link></li>
+              <li><Link to="/presse">Presse</Link></li>
               <li><Link to="/actu">Actualités</Link></li>
               <li><a href="#contact">Contact</a></li>
               {config.portalRegister && (

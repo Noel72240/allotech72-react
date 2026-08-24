@@ -2,6 +2,8 @@
  * Pages SEO locales — source unique pour menu latéral, nav, footer, PageLayout
  */
 
+import { SEO_CITY_PAGES } from './seoCities.js'
+
 /** 4 pages principales : menu latéral + priorité référencement */
 export const SEO_SIDEBAR_LINKS = [
   { to: '/depannage-informatique-le-mans', label: 'Dépannage informatique' },
@@ -107,11 +109,13 @@ export const SEO_ALL_SERVICE_PAGES = [
   { to: '/creation-logiciel-sur-mesure-sarthe', label: 'Logiciel & portail client sur mesure' },
 ]
 
-/** Villes cibles SEO local (affichage zone + maillage) */
+export { SEO_CITY_PAGES }
+
 export const SEO_LOCAL_CITIES = [
   'Le Mans', 'Lombron', 'Allonnes', 'Champagné', 'Montfort-le-Gesnois',
   'Connerré', "Yvré-l'Évêque", 'Changé', 'Saint-Mars-la-Brière', 'Rouillon',
   'Arnage', 'Mulsanne', "Parigné-l'Évêque", "Savigné-l'Évêque", 'Bonnétable',
+  'Coulaines', 'La Flèche', 'Sablé-sur-Sarthe',
   'Bouloire', 'La Suze-sur-Sarthe', 'Fatines', 'Surfonds', 'Soulitré',
 ]
 
@@ -119,6 +123,7 @@ export const SEO_PATHS_WITH_SIDEBAR = [
   ...SEO_SIDEBAR_LINKS.map((l) => l.to),
   ...SEO_FOOTER_SECONDARY.map((l) => l.to),
   ...SEO_SIDEBAR_EXTRA.map((l) => l.to),
+  ...SEO_CITY_PAGES.map((c) => c.to),
 ]
 
 export function isSeoHubPath(pathname) {

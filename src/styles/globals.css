@@ -1764,6 +1764,86 @@ h2 .g { color:var(--g); }
 }
 .faq-home__cta a { color: var(--c); }
 
+.city-page { padding-bottom: 80px; max-width: 860px; margin: 0 auto; }
+.city-page__bc { font-size: .78rem; color: var(--dim); margin-bottom: 20px; }
+.city-page__bc a { color: var(--c); text-decoration: none; }
+.city-page__bc span { margin: 0 8px; }
+.city-page__hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.15;
+  margin: 12px 0 16px;
+}
+.city-page__hero p { color: var(--dim); font-size: 1.02rem; line-height: 1.7; max-width: 640px; }
+.city-page__facts {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.city-page__facts li {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--g);
+  border: 1px solid rgba(43,255,154,.3);
+  border-radius: 100px;
+  padding: 8px 14px;
+}
+.city-page__acts { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+.city-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.city-page__card {
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(5,14,28,.78);
+  border: 1px solid rgba(0,207,255,.14);
+}
+.city-page__card h2 { font-size: 1.05rem; margin: 0 0 12px; }
+.city-page__card p, .city-page__card li { color: var(--dim); font-size: .9rem; line-height: 1.65; }
+.city-page__card a { color: var(--c); }
+.city-page__muted { font-size: .82rem !important; }
+.city-page__faq details, .city-page__faq details p { color: var(--dim); }
+.city-page__faq h2, .city-page__more h2 { font-size: 1.15rem; margin: 0 0 14px; }
+.city-page__faq details {
+  border: 1px solid rgba(0,207,255,.12);
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-bottom: 8px;
+  background: rgba(5,14,28,.6);
+}
+.city-page__faq summary { cursor: pointer; color: #fff; font-weight: 700; padding: 6px 0; }
+.city-page__more { margin-top: 36px; }
+.city-page__more ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 16px; }
+.city-page__more a { color: var(--c); }
+
+.presse-page { padding-bottom: 80px; max-width: 720px; }
+.presse-page h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  margin: 12px 0 0;
+}
+.presse-page__lead { color: var(--dim); line-height: 1.7; margin: 20px 0 28px; }
+.presse-card {
+  padding: 28px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(0,207,255,.18);
+  background: rgba(0,207,255,.05);
+  margin-bottom: 32px;
+}
+.presse-card__kicker { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--g); font-weight: 800; }
+.presse-card h2 { font-size: 1.15rem; margin: 10px 0 14px; }
+.presse-card p { color: var(--dim); line-height: 1.65; margin-bottom: 18px; }
+.presse-page__cta { color: var(--dim); }
+.presse-page__cta a { color: var(--c); }
+
 /* Outils / Adam / portail */
 .outils-teaser__grid {
   display: grid;
@@ -2286,6 +2366,8 @@ h3 { font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:var(
   margin: 8px 0 0;
 }
 .chip { background:rgba(5,14,28,.7);border:1px solid rgba(0,207,255,.1);border-radius:10px;padding:12px 14px;font-size:.82rem;color:var(--tx);transition:all .3s;display:flex;align-items:center;gap:7px;backdrop-filter:blur(10px);cursor:default; }
+.chip--link { cursor: pointer; text-decoration: none; color: var(--c); border-color: rgba(0,207,255,.28); }
+.chip--link:hover { border-color: var(--c); background: rgba(0,207,255,.08); }
 .chip::before {
   content: '';
   width: 6px;

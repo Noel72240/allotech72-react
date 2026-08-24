@@ -21,6 +21,13 @@
     { "source": "/outils", "destination": "/outils/index.html" },
     { "source": "/tarifs", "destination": "/tarifs/index.html" },
     { "source": "/prendre-rdv", "destination": "/prendre-rdv/index.html" },
+    { "source": "/presse", "destination": "/presse/index.html" },
+    { "source": "/depannage-informatique-allonnes", "destination": "/depannage-informatique-allonnes/index.html" },
+    { "source": "/depannage-informatique-coulaines", "destination": "/depannage-informatique-coulaines/index.html" },
+    { "source": "/depannage-informatique-champagne", "destination": "/depannage-informatique-champagne/index.html" },
+    { "source": "/depannage-informatique-arnage", "destination": "/depannage-informatique-arnage/index.html" },
+    { "source": "/depannage-informatique-la-fleche", "destination": "/depannage-informatique-la-fleche/index.html" },
+    { "source": "/depannage-informatique-sable-sur-sarthe", "destination": "/depannage-informatique-sable-sur-sarthe/index.html" },
     { "source": "/partenaires", "destination": "/partenaires/index.html" },
     { "source": "/((?!api/|qreateur).*)", "destination": "/index.html" }
   ],
