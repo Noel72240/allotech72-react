@@ -220,8 +220,8 @@ function HeroShowcase() {
 
       <div className="hero-stage__promises">
         <span>Sarthe · {config.ville}</span>
-        <span>Devis transparent</span>
-        <span>7j/7</span>
+        <span>Diagnostic gratuit</span>
+        <span>{config.delai}</span>
       </div>
     </div>
   )
@@ -231,6 +231,10 @@ export default function Hero() {
   const typed = useTyping(config.typingPhrases)
   useCounters()
   const { shopVisible } = useShopVisible()
+  const proofs = [
+    ...(config.proofs || []),
+    ...(config.sap?.enabled && config.sap.label ? [{ label: config.sap.label }] : []),
+  ]
 
   // Magnetic buttons — desktop seulement
   const isMobile = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches
@@ -260,7 +264,7 @@ export default function Hero() {
             </h1>
 
             <p className="hlead">
-              Votre PC en panne ? On règle ça clairement — diagnostic gratuit, devis avant réparation.
+              Un vrai technicien au bout du fil — diagnostic gratuit, devis avant réparation.
             </p>
 
             <div className="tl">
@@ -268,12 +272,9 @@ export default function Hero() {
             </div>
 
             <p className="hdesc">
-  {fullName()} — technicien informatique à domicile basé à {config.ville} — intervient rapidement chez vous sur Le Mans et toute la Sarthe.<br />
-  Dépannage PC, réparation téléphone, montage sur mesure, création de site internet :<br />
-  chaque intervention est réalisée avec précision, sans jargon, au juste prix.<br />
-  Diagnostic gratuit, devis transparent, déplacement rapide — 7j/7.<br />
-  Faites confiance au spécialiste informatique de proximité en Sarthe.
-</p>
+              {fullName()} intervient à domicile depuis {config.ville}, sur Le Mans et toute la Sarthe.
+              {config.delai}. {config.horaires}.
+            </p>
 
             <div className="hacts">
               <a href={`tel:${config.telBrut}`} className="bm bp" onMouseMove={magMove} onMouseLeave={magLeave}>
@@ -284,14 +285,14 @@ export default function Hero() {
                   🛒 Boutique en ligne
                 </Link>
               )}
-              <a href="#contact" className="bm bo hero-devis-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
-                Devis gratuit →
-              </a>
+              <Link to="/prendre-rdv" className="bm bo hero-devis-btn" onMouseMove={magMove} onMouseLeave={magLeave}>
+                Prendre RDV →
+              </Link>
             </div>
 
-            {config.proofs?.length > 0 && (
+            {proofs.length > 0 && (
               <ul className="hproofs" aria-label="Engagements Allotech72">
-                {config.proofs.map((p) => (
+                {proofs.map((p) => (
                   <li key={p.label} className="hproof">{p.label}</li>
                 ))}
               </ul>

@@ -1,4 +1,5 @@
 import config from '../config.js'
+import { Link } from 'react-router-dom'
 
 export default function Formules() {
   const formules = config.formules || []
@@ -40,6 +41,11 @@ export default function Formules() {
               </a>
             </article>
           ))}
+        </div>
+
+        <p className="formules__note rev">{config.tarifsNote}</p>
+        <div className="tarifs-preview__acts rev">
+          <Link to="/tarifs" className="bm bo">Voir la grille tarifaire →</Link>
         </div>
       </div>
     </section>

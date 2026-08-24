@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Merci — Qréateur Pro | ALLOTECH72</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="Confirmation d’achat Qréateur Pro. Le Setup et la clé de licence arrivent par email." />
+    <link rel="canonical" href="https://www.allotech72.fr/qreateur/merci.html" />
+    <base href="/qreateur/" />
+    <link rel="icon" type="image/png" href="/qreateur/favicon.png" />
+    <link rel="apple-touch-icon" href="/qreateur/qreateur-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@450;500&family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/qreateur/styles.css" />
+  </head>
+  <body class="merci-page">
+    <div class="merci-fx" aria-hidden="true">
+      <canvas id="merci-canvas"></canvas>
+      <div class="merci-flash"></div>
+      <div class="merci-shock"></div>
+      <div class="merci-scan"></div>
+      <div class="merci-rings">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="merci-qr-rain" id="merci-qr-rain"></div>
+    </div>
+
+    <main class="wrap merci">
+      <div class="merci-stamp" aria-hidden="true">
+        <span>PAYÉ</span>
+        <em>9,90 € · À VIE</em>
+      </div>
+
+      <div class="merci-success-pill">
+        <span class="merci-check" aria-hidden="true">✓</span>
+        Paiement validé
+      </div>
+
+      <img class="merci-logo" src="/qreateur/qreateur-logo.png" alt="Qréateur Pro" width="96" height="82" />
+      <p class="eyebrow">Qréateur Pro débloqué</p>
+      <h1>Merci pour ton achat</h1>
+      <p class="lede">
+        Boom — licence à vie activable. Qréateur Pro arrive par email avec le Setup et ta clé.
+        Vérifie aussi les spams.
+      </p>
+
+      <div class="merci-box">
+        <p><strong>Prochaine étape</strong></p>
+        <ol class="steps merci-steps">
+          <li>
+            <span class="step-n">1</span>
+            <div>
+              <strong>Ouvre l’email</strong>
+              <p>ALLOTECH72 / Qréateur (et les spams).</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">2</span>
+            <div>
+              <strong>Télécharge le Setup</strong>
+              <p>
+                Installateur Windows ou version portable.
+                Si SmartScreen s’affiche :
+                <a href="/qreateur/aide-smartscreen.html">voir l’aide</a>.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">3</span>
+            <div>
+              <strong>Active ta licence</strong>
+              <p>Email d’achat + clé QRE-…</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:contact@allotech72.fr?subject=Achat%20Qreateur%20Pro%20—%20envoi%20licence">
+          Écrire si rien reçu
+        </a>
+        <a class="btn btn-ghost" href="https://www.allotech72.fr/">Retour ALLOTECH72</a>
+      </div>
+
+      <footer>
+        <span>Powered by ALLOTECH72</span>
+        <a href="/qreateur/">Page produit</a>
+      </footer>
+    </main>
+
+    <script>
+      (function () {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        const canvas = document.getElementById('merci-canvas')
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        let w = 0
+        let h = 0
+        let particles = []
+        let sparks = []
+        let t0 = performance.now()
+        let running = true
+
+        const COLORS = ['#14f1c4', '#2ef0c6', '#4cc9ff', '#e8fffa', '#0db894', '#7ef9e0', '#ffffff']
+
+        function resize() {
+          w = canvas.width = window.innerWidth * devicePixelRatio
+          h = canvas.height = window.innerHeight * devicePixelRatio
+          canvas.style.width = window.innerWidth + 'px'
+          canvas.style.height = window.innerHeight + 'px'
+          ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0)
+        }
+
+        function burst(x, y, count, speed) {
+          for (let i = 0; i < count; i++) {
+            const a = Math.random() * Math.PI * 2
+            const v = (0.4 + Math.random()) * speed
+            particles.push({
+              x,
+              y,
+              vx: Math.cos(a) * v,
+              vy: Math.sin(a) * v - Math.random() * 2,
+              g: 0.045 + Math.random() * 0.04,
+              life: 1,
+              decay: 0.004 + Math.random() * 0.008,
+              size: 2 + Math.random() * 5,
+              color: COLORS[(Math.random() * COLORS.length) | 0],
+              spin: (Math.random() - 0.5) * 0.3,
+              rot: Math.random() * Math.PI,
+              shape: Math.random() > 0.55 ? 'sq' : 'rect',
+            })
+          }
+        }
+
+        function qrBurst(cx, cy) {
+          const n = 11
+          const cell = 8
+          const offset = (n * cell) / 2
+          for (let r = 0; r < n; r++) {
+            for (let c = 0; c < n; c++) {
+              if (Math.random() > 0.55) continue
+              const x = cx - offset + c * cell
+              const y = cy - offset + r * cell
+              const a = Math.atan2(y - cy, x - cx) + (Math.random() - 0.5) * 0.4
+              const v = 3 + Math.random() * 7
+              sparks.push({
+                x,
+                y,
+                vx: Math.cos(a) * v,
+                vy: Math.sin(a) * v,
+                life: 1,
+                decay: 0.008 + Math.random() * 0.01,
+                size: 5 + Math.random() * 4,
+                color: Math.random() > 0.3 ? '#14f1c4' : '#041c20',
+              })
+            }
+          }
+        }
+
+        function fireworksWave() {
+          const cx = window.innerWidth / 2
+          const cy = window.innerHeight * 0.38
+          burst(cx, cy, 140, 11)
+          burst(cx - 160, cy + 40, 70, 8)
+          burst(cx + 160, cy + 40, 70, 8)
+          qrBurst(cx, cy)
+          setTimeout(() => burst(cx - 220, cy - 60, 60, 9), 280)
+          setTimeout(() => burst(cx + 220, cy - 40, 60, 9), 420)
+          setTimeout(() => {
+            burst(cx, cy + 80, 90, 10)
+            qrBurst(cx, cy + 40)
+          }, 700)
+          setTimeout(() => burst(cx, cy - 100, 80, 8), 1100)
+        }
+
+        function drawQrRain() {
+          const host = document.getElementById('merci-qr-rain')
+          if (!host || reduce) return
+          for (let i = 0; i < 18; i++) {
+            const el = document.createElement('span')
+            el.className = 'merci-qr-bit'
+            el.style.left = Math.random() * 100 + '%'
+            el.style.animationDelay = Math.random() * 2.5 + 's'
+            el.style.animationDuration = 3.5 + Math.random() * 4 + 's'
+            el.style.setProperty('--s', 0.5 + Math.random() * 1.1)
+            host.appendChild(el)
+          }
+        }
+
+        function frame(now) {
+          if (!running) return
+          const vw = window.innerWidth
+          const vh = window.innerHeight
+          ctx.clearRect(0, 0, vw, vh)
+
+          // soft vignette pulse
+          const pulse = 0.08 + Math.sin((now - t0) / 500) * 0.03
+          const g = ctx.createRadialGradient(vw / 2, vh * 0.35, 40, vw / 2, vh * 0.35, vw * 0.55)
+          g.addColorStop(0, `rgba(20,241,196,${pulse})`)
+          g.addColorStop(1, 'rgba(20,241,196,0)')
+          ctx.fillStyle = g
+          ctx.fillRect(0, 0, vw, vh)
+
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i]
+            p.vy += p.g
+            p.vx *= 0.995
+            p.x += p.vx
+            p.y += p.vy
+            p.rot += p.spin
+            p.life -= p.decay
+            if (p.life <= 0 || p.y > vh + 40) {
+              particles.splice(i, 1)
+              continue
+            }
+            ctx.save()
+            ctx.translate(p.x, p.y)
+            ctx.rotate(p.rot)
+            ctx.globalAlpha = Math.max(0, p.life)
+            ctx.fillStyle = p.color
+            if (p.shape === 'sq') {
+              ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size)
+            } else {
+              ctx.fillRect(-p.size, -p.size / 3, p.size * 2, p.size / 1.6)
+            }
+            ctx.restore()
+          }
+
+          for (let i = sparks.length - 1; i >= 0; i--) {
+            const s = sparks[i]
+            s.x += s.vx
+            s.y += s.vy
+            s.vx *= 0.98
+            s.vy *= 0.98
+            s.life -= s.decay
+            if (s.life <= 0) {
+              sparks.splice(i, 1)
+              continue
+            }
+            ctx.globalAlpha = Math.max(0, s.life)
+            ctx.fillStyle = s.color
+            ctx.fillRect(s.x, s.y, s.size, s.size)
+          }
+          ctx.globalAlpha = 1
+
+          if (particles.length || sparks.length || now - t0 < 6000) {
+            requestAnimationFrame(frame)
+          } else {
+            // keep subtle ambient
+            requestAnimationFrame(frame)
+            if (Math.random() > 0.985) burst(Math.random() * vw, Math.random() * vh * 0.5, 18, 5)
+          }
+        }
+
+        resize()
+        window.addEventListener('resize', resize)
+        drawQrRain()
+
+        if (!reduce) {
+          document.body.classList.add('merci-boom')
+          fireworksWave()
+          requestAnimationFrame(frame)
+          // second wave
+          setTimeout(fireworksWave, 1800)
+          // click = more boom
+          document.addEventListener('click', (e) => {
+            burst(e.clientX, e.clientY, 50, 9)
+            if (Math.random() > 0.5) qrBurst(e.clientX, e.clientY)
+          })
+        } else {
+          document.body.classList.add('merci-boom')
+        }
+      })()
+    </script>
+  </body>
+</html>

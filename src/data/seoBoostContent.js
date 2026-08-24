@@ -11,7 +11,7 @@ const defaultRelated = (exclude = []) =>
 const commonFaqTail = [
   {
     q: `Combien coûte une intervention ${brand} ?`,
-    r: `Les tarifs sont transparents et annoncés avant réparation. Déplacement + diagnostic dès 20€. Devis gratuit au ${tel}.`,
+    r: `Les tarifs sont transparents et annoncés avant réparation. Diagnostic gratuit, virus dès 25 €, entretien PC 40 € (hors pièces). Devis gratuit au ${tel}. Grille : /tarifs.`,
   },
   {
     q: 'Dans quelles communes intervenez-vous ?',

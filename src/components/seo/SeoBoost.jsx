@@ -26,7 +26,7 @@ export default function SeoBoost({ pageKey, showAvis = true }) {
     `${config.clientsSatisfaits || 100}+ clients`,
     `${config.avisTotal || 52}+ avis`,
     '5★',
-    'Dès 20€',
+    'Diagnostic gratuit',
     config.garantie ? `Garantie ${config.garantie.jours}j` : '24–48h',
   ]
 

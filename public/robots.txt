@@ -1,6 +1,9 @@
 User-agent: *
 Allow: /
+Allow: /qreateur/
+Allow: /llms.txt
 Disallow: /admin
 Disallow: /admin/
+Disallow: /qreateur/merci.html
 
 Sitemap: https://www.allotech72.fr/sitemap.xml

@@ -1,0 +1,15 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" fill="none">
+  <rect width="960" height="600" rx="28" fill="#d9fff4"/>
+  <rect x="28" y="28" width="420" height="544" rx="22" fill="#ffffff" fill-opacity="0.8"/>
+  <rect x="52" y="56" width="180" height="28" rx="8" fill="#043d42"/>
+  <rect x="52" y="140" width="372" height="44" rx="22" fill="#043d42"/>
+  <rect x="52" y="200" width="110" height="36" rx="18" fill="#14f1c4"/>
+  <rect x="480" y="70" width="420" height="460" rx="24" fill="#ffffff"/>
+  <rect x="540" y="120" width="300" height="300" rx="20" fill="#1d4ed8"/>
+  <rect x="570" y="150" width="40" height="40" rx="8" fill="#eff6ff"/>
+  <rect x="770" y="150" width="40" height="40" rx="8" fill="#eff6ff"/>
+  <rect x="570" y="350" width="40" height="40" rx="8" fill="#eff6ff"/>
+  <circle cx="790" cy="370" r="18" fill="#eff6ff"/>
+  <rect x="540" y="440" width="300" height="48" rx="12" fill="#1d4ed8"/>
+  <text x="690" y="470" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="16" font-weight="700">LAISSEZ UN AVIS</text>
+</svg>

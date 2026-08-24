@@ -237,6 +237,8 @@ export default function Nav() {
         <Link to="/avis" className={pageActive('/avis') ? 'nav-page-active' : ''} onClick={close}>Avis</Link>
         <Link to="/galerie" className={pageActive('/galerie') ? 'nav-page-active' : ''} onClick={close}>Galerie</Link>
         <Link to="/outils" className={pageActive('/outils') ? 'nav-page-active' : ''} onClick={close}>Outils gratuits</Link>
+        <Link to="/tarifs" className={pageActive('/tarifs') ? 'nav-page-active' : ''} onClick={close}>Tarifs</Link>
+        <Link to="/prendre-rdv" className={pageActive('/prendre-rdv') ? 'nav-page-active' : ''} onClick={close}>Prendre RDV</Link>
         <Link to="/partenaires" className={pageActive('/partenaires') ? 'nav-page-active' : ''} onClick={close}>Partenaires</Link>
         <Link to="/actu" className={pageActive('/actu') ? 'nav-page-active' : ''} onClick={close}>Actu</Link>
         {shopVisible && <Link to="/panier" onClick={close}>Panier 🛒</Link>}

@@ -81,4 +81,18 @@ export const PRERENDER_ROUTES = [
       'Sites internet créés par Allotech72 pour des entreprises et indépendants en Sarthe. Découvrez nos références web.',
     ogTitle: 'Références web Allotech72',
   },
+  {
+    path: '/tarifs',
+    title: 'Tarifs dépannage informatique Le Mans & Sarthe | Allotech72',
+    description:
+      'Grille tarifaire Allotech72 : diagnostic gratuit, virus dès 25 €, entretien PC 40 €. Devis avant réparation. 06 13 89 39 67.',
+    ogTitle: 'Tarifs Allotech72 — diagnostic gratuit',
+  },
+  {
+    path: '/prendre-rdv',
+    title: 'Prendre rendez-vous — dépannage informatique Sarthe | Allotech72',
+    description:
+      'Réservez un créneau avec Noël (Allotech72). Rappel rapide, diagnostic gratuit. 06 13 89 39 67.',
+    ogTitle: 'Prendre RDV — Allotech72',
+  },
 ]

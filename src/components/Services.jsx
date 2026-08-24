@@ -85,7 +85,7 @@ export default function Services() {
         </div>
 
         <div className="services-cta rev">
-          <p>Devis transparent avant toute réparation — déplacement + diagnostic dès 20€.</p>
+          <p>Devis transparent avant toute réparation — diagnostic gratuit, déplacement offert jusqu’à 10 km.</p>
           <a href={`tel:${config.telBrut}`} className="bm bp">
             📞 {config.telephone}
           </a>

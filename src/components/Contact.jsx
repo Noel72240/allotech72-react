@@ -1,17 +1,29 @@
 import { useForm, ValidationError } from '@formspree/react'
 import config from '../config.js'
 
-export default function Contact() {
+export default function Contact({
+  variant = 'default',
+  subtitle,
+} = {}) {
   const [state, handleSubmit] = useForm(config.formspreeId)
+  const isRdv = variant === 'rdv'
+  const lead = subtitle || (isRdv
+    ? 'Indiquez un horaire — je vous confirme rapidement.'
+    : 'Décrivez votre problème, je vous réponds rapidement.')
+  const subject = isRdv ? `Demande de RDV – ${config.brand}` : `Nouveau contact – ${config.brand}`
 
   return (
     <section id="contact" className="sp">
       <div className="container">
         <div className="rev" style={{ textAlign: 'center', marginBottom: 60 }}>
-          <div className="stag">Contactez-moi</div>
-          <h2>Devis <span className="c">gratuit</span></h2>
+          <div className="stag">{isRdv ? 'Rendez-vous' : 'Contactez-moi'}</div>
+          {isRdv ? (
+            <h2>Réserver un <span className="c">créneau</span></h2>
+          ) : (
+            <h2>Devis <span className="c">gratuit</span></h2>
+          )}
           <div className="div-line" />
-          <p className="sub">Décrivez votre problème, je vous réponds rapidement.</p>
+          <p className="sub">{lead}</p>
         </div>
 
         <div className="cog">
@@ -38,6 +50,7 @@ export default function Contact() {
               <div>
                 <h4>Disponibilité</h4>
                 <p>{config.horaires}</p>
+                <p style={{ fontSize: '.78rem', color: 'var(--dim)', marginTop: 3 }}>{config.delai}</p>
               </div>
             </div>
             {config.portalRegister && (
@@ -91,7 +104,7 @@ export default function Contact() {
               <form onSubmit={handleSubmit}>
 
                 {/* Sujet du mail reçu */}
-                <input type="hidden" name="_subject" value={`Nouveau contact – ${config.brand}`} />
+                <input type="hidden" name="_subject" value={subject} />
 
                 <div className="f-row">
                   <div className="fg">
@@ -113,8 +126,13 @@ export default function Contact() {
                 </div>
 
                 <div className="fg">
-                  <label>Téléphone</label>
-                  <input type="tel" name="telephone" placeholder="06 XX XX XX XX" />
+                  <label>Téléphone{isRdv ? ' *' : ''}</label>
+                  <input type="tel" name="telephone" placeholder="06 XX XX XX XX" required={isRdv} />
+                </div>
+
+                <div className="fg">
+                  <label>Commune</label>
+                  <input type="text" name="commune" placeholder="Le Mans, Lombron…" />
                 </div>
 
                 <div className="fg">
@@ -124,6 +142,31 @@ export default function Contact() {
                     {config.formOptions.map((o, i) => (
                       <option key={i} value={o}>{o}</option>
                     ))}
+                  </select>
+                </div>
+
+                <div className="f-row">
+                  <div className="fg">
+                    <label>Date souhaitée</label>
+                    <input type="date" name="date_souhaitee" />
+                  </div>
+                  <div className="fg">
+                    <label>Créneau</label>
+                    <select name="creneau">
+                      <option value="">Indifférent</option>
+                      <option value="Matin">Matin</option>
+                      <option value="Après-midi">Après-midi</option>
+                      <option value="Soir">Soir</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="fg">
+                  <label>Urgence</label>
+                  <select name="urgence" defaultValue="Normal">
+                    <option value="Normal">Normal</option>
+                    <option value="Urgent">Urgent</option>
+                    <option value="Critique">Critique</option>
                   </select>
                 </div>
 

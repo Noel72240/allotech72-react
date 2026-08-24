@@ -1,0 +1,18 @@
+COMMENT METTRE TES VRAIES CAPTURES
+=================================
+
+1) Ouvre Qréateur Pro et fais 3 captures d’écran :
+   - démarrage (splash ALLOTECH72)
+   - studio avec un beau QR (ex. Google Avis)
+   - zone exports (PNG / SVG / PDF)
+
+2) Remplace ces fichiers (garde EXACTEMENT les mêmes noms) :
+   public/qreateur/shots/apercu-1.png
+   public/qreateur/shots/apercu-2.png
+   public/qreateur/shots/apercu-3.png
+
+3) Taille conseillée : environ 1200 x 750 px (PNG ou JPG renommé en .png)
+
+4) Redeploie le site Vercel (ou dis à Cursor de redéployer).
+
+Les images actuelles sont des maquettes temporaires.

@@ -3,9 +3,15 @@
     { "source": "/vente", "destination": "/boutique", "permanent": true },
     { "source": "/vente/occasion", "destination": "/boutique/occasion", "permanent": true },
     { "source": "/vente/neuf", "destination": "/boutique/neuf", "permanent": true },
-    { "source": "/vente/neuf/:categoryId", "destination": "/boutique/neuf/:categoryId", "permanent": true }
+    { "source": "/vente/neuf/:categoryId", "destination": "/boutique/neuf/:categoryId", "permanent": true },
+    { "source": "/qreateur", "destination": "/qreateur/", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/qreateur/", "destination": "/qreateur/index.html" },
+    { "source": "/qreateur/merci", "destination": "/qreateur/merci.html" },
+    { "source": "/qreateur/merci.html", "destination": "/qreateur/merci.html" },
+    { "source": "/qreateur/aide-smartscreen", "destination": "/qreateur/aide-smartscreen.html" },
+    { "source": "/qreateur/aide-smartscreen.html", "destination": "/qreateur/aide-smartscreen.html" },
     { "source": "/boutique", "destination": "/boutique/index.html" },
     { "source": "/services-informatiques-sarthe", "destination": "/services-informatiques-sarthe/index.html" },
     { "source": "/depannage-informatique-le-mans", "destination": "/depannage-informatique-le-mans/index.html" },
@@ -13,8 +19,10 @@
     { "source": "/reparateur-telephone-le-mans", "destination": "/reparateur-telephone-le-mans/index.html" },
     { "source": "/creation-site-internet-sarthe", "destination": "/creation-site-internet-sarthe/index.html" },
     { "source": "/outils", "destination": "/outils/index.html" },
+    { "source": "/tarifs", "destination": "/tarifs/index.html" },
+    { "source": "/prendre-rdv", "destination": "/prendre-rdv/index.html" },
     { "source": "/partenaires", "destination": "/partenaires/index.html" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|qreateur).*)", "destination": "/index.html" }
   ],
   "headers": [
     {

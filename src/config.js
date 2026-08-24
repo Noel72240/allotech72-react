@@ -42,19 +42,26 @@ const config = {
   // Portail client (espace interventions / compte)
   portalUrl:      'https://portal.allotech72.fr',
   portalRegister: 'https://portal.allotech72.fr/register',
-  seoTitle:    'Dépannage Informatique Le Mans & Sarthe | Allotech72 – Noël Liebault',
+  seoTitle:    'Dépannage informatique Le Mans & Sarthe | Allotech72 — 06 13 89 39 67',
   // Ouverture Allotech72 : août 2025 — 15 ans de passion info + 100+ clients satisfaits
   founded:     '2025-08',
-  seoDesc:     'Allotech72 : 15 ans de passion informatique et plus de 100 clients satisfaits depuis août 2025. Dépannage à domicile Le Mans & Sarthe — PC, téléphone, virus, Wi-Fi. Dès 20€ – 06 13 89 39 67.',
+  seoDesc:     'Allotech72 — Noël Liebault : dépannage informatique à domicile Le Mans & Sarthe. Diagnostic gratuit, devis avant réparation, souvent sous 24–48h. PC, téléphone, virus, Wi-Fi. 06 13 89 39 67.',
   seoKeywords: 'dépannage informatique Le Mans, réparation ordinateur Sarthe, dépannage téléphone Lombron, technicien informatique domicile, Allotech72, Noël Liebault, 15 ans expérience',
 
   // ── RÉSEAUX SOCIAUX ───────────────────────────────────────
   facebook:    'https://www.facebook.com/people/AlloTech72/61578478083963/',
   instagram:   '',                     // laisser vide si pas de compte
-  google:      '',                     // URL fiche Google My Business (ex: https://g.page/allotech72)
+  google:      '',                     // coller l’URL Google Business dès que tu l’as (ex: https://g.page/allotech72)
   googleMapsId:'',                     // ID Google My Business pour l'intégration carte
-  allovoisin:  '',                     // URL profil AlloVoisin (optionnel)
-  pagesJaunes: '',                     // URL fiche Pages Jaunes (optionnel)
+  allovoisin:  'https://www.allovoisins.com/p/noelliebault-1',
+  pagesJaunes: '',                     // coller l’URL Pages Jaunes dès que tu l’as
+  presse: [
+    {
+      label: 'Ouest-France',
+      titre: 'À Lombron, il lance son entreprise dédiée au numérique',
+      url: 'https://www.ouest-france.fr/economie/commerce/quand-javais-12-ans-je-demontais-deja-des-ordinateurs-a-lombron-il-lance-son-entreprise-dediee-au-numerique-ee8c32e6-9263-11f1-8cd4-b1e73f23a235',
+    },
+  ],
 
   // ── SOURCES D'AVIS (regroupés sur le site) ────────────────
   avisSources: [
@@ -64,8 +71,16 @@ const config = {
     { id: 'pagesjaunes',label: 'Pages Jaunes', short: 'Pages Jaunes' },
   ],
 
-  // ── HORAIRES ──────────────────────────────────────────────
-  horaires:    'Lun – Sam : 8h – 19h',
+  // ── HORAIRES (source Adam / grille officielle) ────────────
+  horaires:    'Lun–Ven 8h–22h · Sam 9h–12h · Dim 9h–17h',
+  delai:       'Souvent sous 24–48h',
+  openingHours: [
+    { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '22:00' },
+    { days: ['Saturday'], opens: '09:00', closes: '12:00' },
+    { days: ['Sunday'], opens: '09:00', closes: '17:00' },
+  ],
+  // Crédit d’impôt SAP : n’activer QUE après déclaration URSSAF / NOVA
+  sap: { enabled: false, label: 'Crédit d’impôt 50 %' },
 
   // ── STATS HERO ────────────────────────────────────────────
   // avisTotal = total regroupé (Google + AlloVoisin + Facebook + Pages Jaunes + site)
@@ -81,7 +96,7 @@ const config = {
   proofs: [
     { label: '15 ans de passion' },
     { label: '100+ clients' },
-    { label: 'Dès 20€' },
+    { label: 'Diagnostic gratuit' },
     { label: '5★ avis' },
     { label: 'Garantie 30j' },
   ],
@@ -98,7 +113,7 @@ const config = {
     details: 'Hors panne différente, hors casse accidentelle, hors pièces sous garantie constructeur. Devis toujours validé avant réparation.',
   },
   parcours: [
-    { n: '1', titre: 'Vous appelez', desc: 'On clarifie le souci en quelques minutes. Devis ou créneau rapidement.' },
+    { n: '1', titre: 'Vous appelez ou réservez', desc: 'On clarifie le souci en quelques minutes. Devis ou créneau rapidement.' },
     { n: '2', titre: 'Je viens chez vous', desc: 'Diagnostic sur place à domicile en Sarthe — 352 communes.' },
     { n: '3', titre: 'C’est réglé & expliqué', desc: 'Réparation validée, conseils pour éviter que ça se reproduise.' },
   ],
@@ -106,27 +121,84 @@ const config = {
     {
       id: 'coup-de-main',
       nom: 'Coup de main',
-      price: 'Dès 20€',
+      price: 'Diagnostic gratuit',
       badge: 'Simple',
-      desc: 'Diagnostic à domicile + conseils clairs. Idéal pour savoir quoi faire avant d’investir.',
-      points: ['Déplacement + diagnostic', 'Explications sans jargon', 'Devis si réparation'],
+      desc: 'Je viens, j’identifie la panne et je vous dis clairement quoi faire — avant d’engager des frais.',
+      points: ['Diagnostic offert', 'Déplacement offert jusqu’à 10 km', 'Devis avant réparation'],
     },
     {
       id: 'remise-en-route',
       nom: 'Remise en route',
-      price: 'Sur devis',
+      price: 'Dès 25 €',
       badge: 'Le + demandé',
       featured: true,
-      desc: 'Réparation complète chez vous : PC, virus, Wi-Fi, téléphone… avec prix annoncé avant action.',
+      desc: 'Réparation complète chez vous : PC, virus, Wi-Fi, téléphone… prix annoncé avant action.',
       points: ['Réparation à domicile', 'Garantie Proximité 30j', 'Pièces seulement si besoin'],
     },
     {
       id: 'tranquillite-locale',
       nom: 'Tranquillité locale',
-      price: 'Sur devis',
+      price: '40 €',
       badge: 'Prévention',
-      desc: 'Check-up / entretien pour particuliers & indépendants : prévenir plutôt que subir la panne.',
-      points: ['Bilan + nettoyage', 'Mises à jour & sauvegardes', 'Conseils personnalisés'],
+      desc: 'Nettoyage / entretien PC pour particuliers & indépendants : prévenir plutôt que subir la panne.',
+      points: ['Nettoyage complet 40 €', 'Mises à jour & sauvegardes', 'Conseils personnalisés'],
+    },
+  ],
+
+  // Grille officielle (hors pièces) — alignée sur la knowledge Adam
+  tarifsNote: 'Main-d’œuvre hors pièces. Diagnostic gratuit. Devis avant toute réparation. Déplacement offert jusqu’à 10 km, au-delà dès 15 € selon la distance.',
+  tarifs: [
+    { label: 'Diagnostic (tél. ou sur place)', price: 'Gratuit' },
+    { label: 'Déplacement jusqu’à 10 km', price: 'Offert' },
+    { label: 'Déplacement au-delà de 10 km', price: 'dès 15 €', note: 'Selon distance' },
+    { label: 'Suppression virus / malware', price: 'dès 25 €', to: '/virus-malwares-depannage-le-mans' },
+    { label: 'Nettoyage / entretien PC', price: '40 €', to: '/maintenance-informatique-sarthe' },
+    { label: 'Réinstallation Windows', price: '50 €', to: '/installation-windows-sarthe' },
+    { label: 'Mise à jour BIOS / pilotes', price: '25 €' },
+    { label: 'Installation de logiciels (jusqu’à 5)', price: '15 €' },
+    { label: 'Ajout / remplacement RAM', price: '15 €' },
+    { label: 'Installation SSD (main-d’œuvre)', price: '30 €', to: '/reparation-ordinateur-le-mans' },
+    { label: 'Remplacement clavier PC portable', price: '30 €', to: '/depannage-pc-portable-sarthe' },
+    { label: 'Montage PC complet', price: '50–100 €', to: '/reparation-ordinateur-le-mans' },
+    { label: 'Écran téléphone', price: '30–60 €', note: 'Selon marque / modèle', to: '/reparateur-telephone-le-mans' },
+    { label: 'Batterie téléphone', price: '40 €', note: 'Selon marque / modèle', to: '/reparateur-telephone-le-mans' },
+    { label: 'Vitre arrière téléphone', price: '30 €', note: 'Selon marque / modèle' },
+    { label: 'Connecteur de charge', price: 'dès 20 €', note: 'Selon marque / modèle' },
+    { label: 'Config. tablette / WhatsApp', price: '15 €' },
+  ],
+
+  faq: [
+    {
+      q: 'Combien coûte un dépannage informatique à domicile ?',
+      r: 'Le diagnostic est gratuit. La main-d’œuvre suit une grille claire (virus dès 25 €, entretien PC 40 €, Windows 50 €…). Pièces en supplément selon le modèle. Devis annoncé avant toute réparation.',
+    },
+    {
+      q: 'Le diagnostic est-il vraiment gratuit ?',
+      r: 'Oui. J’évalue le problème par téléphone ou sur place sans frais de diagnostic. Vous ne payez la réparation que si vous validez le devis.',
+    },
+    {
+      q: 'Quelle est la zone d’intervention ?',
+      r: 'Toute la Sarthe (352 communes) : Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois et alentours. Déplacement offert jusqu’à 10 km, au-delà dès 15 €.',
+    },
+    {
+      q: 'Sous combien de temps intervenez-vous ?',
+      r: 'En général sous 24 à 48 h. Horaires : lun–ven 8h–22h, sam 9h–12h, dim 9h–17h. Pour une urgence, appelez le 06 13 89 39 67.',
+    },
+    {
+      q: 'Quelle garantie sur les réparations ?',
+      r: 'Garantie Proximité 30 jours : si la même panne traitée revient, je reviens sans frais de main-d’œuvre. Hors panne différente, casse accidentelle, ou pièce sous garantie constructeur.',
+    },
+    {
+      q: 'Réparez-vous les Mac aussi bien que les PC ?',
+      r: 'Oui : PC Windows, Mac, portables et fixes, toutes marques courantes, plus téléphones et tablettes.',
+    },
+    {
+      q: 'Puis-je déposer mon ordinateur ?',
+      r: 'L’intervention à domicile est prioritaire. Un dépôt à Lombron (7 rue de la Rentière) est possible uniquement sur rendez-vous — appelez d’abord pour convenir d’un créneau.',
+    },
+    {
+      q: 'Comment prendre rendez-vous ?',
+      r: 'Le plus rapide : appeler le 06 13 89 39 67. Vous pouvez aussi indiquer un créneau sur la page Prendre RDV, je vous confirme rapidement.',
     },
   ],
 

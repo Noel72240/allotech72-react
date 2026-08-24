@@ -54,8 +54,8 @@ export default function Engagements() {
                 <a href={`tel:${config.telBrut}`} className="bm bp">
                   📞 {config.telephone}
                 </a>
-                <Link to="/#contact" className="bm bo">
-                  Demander un devis →
+                <Link to="/prendre-rdv" className="bm bo">
+                  Prendre RDV →
                 </Link>
               </div>
             </div>

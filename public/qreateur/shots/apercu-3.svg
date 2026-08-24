@@ -1,0 +1,15 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" fill="none">
+  <rect width="960" height="600" rx="28" fill="#e7fff8"/>
+  <rect x="60" y="80" width="840" height="440" rx="28" fill="#ffffff" fill-opacity="0.85"/>
+  <text x="100" y="150" fill="#043d42" font-family="Arial" font-size="28" font-weight="700">Exports pro</text>
+  <rect x="100" y="220" width="200" height="56" rx="28" fill="#14f1c4"/>
+  <rect x="320" y="220" width="120" height="56" rx="28" fill="#ffffff" stroke="#043d42" stroke-opacity="0.2"/>
+  <rect x="460" y="220" width="120" height="56" rx="28" fill="#ffffff" stroke="#043d42" stroke-opacity="0.2"/>
+  <text x="200" y="255" text-anchor="middle" fill="#032a2e" font-family="Arial" font-size="15" font-weight="700">LIVRER PNG</text>
+  <rect x="100" y="320" width="240" height="140" rx="18" fill="#043d42"/>
+  <text x="220" y="390" text-anchor="middle" fill="#14f1c4" font-family="Arial" font-size="18" font-weight="700">18 modeles</text>
+  <rect x="360" y="320" width="240" height="140" rx="18" fill="#0b1220"/>
+  <text x="480" y="390" text-anchor="middle" fill="#4cc9ff" font-family="Arial" font-size="18" font-weight="700">Hors ligne</text>
+  <rect x="620" y="320" width="220" height="140" rx="18" fill="#14532d"/>
+  <text x="730" y="390" text-anchor="middle" fill="#d6ff4e" font-family="Arial" font-size="18" font-weight="700">9,90 EUR</text>
+</svg>

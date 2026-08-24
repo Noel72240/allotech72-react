@@ -13,6 +13,7 @@ import NewsCarousel from './components/NewsCarousel.jsx'
 import Services     from './components/Services.jsx'
 import ProblemMatch from './components/ProblemMatch.jsx'
 import Formules     from './components/Formules.jsx'
+import TarifsPreview from './components/TarifsPreview.jsx'
 import Engagements  from './components/Engagements.jsx'
 import PortalTeaser from './components/PortalTeaser.jsx'
 import QreateurPromo from './components/QreateurPromo.jsx'
@@ -22,6 +23,7 @@ import Zone         from './components/Zone.jsx'
 import SeoLocalTeaser from './components/SeoLocalTeaser.jsx'
 import Clients      from './components/Clients.jsx'
 import Avis         from './components/Avis.jsx'
+import FaqHome      from './components/FaqHome.jsx'
 import Contact      from './components/Contact.jsx'
 import Footer       from './components/Footer.jsx'
 import Modals       from './components/Modals.jsx'
@@ -61,8 +63,11 @@ import VenteNeufCategorie         from './pages/vente/VenteNeufCategorie.jsx'
 import Panier                       from './pages/vente/Panier.jsx'
 import Checkout, { CheckoutSuccess } from './pages/vente/Checkout.jsx'
 import Location from './pages/Location.jsx'
+import Tarifs from './pages/Tarifs.jsx'
+import PrendreRdv from './pages/PrendreRdv.jsx'
 import ShopGate from './components/shop/ShopGate.jsx'
 import AdamWidget from './components/adam/AdamWidget.jsx'
+import StickyCallBar from './components/StickyCallBar.jsx'
 
 // ─────────────────────────────────────────────
 // SEO Head — page d'accueil
@@ -97,10 +102,14 @@ function SeoHome() {
       latitude:    48.0665,
       longitude:   0.3721,
     },
-    openingHoursSpecification: [
-      { '@type':'OpeningHoursSpecification', dayOfWeek:['Monday','Tuesday','Wednesday','Thursday','Friday'], opens:'08:00', closes:'19:00' },
-      { '@type':'OpeningHoursSpecification', dayOfWeek:['Saturday'], opens:'08:00', closes:'17:00' },
-    ],
+    openingHoursSpecification: (config.openingHours || [
+      { days: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens:'08:00', closes:'19:00' },
+    ]).map((h) => ({
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: h.days,
+      opens: h.opens,
+      closes: h.closes,
+    })),
     areaServed: config.communes
       .filter(c => c !== '…et environs')
       .map(name => ({ '@type':'City', name })),
@@ -152,13 +161,11 @@ function SeoHome() {
   const faq = {
     '@context': 'https://schema.org',
     '@type':    'FAQPage',
-    mainEntity: [
-      { '@type':'Question', name:'Quel est le tarif d\'une intervention à domicile ?',    acceptedAnswer:{ '@type':'Answer', text:`Les tarifs de ${config.brand} sont transparents et communiqués avant toute intervention. Contactez-nous au ${config.telephone} pour un devis gratuit.` } },
-      { '@type':'Question', name:'Quelle est la zone d\'intervention d\'Allotech72 ?',    acceptedAnswer:{ '@type':'Answer', text:`${config.brand} intervient sur Le Mans, Lombron, Allonnes, Champagné, Montfort-le-Gesnois et tout le secteur Sarthe.` } },
-      { '@type':'Question', name:'Combien de temps dure une réparation informatique ?',  acceptedAnswer:{ '@type':'Answer', text:'La durée dépend de la panne, mais la plupart des interventions se règlent en 1 à 2 heures directement à votre domicile.' } },
-      { '@type':'Question', name:'Intervenez-vous sur les téléphones et tablettes ?',    acceptedAnswer:{ '@type':'Answer', text:`Oui, ${config.brand} répare les smartphones Android et iPhone, ainsi que les tablettes de toutes marques.` } },
-      { '@type':'Question', name:'Proposez-vous des cours d\'informatique à domicile ?', acceptedAnswer:{ '@type':'Answer', text:`Oui ! ${fullName()} propose des cours d'initiation à l'informatique à domicile, adaptés aux débutants et aux seniors.` } },
-    ],
+    mainEntity: (config.faq || []).map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.r },
+    })),
   }
 
   const ogImage = config.siteUrl + '/og-image.png'
@@ -258,10 +265,12 @@ function Home() {
         </div>
         <ProblemMatch />
         <Formules />
+        <TarifsPreview />
         <Services />
         <Engagements />
         <Avantages /><About /><Zone /><SeoLocalTeaser /><Clients /><Avis />
         <PortalTeaser />
+        <FaqHome />
         <Contact />
       </main>
       <Footer />
@@ -282,11 +291,14 @@ export default function App() {
       <GoogleAnalytics />
       <ConfigBanner />
       <AdamWidget />
+      <StickyCallBar />
       <Routes>
         <Route path="/"        element={<Home />} />
         <Route path="/galerie" element={<Galerie />} />
         <Route path="/outils" element={<Outils />} />
         <Route path="/partenaires" element={<Partenaires />} />
+        <Route path="/tarifs" element={<Tarifs />} />
+        <Route path="/prendre-rdv" element={<PrendreRdv />} />
         <Route path="/contact" element={<ContactRedirect />} />
         <Route path="/actu" element={<Actu />} />
         <Route path="/actu/:slug" element={<ActuArticle />} />

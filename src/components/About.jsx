@@ -34,6 +34,11 @@ export default function About() {
               {config.facebook && (
                 <a href={config.facebook} target="_blank" rel="noopener" className="bm bo" style={{ fontSize: '.8rem', padding: '10px 20px' }}>📘 Facebook</a>
               )}
+              {config.presse?.[0] && (
+                <a href={config.presse[0].url} target="_blank" rel="noopener noreferrer" className="bm bo" style={{ fontSize: '.8rem', padding: '10px 20px' }}>
+                  Vu dans {config.presse[0].label}
+                </a>
+              )}
               <a href="#contact" className="bm bp" style={{ fontSize: '.8rem', padding: '10px 20px' }}>Devis gratuit</a>
             </div>
           </div>

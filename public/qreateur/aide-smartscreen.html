@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aide Windows SmartScreen — Qréateur Pro | ALLOTECH72</title>
+    <meta
+      name="description"
+      content="Guide illustré : passer l’avertissement Windows SmartScreen pour installer Qréateur Pro en toute sécurité (ALLOTECH72)."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.allotech72.fr/qreateur/aide-smartscreen.html" />
+    <link rel="icon" type="image/png" href="/qreateur/favicon.png" />
+    <link rel="apple-touch-icon" href="/qreateur/qreateur-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@450;500&family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/qreateur/styles.css" />
+    <style>
+      .ss-page {
+        padding: 1.5rem 0 3.5rem;
+        color: var(--ink);
+      }
+      .ss-page h1 {
+        margin: 0 0 0.65rem;
+        color: var(--ink);
+        font-size: clamp(1.7rem, 4vw, 2.35rem);
+        line-height: 1.15;
+      }
+      .ss-page .lede {
+        max-width: 42rem;
+        color: var(--ink-soft);
+        margin: 0 0 1.5rem;
+      }
+      .ss-page .eyebrow { color: var(--mute); }
+
+      .ss-reassure {
+        margin: 0 0 1.5rem;
+        padding: 1.05rem 1.2rem;
+        border-radius: 14px;
+        background: linear-gradient(135deg, rgba(46, 240, 198, 0.16), rgba(20, 241, 196, 0.06));
+        border: 1px solid rgba(13, 184, 148, 0.35);
+        color: var(--ink);
+        line-height: 1.55;
+        max-width: 48rem;
+      }
+      .ss-reassure strong { color: #062a2e; }
+
+      .ss-hero-img {
+        display: block;
+        width: 100%;
+        max-width: 1100px;
+        height: auto;
+        border-radius: 18px;
+        border: 1px solid rgba(4, 28, 32, 0.1);
+        box-shadow: 0 18px 48px rgba(4, 28, 32, 0.14);
+        margin: 0 0 0.75rem;
+      }
+      .ss-hero-cap {
+        margin: 0 0 2rem;
+        font-size: 0.88rem;
+        color: var(--mute);
+      }
+
+      .ss-grid {
+        display: grid;
+        gap: 1rem;
+      }
+      @media (min-width: 900px) {
+        .ss-grid { grid-template-columns: 1fr 1fr; }
+        .ss-grid .ss-wide { grid-column: 1 / -1; }
+      }
+
+      .ss-step {
+        background: #041c20;
+        color: #e8fffa;
+        border-radius: 18px;
+        padding: 1.15rem 1.2rem 1.25rem;
+        border: 1px solid rgba(46, 240, 198, 0.22);
+        display: grid;
+        gap: 0.85rem;
+      }
+      .ss-step-head {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+      }
+      .ss-num {
+        flex: 0 0 auto;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        font-family: var(--font-mono);
+        font-weight: 700;
+        font-size: 0.95rem;
+        background: #14f1c4;
+        color: #041c20;
+      }
+      .ss-step h2 {
+        margin: 0.15rem 0 0.35rem;
+        font-size: 1.05rem;
+        color: #fff;
+        font-weight: 700;
+      }
+      .ss-step p {
+        margin: 0;
+        color: rgba(232, 255, 250, 0.78);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+      .ss-tip {
+        display: flex;
+        gap: 0.55rem;
+        align-items: flex-start;
+        margin-top: 0.35rem;
+        padding: 0.65rem 0.75rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 0.86rem;
+        line-height: 1.45;
+        color: rgba(232, 255, 250, 0.88);
+      }
+      .ss-tip.warn { border-left: 3px solid #f5c542; }
+      .ss-tip.info { border-left: 3px solid #4cc9ff; }
+      .ss-tip.ok { border-left: 3px solid #2ef0c6; }
+
+      /* Mock Windows SmartScreen dialog */
+      .ss-mock {
+        background: #2b2b2b;
+        border-radius: 10px;
+        padding: 1rem 1.05rem 0.95rem;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+        max-width: 340px;
+        margin: 0 auto;
+        font-family: "Segoe UI", system-ui, sans-serif;
+      }
+      .ss-mock-title {
+        display: flex;
+        gap: 0.65rem;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+      }
+      .ss-shield {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #0078d4;
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 1.1rem;
+        flex: 0 0 auto;
+      }
+      .ss-mock-title strong {
+        color: #fff;
+        font-size: 0.95rem;
+        line-height: 1.3;
+      }
+      .ss-mock-body {
+        color: #d0d0d0;
+        font-size: 0.78rem;
+        line-height: 1.45;
+        margin: 0 0 0.85rem;
+      }
+      .ss-mock-link {
+        color: #fff;
+        font-size: 0.8rem;
+        text-decoration: underline;
+        display: inline-block;
+        margin-bottom: 0.85rem;
+      }
+      .ss-mock-link.hl {
+        outline: 2px solid #2ef0c6;
+        outline-offset: 4px;
+        border-radius: 2px;
+        background: rgba(46, 240, 198, 0.12);
+        padding: 0 2px;
+      }
+      .ss-mock-meta {
+        color: #b8b8b8;
+        font-size: 0.75rem;
+        line-height: 1.4;
+        margin: 0 0 0.9rem;
+      }
+      .ss-mock-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+      }
+      .ss-win-btn {
+        border: 1px solid #5a5a5a;
+        background: #3a3a3a;
+        color: #eee;
+        font-size: 0.78rem;
+        padding: 0.35rem 0.7rem;
+        border-radius: 4px;
+      }
+      .ss-win-btn.hl {
+        outline: 2px solid #2ef0c6;
+        outline-offset: 3px;
+        background: #454545;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .ss-file {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        justify-content: center;
+        padding: 0.85rem 0.5rem;
+      }
+      .ss-file img {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        background: #0b1220;
+        box-shadow: 0 0 0 2px rgba(46, 240, 198, 0.35);
+      }
+      .ss-file-meta {
+        text-align: left;
+      }
+      .ss-file-meta strong {
+        display: block;
+        color: #fff;
+        font-size: 0.9rem;
+      }
+      .ss-file-meta span {
+        color: #14f1c4;
+        font-size: 0.78rem;
+        font-family: var(--font-mono);
+      }
+      .ss-arrow {
+        text-align: center;
+        color: #14f1c4;
+        font-weight: 700;
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+      }
+
+      .ss-progress {
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+      }
+      .ss-bar {
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        overflow: hidden;
+        margin: 0.65rem 0 0.75rem;
+      }
+      .ss-bar > i {
+        display: block;
+        height: 100%;
+        width: 72%;
+        background: linear-gradient(90deg, #0db894, #14f1c4);
+      }
+      .ss-done {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        background: rgba(46, 240, 198, 0.12);
+        border: 1px solid rgba(46, 240, 198, 0.35);
+        color: #2ef0c6;
+        border-radius: 999px;
+        padding: 0.4rem 0.85rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .ss-why {
+        background: linear-gradient(145deg, #041c20, #0d3d44);
+        color: #e8fffa;
+        border-radius: 18px;
+        padding: 1.25rem 1.35rem;
+        border: 1px solid rgba(46, 240, 198, 0.28);
+      }
+      .ss-why h2 {
+        margin: 0 0 0.55rem;
+        color: #14f1c4;
+        font-size: 1.15rem;
+      }
+      .ss-why p {
+        margin: 0 0 0.75rem;
+        color: rgba(232, 255, 250, 0.82);
+        line-height: 1.55;
+      }
+      .ss-why strong.safe {
+        color: #2ef0c6;
+        font-size: 1.05rem;
+      }
+
+      .ss-check {
+        margin: 1.25rem 0 0;
+        padding: 1rem 1.15rem;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid rgba(4, 28, 32, 0.08);
+      }
+      .ss-check h2 {
+        margin: 0 0 0.5rem;
+        font-size: 1.05rem;
+        color: var(--ink);
+      }
+      .ss-check ul {
+        margin: 0;
+        padding-left: 1.15rem;
+        color: var(--ink-soft);
+        line-height: 1.55;
+      }
+      .ss-check a { color: var(--mint-deep); }
+
+      .ss-faq {
+        margin: 1.25rem 0 0;
+        padding: 1.15rem 1.25rem 1.25rem;
+        border-radius: 16px;
+        background: #fff;
+        border: 1px solid rgba(4, 28, 32, 0.08);
+      }
+      .ss-faq h2 {
+        margin: 0 0 0.75rem;
+        font-size: 1.15rem;
+        color: var(--ink);
+      }
+      .ss-faq details {
+        border-top: 1px solid rgba(4, 28, 32, 0.08);
+        padding: 0.7rem 0;
+      }
+      .ss-faq details:first-of-type { border-top: 0; padding-top: 0; }
+      .ss-faq summary {
+        cursor: pointer;
+        font-weight: 650;
+        color: var(--ink);
+        list-style: none;
+      }
+      .ss-faq summary::-webkit-details-marker { display: none; }
+      .ss-faq summary::before {
+        content: "+ ";
+        color: var(--mint-deep);
+        font-weight: 700;
+      }
+      .ss-faq details[open] summary::before { content: "− "; }
+      .ss-faq p {
+        margin: 0.55rem 0 0;
+        color: var(--ink-soft);
+        line-height: 1.55;
+      }
+      .ss-faq a { color: var(--mint-deep); }
+
+      .help-back { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+      .help-foot {
+        padding: 1.25rem 0 2.5rem;
+        color: var(--mute);
+        font-size: 0.9rem;
+      }
+      .help-foot a { color: var(--ink-soft); }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;">
+        <a class="top-brand" href="/qreateur/">
+          <img src="/qreateur/qreateur-mark.svg" alt="" width="36" height="36" />
+          <span>Qréateur Pro</span>
+        </a>
+        <nav class="top-nav" aria-label="Navigation">
+          <a href="/qreateur/#faq">FAQ</a>
+          <a href="/qreateur/#acheter">Acheter</a>
+          <a href="mailto:contact@allotech72.fr">Support</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap ss-page">
+      <p class="eyebrow">Aide · Windows</p>
+      <h1>Comment passer l’étape Windows SmartScreen</h1>
+      <p class="lede">
+        Au premier lancement, Windows peut afficher <strong>« Windows a protégé votre PC »</strong>.
+        Suis les étapes illustrées ci-dessous pour installer Qréateur Pro en toute sérénité.
+      </p>
+
+      <aside class="ss-reassure" role="note">
+        <strong>Rassurez-vous :</strong> cet avertissement est normal pour de nombreux logiciels indépendants.
+        <strong>Qréateur Pro</strong> est développé par <strong>ALLOTECH72</strong> et téléchargé uniquement depuis notre site officiel.
+        <strong>Il ne s’agit pas d’un virus.</strong>
+      </aside>
+
+      <figure>
+        <img
+          class="ss-hero-img"
+          src="/qreateur/shots/smartscreen-guide-qreateur.png"
+          alt="Infographie Qréateur Pro : 5 étapes pour passer Windows SmartScreen (double-clic, Informations complémentaires, Exécuter quand même, installation)"
+          width="1600"
+          height="900"
+          loading="eager"
+        />
+        <figcaption class="ss-hero-cap">Vue d’ensemble — les mêmes étapes sont détaillées juste en dessous.</figcaption>
+      </figure>
+
+      <div class="ss-grid">
+        <article class="ss-step">
+          <div class="ss-step-head">
+            <span class="ss-num" aria-hidden="true">1</span>
+            <div>
+              <h2>Lancez l’installation</h2>
+              <p>Double-cliquez sur le fichier <strong>Qreateur-Pro-Setup.exe</strong> reçu par email (ou la version portable).</p>
+            </div>
+          </div>
+          <div class="ss-file">
+            <img src="/qreateur/qreateur-icon.png" alt="" width="56" height="56" />
+            <div class="ss-file-meta">
+              <strong>Qreateur-Pro-Setup.exe</strong>
+              <span>↓ Double-cliquez</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="ss-step">
+          <div class="ss-step-head">
+            <span class="ss-num" aria-hidden="true">2</span>
+            <div>
+              <h2>Avertissement SmartScreen</h2>
+              <p>Une fenêtre de sécurité Windows peut apparaître.</p>
+            </div>
+          </div>
+          <div class="ss-mock" aria-hidden="true">
+            <div class="ss-mock-title">
+              <span class="ss-shield">🛡</span>
+              <strong>Windows a protégé votre ordinateur</strong>
+            </div>
+            <p class="ss-mock-body">Microsoft Defender SmartScreen a empêché le démarrage d’une application non reconnue.</p>
+            <span class="ss-mock-link">Informations complémentaires</span>
+            <div class="ss-mock-actions"><span class="ss-win-btn">Ne pas exécuter</span></div>
+          </div>
+          <div class="ss-tip warn">⚠ C’est normal : le Setup est nouveau et pas encore « réputé » chez Microsoft.</div>
+        </article>
+
+        <article class="ss-step">
+          <div class="ss-step-head">
+            <span class="ss-num" aria-hidden="true">3</span>
+            <div>
+              <h2>Cliquez sur « Informations complémentaires »</h2>
+              <p>Dans la fenêtre, cliquez le lien souligné (en haut à gauche sous le texte).</p>
+            </div>
+          </div>
+          <div class="ss-mock" aria-hidden="true">
+            <div class="ss-mock-title">
+              <span class="ss-shield">🛡</span>
+              <strong>Windows a protégé votre ordinateur</strong>
+            </div>
+            <p class="ss-mock-body">Microsoft Defender SmartScreen a empêché le démarrage d’une application non reconnue.</p>
+            <span class="ss-mock-link hl">Informations complémentaires ←</span>
+            <div class="ss-mock-actions"><span class="ss-win-btn">Ne pas exécuter</span></div>
+          </div>
+          <div class="ss-tip info">ℹ Une nouvelle ligne apparaît avec le nom du fichier et un bouton supplémentaire.</div>
+        </article>
+
+        <article class="ss-step">
+          <div class="ss-step-head">
+            <span class="ss-num" aria-hidden="true">4</span>
+            <div>
+              <h2>Cliquez sur « Exécuter quand même »</h2>
+              <p>Un nouveau bouton apparaît. Cliquez-le pour lancer l’installation.</p>
+            </div>
+          </div>
+          <div class="ss-mock" aria-hidden="true">
+            <div class="ss-mock-title">
+              <span class="ss-shield">🛡</span>
+              <strong>Windows a protégé votre ordinateur</strong>
+            </div>
+            <p class="ss-mock-meta">
+              Application : Qreateur-Pro-Setup.exe<br />
+              Éditeur : Inconnu
+            </p>
+            <div class="ss-mock-actions">
+              <span class="ss-win-btn hl">Exécuter quand même ←</span>
+              <span class="ss-win-btn">Ne pas exécuter</span>
+            </div>
+          </div>
+          <div class="ss-tip ok">✓ Vous pouvez installer Qréateur Pro en sécurité (éditeur ALLOTECH72).</div>
+        </article>
+
+        <article class="ss-step ss-wide">
+          <div class="ss-step-head">
+            <span class="ss-num" aria-hidden="true">5</span>
+            <div>
+              <h2>L’installation démarre</h2>
+              <p>Suivez l’assistant jusqu’à la fin, puis activez votre licence (email d’achat + clé QRE-…).</p>
+            </div>
+          </div>
+          <div class="ss-progress">
+            <div class="ss-bar" aria-hidden="true"><i></i></div>
+            <span class="ss-done">✓ Installation terminée — lancez Qréateur Pro</span>
+          </div>
+        </article>
+      </div>
+
+      <aside class="ss-why" style="margin-top: 1rem">
+        <h2>Pourquoi Windows affiche ce message&nbsp;?</h2>
+        <p>
+          SmartScreen protège contre les logiciels malveillants. Qréateur Pro est un logiciel
+          récent édité par <strong>ALLOTECH72</strong> (France), distribué hors Microsoft Store :
+          Microsoft ne le « connaît » pas encore.
+        </p>
+        <p><strong class="safe">Soyez rassuré : l’application est sûre si elle vient d’ALLOTECH72.</strong></p>
+      </aside>
+
+      <div class="ss-check">
+        <h2>Vérifier que le fichier est le bon</h2>
+        <ul>
+          <li>Source : <a href="/qreateur/">allotech72.fr/qreateur</a> ou email ALLOTECH72 après achat</li>
+          <li>Nom : <code>Qreateur-Pro-1.0.0-Setup.exe</code> (ou portable)</li>
+          <li>Propriétés Windows : produit <strong>Qreateur Pro</strong>, société <strong>ALLOTECH72</strong></li>
+          <li>Doute : <a href="mailto:contact@allotech72.fr">contact@allotech72.fr</a></li>
+        </ul>
+      </div>
+
+      <section class="ss-faq" aria-labelledby="ss-faq-title">
+        <h2 id="ss-faq-title">FAQ</h2>
+        <details open>
+          <summary>Est-ce dangereux&nbsp;?</summary>
+          <p>
+            Non. Windows affiche cet avertissement pour les logiciels récents ou non signés.
+            Si vous avez téléchargé Qréateur Pro depuis
+            <a href="https://www.allotech72.fr/">www.allotech72.fr</a>,
+            vous pouvez poursuivre l’installation.
+          </p>
+        </details>
+        <details>
+          <summary>Pourquoi Microsoft affiche ce message&nbsp;?</summary>
+          <p>
+            Parce que Windows SmartScreen vérifie la réputation des nouveaux logiciels.
+            Cela ne signifie pas qu’ils sont malveillants.
+          </p>
+        </details>
+        <details>
+          <summary>Comment vérifier que c’est bien le logiciel officiel&nbsp;?</summary>
+          <p>
+            Téléchargez uniquement Qréateur Pro depuis&nbsp;:
+            <a href="https://www.allotech72.fr/qreateur/">https://www.allotech72.fr/qreateur/</a>
+          </p>
+        </details>
+      </section>
+
+      <div class="help-back">
+        <a class="btn btn-primary" href="/qreateur/">Retour à Qréateur Pro</a>
+        <a class="btn btn-ghost" href="mailto:contact@allotech72.fr?subject=Aide%20SmartScreen%20Qreateur%20Pro">Contacter le support</a>
+      </div>
+    </main>
+
+    <footer class="wrap help-foot">
+      <p>
+        Besoin d’aide ? <a href="mailto:contact@allotech72.fr">contact@allotech72.fr</a>
+        · <a href="https://www.allotech72.fr/">www.allotech72.fr</a>
+        · © 2026 ALLOTECH72
+      </p>
+    </footer>
+  </body>
+</html>
