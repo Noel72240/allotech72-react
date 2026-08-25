@@ -18,8 +18,8 @@ export default function LaisserAvis() {
         </h1>
         <div className="div-line" />
         <p className="laisser-avis__lead">
-          30 secondes, sans compte Allotech72. Google est le plus important : c’est lui qui affiche
-          Allotech72 quand on cherche un informaticien au Mans.
+          30 secondes. Sur Google, une connexion Gmail est normale (c’est Google qui la demande).
+          C’est le bouton le plus important : c’est lui qui vous fait apparaître au Mans.
         </p>
 
         <ul className="laisser-avis__list">

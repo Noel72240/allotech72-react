@@ -52,7 +52,7 @@ const config = {
   facebook:    'https://www.facebook.com/people/AlloTech72/61578478083963/',
   instagram:   '',                     // laisser vide si pas de compte
   google:      'https://www.google.com/maps/place/Allotech72/data=!4m2!3m1!1s0x421b60d472e65d1d:0xea0ded5aa3f65db5',
-  googleReview:'https://search.google.com/local/writereview?cid=16865397153126047157',
+  googleReview:'https://search.google.com/local/writereview?fid=0x421b60d472e65d1d:0xea0ded5aa3f65db5',
   googleMapsId:'0x421b60d472e65d1d:0xea0ded5aa3f65db5',
   allovoisin:  'https://www.allovoisins.com/p/noelliebault-1',
   pagesJaunes: '',                     // coller l’URL Pages Jaunes dès que tu l’as
@@ -393,7 +393,7 @@ export function reviewLinks() {
     {
       id: 'google',
       label: 'Google',
-      hint: 'Le plus utile pour être trouvé au Mans',
+      hint: 'Connexion Google, puis 5 étoiles — 30 secondes',
       href: config.googleReview || config.google,
       featured: true,
     },
