@@ -51,8 +51,9 @@ const config = {
   // ── RÉSEAUX SOCIAUX ───────────────────────────────────────
   facebook:    'https://www.facebook.com/people/AlloTech72/61578478083963/',
   instagram:   '',                     // laisser vide si pas de compte
-  google:      '',                     // coller l’URL Google Business dès que tu l’as (ex: https://g.page/allotech72)
-  googleMapsId:'',                     // ID Google My Business pour l'intégration carte
+  google:      'https://www.google.com/maps/place/Allotech72/data=!4m2!3m1!1s0x421b60d472e65d1d:0xea0ded5aa3f65db5',
+  googleReview:'https://search.google.com/local/writereview?cid=16865397153126047157',
+  googleMapsId:'0x421b60d472e65d1d:0xea0ded5aa3f65db5',
   allovoisin:  'https://www.allovoisins.com/p/noelliebault-1',
   pagesJaunes: '',                     // coller l’URL Pages Jaunes dès que tu l’as
   presse: [
@@ -384,6 +385,37 @@ export function siteDomainForEmail() {
 /** Nom complet du responsable / éditeur — source unique */
 export function fullName() {
   return `${config.prenom} ${config.nom}`.trim()
+}
+
+/** Liens pour laisser un avis — Google en premier (pack Maps) */
+export function reviewLinks() {
+  return [
+    {
+      id: 'google',
+      label: 'Google',
+      hint: 'Le plus utile pour être trouvé au Mans',
+      href: config.googleReview || config.google,
+      featured: true,
+    },
+    {
+      id: 'allovoisin',
+      label: 'AlloVoisin',
+      hint: 'Profil local déjà bien noté',
+      href: config.allovoisin,
+    },
+    {
+      id: 'facebook',
+      label: 'Facebook',
+      hint: 'Un mot sur la page Allotech72',
+      href: config.facebook,
+    },
+    {
+      id: 'pagesjaunes',
+      label: 'Pages Jaunes',
+      hint: 'Annuaire',
+      href: config.pagesJaunes,
+    },
+  ].filter((s) => s.href)
 }
 
 export default config

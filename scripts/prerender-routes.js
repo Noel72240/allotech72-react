@@ -96,6 +96,13 @@ export const PRERENDER_ROUTES = [
     ogTitle: 'Prendre RDV — Allotech72',
   },
   {
+    path: '/avis/laisser',
+    title: 'Laisser un avis Allotech72 — Google, AlloVoisin, Facebook',
+    description:
+      'Après une intervention Allotech72 : laissez un avis Google (le plus utile), AlloVoisin ou Facebook.',
+    ogTitle: 'Laisser un avis — Allotech72',
+  },
+  {
     path: '/presse',
     title: 'Allotech72 dans la presse — Ouest-France / Maine Libre',
     description:

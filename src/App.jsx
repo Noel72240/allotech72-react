@@ -36,6 +36,7 @@ import Galerie      from './pages/Galerie.jsx'
 import Actu         from './pages/Actu.jsx'
 import ActuArticle  from './pages/ActuArticle.jsx'
 import AvisPage     from './pages/AvisPage.jsx'
+import LaisserAvis  from './pages/LaisserAvis.jsx'
 import References   from './pages/References.jsx'
 import Outils         from './pages/Outils.jsx'
 import Partenaires    from './pages/Partenaires.jsx'
@@ -306,6 +307,7 @@ export default function App() {
         <Route path="/contact" element={<ContactRedirect />} />
         <Route path="/actu" element={<Actu />} />
         <Route path="/actu/:slug" element={<ActuArticle />} />
+        <Route path="/avis/laisser" element={<LaisserAvis />} />
         <Route path="/avis"    element={<AvisPage />} />
         <Route path="/references" element={<References />} />
         <Route path="/admin"   element={<AdminPage />} />

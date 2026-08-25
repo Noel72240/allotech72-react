@@ -21,6 +21,7 @@
     { "source": "/outils", "destination": "/outils/index.html" },
     { "source": "/tarifs", "destination": "/tarifs/index.html" },
     { "source": "/prendre-rdv", "destination": "/prendre-rdv/index.html" },
+    { "source": "/avis/laisser", "destination": "/avis/laisser/index.html" },
     { "source": "/presse", "destination": "/presse/index.html" },
     { "source": "/depannage-informatique-allonnes", "destination": "/depannage-informatique-allonnes/index.html" },
     { "source": "/depannage-informatique-coulaines", "destination": "/depannage-informatique-coulaines/index.html" },

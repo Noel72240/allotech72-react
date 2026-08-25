@@ -63,8 +63,8 @@ export default function AvisPage() {
         <div style={{ textAlign:'center', marginTop:64 }}>
           <p style={{ color:'var(--dim)', marginBottom:8, fontSize:'.95rem' }}>Vous aussi, faites confiance à {config.brand}</p>
           <div style={{ display:'flex', gap:16, justifyContent:'center', flexWrap:'wrap', marginTop:20 }}>
-            <a href={`tel:${config.telBrut}`} className="bm bp">📞 {config.telephone}</a>
-            <Link to="/#contact" className="bm bo">Demander un devis →</Link>
+            <Link to="/avis/laisser" className="bm bp">Laisser un avis →</Link>
+            <a href={`tel:${config.telBrut}`} className="bm bo">📞 {config.telephone}</a>
           </div>
         </div>
 

@@ -84,6 +84,7 @@ export default function Footer() {
               <li><a href="#qui">Qui suis-je ?</a></li>
               <li><a href="#zone">Zone</a></li>
               <li><Link to="/avis">Avis clients</Link></li>
+              <li><Link to="/avis/laisser">Laisser un avis</Link></li>
               <li><Link to="/galerie">Galerie</Link></li>
               <li><Link to="/outils">Outils gratuits</Link></li>
               <li><Link to="/tarifs">Tarifs</Link></li>
