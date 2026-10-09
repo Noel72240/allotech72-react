@@ -1844,6 +1844,53 @@ h2 .g { color:var(--g); }
 .presse-page__cta { color: var(--dim); }
 .presse-page__cta a { color: var(--c); }
 
+/* Page légale / confidentialité extension */
+.legal-doc {
+  padding-bottom: 80px;
+  max-width: 760px;
+}
+.legal-doc h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.45rem, 3.2vw, 2.1rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0;
+}
+.legal-doc__meta {
+  color: var(--dim);
+  line-height: 1.7;
+  margin: 22px 0 28px;
+  font-size: .95rem;
+}
+.legal-doc__meta a,
+.legal-doc a {
+  color: var(--c);
+  font-weight: 700;
+}
+.legal-doc__section {
+  margin-bottom: 28px;
+}
+.legal-doc__section h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.05rem;
+  color: #fff;
+  margin: 0 0 12px;
+}
+.legal-doc__section p,
+.legal-doc__section li {
+  color: rgba(200, 232, 255, 0.9);
+  line-height: 1.7;
+  margin: 0 0 10px;
+}
+.legal-doc__section ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.legal-doc__section li + li {
+  margin-top: 8px;
+}
+
 .laisser-avis { padding-bottom: 80px; max-width: 640px; text-align: center; }
 .laisser-avis h1 {
   font-family: 'Orbitron', sans-serif;
@@ -4360,7 +4407,80 @@ a.seo-aside-link--compact {
   margin-top: 24px;
 }
 .seo-boost__avis-grid .avis-card { width: auto; }
-.seo-boost__avis-more { text-align: center; margin-top: 22px; }
+.seo-boost__avis-more {
+  text-align: center;
+  margin-top: 22px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.seo-boost__prices .seo-boost__price-list {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  max-width: 520px;
+  border: 1px solid rgba(0, 207, 255, 0.15);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.seo-boost__price-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 207, 255, 0.1);
+  color: var(--dim);
+  font-size: 0.9rem;
+}
+.seo-boost__price-list li:last-child { border-bottom: none; }
+.seo-boost__price-list strong {
+  color: var(--g);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.seo-boost__price-note {
+  margin: 12px 0 0;
+  font-size: 0.85rem;
+  color: var(--dim);
+}
+.seo-boost__price-note a {
+  color: var(--c);
+  font-weight: 700;
+  text-decoration: none;
+}
+.seo-boost__cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+.seo-boost__case {
+  background: rgba(5, 14, 28, 0.7);
+  border: 1px solid rgba(0, 207, 255, 0.12);
+  border-radius: 16px;
+  padding: 20px;
+}
+.seo-boost__case-lieu {
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+.seo-boost__case h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  color: #fff;
+}
+.seo-boost__case p:last-child {
+  margin: 0;
+  color: var(--dim);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
 .seo-boost__cta {
   text-align: center;
   background: linear-gradient(135deg, rgba(0, 207, 255, 0.08), rgba(43, 255, 154, 0.05));

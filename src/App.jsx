@@ -59,6 +59,7 @@ import DepannagePcPortableSarthe    from './pages/seo/DepannagePcPortableSarthe.
 import CreationLogicielSurMesureSarthe from './pages/seo/CreationLogicielSurMesureSarthe.jsx'
 import DepannageVille from './pages/seo/DepannageVille.jsx'
 import Presse from './pages/Presse.jsx'
+import ConfidentialiteAt72Ultimate from './pages/ConfidentialiteAt72Ultimate.jsx'
 import VenteHub                  from './pages/vente/VenteHub.jsx'
 import VenteOccasion             from './pages/vente/VenteOccasion.jsx'
 import VenteNeuf                 from './pages/vente/VenteNeuf.jsx'
@@ -72,23 +73,28 @@ import ShopGate from './components/shop/ShopGate.jsx'
 import AdamWidget from './components/adam/AdamWidget.jsx'
 import StickyCallBar from './components/StickyCallBar.jsx'
 import { SEO_CITY_PAGES } from './data/seoPages.js'
+import { seoFor } from './data/seoMeta.js'
 
 // ─────────────────────────────────────────────
 // SEO Head — page d'accueil
 // ─────────────────────────────────────────────
 function SeoHome() {
+  const homeMeta = seoFor('/')
+  const homeTitle = homeMeta?.title || config.seoTitle
+  const homeDesc = homeMeta?.description || config.seoDesc
   // JSON-LD : LocalBusiness enrichi
   const localBusiness = {
     '@context': 'https://schema.org',
     '@type':    ['LocalBusiness', 'ComputerRepair'],
     '@id':       config.siteUrl + '/#business',
     name:        config.brand,
-    description: config.seoDesc,
+    alternateName: ['Allotech 72', 'AlloTech72', 'Allotech72 Sarthe'],
+    description: homeDesc,
     url:         config.siteUrl,
     telephone:   '+33' + config.telBrut.slice(1),
     email:       `contact@${siteDomainForEmail()}`,
     logo:        config.siteUrl + '/logo-allotech72.png',
-    image:       config.siteUrl + '/og-image.jpg',
+    image:       config.siteUrl + '/og-image.png',
     foundingDate: config.founded || '2025-08',
     priceRange:  '€',
     paymentAccepted: 'Cash, Chèque, Virement',
@@ -106,6 +112,7 @@ function SeoHome() {
       latitude:    48.0665,
       longitude:   0.3721,
     },
+    hasMap: config.google,
     openingHoursSpecification: (config.openingHours || [
       { days: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens:'08:00', closes:'19:00' },
     ]).map((h) => ({
@@ -114,9 +121,20 @@ function SeoHome() {
       opens: h.opens,
       closes: h.closes,
     })),
-    areaServed: config.communes
-      .filter(c => c !== '…et environs')
-      .map(name => ({ '@type':'City', name })),
+    areaServed: [
+      { '@type': 'AdministrativeArea', name: 'Sarthe' },
+      ...config.communes
+        .filter(c => c !== '…et environs')
+        .slice(0, 40)
+        .map(name => ({ '@type':'City', name })),
+    ],
+    knowsAbout: [
+      'Dépannage informatique Sarthe',
+      'Dépannage informatique Le Mans',
+      'Réparation PC',
+      'Réparation téléphone',
+      'Informaticien à domicile',
+    ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name:    'Services informatiques',
@@ -148,6 +166,16 @@ function SeoHome() {
     vatID:   'FR - TVA non applicable art.293B CGI',
   }
 
+  const website = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': config.siteUrl + '/#website',
+    name: config.brand,
+    url: config.siteUrl,
+    inLanguage: 'fr-FR',
+    publisher: { '@id': config.siteUrl + '/#business' },
+  }
+
   // JSON-LD : BreadcrumbList
   const breadcrumb = {
     '@context': 'https://schema.org',
@@ -177,8 +205,8 @@ function SeoHome() {
   return (
     <Helmet>
       {/* ── TITLE & META ── */}
-      <title>{config.seoTitle}</title>
-      <meta name="description"   content={config.seoDesc} />
+      <title>{homeTitle}</title>
+      <meta name="description"   content={homeDesc} />
       <meta name="keywords"      content={config.seoKeywords} />
       <meta name="author"        content={`${fullName()} – ${config.brand}`} />
       <meta name="robots"        content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
@@ -187,15 +215,15 @@ function SeoHome() {
 
       {/* ── GEO LOCAL ── */}
       <meta name="geo.region"    content="FR-72" />
-      <meta name="geo.placename" content={config.ville} />
+      <meta name="geo.placename" content="Sarthe, Le Mans, Lombron" />
       <meta name="geo.position"  content="48.0665;0.3721" />
       <meta name="ICBM"          content="48.0665, 0.3721" />
 
       {/* ── OPEN GRAPH ── */}
       <meta property="og:type"          content="website" />
       <meta property="og:url"           content={config.siteUrl + '/'} />
-      <meta property="og:title"         content={config.seoTitle} />
-      <meta property="og:description"   content={config.seoDesc} />
+      <meta property="og:title"         content={homeMeta?.ogTitle || homeTitle} />
+      <meta property="og:description"   content={homeDesc} />
       <meta property="og:image"         content={ogImage} />
       <meta property="og:image:width"   content="1200" />
       <meta property="og:image:height"  content="630" />
@@ -205,12 +233,13 @@ function SeoHome() {
 
       {/* ── TWITTER / X CARD ── */}
       <meta name="twitter:card"        content="summary_large_image" />
-      <meta name="twitter:title"       content={config.seoTitle} />
-      <meta name="twitter:description" content={config.seoDesc} />
+      <meta name="twitter:title"       content={homeMeta?.ogTitle || homeTitle} />
+      <meta name="twitter:description" content={homeDesc} />
       <meta name="twitter:image"       content={ogImage} />
 
       {/* ── JSON-LD ── */}
       <script type="application/ld+json">{JSON.stringify(localBusiness)}</script>
+      <script type="application/ld+json">{JSON.stringify(website)}</script>
       <script type="application/ld+json">{JSON.stringify(breadcrumb)}</script>
       <script type="application/ld+json">{JSON.stringify(faq)}</script>
     </Helmet>
@@ -302,6 +331,7 @@ export default function App() {
         <Route path="/outils" element={<Outils />} />
         <Route path="/partenaires" element={<Partenaires />} />
         <Route path="/presse" element={<Presse />} />
+        <Route path="/confidentialite-at72-ultimate" element={<ConfidentialiteAt72Ultimate />} />
         <Route path="/tarifs" element={<Tarifs />} />
         <Route path="/prendre-rdv" element={<PrendreRdv />} />
         <Route path="/contact" element={<ContactRedirect />} />

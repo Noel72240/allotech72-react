@@ -59,6 +59,8 @@ export default function Footer() {
               <li><a href="/qreateur/">Qréateur Pro — logiciel QR</a></li>
               <li><Link to="/location">Location de matériel</Link></li>
               <li><Link to="/depannage-informatique-le-mans">Dépannage Le Mans</Link></li>
+              <li><Link to="/depannage-informatique-sarthe">Dépannage Sarthe</Link></li>
+              <li><Link to="/informaticien-domicile-sarthe">Informaticien à domicile</Link></li>
               <li><Link to="/reparation-ordinateur-le-mans">Réparation PC Le Mans</Link></li>
               <li><Link to="/reparateur-telephone-le-mans">Réparateur téléphone</Link></li>
               <li><Link to="/creation-site-internet-sarthe">Création site Sarthe</Link></li>
@@ -113,6 +115,7 @@ export default function Footer() {
             <ul>
               <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-legal') }}>Mentions légales</a></li>
               <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-conf') }}>Politique de confidentialité</a></li>
+              <li><Link to="/confidentialite-at72-ultimate">Confidentialité AT72 ULTIMATE</Link></li>
               <li><a href="#" onClick={e => { e.preventDefault(); openModal('m-cgv') }}>CGV boutique</a></li>
               <li><a href="#" onClick={e => { e.preventDefault(); reset() }}>🍪 Gestion des cookies</a></li>
               <li><a href={`tel:${config.telBrut}`}>{config.telephone}</a></li>
